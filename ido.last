@@ -1,0 +1,341 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("c:/Users/l1myb01/Documents/Papers/_books/" . "programming/")
+ ("c:/Users/l1myb01/Documents/Virtual Machines/" . "Ubuntu/")
+ ("c:/Users/l1myb01/Documents/ERcharts/R/" . "archive/")
+ ("C:/Users/l1myb01/Documents/ERcharts/" . "ra_scripts/")
+ ("c:/Users/l1myb01/Documents/IT/AWS/" . "linux-install/")
+ ("c:/Users/l1myb01/Documents/ERcharts/" . "ra_scripts/")
+ ("s:/ERcharts/" . "ra_scripts/")
+ ("c:/Program Files/R/R-3.4.0/" . "etc/")
+ ("c:/Program Files/R/" . "R-3.4.0/")
+ ("c:/Program Files/" . "R/")
+ ("c:/" . "Program Files/")
+ ("c:/Users/l1myb01/Documents/trends/pres/" . "2017-09-27 Chicago Fed/")
+ ("c:/Users/l1myb01/Documents/Policy/- 2017 September - discussion low rates/" . "readings/")
+ ("c:/Users/l1myb01/Documents/R/Rcpp/" . "valencia/")
+ ("c:/Users/l1myb01/Documents/Other/" . "pi-star interview/")
+ ("c:/Users/l1myb01/Documents/rstar/" . "archive/")
+ ("c:/Users/l1myb01/Documents/cyclical-EH/" . "AEMS_analysis/")
+ ("c:/Users/l1myb01/Documents/pistar/R/" . "archive/")
+ ("c:/Users/l1myb01/Documents/pistar/presentations/" . "2017-04-05 Mini Talk/")
+ ("c:/Users/l1myb01/Documents/pistar/" . "R/")
+ ("c:/Users/l1myb01/Documents/Referee Reports/2017/" . "2017-04 AEJMacro Equilibrium Yield Curves at the Zero Lower Bound/")
+ ("c:/Users/l1myb01/Documents/trends/replications/" . "LFE_Mueller_Watson_Sept_2015_ReplicationFiles/")
+ ("c:/Users/l1myb01/Documents/Papers/" . "_books/")
+ ("c:/Users/l1myb01/Documents/org/" . ".git/")
+ ("c:/Users/l1myb01/Documents/Other/MOOC Filipovic/" . "final/")
+ ("c:/Users/l1myb01/Documents/Archive/spanning/" . "doc/")
+ ("c:/Users/l1myb01/Documents/Archive/" . "rrp/")
+ ("c:/Users/l1myb01/Documents/trends/doc/" . "v3/")
+ ("c:/Users/l1myb01/Documents/Presentations/" . "2017-03-23 Amisano-Tristani/")
+ ("c:/Users/l1myb01/Documents/IT/slurm/" . "examples/")
+ ("c:/Users/l1myb01/Documents/robust/tables/" . "auto/")
+ ("c:/Users/l1myb01/Documents/robust/" . "archive/")
+ ("c:/Users/l1myb01/Documents/Referee Reports/2016/" . "2016-07 JE Efficient Sampling of Gaussian DTSMs/")
+ ("c:/Users/l1myb01/Documents/robust/doc/mb_notes/" . "auto/")
+ ("c:/Users/l1myb01/Documents/robust/doc/" . "- v7 RFS final/")
+ ("c:/Users/l1myb01/Documents/robust/pres/" . "2015-04-28 Boston Fed/")
+ ("c:/Users/l1myb01/Documents/trends/R/" . "archive/")
+ ("c:/Users/l1myb01/Documents/trends/" . "doc/")
+ ("c:/Users/l1myb01/Documents/rrp/code_data_replication/" . "estimates/")
+ ("c:/Users/l1myb01/Documents/rrp/" . "code_data_replication/")
+ ("c:/Users/l1myb01/Documents/rrp/doc/" . "production JBES/")
+ ("c:/Users/l1myb01/Documents/Policy/2014 March - Inflation RNPDs/" . "R/")
+ ("c:/Users/l1myb01/Documents/r-star/" . "doc/")
+ ("c:/Users/l1myb01/Documents/pred/pres/" . "2015-04-24 NYU Stern Jim Keynote/")
+ ("c:/Users/l1myb01/Documents/IT/" . "AWS/")
+ ("c:/Users/l1myb01/Documents/R/jls/" . "R/")
+ ("c:/Users/l1myb01/Documents/R/utilities/" . "R/")
+ ("c:/Users/l1myb01/Documents/R/jsz/" . "R/")
+ ("c:/Users/l1myb01/Documents/zlb/" . "R/")
+ ("c:/Users/l1myb01/Documents/spanning/" . "tables/")
+ ("c:/Users/l1myb01/Documents/spanning/pres/" . "2015-08-21 EFA/")
+ ("c:/Users/l1myb01/Documents/spanning/doc/" . "current/")
+ ("c:/Users/l1myb01/" . "Documents/")
+ ("c:/Users/l1myb01/Documents/Referee Reports/2015/" . "2015-08 JF/")
+ ("c:/Users/l1myb01/Documents/Computing/" . "Condor/")
+ ("c:/Users/l1myb01/Documents/pred/" . "robust_BRP_code_data/")
+ ("c:/Users/l1myb01/Documents/pred/doc/" . "- v4 RFS/")
+ ("c:/Users/l1myb01/Documents/R/bcvar/" . "R/")
+ ("c:/Users/l1myb01/Documents/R/" . "Rcpp/")
+ ("c:/Users/l1myb01/Documents/Policy/" . "- BoD briefings 2017/")
+ ("c:/Users/l1myb01/Documents/Referee Reports/" . "2017/")
+ ("c:/Users/l1myb01/Documents/" . "Papers/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "c:/Users/l1myb01/"
+ "c:/Users/l1myb01/Documents/org/"
+ "c:/Users/l1myb01/Documents/Papers/_books/programming/"
+ "c:/Users/l1myb01/Documents/IT/AWS/"
+ "c:/Users/l1myb01/Documents/"
+ "c:/Users/l1myb01/Documents/rstar/"
+ "c:/Users/l1myb01/Documents/trends/R/"
+ "c:/Users/l1myb01/Documents/trends/"
+ "c:/Users/l1myb01/Documents/trends/doc/v3/"
+ "c:/Users/l1myb01/Documents/ERcharts/.git/"
+ "c:/Users/l1myb01/Documents/robust/doc/- v7 RFS final/"
+ "c:/Users/l1myb01/Documents/IT/linux-install/"
+ "c:/Users/l1myb01/Documents/Virtual Machines/Ubuntu/"
+ "c:/Users/l1myb01/Documents/ERcharts/R/archive/"
+ "c:/Users/l1myb01/Documents/ERcharts/R/"
+ "c:/Users/l1myb01/bin/"
+ "c:/Users/l1myb01/Documents/cyclical-EH/AEMS/"
+ "c:/Users/l1myb01/Documents/cyclical-EH/AEMS_analysis/"
+ "c:/Users/l1myb01/Documents/cyclical-EH/AEMS_original/"
+ "c:/Users/l1myb01/Documents/robust/R/"
+ "c:/Users/l1myb01/Documents/cyclical-EH/"
+ "c:/Users/l1myb01/Documents/rstar/archive/"
+ "C:/Users/l1myb01/Documents/ERcharts/ra_scripts/"
+ "c:/Users/l1myb01/Documents/ERcharts/ra_scripts/"
+ "c:/Users/l1myb01/Documents/IT/AWS/linux-install/"
+ "c:/Users/l1myb01/Documents/ERcharts/data/"
+ "c:/Users/l1myb01/Documents/ERcharts/"
+ "c:/Users/l1myb01/Documents/trends/tables/"
+ "c:/Users/l1myb01/Downloads/readxl-master/readxl-master/src/"
+ "s:/ERcharts/R/"
+ "s:/ERcharts/.git/"
+ "c:/Users/l1myb01/Documents/Archive/rrp/.git/"
+ "c:/Users/l1myb01/Documents/cyclical-EH/.git/"
+ "s:/ERcharts/"
+ "s:/ERcharts/ra_scripts/"
+ "c:/Users/l1myb01/Documents/trends/pres/2017-09-27 Chicago Fed/"
+ "c:/Users/l1myb01/Documents/rstar/R/"
+ "c:/Users/l1myb01/Documents/IT/Rcharts project/"
+ "c:/Program Files/R/R-3.4.0/etc/"
+ "c:/Users/l1myb01/Documents/IT/Cpp/.git/"
+ "c:/Users/l1myb01/Documents/IT/Call Reports/"
+ "c:/Users/l1myb01/Documents/IT/Cpp/"
+ "c:/Users/l1myb01/Documents/R/Rcpp/"
+ "c:/Users/l1myb01/Documents/R/"
+ "c:/Users/l1myb01/Documents/IT/python/"
+ "c:/Users/l1myb01/Documents/IT/"
+ "c:/Users/l1myb01/Documents/IT/perl/"
+ "c:/Users/l1myb01/Documents/rstarBrookings2017/"
+ "c:/Users/l1myb01/Documents/rstar/results/"
+ "c:/Users/l1myb01/Documents/robust/archive/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ ".emacs"
+ ".emacs.bak"
+ "elisp.org"
+ "linux.org"
+ "tech_notes.org"
+ "aws.org"
+ "website.org"
+ "literature.bib"
+ "delnegro_analyze.R"
+ "trends_fns.R"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("c:/Users/l1myb01/" (23028 7910 0 0) "Videos/" "texmf/" "Templates/" "Start Menu/" "SendTo/" "Searches/" "Saved Games/" "Recent/" "R/" "PrintHood/" "Pictures/" "ntuser.pol" "ntuser.ini" "NTUSER.DAT{e2fd051c-af8d-11e6-b018-dfc48380e870}.TMContainer00000000000000000002.regtrans-ms" "NTUSER.DAT{e2fd051c-af8d-11e6-b018-dfc48380e870}.TMContainer00000000000000000001.regtrans-ms" "NTUSER.DAT{e2fd051c-af8d-11e6-b018-dfc48380e870}.TM.blf" "ntuser.dat.LOG2" "ntuser.dat.LOG1" "NTUSER.DAT" "NoMachine/" "NetHood/" "My Documents/" "Music/" "Local Settings/" "Links/" "IntelGraphicsProfiles/" "Favorites/" "Downloads/" "Documents/" "Desktop/" "Custom Office Templates/" "Cookies/" "Contacts/" "caps-lock-key.reg" "bin/" "Application Data/" "AppData/" ".ssh/" ".Rprofile" ".Rhistory" ".recentf~" ".recentf" ".oracle_jre_usage/" ".nx/" ".minttyrc" ".lesshst" ".idlerc/" ".history" ".gnupg/" ".gitconfig~" ".gitconfig" ".emacs~" ".emacs.d/" ".emacs.bak" ".emacs" ".config/" ".condarc" ".conda/" ".cisco/" ".bash_history" ".anaconda/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/org/" (23028 6996 0 0) "website.org" "tm.org~" "tm.org_archive~" "tm.org_archive" "tm.org" "tech_notes.org~" "tech_notes.org" "README.md" "project_notes_template.org" "papers.tex" "papers.org" "notes.org~" "notes.org" "linux.org" "HLW Summary Michael.pdf" "elisp.org" "development.org" "cloud.org" "auto/" ".Rhistory" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Papers/_books/programming/" (22999 62963 0 0) "The Pragmatic Programmer.pdf" "Seamless R and C   Integration with Rcpp [Eddelbuettel 2013-06-04].pdf" "R_inferno.pdf" "Objects Abstraction Data Structures and Design Using C++.pdf" "Linux and the Unix Philosophy.pdf" "Friedl - Mastering Regular Expressions.pdf" "code-complete-2nd-edition-v413hav.pdf" "Algorithhms 4th Edition by Robert Sedgewick, Kevin Wayne.pdf" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Papers/_books/" (23015 34750 0 0) "Wooldridge chapter 12.pdf" "Wooldridge chap 12.pdf" "West and Harrison (1997) Bayesian forecasting and dynamic models.pdf" "Veronesi - Fixed Income Securities - StudentSolutionManual.pdf" "The Matrix Cookbook.pdf" "Shumway and Stoffer - 3rd edition Time Series Analysis and Its Applications.pdf" "programming/" "Numerical_Optimization.pdf" "Numerical Recipes in C.url" "Neusser - Difference Equations for Economists.pdf" "McLachlan and Krishnan (2008) The EM Algorithm and Extensions.pdf" "Kilian-Luetkepohl SVARch05.pdf" "Kilian-Luetkepohl SVARch03.pdf" "Keener - Theoretical Statistics Topics for a Core Course (Springer Texts in Statistics).pdf" "Hastie, Tibshirani, Friedman - The Elements of Statistical Learning - Data Mining, Inference, and Perdiction.pdf" "Hansen and Sargent - Recursive Models of Dynamic Linear Economies.pdf" "Hamilton Time_Series_Analysis.pdf" "Greene chap 21.pdf" "Forward Guidance eBook.pdf" "Durrett - Probability- Theory and Examples.pdf" "Cryer and Chan - Time Series Analysis With Applications in R.pdf" "Cochrane time_series_book.pdf" "CLM solutions manual.pdf" "Brockwell and Davis selected solutions.pdf" "Bartle and Sherbert - Introduction to Real Analysis.pdf" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Papers/" (22995 47786 0 0) "_books/" "Z/" "Y/" "W/" "V/" "U/" "Term Structure/" "T/" "S/" "Risk Management/" "README.md" "readings 2011-04.docx" "readings 2011-03.docx" "readings 2011-02.docx" "readings 2011-01.docx" "readings 2010-12.docx" "readings 2010-11.docx" "readings 2010-10.docx" "readings 2010-09.docx" "readings 2010-08.docx" "readings 2010-05.docx" "readings 2010-04.docx" "readings 2010-03.docx" "R/" "Q/" "P/" "O/" "N/" "M/" "L/" "K/" "J/" "I/" "H/" "Growth/" "G/" "Financial Crisis/" "Federal Funds Rate/" "F/" "Economic Regulation/" "Economic History/" "E/" "D/" "C/" "B/" "A/" ".git/" "- slides/" "- Macro-finance class syllabus/" "- Lecture Notes/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/IT/AWS/" (23026 31481 0 0) "SF-ER-HPC.ppk" "SF-ER-HPC.PEM" "SD_ExternalCloud_Sandbox_Overview_AUG2017 TSM.pdf" "pwd.txt" "Launch Instance From Service Catalog.docx" "aws.org" "AWS-Sandbox-Service-Description.pdf" "AWS-Sandbox-Customer-Guide.pdf" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/" (23026 31271 0 0) "Virtual Machines/" "trends/" "test/" "teaching/" "SyncToy_ac92be8e-0cad-411f-abc4-1ea9d868de57.dat" "Seminars/" "rstarBrookings2017/" "rstar/" "robust/" "replications/" "Referee Reports/" "R/" "Presentations/" "Policy/" "pistar/" "Personal/" "Papers/" "Other/" "org/" "NoMachine/" "My Videos/" "My Pictures/" "My Music/" "MATLAB/" "literature.bib" "IT/" "ERcharts/" "Economic Letters/" "desktop.ini" "Default.rdp" "debug.log" "data/" "cyclical-EH/" "Conferences and travel/" "auto/" "Archive/" "Admin/" ".Rhistory" "(DECLASSIFIED FILES)/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/trends/" (23026 31008 0 0) "yield_forecasts_rolling.R" "yield_forecasts_el_bc.R" "yield_forecasts_el.R" "yield_forecasts_bc.R" "yield_forecasts.R" "vecm_understand_jo.R" "variance_ratios.R" "trends.org~" "trends.org_archive" "trends.org" "tp_var.R" "tables/" "readme.md" "R/" "pres/" "predict_test_cycles.R" "predict_prezlb.R" "predict_cycles.R" "predict.R" "plot_loadings.R" "plot_data.R" "plot_cycles.R" "persistence.R" "papers and materials/" "mean_tp.R" "Makefile" "figures/" "export_data.R" "ecm.R" "dols_examples.R" "dols.R" "doc/" "data/" "crop.bat" "coint.R" "changes.R" "archive/" ".Rhistory" ".gitignore" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/trends/doc/v3/" (23026 31040 0 0) "br_trends_tables_figures.tex" "br_trends_tables_figures.aux" "br_trends_current.tex" "br_trends_current.pdf" "br_trends_current.out" "br_trends_current.log" "br_trends_current.blg" "br_trends_current.bbl" "br_trends_current.aux" "br_trends_appendix.tex" "br_trends_appendix.aux" "br_trends_20171026.tex" "br_trends_20171026.pdf" "br_trends_20171019.tex" "br_trends_20171019.pdf" "br_trends_20171019 GR.tex" "br_trends_20171018.tex" "br_trends_20171018.pdf" "br_trends_20171018 GR.tex" "br_trends_20171016.tex" "br_trends_20171016.pdf" "br_trends_20171016 GR.tex" "br_trends_20171006.tex" "br_trends_20171006.pdf" "auto/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/rstar/" (23023 26399 0 0) "rstar.org" "riwishtest.R" "results/" "readme.md" "R/" "figures/" "doc/" "delnegro_estimate.R" "delnegro_analyze.R" "data/" "BVARs/" "archive/" ".Rhistory" ".gitignore" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/robust/doc/" (22994 50223 0 0) "voxeu/" "submission RFS R2/" "submission RFS R1/" "submission RFS/" "submission JF/" "proofs/" "mb_notes/" "jim_notes/" "bh_robust_rfs_published.pdf" "bh_robust.pdf" "- v7 RFS final/" "- v6 RFS R2/" "- v5 RFS R1/" "- v4 RFS/" "- v3 JF/" "- v2 seminars UCSD and FRBSF/" "- v1 NYU conference/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/rstar/.git/" (23022 15699 0 0) "smartgit.config" "refs/" "packed-refs" "ORIG_HEAD" "objects/" "logs/" "info/" "index" "hooks/" "HEAD" "FETCH_HEAD" "description" "credential.log" "config" "COMMIT_EDITMSG" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/rstar/results/" (23022 16321 0 0) "est_results_2017-08-23.RData" "est_results_2017-07-10.RData" "est_results_2017-07-03.RData" "est_results_2017-06-29.RData" "est_results_2017-06-28.RData" "est_output_2017-06-29.txt" "est_output_2017-06-28.txt" "delnegro_2017-10-23_small_Psi.RData" "delnegro_2017-10-23.RData" "delnegro_2017-10-18.RData" "delnegro_2017-10-17.RData" "delnegro_2017-10-16.RData" "delnegro_2017-10-10.RData" "delnegro_2017-10-05.RData" "delnegro_2017-09-20.RData" "delnegro_2017-09-07.RData" "delnegro_2017-09-06.RData" "delnegro_2017-09-05.RData" "../" "./")
+
+ ("s:/ERcharts/ra_scripts/" (23018 12715 0 0) "theodore_assist.R" "TheodoreNaff_August_2017.R" "test.R" "template.R" "neil_october.R" "nathaniel_october.R" "benshapiro_june_2017.R" ".Rhistory" "../" "./")
+
+ ("s:/ERcharts/" (23017 9675 0 0) "README.pdf" "README.docx" "ra_scripts/" "raw_data/" "R/" "png/" "emf/" "data/" "archive/" ".Rhistory" ".RData" ".gitignore" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/cyclical-EH/.git/" (23018 55767 0 0) "smartgit.config" "refs/" "packed-refs" "ORIG_HEAD" "objects/" "logs/" "info/" "index" "hooks/" "HEAD" "gitk.cache" "FETCH_HEAD" "description" "credential.log" "config" "COMMIT_EDITMSG" "../" "./")
+
+ ("s:/ERcharts/.git/" (23018 12707 0 0) "refs/" "ORIG_HEAD" "objects/" "logs/" "info/" "index" "hooks/" "HEAD" "FETCH_HEAD" "description" "config" "COMMIT_EDITMSG" "../" "./")
+
+ ("s:/ERcharts/R/" (23018 14230 0 0) "functions.R" "archive/" ".Rhistory" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/ERcharts/ra_scripts/" (23017 9129 0 0) "theodore_assist.R" "TheodoreNaff_August_2017.R" "test.R" "template.R" "neil_october.R" "benshapiro_june_2017.R" "../" "./")
+
+ ("C:/Users/l1myb01/Documents/ERcharts/ra_scripts/" (23017 9129 0 0) "theodore_assist.R" "TheodoreNaff_August_2017.R" "test.R" "template.R" "neil_october.R" "benshapiro_june_2017.R" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/cyclical-EH/" (23017 5149 0 0) "readme.md~" "readme.md" "R/" "papers/" "output/" "MATLAB/" "figures/" "doc/" "data/" "cyclical-EH.org~" "cyclical-EH.org" "AEMS/" ".Rhistory" ".gitignore" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/cyclical-EH/AEMS/" (23017 6715 0 0) "table4.m" "table1.m" "robustOLS.m" "readme.txt" "GSW.mat" "GoyalWelch.mat" "figure1.m" "FB.mat" "businessCycle.mat" "aems_analysis.Rmd" "aems_analysis.pdf" "aems_analysis.md" "aems_analysis.html" "aems.R" ".Rhistory" "../" "./")
+
+ ("c:/Users/l1myb01/bin/" (23017 7320 0 0) "pushreps.sh" "pushreps.bat" "pullreps.sh" "pullreps.bat" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/ERcharts/R/" (23017 9185 0 0) "functions.R" "archive/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Virtual Machines/Ubuntu/" (23022 11422 0 0) "vprintproxy.log" "vprintproxy-2.log" "vprintproxy-1.log" "vprintproxy-0.log" "vmware.log" "vmware-2.log" "vmware-1.log" "vmware-0.log" "Ubuntu.vmxf" "Ubuntu.vmx" "Ubuntu.vmsd" "Ubuntu.vmdk" "Ubuntu.nvram" "Ubuntu-s006.vmdk" "Ubuntu-s005.vmdk" "Ubuntu-s004.vmdk" "Ubuntu-s003.vmdk" "Ubuntu-s002.vmdk" "Ubuntu-s001.vmdk" "share/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/IT/Linux User Guide/" (22991 1507 0 0) "v3/" "v2/" "v1/" "Linux Cluster User Guide.docx" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/IT/linux-install/" (23022 8846 0 0) "packages.R" "install.sh" ".git/" ".emacs" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/IT/" (23018 55968 0 0) "vascos-dot-emacs.el" "SLURM/" "Sharepoint/" "Rcharts project/" "python/" "proxy.txt" "nocaps.reg" "linux-install/" "Linux workshops/" "Linux User Guide/" "laptop.docx" "Git/" "emacs/" "Cpp/" "Call Reports/" "babel/" "AWS/" "auto/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Virtual Machines/" (23017 31042 0 0) "Ubuntu/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/ERcharts/.git/" (23017 31989 0 0) "refs/" "packed-refs" "ORIG_HEAD" "objects/" "logs/" "info/" "index" "hooks/" "HEAD" "FETCH_HEAD" "description" "config" "COMMIT_EDITMSG" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/ERcharts/" (23017 10482 0 0) "README.pdf" "README.docx" "ra_scripts/" "raw_data/" "R/" "png/" "debug_michael.R" "data/" "archive/" ".Rhistory" ".gitignore" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/ERcharts/R/archive/" (23017 8224 0 0) "template2.R" "standard_data.R" "set_environment.R" "plotters_v3R.R" "plotters_v23R.R" "plotters_v2.R" "plotters_v1_2.R" "plotters_v1.R" "main.R" "ggplot_tutorial2.R" "ggplot_tutorial.R" "gen_ppt2.R" "gen_ppt.R" "colors.R" "clean_raw_data.R" "category_plot.R" "bod_theme2.R" "bod_theme.R" "bod_plot.R" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/cyclical-EH/AEMS_analysis/" (23016 62222 0 0) "matlab_data.R" "campbell-shiller.R" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/cyclical-EH/AEMS_original/" (23008 60269 0 0) "table4.m" "table1.m" "robustOLS.m" "readme.txt" "GSW.mat" "GoyalWelch.mat" "figure1.m" "FB.mat" "businessCycle.mat" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/robust/R/" (22819 11492 0 0) "var_fns.r~" "var_fns.r" "robust_fns.r~" "robust_fns.r" "mueller_fns.r" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/R/" (23010 40801 0 0) "yields/" "win-library/" "Wickham-easy-packages2.pdf" "utilities.zip" "utilities/" "test_lintr_rstudio.R" "software-carpentry/" "Sims/" "Resources for Learning R.docx" "Rcpp/" "r4ds/" "plyr/" "parallel/" "Numerical optimization/" "Nash/" "mypackages/" "misc/" "lsap-mcmc/" "lsap/" "Learn_to_use_R_beginner_guide.pdf" "jsz.zip" "jsz/" "jls.zip" "jls/" "bcvar.zip" "bcvar/" "Archive/" "adv-r/" ".Rhistory" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/IT/Rcharts project/" (23000 6592 0 0) "rcharts.org" "ggplot_tutorial.R" "gdp.csv" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/cyclical-EH/AEMS code/" (23008 60269 0 0) "table4.m" "table1.m" "robustOLS.m" "readme.txt" "GSW.mat" "GoyalWelch.mat" "figure1.m" "FB.mat" "businessCycle.mat" "../" "./")
+
+ ("C:/Users/l1myb01/Documents/ERcharts/" (23013 17412 0 0) "Thumbs.db" "README.pdf" "README.docx" "ra_scripts/" "raw_data/" "R/" "png/" "debug_michael.R" "data/" "archive/" ".Rhistory" ".gitignore" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/IT/AWS/linux-install/" (23011 1570 0 0) "packages.R" "install.sh" ".git/" ".emacs" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/ERcharts/data/" (23006 61354 0 0) "unemployment.csv" "pce.csv" "payroll.csv" "mark_interest.csv" "labor_composition.csv" "JJRate_Nicolas_YO.csv" "JJRate_Nicolas_Occ.csv" "JJRate_Nicolas_Age.csv" "JJRate_Nicolas.csv" "interest.csv" "insurance.csv" "govt_revenue.csv" "gdp.csv" "Federal Funds Rate.csv" "Balance Sheet.csv" "Balance Sheet (NEW) .csv" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/trends/tables/" (23007 41924 0 0) "yield_forecasts_bc_mae_pres.tex" "yield_forecasts_bc_mae_new.tex" "yield_forecasts_bc.tex" "yield_forecasts_5y.tex" "yield_forecasts_510f.tex" "yield_forecasts_10y_rmse.tex" "yield_forecasts_10y_mae_pres.tex" "yield_forecasts_10y_mae_new.tex" "yield_forecasts_10y_mae.tex" "yield_forecasts_10y.tex" "vr_pres.tex" "vr.tex" "ur2_pres.tex" "ur1_pres.tex" "returns_subsample_pres.tex" "returns_subsample.tex" "returns_pres.tex" "returns_cycles_pres.tex" "returns_cycles.tex" "returns.tex" "reg_pres.tex" "reg.tex" "persistence.tex" "ecm.tex" "detrended_y10_pres.tex" "detrended_f510_pres.tex" "detrended.tex" "coint_rank.tex" "changes2.tex" "changes1.tex" "auto/" "archive/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/trends/R/" (23008 1964 0 0) "ur_tests.R" "trends_fns.R" "mueller-watson-fns.R" "bootstrap_fns.R" "archive/" "../" "./")
+
+ ("c:/Users/l1myb01/Downloads/readxl-master/readxl-master/src/" (23007 925 0 0) "zip.h" "zip.cpp" "XlsxWorkSheet.h" "XlsxWorkSheet.cpp" "XlsxWorkBook.h" "XlsxWorkBook.cpp" "XlsxString.h" "XlsxCell.h" "XlsWorkSheet.h" "XlsWorkSheet.cpp" "XlsWorkBook.h" "XlsWorkBook.cpp" "xlstool.c" "XlsCell.h" "xls.c" "windows/" "utils.h" "unix/" "StringSet.h" "RcppExports.cpp" "rapidxml_print.h" "rapidxml.h" "ole.c" "Makevars.win" "Makevars" "libxls/" "endian.c" "cran.h" "ColSpec.h" "CellLimits.h" ".gitignore" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Archive/rrp/.git/" (22813 9314 0 0) "refs/" "objects/" "logs/" "info/" "index" "hooks/" "HEAD" "FETCH_HEAD" "description" "config" "COMMIT_EDITMSG" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Archive/rrp/" (22783 34129 0 0) "test/" "tables/" "rrp.org~" "rrp.org" "res_sim.r~" "res_sim.r" "res_est.r~" "res_est.r" "results.r~" "results.r" "README.md~" "README.md" "R/" "figures/" "export/" "est_ssvs.r~" "est_ssvs.r" "est_rjmcmc.r~" "est_rjmcmc.r" "est_mle.r" "est_mcmc.r~" "est_mcmc.r" "est_gvs.r~" "est_gvs.r" "estimates/" "doc/" "data/" "code_data_replication/" "archive/" ".Rhistory" ".gitignore" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Archive/" (22783 55551 0 0) "zlb/" "yield_curve_CE/" "Yana Hoch Resume.doc" "y14/" "wieso ich nicht stressen muss.docx" "transmission/" "spanning/" "rrp/" "rnpd/" "Recruiting/" "news/" "neely/" "lsap/" "inflation-news/" "brw2/" "brw/" "2016 Inflation Symposium/" "2015 BoC-FRBSF Fixed Income Conference/" "2014 FRBSF Macro Conference/" "2013 FRBSF ZLB-DTSM Workshop/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/rstar/archive/" (22978 58065 0 0) "simple_dtsm_measured_rstar_estimation.R" "simple_dtsm_estimation.R" "simple_dtsm_analysis.R" "rstar_uc.R" "rstar_mcmc_v2.R" "rstar_mcmc.R" "loadings.R" "invgamma.R" "hamilton.R" "delnegro_estimate_old.R" "cyclical_adjustment_differences.R" "convexity.R" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/trends/pres/2017-09-27 Chicago Fed/" (22997 26923 0 0) "br_trends_Chicago_Fed.toc" "br_trends_Chicago_Fed.tex" "br_trends_Chicago_Fed.snm" "br_trends_Chicago_Fed.pdf" "br_trends_Chicago_Fed.out" "br_trends_Chicago_Fed.nav" "br_trends_Chicago_Fed.log" "br_trends_Chicago_Fed.aux" "auto/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/robust/" (22986 62913 0 0) "tables/" "sim_size_T.r" "sim_im_new.r" "sim_im_alt.r" "sim.r" "robust.org~" "robust.org_archive" "robust.org" "replication/" "README.md" "R/" "pres/" "pcs_345.r" "oos.r" "MATLAB/" "ln_replicate.r" "ln_factors.r" "ln_1m.r" "ln.r" "jps_replicate.r" "jps_allmats.r" "jps_1m.r" "jps.r" "jim_results/" "gv.r" "figures/" "doc/" "data/" "cp_replicate.r" "cpr.r~" "cpr.r" "cpo_replicate.r" "cpo_replicate/" "cpo_pc1.r" "cpo_figure.r" "cpo_1m.r" "cpo.r" "cp.r" "bauer_hamilton_robust_replication.zip" "archive/" ".Rhistory" ".gitignore" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/IT/Call Reports/" (22989 36695 0 0) "rcri_cols.xlsx" "NIC Metadata.url" "callreport.py" "Accessing_SQL_Server_with_SAS.pdf" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/IT/Cpp/.git/" (22989 48902 0 0) "refs/" "objects/" "logs/" "info/" "index" "hooks/" "HEAD" "description" "credential.log" "config" "COMMIT_EDITMSG" "../" "./")
+
+ ("c:/Program Files/R/R-3.4.0/etc/" (22866 62412 0 0) "x64/" "Rprofile.site" "rgb.txt" "repositories" "Rdevga" "Rconsole" "Rcmd_environ" "i386/" "curl-ca-bundle.crt" "../" "./")
+
+ ("c:/Program Files/R/R-3.4.0/" (22866 62466 0 0) "unins000.exe" "unins000.dat" "tests/" "Tcl/" "src/" "share/" "README.R-3.4.0" "README" "modules/" "MD5" "library/" "include/" "etc/" "doc/" "COPYING" "CHANGES" "bin/" "../" "./")
+
+ ("c:/Program Files/R/" (22866 62397 0 0) "R-3.4.0/" "R-3.3.2/" "../" "./")
+
+ ("c:/Program Files/" (22977 43436 0 0) "WinZip/" "WindowsPowerShell/" "WindowsApps/" "Windows Sidebar/" "Windows Portable Devices/" "Windows Photo Viewer/" "Windows NT/" "Windows Multimedia Platform/" "Windows Media Player/" "Windows Mail/" "Windows Defender Advanced Threat Protection/" "Windows Defender/" "Uninstall Information/" "TITUS/" "SyncToy 2.1/" "SumatraPDF/" "STMicroelectronics/" "Sassafras K2/" "SafeNet/" "RStudio/" "Reference Assemblies/" "Realtek/" "R/" "MSBuild/" "Microsoft Sync Framework/" "Microsoft Office/" "Microsoft/" "MATLAB/" "Java/" "Internet Explorer/" "Intel/" "Git/" "DIFX/" "DGAgent/" "desktop.ini" "DellTPad/" "Common Files/" "../" "./")
+
+ ("c:/Users/" (22783 31279 0 0) "Public/" "l1srent.RB/" "l1srent/" "l1myb01/" "desktop.ini" "defaultuser0/" "Default User/" "Default/" "All Users/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/trends/doc/" (22978 57003 0 0) "v3/" "v2 - FRBSF WP/" "v1 - JF/" "submission v1 JF/" "other results/" "notes/" "early draft/" "br_trends.pdf" "abstract.txt" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/IT/Cpp/" (22989 48646 0 0) "test_streams.exe" "test_streams.cpp" "strings.exe" "strings.cpp" "streams.exe" "streams.cpp" "outstreams.exe" "outstreams.cpp" "outfilestreams.cpp" "out.txt" "numbers.txt" "hello.exe" "hello.cpp" "arrays_same.exe" "arrays_same.cpp" "arrays2.exe" "arrays2.cpp" "arrays.exe" "arrays.cpp" ".git/" "../" "./")
+
+ ("s:/Julia/" (22978 47480 0 0) "~$lia Bevilaqua - thesis english rough draft.docx" "_readme_FOMC.txt" "WCBB_results_14aug2015.zip" "Thumbs.db" "Thomas/" "Survey Data/" "stata internet haver.do" "Rhys/" "RA meeting stuff/" "Pascal/" "nhs indicators thru Dec 2016.xlsx" "MIR/" "Lansing/" "Jose/" "John Krainer/" "Jens/" "headRA/" "greece.png" "Galina/" "Fred/" "Fernanda/" "eviews 2.png" "eviews 1.png" "DRR/" "CRSP/" "content for new RA page_JMB.xlsx" "compustat_item_list_commercial.xlsx" "call_report/" "bra.png" "Bauer/" "../" "./")
+
+ ("s:/Julia/call_report/" (22989 34535 0 0) "~$inframe notes julia.docx" "~$datey9c.docx" "~$cumentation For Updating Call Report using EXTRA EXTREME.docx" "Update_call_sql_sas_farhana(doesn't work on PC).docx" "Updatey9c.docx" "updates/" "SQL/" "RCFDITEMS_workaround.txt" "mainframe notes julia.docx" "Documentation For Updating Call Report using EXTRA EXTREME.docx" "call_variables_pull.txt" "callreport_sql_pull_sas_attempt.sas" "bank_definitions.txt" "bank.def" "Accessing_SQL_Server_with_SAS.pdf" "../" "./")
+
+ ("s:/Julia/call_report/SQL/" (22987 57188 0 0) "rcri_cols.xlsx" "output/" "call_finance_employment_variables.sql" "callreport.py" "archive/" "Accessing_SQL_Server_with_SAS.pdf" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/R/Rcpp/" (22988 27706 0 0) "Ymc.cpp~" "valencia/" "test_Rcpp.r" "test_arma.r~" "test_arma.r" "test.r~" "test.r" "same_arrays.R" "functions.cpp~" "functions.cpp" "arma_inline.cpp~" "arma_inline.cpp" "arma_fns.cpp~" "arma_fns.cpp" ".Rhistory" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/IT/python/" (22988 22524 0 0) "hello.txt" "hello.py" "age.py" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/IT/perl/" (22987 7103 0 0) "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Papers/.git/" (22985 44412 0 0) "refs/" "ORIG_HEAD" "objects/" "logs/" "info/" "index" "hooks/" "HEAD" "FETCH_HEAD" "description" "credential.log" "config~" "config" "COMMIT_EDITMSG" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/org/.git/" (22985 44719 0 0) "smartgit.config" "refs/" "ORIG_HEAD" "objects/" "logs/" "info/" "index" "hooks/" "HEAD" "FETCH_HEAD" "description" "credential.log" "config~" "config" "COMMIT_EDITMSG" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Papers/D/" (22981 46089 0 0) "Dybvig, Ingersoll, Ross (1996) Long Forward and Zero-Coupon Rates Can Never Fall.pdf" "Durbin and Koopman (2002) A Simple and Efficient Simulation Smoother for State Space Time Series Anslysis.pdf" "Durbin (1970) Testing for Serial Correlation in Least-Squares Regression When Some of the Regressors are Lagged Dependent Variables.pdf" "Dufour-Taamouti (2005, Econometrica).pdf" "Duffie-Filipovic-Schachermeyer.pdf" "Duffie, Garleanu, Pedersen (2005) Over-the-Counter Markets.pdf" "Duffie & Kan (1996) A Yield-Factor Model of Interest Rates.pdf" "Duffee (2016) Expected inflation and other determinants of Treasury yields.pdf" "Duffee (2016) Appendix to Expected Inflation.pdf" "Duffee (2014) Expected Inflation August 2014.pdf" "Duffee (2013) Forecasting Interest Rates.pdf" "Duffee (2013) Bond Pricing and the Macroeconomy.pdf" "Duffee (2012) Forecasting Interest Rates working paper.pdf" "Duffee (2012) Bond pricing and the macroeconomic - working paper.pdf" "Duffee (2011) Information in (and not in) the term structure.pdf" "Duffee (2011) Forecasting with the term structure.pdf" "Duffee (2010) Sharpe ratios.pdf" "Duffee (2006) Term Structure Estimation Without Latent Factors.pdf" "Duffee (2006) Are variations in term premia related to the macroeconomy.pdf" "Duffee (2002) Term Premia and Interest Rate Forecasts in Affine Models.pdf" "Duffee & Stanton (2012) Estimation of Dynamic Term Structure Models.pdf" "Duffee & Stanton (2008) Evidence on Simlulation Inference for Near Unit-Root Processes with Implications for Term Structure.pdf" "duffee & stanton (2004).txt" "Duellmann & Sosinska (2005) Credit Default Swap Prices as Risk Indicators of Large German Banks.pdf" "Duarte (2004).pdf" "Dray (2008) On the number of principal components- A test of dimensionality based on the measurements of similarity between.pdf" "Draper-2006a - Bayesian multilevel analysis and MCMC.pdf" "Downes (2002) Short Math Guide for LaTeX.pdf" "Dorfman (69) An Economic Interpretation of Optimal Control Theory.pdf" "Doh (2012) What Does the Yield Curve Tell Us about the Federal Reserve's Implicit Inflation Target.pdf" "Doan, Litterman, Sims (1984) Forecasting and conditional projection using realistic prior distributions.pdf" "DiMaggio, Kermani, Palmer (2016.pdf" "Dijk et al (2014) Forecasting Interest Rates with Shifting Endpoints.pdf" "Diebold-Rudebusch-Aruoba.pdf" "Diebold, Piazzesi, Rudebusch (2005) Modeling Bond Yields in Finance and Macroeconomics..pdf" "Diebold, Piazessi & Rudebusch.pdf" "Diebold, Li, Yue (2008).pdf" "Diebold and Mariano (1995) Comparing Predictive Accuracy.pdf" "Diebold and Li (2006).pdf" "Diebold - The Nobel Memorial Prize for Robert Engle.pdf" "Diebold (2015) Comparing Predictive Accuracy, Twenty Years Later= A Personal Perspective on the Use and Abuse of Diebold-Mariano Tests.pdf" "Diebold & Nason (1990) Nonparametric Exchange Rate Prediction.pdf" "Diebold & Kilian (2001) Measuring Predictability.pdf" "DiCiccio et al (1997) Computing Bayes factors by combining simulation and asymptotic approximations.pdf" "DiCiccio & Efron (1996) Bootstrap Confidence Intervals.pdf" "Dewachter-Lyrio-Maes.pdf" "Dewachter-Lyrio NBER chapter (2008).pdf" "Dewachter-Lyrio (2006) Macro Factors and the Term Structure of Interest Rates.pdf" "Dewachter-Iania-Lyrio (2014) INFORMATION IN THE YIELD CURVE A MACRO-FINANCE Approach.pdf" "Dewachter-Iania (2011) an extended macro-finance model with financial factors.pdf" "Dewachter & Iania (2009) An Extended Macro-Finance Model with Financial Factors.pdf" "Detmeister and Babb (2017) Nonlinearities in the Phillips Curve for the United States.pdf" "Denison-Mallick-Smith (1998) Automatic Bayesian Curve-Fitting.pdf" "Deng (2013, JFEc) Understanding Spurious Regression in Financial Economics.pdf" "Dempster, Laird, Rubin (1977) Maximum Likelihood from Incomplete Data via the EM Algorithm.pdf" "DeMiguelGarlappiUppal (2005) How Inefficient is the 1-o-N Strategy.pdf" "Dellaportas-Forster-Ntzoufras (2002) Gibbs Variable Selection.pdf" "Dellaportas-Forster (1999).pdf" "Dellaportas et al - Bayesian Variable Selection Using the Gibbs Sampler.pdf" "Delgado-Parmeter (2013) Embarrassingly Parallel Processing in R.pdf" "Del Negro et al (2017) Safety, Liquidity, and the Natural Rate of Interest.pdf" "Del Negro and Otrok (2008) Dynamic Factor Models with Time-Varying Parameters_ Measuring Changes in International Business Cycles.pdf" "Del Negro and Otrok (2007) 99 Luftballons_ Monetary policy and the house price boom across US states.pdf" "Deaton (2016) Measuring and Understanding Behavior, Welfare, and Poverty.pdf" "De Graeve et al (2009).pdf" "Davies (1977).pdf" "David & Veronesi (2009) What ties return volatilities to price valuations and fundamentals.pdf" "Darolles et al (2006) Structural Laplace transform and compound autoregressive models.pdf" "Dale et al (2008) Imperfect Central Bank Communication - Information versus Distraction.pdf" "Dai-Singleton-Wang (2007) Regime Shifts in DTSMs.pdf" "Dai-Singleton (2000).pdf" "Dai, Singleton, Wang (2004) Predictability of Bond Risk Premia.pdf" "Dai, Le, Singleton (2006) Discrete-time Dynamics Term Structure Models with Generalized Market Prices of Risk.pdf" "Dai et al (2003) Regime Shifts in a Dynamic Term Structure Model of U.S. Treasury Bond Yields.pdf" "Dai & Singleton (2003) Term Structure Dynamics in Theory and Reality.pdf" "Dai & Singleton (2002) Expectation puzzles, time-varying risk premia and affine models of the term structure.pdf" "Dai & Singleton (2000) Specification Analysis of Affine Term Structure Models.pdf" "Dai & Philippon (2006) Fiscal Policy and the Term Structure of Interest Rates.pdf" "D'Amico-Kim-Wei (2015) Tips from TIPS the informational content of Treasury Inflation Protected Securities.pdf" "D'Amico-Kim-Wei (2015) Appendix to Tips from TIPS.pdf" "D'Amico et al (2012) The Federal Reserve's Large-Scale Asset Purchase Programs_ Rationale and Effects.pdf" "D'Amico and King (2013) Flow and stock effects of LSAPs_ Evidence on the importance of local supply.pdf" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/rstarBrookings2017/" (22981 53575 0 0) "tvar/" "README.pdf" "README.md" "plot/" "LICENSE" "dsge/" ".gitignore" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Papers/L/" (22962 50178 0 0) "Lustig, Roussanov, Verdelhan (2014) Countercyclical currency risk premia.pdf" "Lustig, Roussanov, Verdelhan (2011) Common Risk Factors in Currency Markets.pdf" "Lustig and Verdelhan (2007) The Cross Section of Foreign Currency Risk Premia and Consumption Growth Risk.pdf" "Luetkepohl-Breitung (1996) Impulse Response Analysis of Vector Autoregressive Processes.pdf" "Luetkepohl (1990) Asymptotic distribution of impulse response functions and forecast error variance decompositions of vector autoregressive models.pdf" "Ludvigson and Ng RFS appendix.pdf" "Ludvigson and Ng handbook.pdf" "Ludvigson and Ng (2009, RFS) Macro Factors in Bond Risk Premia.pdf" "Lucca and Moench (2015) The Pre-FOMC Announcement Drift.pdf" "Lucas (1978) Unemployment Policy.pdf" "Lubik and Mathes (2015) Calculating the Natural Rate of Interest.pdf" "Lu & Wu (2009) Macro Releases and the Term Structure.pdf" "Lorenzoni (2007) News Shocks and Optimal Monetary Policy.pdf" "Lopes (2006) A note on Reversible Jump MCMC.pdf" "Lopes & West (2004) Bayesian Model Assessment in Factor Analysis.pdf" "Longstaff (2004) The Flight‐to‐Liquidity Premium in U.S. Treasury Bond Prices.pdf" "Liu et al (2006) The Market Price of Risk in Interest Rate Swaps- The Roles of Default and Liquid.pdf" "Liu et al (2000) The Market Price of Credit Risk- An Empirical Analysis of Interest Rate Swap Spr.pdf" "Litterman (1986) Forecasting with BVARs_ Five Years of Experience.pdf" "Liang et al (2008) Mixtures of g Priors for Bayesian Variable Selection.pdf" "Li-Zhao (2009) Nonparametric Estimation of State-Price Densities Implicit in Interst Rate Caps.pdf" "Li and Wei (2013) Term Structure Modeling with Supply Factors and the Feds LSAPs.pdf" "Li and Maddala (1997) Bootstrapping cointegrating regressions.pdf" "Lewis & Raftery (1997) Estimating Bayes Factors via Posterior Simulation With the Laplace-Metropolis Estimator.pdf" "Lewellen, Nagel, Shanken (2010) A skeptical appraisal of asset pricing tests.pdf" "Lewellen (2004).pdf" "Levin, Wieland, Williams (1999) Robustness of Simple Monetary Policy Rules under Model Uncertainty.pdf" "Leung - Credit Default Swap Valuation with Counterparty Risk.pdf" "Lettau-Wachter (2011) The term structures of equity and interest rates.pdf" "Lettau and Van Nieuwerburgh (2008) Reconciling the Return Predictability Evidence.pdf" "Lettau & Wachter (2007) Why Is Long-Horizon Equity Less Risky.pdf" "Lettau & Uhlig.pdf" "Lettau & Ludvigson (2005).pdf" "Lettau & Ludvigson (2004) Understanding Trend and Cycle in Asset Values- Reevaluating the Wealth Effect on Consumption.pdf" "Lettau & Ludvigson (2001) Consumption, Aggregate Wealth, and Expected Stock Returns.pdf" "Leeper, Sims, Zha (1996) What Does Monetary Policy Do.pdf" "Leamer (1983) Let's Take the Con out of Econometrics.pdf" "Le, Singleton, Dai (2010) Discrete-Time Affine-Q Term Structure Models with Generalized Market Prices of Risk.pdf" "Le and Singleton (2013) The Structure of Risks in Equilibrium Affine Models of Bond Yields.pdf" "Laubach-Wei.pdf" "Laubach and Williams (2016) Measuring the Natural Rate of Interest Redux.pdf" "Laubach and Williams (2003).pdf" "Hanno_Lustig_lecture_SDF.pdf" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Papers/G/" (22976 9492 0 0) "Gârleanu-Pedersen (2011) Margin-based Asset Pricing and Deviations from the Law of One Price.pdf" "Guvenen (2009) A Parsimonious Macroeconomic Model for Asset Pricing.pdf" "Gust & Lopez-Salido (2010) Monetary Policy and the Cyclicality of Risk.pdf" "Gurkaynak-Wright (2012) Macroeconomics and the Term Structure.pdf" "Gurkaynak-Swanson-Levin.pdf" "Gurkaynak-Sack-Wright (2010) The TIPS Yield Curve and Inflation Compensation.pdf" "Gurkaynak, Sack, Wright (2006) The U.S. Treasury Yield Curve- 1961 to the Present.pdf" "Guimaraes (2014) Expectations, risk premia and information spanning in DTSM estimation.pdf" "Guidolin and Timmerman - Interest rate forecast.pdf" "Guerkaynak, Sack, Swanson (2006) Market-Based Measures of Monetary Policy Expectations.pdf" "Guerkaynak, Sack, Swanson (2005) Sensitivity of Long-Term Interest Rates to Economic News.pdf" "Guerkaynak, Sack Swanson (2005, IJCB) Do Actions Speak Louder Than Words.pdf" "Guerkaynak (2005) Using Federal Funds Futures Contracts for Monetary Policy Analysis.pdf" "Guerk, Sack, Wright (2007) The U.S. Treasury Yield Curve- 1961 to the present - working paper.pdf" "Grishchenko-Huang (2012) Inflation Risk Premium- Evidence from the TIPS Market.pdf" "Greenwood, Hanson, Vayanos (2015) Forward Guidance in the Yield Curve.pdf" "Greenwood and Vayanos (2014) Bond Supply and Excess Bond Returns.pdf" "Green-Hastie (2009) RJMCMC.pdf" "Green (1995) RJMCMC.pdf" "Green & Mira (2001) Delayed Rejection in Reversible Jump Metropolis-Hastings.pdf" "Gray, Merton, Bodie (2007) Macrofinancial Risk and Financial Stability.pdf" "Granger, Hyung, Jeon (2001) Spurious regressions with stationary series.pdf" "Granger and Newbold (1974) Spurious Regressions in Econometrics.pdf" "Gourinchas and Rey (2017) Global Real Rates A Secular Approach.pdf" "Gourinchas and Rey (2016) Real Interest Rates, Imbalances and the Curse of Regional Safe Asset Providers at the Zero Lower Bound.pdf" "Gourieroux_BiasCorrection.pdf" "Gourieroux, Renault, Touzi (2000) Calibration by simulation for small sample bias correction.url" "Gourieroux, Phillips, Yu (2010) Indirect inference for dynamic panel models.pdf" "Gourieroux, Monfort, Polimenis (2002) Affine Term Structure Models.pdf" "Gourieroux et al (2009) The Wishart Autoregressive Process of Multivariate stochastic volatility.pdf" "Gourieroux & Monfort (2007) Econometric specification of stochastic discount factor models.pdf" "Gordon (1990) What Is New-Keynesian Economics.pdf" "Goodfriend (1991) Interest Rates and the Conduct of Monetary Policy.pdf" "Goodfriend & King (1997) New Neoclassical Synthesis and the Role of Monetary Policy.pdf" "Goncalves and Vogelsang (2011) Block Bootstrap HAC Robust Tests- The Sophistication of the Naive Bootstrap.pdf" "Golinski and Zaffaroni (2016) Long memory affine term structure models.pdf" "Golinski and Spencer (2017) The advantages of using excess returns to model the term structure.pdf" "Goldberg (1991) What Every Computer Scientist Should Know About Floating Point Arithmetic.pdf" "Goetzmann and Jorion (1993) Testing the Predictive Power of Dividend Yields.pdf" "Godsill (2001) On the relationship of MCMC methods for model uncertainty.pdf" "Gill-King What to Do When Your Hessian Is Not Invertible.pdf" "Giglio, Maggiori, Stroebel (2015) Very Long-Run Discount Rates.pdf" "Giannone, Lenza, Primiceri (2016) Priors for the Long Run.pdf" "Giannone, Lenza, Primiceri (2015) Prior Selection for Vector Autoregressions.pdf" "Giacomini and White (2006) Tests of Conditional Predictive Ability.pdf" "Giacomini and Ragusa (2014) Theory-coherent forecasting.pdf" "Giacoletti, Laursen, Singleton (2016) Learning, Dispersion of Beliefs, and Risk Premiums in an Arbitrage-free Term Structure Model.pdf" "Geyer (1992) Practical Markov Chain Monte Carlo.pdf" "Geweke (1996) Variable Selection and Model Comparison in Regression.pdf" "Geweke & Singleton (1981) Maximum Likelihood Confirmatory Factor Analysis of Economic Time Series.pdf" "Gertler-Karadi (2015).pdf" "Gertler & Lown - The Information in the High-Yield Bond Spread for the Business Cycle- Evidence and Some Implications.pdf" "Gerlach-Kristen (2004).pdf" "George-Sun-Ni (2008) Bayesian Stochastic Search for Model Selection.pdf" "George-McCulloch (1997) Approaches for Bayesian Variable Selection.pdf" "George-McCulloch (1993) Variable Selection via Gibbs Sampling.pdf" "George (2000) The Variable Selection Problem.pdf" "Gelman (2006) Prior distributions for variance parameters in hierarchical models.pdf" "Gelman & Rubin (1992) Inference ... Using Multiple Sequences.pdf" "Gelfand & Smith (1990) Sampling-Based Approaches to Calculating Marginal Densities.pdf" "Geinitz (2009) Prior Covariance Choice and the g-prior.pdf" "Gargano-Pettenuzo-Timmermann (2015) Bond Return Predictability- Economic Value and Links to the Macroeconomy.pdf" "Gargano, Pettenuzzo, Timmermann (2017) Bond Return Predictability_ Economic Value and Links to the Macroeconomy.pdf" "Garcia-Jurado et al (1995) Predicting Using Box-Jenkins, Nonparametric, and Bootstrap Techniques.pdf" "Gallmeyer-Hollifield-Zin (2005) McCallum Rules, Taylor Rules, and the Term Structure.pdf" "Gali & Gertler (2007) Macroeconomic Modeling for Monetary Policy Evaluation.pdf" "Gali & Gertler (1999) Inflation dynamics- A structural econometric analysis.pdf" "Gagnon-Hinterschweider Responses  of  Central  Banks....pdf" "Gagnon et al (2011) The Financial Market Effects of the Federal Reserve s Large-Scale Asset Purchases.pdf" "Gagnon et al (2011) discussion.pdf" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/robust/archive/" (22976 15632 0 0) "ww.r" "test_vars.r" "test_dgp_simple.r" "test_dgp_bootstrap.r" "test_biascorr.r" "stambaugh.r" "sim_unified.r" "sim_trend.r" "sim_simple.r" "sim_rwdrift.r" "sim_R2.r" "sim_new_trends.r" "sim_IVX.r" "sim_fns.r" "sim_corr_IM.r" "sim_corr.r" "sim_coint.r" "sim_cochrane.r" "sim_checkZ1.r" "sim_boot3.r" "sim_boot2.r" "sim_boot.r" "sim_bias_old.r" "sim_bias_nw.r" "sim_bias_change.r" "sim_bias.r" "sim_balanced.r" "sim_asym_standalone.r" "sim_asym.r" "sim.r" "robust.r" "oos.r" "old_sim_fns.r" "ludvigson-ng-rfs.r" "ludvigson-ng-javier.r" "ludvigson-ng-handbook-javier.r" "le_PCs.r" "JPS_Simon.r" "jps_rwtrend.r" "jps_figure.r" "jps_dettrend.r" "jps_5pc.r" "ivx.r" "hac_fns.r" "garch.r" "functions_bak.r" "cp_subsmpl.r" "cp_influential_analysis.r" "cpr-javier.r" "cpo_yield_trend.r" "cpo_vecm.r" "cpo_subsample.r" "cpo_inflation_properties.r" "cpo_im.r" "cpo_det_trends.r" "cpo_arima_bootstrap.r" "cp2005_aer_replicate_simonedit.r" "cp2005_aer_replicate.r" "check_ln_data.r" "cepr_conf_proposal/" "bauer_hamilton_robust_replication_v2.zip" "bauer_hamilton_robust_replication_v2/" "alexchinco.r" "../" "./")
+
+ ("c:/Users/l1myb01/.oracle_jre_usage/" (22783 34136 0 0) "b8cf749785370955.timestamp" "../" "./")
+
+ ("c:/GNU Emacs 25.1/" (22778 38995 0 0) "var/" "unins000.exe" "unins000.dat" "share/" "libexec/" "bin/" "aspell/" "../" "./")
+
+ ("c:/GNU Emacs 25.1/bin/" (22778 38962 0 0) "zlib1.dll" "runemacs.exe" "regex2.dll" "libXpm-nox4.dll" "libxml2-2.dll" "libtiff-5.dll" "libtasn1-6.dll" "librsvg-2-2.dll" "libpng16-16.dll" "libpixman-1-0.dll" "libpangowin32-1.0-0.dll" "libpangocairo-1.0-0.dll" "libpango-1.0-0.dll" "libnettle-6.dll" "libjpeg-9.dll" "libintl-8.dll" "libidn-11.dll" "libiconv-2.dll" "libhogweed-4.dll" "libgobject-2.0-0.dll" "libgnutls-openssl-27.dll" "libgnutls-30.dll" "libgmp-10.dll" "libgmodule-2.0-0.dll" "libglib-2.0-0.dll" "libgio-2.0-0.dll" "libgif-7.dll" "libgdk_pixbuf-2.0-0.dll" "libffi-6.dll" "libcroco-0.6-3.dll" "libcairo-2.dll" "etags.exe" "emacsclientw.exe" "emacsclient.exe" "emacs.exe" "emacs-25.1.exe" "ebrowse.exe" "ctags.exe" "addpm.exe" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/trends/pres/" (22970 49682 0 0) "2017-09-27 Chicago Fed/" "2017-09-05 Glenn Board/" "2017-08-17 Conference FRBSF-BoC Vancouver/" "2017-05-24 Glenn NBB seminar/" "2017-05-10 FRBSF Brown Bag/" "2016-04-06 FRBSF Mini Talk/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Archive/spanning/doc/" (22783 34156 0 0) "v4 - RoF production/" "v3 - RoF R1/" "v2 - RoF/" "v1 - JF/" "test_knifeedge_20160623.pdf" "test_knifeedge_20160623.md~" "test_knifeedge_20160623.md" "submission_RoF_R1/" "submission_RoF/" "submission_JME/" "submission_JFE/" "submission_JF/" "RoF proofing/" "Review of Finance-2016-Bauer-rof-rfw044.pdf" "Glenn_tables/" "br_spanning_20160512b.tex" "br_spanning.pdf" "auto/" "archive/" "abstract.docx" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Papers/J/" (22878 30106 0 0) "Jurado, Ludvigson, Ng (2015) Measuring Uncertainty.pdf" "Judd-Rudebusch (1998) Taylor's Rule and the Fed.pdf" "Joyce-Lildholdt-Sorensen (2010) Extracting inflation expectations and inflation risk premia from the term structure A joint model of the UK nominal and real yield curves.pdf" "Joyce et al (2011) The Financial Market Impact of QE in the UK.pdf" "Joyce et al (2010) The financial market impact of quantitative easing.pdf" "JotikasthiraLeLundblad_IA.pdf" "Joslin-Priebsch-Singleton (2014).pdf" "Joslin-Le-Singleton (2013) Gaussian Macro-Finance Term Structure Models with lags.pdf" "Joslin, Le, Singleton (2013) Why Gaussian macro-finance term structure models are (nearly) unconstrained factor-VARs.pdf" "Joslin - USV_affine.pdf" "Joslin - JSZ.pdf" "Joslin - JLS - early version.pdf" "Joslin (2014) Can Unspanned Stochastic Volatility Models Explain the Cross Section of Bond Volatilities.pdf" "Jorda, Schularick, Taylor (2015) Leveraged Bubbles.pdf" "Jorda, Knoll, Kuvshinov, Schularick, Taylor (2017) The Rate of Return on Everything, 1870-2015.pdf" "Jorda - Currency Carry Trades.pdf" "Johannsen and Mertens (2016) FEDS Note.url" "Johannsen and Mertens (2016) A Time Series Model of Interest Rates With the Effective Lower Bound.pdf" "Johannes - The Statistical and Economic Role of Jumps in Continuous-Time Interest Rate Models.pdf" "Johannes & Polson (2003) MCMC Methods for Continuous-Time Financial Econometrics.pdf" "Joereskog - Presentation - Factor Analysis and Its Extensions.pdf" "Joereskog (1969) A general approach to confirmatory maximum likelihood factor analysis.pdf" "Joereskog (1967) Some contributions to maximum likelihood factor analysis.pdf" "Jensen (2009) The Long-Run Fisher Effect_ Can It Be Tested.pdf" "Jennrich - Presentation - Rotation Methods, Algorithms, and Standard Errors.pdf" "Jarrow & Lando - A Markov Model for the Term Structure of Credit Risk Spreads.pdf" "Jardet-Monfort-Pegoraro.pdf" "Jardet et al - Persistence, Bias, Prediction and Averaging Estimators.pdf" "Jackson (1974) Stopping Rules in Principal Component Analysis.pdf" "De Jong and Shephard (1995) The Simulation Smoother for Time Series Models.pdf" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/robust/doc/- v7 RFS final/" (22883 53352 0 0) "sizeAcrossTs.pdf" "robust_anonymous.tex" "robust_anonymous.pdf" "robust_anonymous.out" "robust_anonymous.log" "robust_anonymous.blg" "robust_anonymous.bbl" "robust_anonymous.aux" "literature.bib" "cpo_trend.pdf" "copyediting/" "bh_robust_titlepage.tex" "bh_robust_titlepage.pdf" "bh_robust_titlepage.out" "bh_robust_titlepage.log" "bh_robust_titlepage.blg" "bh_robust_titlepage.bbl" "bh_robust_titlepage.aux" "bh_robust_tables_figures.tex" "bh_robust_tables_figures.aux" "bh_robust_latex.zip" "bh_robust_appendix.tex" "bh_robust_appendix.aux" "bh_robust.tex" "bh_robust.pdf" "bh_robust.out" "bh_robust.log" "bh_robust.blg" "bh_robust.bbl" "bh_robust.aux" "auto/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Papers/- slides/" (22959 4796 0 0) "Whelan_Discussion_Misspecified_Recovery.pdf" "Hamilton_Bayesian_Econ226_2AC_slides.pdf" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/pistar/R/archive/" (22783 34584 0 0) "signal-to-noise-lrv.R" "old_fns.R" "inf_uc_old.R" "inf_trig.R" "inf_rwar2_noise.R" "inf_rwar2.R" "inf_rwar1_noise.R" "inf_rwar1.R" "inf_local_level.R" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/trends/doc/v2/" (22883 65255 0 0) "texput.log" "br_trends_tables_figures.tex" "br_trends_tables_figures.aux" "br_trends_appendix.tex" "br_trends_appendix.aux" "br_trends_20170710.tex" "br_trends_20170710.pdf" "br_trends_20170710.out" "br_trends_20170710.log" "br_trends_20170710.blg" "br_trends_20170710.bbl" "br_trends_20170710.aux" "br_trends_20170709.tex" "br_trends_20170705_with_highlights.pdf" "br_trends_20170705.tex" "br_trends_20170705.out" "br_trends_20170705.log" "br_trends_20170705.blg" "br_trends_20170705.bbl" "br_trends_20170705.aux" "br_trends_20170630.tex" "br_trends_20170630.pdf" "br_trends_20170630.out" "br_trends_20170630.log" "br_trends_20170630.blg" "br_trends_20170630.bbl" "br_trends_20170630.aux" "br_trends_20170629.tex" "br_trends_20170627_GR.tex" "br_trends_20170627_GR.pdf" "br_trends_20170627.tex" "br_trends_20170627.pdf" "br_trends_20170627.out" "br_trends_20170627.log" "br_trends_20170627.blg" "br_trends_20170627.bbl" "br_trends_20170627.aux" "br_trends_20170626_GR.tex" "br_trends_20170626.tex" "br_trends_20170626.pdf" "br_trends_20170626.out" "br_trends_20170626.log" "br_trends_20170626.blg" "br_trends_20170626.bbl" "br_trends_20170626.aux" "br_trends_20170623_GR.tex" "br_trends_20170623.tex" "br_trends_20170623.pdf" "br_trends_20170623.out" "br_trends_20170623.log" "br_trends_20170623.blg" "br_trends_20170623.bbl" "br_trends_20170623.aux" "br_trends_20170522.tex" "br_trends_20170522.pdf" "auto/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/robust/doc/- v7 RFS final/copyediting/" (22926 6669 0 0) "sizeAcrossTs.pdf" "sim_3.tex" "sim_2.tex" "sim_1.tex" "REVFIN-Updated-29-03-2017.zip" "pcs2.tex" "pcs1.tex" "ms20160063.zip" "literature.bib" "cpo_trend.pdf" "bh_robust_tables_figures_CMG_ce_mb.docx" "bh_robust_tables_figures_CMG_ce.docx" "bh_robust_tables_figures.tex" "bh_robust_CMG_ce_mb.docx" "bh_robust_CMG_ce.docx" "bh_robust_CMG_ce second round.pdf" "bh_robust_appendix_CMG_ce_mb.docx" "bh_robust_appendix_CMG_ce.docx" "bh_robust_appendix.tex" "bh_robust_20170710.tex" "bh_robust_20170710.pdf" "bh_robust.blg" "bh_robust.bbl" "auto/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Policy/- 2017 September - discussion low rates/readings/" (22953 60381 0 0) "Wu (2016).pdf" "Rudebusch, Swanson, Wu (2006).pdf" "other/" "Hanson, Lucca, Wright (2017).pdf" "FRBNY SOMA Projections 2017.pdf" "Clarida (2017).pdf" "Bonis, Ihrig, Wei (2017).pdf" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/rstar/R/" (22951 12304 0 0) "uc_fns.R" "fns.R" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Referee Reports/2017/2017-08 JIE Unconventional Monetary Policy and the Portfolio Choice of Mutual Funds/" (22939 29191 0 0) "report.tex" "report.pdf" "report.org" "notes_jie.org" "letter.pdf" "letter.doc" "JIE-D-17-00279.pdf" "auto/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/trends/pres/2017-09-05 Glenn Board/" (22942 6089 0 0) "br_trends_slides_BOG.toc" "br_trends_slides_BOG.tex" "br_trends_slides_BOG.snm" "br_trends_slides_BOG.pdf" "br_trends_slides_BOG.out" "br_trends_slides_BOG.nav" "br_trends_slides_BOG.log" "br_trends_slides_BOG.aux" "auto/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/Policy/- 2017 September - discussion low rates/" (22924 53873 0 0) "readings/" "low_rates.org" ".#low_rates.org" "#low_rates.org#" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/replications/" (22878 32296 0 0) "Watson_AER_2014PP_ReplicationFiles_and_Data.zip" "Watson_AER_2014PP_ReplicationFiles_and_Data/" "Testing_Models_of_Low_Frequency_Variability_Replication_Files.zip" "Stock-Watson UCSV/" "Stock-Watson MUE/" "MW_LongRunUncertainty_Sept2015_ReplicationFiles.zip" "Mertens/" "lf_coint_replication_files_May2012.zip" "LFE_Mueller_Watson_Sept_2015_ReplicationFiles.zip" "LFE_Mueller_Watson_Sept_2015_ReplicationFiles/" "Laubach-Williams/" "hamilton-projections/" "DMI_replication/" "decomposing_yield_curve_programs_and_data.zip" "decomposing_yield_curve_programs_and_data/" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/replications/hamilton-projections/" (22878 32389 0 0) "readme.txt" "RATS/" "R/" "Matlab/" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/replications/hamilton-projections/R/" (22878 32504 0 0) "hp.R" "employment.csv" ".#hp.R" "#hp.R#" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/R/parallel/" (22869 13399 0 0) "parallel_slurm.R" "parallel_boot.R" "parallel.R" ".Rhistory" "../" "./")
+
+ ("c:/Users/l1myb01/AppData/Local/Temp/scp51656/data8/home/l1myb01/rstar/" (22878 23682 0 0) "nohup.out" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/R/jsz/R/" (22783 34621 0 0) "jsz_functions.r~" "jsz_functions.r" "../" "./")
+
+ ("c:/Users/l1myb01/Documents/R/jsz/" (22783 34621 0 0) "test_jsz.r" "R/" "notes.org~" "notes.org" "NAMESPACE~" "NAMESPACE" "DESCRIPTION~" "DESCRIPTION" ".Rhistory" "../" "./")
+
+ ("c:/Users/l1myb01/AppData/Local/" (22869 8387 0 0) "WebpageIcons.db" "TileDataLayer/" "Temporary Internet Files/" "Temp/" "Synchromagic/" "Symantec/" "RStudio-Desktop/" "PUTTY.RND" "Publishers/" "Packages/" "NetworkTiles/" "Mozilla/" "MiKTeX/" "Microsoft_Corporation/" "Microsoft Help/" "Microsoft/" "MathWorks/" "Intel_Corporation/" "IconCache.db" "History/" "Google/" "Diagnostics/" "Deployment/" "ConnectedDevicesPlatform/" "Comms/" "Cisco/" "assembly/" "Apps/" "Application Data/" "Adobe/" "../" "./")
+
+ ("c:/Users/l1myb01/AppData/Local/Temp/" (22869 11940 0 0) "~QIA284.tmp" "~DF4747F2C06047BF13.TMP" "~DF42FFAF60D490E9A9.TMP" "{33B7B3F3-075E-4F5E-A623-4E24BE9477AC}.png" "_iu14D2N.tmp" "wmsetup.log" "wct2789.tmp" "VBE/" "URLAD9E.tmp" "URLA6E.tmp" "URL8DA7.tmp" "URL6824.tmp" "URL60DA.tmp" "URL4EF5.tmp" "URL3702.tmp" "tmp5970.tmp" "TCDCE8C.tmp/" "TCDCB70.tmp/" "TCDCAC2.tmp/" "TCDCA14.tmp/" "TCDC86C.tmp/" "TCDC85B.tmp/" "TCDC77E.tmp/" "TCDC76D.tmp/" "TCDC73B.tmp/" "TCDC73A.tmp/" "TCDC729.tmp/" "TCDC709.tmp/" "TCDC6B6.tmp/" "TCDC6A5.tmp/" "TCDC684.tmp/" "TCDC644.tmp/" "TCDC643.tmp/" "TCDC632.tmp/" "TCDC621.tmp/" "TCDC610.tmp/" "TCDC5FF.tmp/" "TCDC5EF.tmp/" "TCDC5EE.tmp/" "TCDC5DD.tmp/" "TCDC5BD.tmp/" "TCDC5BC.tmp/" "TCDC10D.tmp/" "TCDC10C.tmp/" "TCDBE1B.tmp/" "TCDBDDB.tmp/" "TCDBC52.tmp/" "TCDBB66.tmp/" "TCDBB55.tmp/" "TCDBB54.tmp/" "TCD915C.tmp/" "TCD9060.tmp/" "TCD9011.tmp/" "TCD8FF1.tmp/" "TCD8DA2.tmp/" "TCD8DA1.tmp/" "TCD8D6C.tmp/" "TCD8D40.tmp/" "TCD8CA2.tmp/" "TCD8CA1.tmp/" "TCD8CA0.tmp/" "TCD8C90.tmp/" "TCD8C8F.tmp/" "TCD8C8E.tmp/" "TCD8C8D.tmp/" "TCD8C7B.tmp/" "TCD8C7A.tmp/" "TCD8C79.tmp/" "TCD8C68.tmp/" "TCD8C67.tmp/" "TCD8C57.tmp/" "TCD8C56.tmp/" "TCD8C45.tmp/" "TCD8C44.tmp/" "TCD8C43.tmp/" "TCD8C42.tmp/" "TCD8C41.tmp/" "TCD8C40.tmp/" "TCD8C2F.tmp/" "TCD8C2E.tmp/" "TCD8BF3.tmp/" "TCD8B46.tmp/" "TCD8AE7.tmp/" "TCD8AD6.tmp/" "TCD89B6.tmp/" "TCD8956.tmp/" "TCD8935.tmp/" "TCD88EE.tmp/" "TCD88CE.tmp/" "TCD88BD.tmp/" "TCD88AB.tmp/" "TCD8877.tmp/" "TCD8847.tmp/" "TCD8846.tmp/" "TCD8845.tmp/" "TCD8831.tmp/" "TCD8830.tmp/" "TCD881F.tmp/" "TCD881E.tmp/" "TCD881D.tmp/" "TCD881C.tmp/" "TCD880C.tmp/" "TCD8808.tmp/" "TCD87F5.tmp/" "TCD87F4.tmp/" "TCD87E2.tmp/" "TCD87E1.tmp/" "TCD87E0.tmp/" "TCD87DF.tmp/" "TCD87DE.tmp/" "TCD87DD.tmp/" "TCD87DC.tmp/" "TCD87DB.tmp/" "TCD877D.tmp/" "TCD876D.tmp/" "TCD875C.tmp/" "TCD874C.tmp/" "TCD871C.tmp/" "TCD871B.tmp/" "TCD870A.tmp/" "TCD86DA.tmp/" "TCD86CA.tmp/" "TCD86B9.tmp/" "TCD8689.tmp/" "TCD8669.tmp/" "TCD8649.tmp/" "TCD8638.tmp/" "TCD85F8.tmp/" "TCD85D8.tmp/" "TCD85B8.tmp/" "TCD8588.tmp/" "TCD8568.tmp/" "TCD84BB.tmp/" "TCD849B.tmp/" "TCD849A.tmp/" "TCD846A.tmp/" "TCD8469.tmp/" "TCD8457.tmp/" "TCD8405.tmp/" "TCD83C5.tmp/" "TCD8347.tmp/" "TCD8317.tmp/" "TCD8306.tmp/" "TCD82E6.tmp/" "TCD8297.tmp/" "TCD8276.tmp/" "TCD8247.tmp/" "TCD8246.tmp/" "TCD8225.tmp/" "TCD81E3.tmp/" "TCD81E2.tmp/" "TCD81E1.tmp/" "TCD81C1.tmp/" "TCD81C0.tmp/" "TCD819F.tmp/" "TCD819E.tmp/" "TCD813E.tmp/" "TCD812D.tmp/" "TCD812C.tmp/" "TCD811B.tmp/" "TCD810B.tmp/" "TCD810A.tmp/" "TCD80F9.tmp/" "TCD80F8.tmp/" "TCD80E7.tmp/" "TCD80D6.tmp/" "TCD80D5.tmp/" "TCD78E.tmp/" "TCD73E.tmp/" "TCD603.tmp/" "TCD591C.tmp/" "TCD54D0.tmp/" "TCD54BF.tmp/" "TCD53F1.tmp/" "TCD52F5.tmp/" "TCD52F4.tmp/" "TCD52E4.tmp/" "TCD52E3.tmp/" "TCD52D2.tmp/" "TCD52D1.tmp/" "TCD52D0.tmp/" "TCD52C0.tmp/" "TCD52BF.tmp/" "TCD52BE.tmp/" "TCD52BC.tmp/" "TCD52AA.tmp/" "TCD52A9.tmp/" "TCD52A8.tmp/" "TCD5297.tmp/" "TCD5295.tmp/" "TCD5285.tmp/" "TCD5284.tmp/" "TCD5283.tmp/" "TCD5281.tmp/" "TCD5280.tmp/" "TCD527F.tmp/" "TCD45F0.tmp/" "TCD4021.tmp/" "TCD3FE.tmp/" "TCD3ED.tmp/" "TCD3E4B.tmp/" "TCD3D5B.tmp/" "TCD3D4A.tmp/" "TCD3CEA.tmp/" "TCD3CD.tmp/" "TCD3C4C.tmp/" "TCD3C3B.tmp/" "TCD3C3A.tmp/" "TCD3C39.tmp/" "TCD3C29.tmp/" "TCD3C28.tmp/" "TCD3C17.tmp/" "TCD3C16.tmp/" "TCD3C13.tmp/" "TCD3C00.tmp/" "TCD3BEE.tmp/" "TCD3BDD.tmp/" "TCD3BDC.tmp/" "TCD3BD9.tmp/" "TCD3BC5.tmp/" "TCD3BC.tmp/" "TCD3BB4.tmp/" "TCD3BB2.tmp/" "TCD3BB1.tmp/" "TCD3B9F.tmp/" "TCD3B9E.tmp/" "TCD3B9A.tmp/" "TCD3B99.tmp/" "TCD3AB.tmp/" "TCD37A.tmp/" "TCD3715.tmp/" "TCD35A.tmp/" "TCD352E.tmp/" "TCD349.tmp/" "TCD348.tmp/" "TCD347.tmp/" "TCD327.tmp/" "TCD2F7.tmp/" "TCD2CA1.tmp/" "TCD2C7.tmp/" "TCD2B3.tmp/" "TCD293.tmp/" "TCD278E.tmp/" "TCD271.tmp/" "TCD260.tmp/" "TCD255A.tmp/" "TCD21C.tmp/" "TCD1FB.tmp/" "TCD1EA.tmp/" "TCD1CCC.tmp/" "TCD1CA.tmp/" "TCD1B7.tmp/" "TCD15BA.tmp/" "TCD156A.tmp/" "TCD152A.tmp/" "TCD148B.tmp/" "TCD148A.tmp/" "TCD1489.tmp/" "TCD1479.tmp/" "TCD1478.tmp/" "TCD1467.tmp/" "TCD1465.tmp/" "TCD1464.tmp/" "TCD1453.tmp/" "TCD1452.tmp/" "TCD1451.tmp/" "TCD143F.tmp/" "TCD142E.tmp/" "TCD142D.tmp/" "TCD142C.tmp/" "TCD142B.tmp/" "TCD142A.tmp/" "TCD1428.tmp/" "TCD1427.tmp/" "TCD1417.tmp/" "TCD1416.tmp/" "TCD1415.tmp/" "swtag.log" "SumatraPDF-symbols/" "StructuredQuery.log" "SDIAG_de36f823-8e26-41de-8cd5-e881b7760305/" "SDIAG_d000b1fb-fecf-48ba-9b5c-d9aa5f14c00e/" "scp45260/" "scp36598/" "scp36522/" "scp36276/" "scp36170/" "sa.FACF9DDE-1FF1-B57D-4D1D-CE479FDD42AF_5__.Public.AppUpdate.dat" "sa.E6D3B497-80AF-7F14-F9E6-9606EE369FC3_5__.Public.AppUpdate.dat" "sa.E6658C19-4221-2EBE-763A-F0493FBA2BB0_5__.Public.AppUpdate.dat" "sa.E336BB8F-16ED-7CBE-AFEE-971DD3041585_5__.Public.AppUpdate.dat" "sa.DFBE09D0-1F22-A9C0-2D3D-3F4C6351E58F_5__.Public.AppUpdate.dat" "sa.A90B8400-D36D-8235-8BF2-A21A53D3FB65_5__.Public.AppUpdate.dat" "sa.9D4DED89-CABC-F4FB-8133-BC5EDB1C7EDA_5__.Public.AppUpdate.dat" "sa.97612282-D1E8-1D6A-9E92-C271E7F177EF_5__.Public.AppUpdate.dat" "sa.6EA6FC2E-9305-586B-3411-02826D151533_5__.Public.AppUpdate.dat" "sa.6D151227-6BD9-726D-B30E-A8A018DCC82B_5__.Public.AppUpdate.dat" "sa.69F3BCAB-8975-C526-30F5-39FA70C77AD9_5__.Public.AppUpdate.dat" "sa.68E019EB-0B92-5E08-5D86-9BFE6DBA8517_5__.Public.AppUpdate.dat" "sa.68BC3251-2D8B-A604-92BA-893638CA72EA_5__.Public.AppUpdate.dat" "sa.674C4C14-7BAA-F782-E214-956DC3BEDF39_5__.Public.AppUpdate.dat" "sa.664AA17A-2D25-0823-3315-3708FE16147A_5__.Public.AppUpdate.dat" "sa.62B49C0A-499E-A02D-EBCB-EB168E148E52_5__.Public.AppUpdate.dat" "sa.558F5D32-0827-EB7B-6AD6-D5DB4138B3AA_5__.Public.AppUpdate.dat" "sa.557EA3BB-623E-ADD9-4DFB-629A8648A038_5__.Public.AppUpdate.dat" "sa.50611331-FE19-D366-B049-694B8AC9D758_5__.Public.AppUpdate.dat" "sa.3BFD26C9-8DA9-B940-F638-55890012AAB4_5__.Public.AppUpdate.dat" "sa.1FE89C0B-9BED-CC5D-7426-9E4025D6BDD9_5__.Public.AppUpdate.dat" "sa.18DDC675-D472-0DB4-9563-7DF7C34F512C_5__.Public.AppUpdate.dat" "sa.0C8CF327-9D17-CCDE-18AF-DFF4F20070E5_5__.Public.AppUpdate.dat" "sa.0862A72D-A96C-83E5-AD0F-78B6AA06F9C6_5__.Public.AppUpdate.dat" "sa.0116DC02-781B-D1D1-FC1C-C80195511E17_5__.Public.AppUpdate.dat" "sa.00D57B0F-01FA-B79F-08D6-878ED20C4C9B_5__.Public.AppUpdate.dat" "RtmpwVHvAG/" "RtmpuOVjiF/" "RtmpUh9vv4/" "RtmpszLksi/" "RtmpQvzg4j/" "RtmpQVjsPU/" "Rtmpor2znN/" "RtmpMXU7Vr/" "RtmpmKatml/" "RtmpMHlU4E/" "RtmpkpgNvM/" "RtmpiM3s6f/" "RtmpIjJoxB/" "RtmpGwknPL/" "Rtmpg5FH6z/" "RtmpCYyl5c/" "RtmpagmkOH/" "RtmpaeT57m/" "RtmpAdqejR/" "Rtmpa62gbX/" "Rtmp2zOxGo/" "Rtmp0ojQqs/" "PDApp.log" "outlook logging/" "oobelib.log" "Olktmp00.png" "Olktmp.png" "nsw521C.tmp" "nss69FC.tmp" "nada.man.xml.sig" "nada.man.xml" "NACAgentCFG.xml" "msohtmlclip1/" "msohtmlclip/" "MSIb0544.LOG" "MSI6fc64.LOG" "msdt/" "miktex-update_admin.tmp" "Low/" "lilo.8900/" "LCFEM/" "jxbrowser-chromium-43.0.2357.52.5.4.2/" "jna-207458898/" "jna--1426657646/" "i4jdel0.exe" "hsperfdata_l1myb01/" "ExchangePerflog_8484fa313cda7a69cfcccd43.dat" "Deployment/" "CVRFF5.tmp.cvr" "CVRFC3.tmp.cvr" "CVRFAFB.tmp.cvr" "CVRFA7F.tmp.cvr" "CVRF8DD.tmp.cvr" "CVRF5E9.tmp.cvr" "CVRF541.tmp.cvr" "CVRF52F.tmp.cvr" "CVRF4F8.tmp.cvr" "CVRF425.tmp.cvr" "CVRF36B.tmp.cvr" "CVRF26B.tmp.cvr" "CVRF0AB.tmp.cvr" "CVREFFB.tmp.cvr" "CVREFE9.tmp.cvr" "CVREE88.tmp.cvr" "CVRED4C.tmp.cvr" "CVRED45.tmp.cvr" "CVREB51.tmp.cvr" "CVREA52.tmp.cvr" "CVREA34.tmp.cvr" "CVREA33.tmp.cvr" "CVRE970.tmp.cvr" "CVRE84F.tmp.cvr" "CVRE3D9.tmp.cvr" "CVRE22A.tmp.cvr" "CVRE08B.tmp.cvr" "CVRDEAB.tmp.cvr" "CVRDDFE.tmp.cvr" "CVRDCA9.tmp.cvr" "CVRDBEA.tmp.cvr" "CVRDB26.tmp.cvr" "CVRDA78.tmp.cvr" "CVRD9FD.tmp.cvr" "CVRD86E.tmp.cvr" "CVRD802.tmp.cvr" "CVRD7CD.tmp.cvr" "CVRD683.tmp.cvr" "CVRD3C1.tmp.cvr" "CVRD312.tmp.cvr" "CVRD2CA.tmp.cvr" "CVRD2C9.tmp.cvr" "CVRD194.tmp.cvr" "CVRCE68.tmp.cvr" "CVRCE35.tmp.cvr" "CVRCBB5.tmp.cvr" "CVRC8DB.tmp.cvr" "CVRC7AB.tmp.cvr" "CVRC5C7.tmp.cvr" "CVRC42.tmp.cvr" "CVRC1E8.tmp.cvr" "CVRC1C4.tmp.cvr" "CVRC0E6.tmp.cvr" "CVRC071.tmp.cvr" "CVRBF32.tmp.cvr" "CVRBF0E.tmp.cvr" "CVRBCB1.tmp.cvr" "CVRBAA4.tmp.cvr" "CVRBA0.tmp.cvr" "CVRB9D3.tmp.cvr" "CVRB8D6.tmp.cvr" "CVRB8B3.tmp.cvr" "CVRB7AB.tmp.cvr" "CVRB71F.tmp.cvr" "CVRB47.tmp.cvr" "CVRB34B.tmp.cvr" "CVRB1C.tmp.cvr" "CVRB038.tmp.cvr" "CVRA852.tmp.cvr" "CVRA709.tmp.cvr" "CVRA4A7.tmp.cvr" "CVRA38B.tmp.cvr" "CVRA36.tmp.cvr" "CVRA2B9.tmp.cvr" "CVRA16E.tmp.cvr" "CVRA0D.tmp.cvr" "CVR9CBD.tmp.cvr" "CVR9CA6.tmp.cvr" "CVR9848.tmp.cvr" "CVR97C0.tmp.cvr" "CVR962F.tmp.cvr" "CVR9621.tmp.cvr" "CVR9258.tmp.cvr" "CVR922C.tmp.cvr" "CVR9223.tmp.cvr" "CVR91C3.tmp.cvr" "CVR8D9F.tmp.cvr" "CVR8D69.tmp.cvr" "CVR8BBE.tmp.cvr" "CVR89F1.tmp.cvr" "CVR893B.tmp.cvr" "CVR8625.tmp.cvr" "CVR8614.tmp.cvr" "CVR85EE.tmp.cvr" "CVR8082.tmp.cvr" "CVR802E.tmp.cvr" "CVR7FCF.tmp.cvr" "CVR7E53.tmp.cvr" "CVR7DD6.tmp.cvr" "CVR7DC1.tmp.cvr" "CVR7CD3.tmp.cvr" "CVR7C28.tmp.cvr" "CVR7A86.tmp.cvr" "CVR7A26.tmp.cvr" "CVR7985.tmp.cvr" "CVR78F6.tmp.cvr" "CVR7854.tmp.cvr" "CVR770D.tmp.cvr" "CVR7678.tmp.cvr" "CVR75A7.tmp.cvr" "CVR7535.tmp.cvr" "CVR7394.tmp.cvr" "CVR731F.tmp.cvr" "CVR7299.tmp.cvr" "CVR71CD.tmp.cvr" "CVR7035.tmp.cvr" "CVR6FE9.tmp.cvr" "CVR6EBC.tmp.cvr" "CVR6A12.tmp.cvr" "CVR6936.tmp.cvr" "CVR690F.tmp.cvr" "CVR68F.tmp.cvr" "CVR6708.tmp.cvr" "CVR65C2.tmp.cvr" "CVR6579.tmp.cvr" "CVR6504.tmp.cvr" "CVR64C.tmp.cvr" "CVR628E.tmp.cvr" "CVR61A6.tmp.cvr" "CVR601D.tmp.cvr" "CVR5FB6.tmp.cvr" "CVR5ECA.tmp.cvr" "CVR5D22.tmp.cvr" "CVR5CA8.tmp.cvr" "CVR5C4F.tmp.cvr" "CVR5C2B.tmp.cvr" "CVR5AFA.tmp.cvr" "CVR5A74.tmp.cvr" "CVR588F.tmp.cvr" "CVR582A.tmp.cvr" "CVR580C.tmp.cvr" "CVR567C.tmp.cvr" "CVR5636.tmp.cvr" "CVR50F7.tmp.cvr" "CVR5025.tmp.cvr" "CVR4F9C.tmp.cvr" "CVR4E43.tmp.cvr" "CVR4E24.tmp.cvr" "CVR4DB.tmp.cvr" "CVR4CD1.tmp.cvr" "CVR4CB0.tmp.cvr" "CVR4B77.tmp.cvr" "CVR4B36.tmp.cvr" "CVR499F.tmp.cvr" "CVR491A.tmp.cvr" "CVR48D5.tmp.cvr" "CVR45C3.tmp.cvr" "CVR459A.tmp.cvr" "CVR4492.tmp.cvr" "CVR436F.tmp.cvr" "CVR432D.tmp.cvr" "CVR3C16.tmp.cvr" "CVR38F.tmp.cvr" "CVR362.tmp.cvr" "CVR3502.tmp.cvr" "CVR3262.tmp.cvr" "CVR325F.tmp.cvr" "CVR31E3.tmp.cvr" "CVR318C.tmp.cvr" "CVR3140.tmp.cvr" "CVR30ED.tmp.cvr" "CVR303.tmp.cvr" "CVR2FF8.tmp.cvr" "CVR2F40.tmp.cvr" "CVR2D91.tmp.cvr" "CVR2C65.tmp.cvr" "CVR2AE1.tmp.cvr" "CVR2AC2.tmp.cvr" "CVR2AAE.tmp.cvr" "CVR2AAB.tmp.cvr" "CVR2A10.tmp.cvr" "CVR2892.tmp.cvr" "CVR2880.tmp.cvr" "CVR280A.tmp.cvr" "CVR26C1.tmp.cvr" "CVR25E0.tmp.cvr" "CVR2577.tmp.cvr" "CVR2508.tmp.cvr" "CVR24F5.tmp.cvr" "CVR223B.tmp.cvr" "CVR21FB.tmp.cvr" "CVR217E.tmp.cvr" "CVR20F9.tmp.cvr" "CVR1EEC.tmp.cvr" "CVR1EE4.tmp.cvr" "CVR1E2C.tmp.cvr" "CVR1C0F.tmp.cvr" "CVR1B66.tmp.cvr" "CVR1B3F.tmp.cvr" "CVR1A14.tmp.cvr" "CVR17C1.tmp.cvr" "CVR1714.tmp.cvr" "CVR15A7.tmp.cvr" "CVR14BB.tmp.cvr" "CVR1449.tmp.cvr" "CVR13AB.tmp.cvr" "CVR135.tmp.cvr" "CVR11EE.tmp.cvr" "CVR1093.tmp.cvr" "CVR1019.tmp.cvr" "communicator.dat" "chrome_installer.log" "CFG7BE.tmp" "BES/" "BB37DD20-BEAB-484B-871C-63222600E5EC.Diagnose.0.etl" "babel-6840cUI/" "babel-5976woc/" "amt3.log" "AFXB7D5.tmp" "AFXB7D4.tmp" "adobegc.log" "Adobe/" "Acrobat Distiller 11/" "9980_29124/" "9688_3863/" "9560_30286/" "9428_5703/" "9284_30207/" "9188_22482/" "9100_11171/" "8E2959D4-1EE9-4F1B-A107-CFC50B0A7B82.Diagnose.3.etl" "8916_28344/" "8780_9825/" "860_29304/" "8608_31023/" "8504_12535/" "8452_13650/" "836_9069/" "8076_8593/" "7780_16576/" "7724_18605/" "752_28123/" "7528_6295/" "7520_9713/" "7224_20712/" "7224_16094/" "7064_23337/" "7044_13856/" "6980_7265/" "6912_28460/" "6912_28170/" "6904_18491/" "6876_20246/" "6844_29117/" "6828_19274/" "6688_32237/" "6660_22227/" "6616_27595/" "6580_13532/" "6544_3173/" "6544_2989/" "6096_18707/" "5940_4659/" "5864_11550/" "5620_28716/" "5376_1423/" "5004_12752/" "4960_21952/" "4868_26278/" "4804_5021/" "4404_4193/" "4404_27615/" "4212_8575/" "4040_2718/" "3788_14729/" "3696_22151/" "3444_27582/" "2AA5C4ED-B4AA-42A1-AC85-938183CAB088.Diagnose.0.etl" "2604_24514/" "2472_4114/" "2424_13194/" "2364_26512/" "2312_14701/" "2240_22249/" "2004_8650/" "1836_5697/" "16708_18036/" "16708_14817/" "1584_30084/" "1360DA87-B5D4-4D32-A579-46D45BF3D404.Verify.2.etl" "1360DA87-B5D4-4D32-A579-46D45BF3D404.Repair.1.etl" "1360DA87-B5D4-4D32-A579-46D45BF3D404.Diagnose.0.etl" "1312_23038/" "1312_22666/" "12628_18113/" "11344_16230/" "10912_29284/" "10724_15619/" "10504_3085/" "10116_22856/" "1008_23957/" ".felix/" "../" "./")
+
+ ("c:/Users/l1myb01/AppData/Local/Temp/scp36170/" (22869 11416 0 0) "data8/" "../" "./")
+
+ ("c:/Users/l1myb01/AppData/Local/Temp/scp36170/data8/" (22869 11416 0 0) "home/" "../" "./")
+
+ ("c:/Users/l1myb01/AppData/Local/Temp/scp36170/data8/home/" (22869 11416 0 0) "l1myb01/" "../" "./")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

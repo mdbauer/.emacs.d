@@ -1,0 +1,61 @@
+## test for rank of cointegration
+rm(list=ls())
+library(urca)
+library(xtable) # xtable()
+source("R/trends_fns.R")
+df <- loadData()
+
+p <- 2 # number of lags in VAR
+
+yieldvars <- c("y5", "y10", "f510")
+
+## individual series, detailed results
+yieldvar <- yieldvars[3]
+X <- df[, c(yieldvar, "pistar.ptr", "rstar.mean")]
+vecmod <- ca.jo(X, ecdet = "const", type = "trace", K=p, spec="transitory")
+## vecmod <- ca.jo(X, ecdet = "none", type = "trace", K=p, spec="transitory")
+## vecmod <- ca.jo(X, ecdet = "none", type = "eigen", K=p, spec="transitory")
+## vecmod <- ca.jo(X, ecdet = "const", type = "eigen", K=p, spec="transitory")
+print(summary(vecmod))
+## print(show(vecmod))
+
+tbl <- data.frame(matrix(NA, 3, 4))
+tbl[,1] <- c("$H_0: r=0, H_1: r>0$",
+             "$H_0: r=1, H_1: r>1$",
+             "$H_0: r=2, H_1: r>2$")
+colnames(tbl) <- c("", yieldvars)
+ecdet <- "const"
+type <- "trace"
+for (j in seq_along(yieldvars)) {
+    X <- df[, c(yieldvars[j], "pistar.ptr", "rstar.mean")]
+    vecmod <- ca.jo(X, type, ecdet, K=p)
+    for (i in 1:3) {
+        result <- sprintf("%4.2f", vecmod@teststat[i])
+        sig <- vecmod@teststat[i] > vecmod@cval[i,]
+        if (any(sig))
+            result <- paste(c(result, rep("*", sum(sig))), collapse="")
+        tbl[3-i+1, 1+j] <- result
+    }
+}
+print(tbl)
+
+## vecmod <- ca.jo(X, ecdet = "none", type = "eigen", K=2, spec="transitory")
+## print(summary(vecmod))
+## rls <- cajorls(vecmod, r=1)
+## summary(rls$rlm)
+## rls$beta
+
+## vecmod <- ca.jo(X, ecdet = "none", type = "trace", K=2, spec="transitory")
+## print(summary(vecmod))
+
+## source code: https://github.com/cran/urca/blob/master/R/ca-jo.R
+## eigenvector (CI vectors) are in vecmod@V
+## test statistics in vecmod@teststat
+## critical values in vecmod@cval
+## help(ca.jo)
+## help(ca.jo-class)
+## help(cajools)
+## help(cajorls)
+
+## read Kilian-Luetkepohl
+## http://www-personal.umich.edu/~lkilian/SVARch03.pdf

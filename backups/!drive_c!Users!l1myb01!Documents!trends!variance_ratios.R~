@@ -1,0 +1,108 @@
+## calculate variance ratios using i* for different horizons
+
+rm(list=ls())
+to.file <- TRUE
+library(sandwich)
+library(xtable)
+source("R/trends_fns.r")
+df <- loadData()
+df$istar <- df$pistar.ptr + df$rstar.mean
+
+hmax <- 40
+
+getVR <- function(x, y, lag, flag.se=TRUE) {
+    vr <- var(x)/var(y)
+    if (flag.se) {
+        mom <- function(x, k=2)
+            mean((x - mean(x))^k)
+        T <- length(x)
+        ## allowing for serial correlation in (x-xbar)^2
+        X <- cbind((x-mean(x))^2, (y-mean(y))^2)
+        ## m <- lm(X ~ 1)
+        ## print(bwNeweyWest(m, prewhite=FALSE))
+        S <- T*lrvar(X, "Newey-West", lag=12, prewhite=FALSE, adjust=FALSE)
+        sigv <- sqrt(S[1,1]/mom(x)^2 + S[2,2]/mom(y)^2 - 2*S[1,2]/mom(x)/mom(y))
+        SE <- mom(x)/mom(y)*sigv/sqrt(T)
+        return(list(vr = vr, ci = c(vr - 1.96*SE, vr + 1.96*SE), se = SE))
+    } else {
+        return(list(vr = vr))
+    }
+}
+
+VRs <- function(to.file=FALSE) {
+    par(mfcol=c(1,3), mar=c(4,3,2,1))
+    cols <- c("black", "red", "steelblue", "steelblue")
+    lwds <- c(2,2,2,2)
+    ltys <- c(1,1,1,2)
+    depvars <-  c("y5", "y10", "f510")
+    titles <- c("Five-year yield", "Ten-year yield", "5-to-10-year forward rate")
+    tbls <- list()
+    for (i in seq_along(depvars)) {
+        depvar <- depvars[i]
+        vr.rstar <- numeric(hmax)
+        vr.pistar <- numeric(hmax)
+        vr.istar <- numeric(hmax)
+        vr.ci <- matrix(NA, hmax, 2)
+        tbl <- matrix(NA, hmax, 4) # decompose variance
+        for (h in 1:hmax) {
+            vr.rstar[h] <- getVR(diff(df$rstar.mean, h), diff(df[[depvar]], h), flag.se=FALSE)$vr
+            vr.pistar[h] <- getVR(diff(df$pistar.ptr, h), diff(df[[depvar]], h), flag.se=FALSE)$vr
+            rval <- getVR(diff(df$istar, h), diff(df[[depvar]], h), lag=ceiling(h*1.5))
+            vr.istar[h] <- rval$vr
+            vr.ci[h, ] <- rval$ci
+            tbl[h, 1] <- var(diff(df[[depvar]], h))
+            ## tbl[h, 2] <- var(diff(df$pistar.ptr, h))
+            tbl[h, 2] <- var(diff(df$istar, h))
+            ## cycle <- df[[depvar]] - df$pistar.ptr
+            cycle <- df[[depvar]] - df$istar
+            tbl[h, 3] <- var(diff(cycle, h))
+            ## tbl[h, 4] <- 2*cov(diff(df$pistar.ptr, h), diff(cycle, h))
+            tbl[h, 4] <- 2*cov(diff(df$istar, h), diff(cycle, h))
+        }
+        tbl <- cbind(tbl, tbl[,2]/tbl[,1], (tbl[,2]+tbl[,4])/tbl[,1])
+        colnames(tbl) <- c("(1) y", "(2) i*", "(3) cycle", "(4) 2*cov", "(2)/(1)", "(2)+(4)/(1)")
+        rownames(tbl) <- 1:hmax
+        tbls[[i]] <- tbl[c(1,5,10,20,30,40),]
+        plot(vr.pistar, type="l", col=cols[1], lwd=lwds[1], lty=ltys[1],
+             ylim = c(0, .5), main = titles[i], xlab = 'Horizon (quarters)', ylab = "")
+        lines(vr.rstar, col=cols[2], lwd=lwds[2], lty=ltys[2])
+        lines(vr.istar, col=cols[3], lwd=lwds[3], lty=ltys[3])
+        lines(vr.ci[,1], col=cols[4], lwd=lwds[4], lty=ltys[4])
+        lines(vr.ci[,2], col=cols[4], lwd=lwds[4], lty=ltys[4])
+        if (depvar=="y5")
+            legend("topleft", c(expression(paste(pi, '*')), 'r*', "i*", "i* CIs"),
+                   col=cols, lwd=lwds, lty=ltys, cex=1.5)
+
+    }
+    setNames(tbls, titles)
+}
+
+## plot for paper
+pdf("figures/vr.pdf", width=7, height=3.5, pointsize=10)
+tbls <- VRs()
+dev.off()
+
+## plot for presentation
+pdf("figures/vr_pres.pdf", width=7, height=5, pointsize=10)
+tbls <- VRs()
+dev.off()
+
+lapply(tbls, function(tbl) print(round(tbl, 2)))
+
+sink("tables/vr.tex")
+for (i in 1:length(tbls)) {
+    cat("\\midrule \n")
+    cat("\\multicolumn{5}{l}{\\emph{", names(tbls)[i], "}} \\\\ \n")
+    print(xtable(tbls[[i]], digi=2),
+          include.rownames=TRUE, include.colnames=FALSE, only.contents=TRUE,
+          sanitize.text.function=function(x){x}, hline.after=NULL)
+}
+sink()
+
+## ## plot changes like in Duffee's figures 1 and 3
+## h <- 20
+## par(mfrow=c(1,2), mar=c(4,3,2,1))
+## ylim <- c(-7,7)
+## plot(df$date, c(rep(NA, h), diff(df$y10, h)), type="l", ylim=ylim, main=paste0(h, "-quarter changes in ten-year yield"))
+## plot(df$date, c(rep(NA, h), diff(df$pistar.ptr, h)), type="l", ylim=ylim, main=paste0(h, "-quarter changes in pi*"))
+

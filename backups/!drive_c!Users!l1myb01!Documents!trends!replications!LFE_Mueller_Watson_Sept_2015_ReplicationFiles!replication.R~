@@ -1,0 +1,203 @@
+## replicating Mueller-Watson "Low Frequency Econometrics"
+
+rm(list=ls())
+graphics.off()
+require(sandwich)
+
+df <- read.csv("data/wc15.csv")
+df$date <- as.Date(df$X)
+df$yyyymm <- as.numeric(as.character(df$date, format="%Y%m"))
+df <- subset(df, yyyymm <= 201504)
+
+df$gro <- c(NA, 400*diff(log(df$gdp_pc)))
+df$inf <- c(NA, 400*diff(log(df$p_pce)))
+df <- df[-1,]
+T <- nrow(df)
+x <- df$inf
+q <- 12
+
+Psi_j <- function(s, j)
+    sqrt(2)*cos(j*s*pi)
+
+Psi <- function(s)
+    Psi_j(s, j=1:q)
+
+Psi_T <- t(vapply(((1:T)-1/2)/T, Psi, numeric(q)))
+mod <- lm(x ~ Psi_T)
+xhat <- mod$fitted
+
+## or, per hand
+X_T <- t(Psi_T) %*% x / T
+xhat2 <- mean(x) + Psi_T %*% X_T
+
+## plot
+## par(mfrow=c(2,1), mar=c(4,3,1,2))
+## plot(df$date, df$inf, type="l", ylim=c(-10, 15))
+## lines(df$date, xhat, col="blue", lwd=2)
+## plot(X_T)
+
+## ## averages that they calculate in ReStud and JoE papers
+## X2 <- numeric(q)
+## for (j in 1:q)
+##     X2[j] <- 2*T/j/pi*sin(j*pi/2/T)*mean(Psi_j(((1:T)-0.5)/T, j)*x)
+## X2s <- X2/sqrt(crossprod(X2))
+## ## Schorfheide
+## X3 <- numeric(q)
+## for (j in 1:q)
+##     X3[j] <- T^-.5*sum(Psi_j((1:T)/T, j)*x)
+
+cat(sprintf("sample mean: %6.4f \n", mean(x)))
+SSX <- T*crossprod(X_T)
+cat(sprintf("sample LRSD: %6.4f \n", sqrt(SSX/q)))
+cat(sprintf("Newey-West LRSD: %6.4f \n", sqrt(T*lrvar(x, "Newey-West", prewhite=FALSE, adjust=FALSE))))
+LB <- SSX/qchisq(0.95, df=q)
+UB <- SSX/qchisq(0.05, df=q)
+cat(sprintf("CI for LRSD %6.4f, %6.4f \n", sqrt(LB), sqrt(UB)))
+
+## standardize DCT coefficients
+X <- X_T/sqrt(sum(X_T^2))
+
+## LFUR test
+# numerator: I(1) model
+Ddiag <- 1/((1:q)*pi)^2
+chol_H0 <- diag(sqrt(Ddiag))
+chol_H0_inv <- diag(sqrt(1/Ddiag))
+Xo <- chol_H0_inv %*% X
+num <- sum(Xo^2)
+approxSigmaLTUM <- function(c=10, T=600) {
+    ## approximates Sigma, the limiting vcov-matrix of sqrt(T)*X_T
+    ## for local-to-unity process
+    ## like Watson's Sigma_Compute() but with b=0, d=1
+    ## Global: q
+    rho <- 1-c/T
+    ## population covariance matrix of AR(1) process
+    ## (variance of innovation is one / cancels out from LFUR test statistic)
+    V <- toeplitz(rho^(0:(T-1))/(1-rho^2)) # V(i.j)=cov(x_i, x_j)
+    Psi_T <- 1/T*t(vapply(((1:T)-1/2)/T, Psi, numeric(q)))
+    Sigma <- t(Psi_T) %*% V %*% Psi_T
+    T^-1*Sigma
+}
+Sigma <- approxSigmaLTUM()
+chol_Ha_inv <- chol(solve(Sigma))
+Xa <- chol_Ha_inv %*% X
+denom <- sum(Xa^2)
+lfur <- num/denom
+cat(sprintf("LFUR stat = %6.4f \n", lfur))
+Nsim <- 50000
+Xsim <- chol_H0 %*% matrix(rnorm(Nsim*q), q, Nsim)
+Xsimo <- chol_H0_inv %*% Xsim
+Xsima <- chol_Ha_inv %*% Xsim
+lfur_sim <- colSums(Xsimo^2)/colSums(Xsima^2)
+pval <- mean(lfur_sim > lfur)
+cat(sprintf("LFUR pval = %6.4f \n", pval))
+
+## LFST test
+b <- 1/10
+num <- sum(X^2)
+chol_Ha_inv <- diag((1+1/(b*(1:q)*pi)^2)^(-1/2))
+Xa <- chol_Ha_inv %*% X
+denom <- sum(Xa^2)
+lfst <- num/denom
+cat(sprintf("LFST stat = %6.4f \n", lfst))
+Xsim <- matrix(rnorm(Nsim*q), q, Nsim)
+Xsimo <- Xsim
+Xsima <- chol_Ha_inv %*% Xsim
+lfst_sim <- colSums(Xsimo^2)/colSums(Xsima^2)
+pval <- mean(lfst_sim > lfst)
+cat(sprintf("LFST pval = %6.4f \n", pval))
+
+## estimate and confidence interval for d
+approxSigmaFRM <- function(d) {
+    ## approximates Sigma for FRM model
+    ## like Watson's Sigma_Compute() but with b=c=0
+    ## Global: q
+    app_log_gamma <- function(z) {
+        const <- 1 + 1/(12*z) + 1/(288*(z^2)) - 139/(51840*(z^3)) - 571/(2488320*(z^4))
+        log(const) + log(sqrt(2*pi)) + (z-0.5)*log(z) - z
+    }
+    ## this part from Watson's frac_cov()
+    T <- 600
+    T1 <- 100
+    stopifnot(d > -.5 & d < 1.5)
+    dsave <- d
+    if (dsave > 0.5)
+        d <- d - 1
+    if (abs(d) < .000001) {
+        V <- diag(T)
+    } else {
+        if (0.5-d < .0001)
+            d <- 0.4999
+        acv <- numeric(T)
+        acv[1] <- 1
+        gamd <- ifelse(d > 0, gamma(d), gamma(1+d)/d)
+        gam_md <- gamma(1-d)
+        fac <- gam_md/gamd
+        hvec <- 1:T1
+        ghd <- gamma(hvec+d)
+        ghmd <- gamma(hvec-d+1)
+        acv[2:(T1+1)] <- (ghd/ghmd)*fac
+
+        hvec <- (T1+1):(T-1)
+        anum <- app_log_gamma(d + hvec)
+        aden <- app_log_gamma(hvec - d + 1)
+        acv[(T1+2):T] <- fac*(exp(anum-aden))
+        V <- toeplitz(acv)
+        scale <- gamma(1-2*d)/gamma(1-d)^2
+        V <- V*scale
+        if (dsave > 0.5) {
+            smat <- matrix(0, T, T)
+            smat[lower.tri(smat, TRUE)] <- 1
+            V <- smat %*% V %*% t(smat)
+        }
+    }
+    Psi_T <- 1/T*t(vapply(((1:T)-1/2)/T, Psi, numeric(q)))
+    Sigma <- t(Psi_T) %*% V %*% Psi_T
+    T^(1-2*d)*Sigma
+}
+den_invariant <- function(X, siginv, chol_siginv, det_siginv) {
+    m <- nrow(X)
+    if (missing(chol_siginv))
+        chol_siginv <- chol(siginv)
+    if (missing(det_siginv))
+        det_siginv <- det(siginv)
+    xc <- chol_siginv %*% X
+    sqrt(det_siginv)*.5*gamma(m/2)/(pi^(m/2))*colSums(xc^2)^(-m/2)
+}
+
+dvec <- seq(-0.49, 1.49, .01) # grid
+N <- length(dvec)
+lvec <- numeric(N) # likelihood
+sig <- list(N)
+sig_inv <- list(N)
+chol_siginv <- list(N)
+det_siginv <- list(N)
+for (i in 1:N) {
+    d <- dvec[i]
+    sig[[i]] <- approxSigmaFRM(d)
+    sig_inv[[i]] <- solve(sig[[i]])
+    chol_siginv[[i]] <- chol(sig_inv[[i]])
+    det_siginv[[i]] <- det(sig_inv[[i]])
+    lvec[i] <- den_invariant(X, sig_inv[[i]], chol_siginv[[i]], det_siginv[[i]])
+}
+print(round(head(lvec*1000), 4))
+print(round(tail(lvec*1000), 4))
+
+lrstat <- mean(lvec)/lvec # LR statistic for each H_0: d = d_i
+## Monte Carlo simulation of test statistics
+Nsim <- 50000
+cv <- numeric(N) # critical values for each test
+for (i in 1:N) {
+    Xsim <- chol(sig[[i]]) %*% matrix(rnorm(Nsim*q), q, Nsim)
+    Xsim_norm <- t(t(Xsim)/apply(Xsim, 2, function(x) sqrt(sum(x^2))))
+    lvec_sim <- matrix(NA, N, Nsim)
+    ## likelihood under each possible alternative
+    for (j in 1:N)
+        lvec_sim[j,] <- den_invariant(Xsim_norm, sig_inv[[j]], chol_siginv[[j]], det_siginv[[j]])
+    ## LR statistics with weighted alternative
+    lrstat_sim <- colMeans(lvec_sim)/lvec_sim[i,]
+    cv[i] <- quantile(lrstat_sim, 0.9)
+}
+
+cat(sprintf("MLE for d: %6.2f\n", dvec[which.max(lvec)]))
+tmp <- dvec[lrstat<=cv]
+cat(sprintf("   90-percent CI: (%6.2f, %6.2f)\n", tmp[1], tail(tmp, 1)))

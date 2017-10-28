@@ -1,0 +1,23 @@
+## replicate JPS results
+rm(list=ls())
+source("R/robust_fns.r")
+
+## load data
+## jpsdata <- getJPSdata.original()                # original data used in JPS
+jpsdata <- getJPSdata()                # replicated data
+## jpsdata <- getJPSdata(end.year=2015) # same data but later sample
+
+## run regressions
+cat("# Replication\n")
+mod1 <- lm(xr2 ~ PC1 + PC2 + PC3, data=jpsdata)
+mod2 <- lm(xr10 ~ PC1 + PC2 + PC3, data=jpsdata)
+mod3 <- lm(xr2 ~ PC1 + PC2 + PC3 + GRO + INF, data=jpsdata)
+mod4 <- lm(xr10 ~ PC1 + PC2 + PC3 + GRO + INF, data=jpsdata)
+cat("1. xr2/xr10 onto 3 PCs:\n")
+cat("paper: 0.14 / 0.20, here:",
+    round(summary(mod1)$adj.r.squared, digi=2), "/",
+    round(summary(mod2)$adj.r.squared, digi=2), "\n")
+cat("2. xr2/xr10 onto 3 PCs + GRO + INF:\n")
+cat("paper: 0.48 / 0.37, here:",
+    round(summary(mod3)$adj.r.squared, digi=2), "/",
+    round(summary(mod4)$adj.r.squared, digi=2), "\n")

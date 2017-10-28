@@ -1,0 +1,23 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+	hideDotFiles = dotGitOnly
+[http]
+	useragent = curl(git 2.6.4)
+	proxy = http://l1web1.frb.org:8080
+[remote "gitlab"]
+	url = https://mbauer@www.employmentinterestandmoney.com:8089/mbauer/org.git
+	fetch = +refs/heads/*:refs/remotes/gitlab/*
+[branch "master"]
+	remote = bitbucket
+	merge = refs/heads/master
+
+[pull]
+	rebase = true
+[remote "bitbucket"]
+	url = https://mdbauer@bitbucket.org/mdbauer/org.git
+	fetch = +refs/heads/*:refs/remotes/bitbucket/*

@@ -1,0 +1,216 @@
+## UC model for ex-ante real rate: RW + AR(p) + noise
+rm(list=ls())
+graphics.off()
+options(error = recover)
+source("R/uc_fns.R")  # est.uc, kalman.uc
+source("R/mcmc_fns.R")
+source("R/fns.R")
+require(MCMCpack)
+set.seed(616)
+
+df <- loadData() ## df$earr
+p <- 1
+filename <- paste0("results/mle_p", p, ".RData")
+
+## prior
+prior <- list(rstar0.mean = 2,
+              rstar0.var = 4,
+              w = 100, # phi ~ N(0, w*I_p)
+              ## n0v = 6, d0v = 1,
+              ## n0e = 6, d0e = 2,
+              ## n0eta = 6, d0eta = 2)
+              n0v = 0, d0v = 0,
+              n0e = 0, d0e = 0,
+              n0eta = 0, d0eta = 0)
+## MLE
+## pars.mle <- est.uc(df$earr, p, tau0=prior$rstar0.mean, v0=prior$rstar0.var,
+##                    nstarts=10, eps=.0001)
+## kf <- kalman.uc(pars.mle, df$earr, prior$rstar0.mean, prior$rstar0.var)
+## save(pars.mle, kf, file = filename)
+load(filename)
+
+df$rstar.mle <- kf$att[1,]
+
+## MCMC
+M <- 10000
+y <- df$earr
+T <- length(y)
+phi <- matrix(NA, M, p)
+sigv2 <- matrix(NA, M, 1)
+sig2 <- matrix(NA, M, 1)
+sigeta2 <- matrix(NA, M, 1)
+x <- array(NA, c(M, 2, T))
+
+## initialize parameters with MLE
+pars <- pars.mle
+pars$x <- ffsb(y, pars, prior)
+
+## ## debug
+## tbl <- matrix(NA, 4, 2)
+## rownames(tbl) <- c("phi", "sig_eta^2", "sig_v^2", "sig_e^2")
+## colnames(tbl) <- c("MLE", "MCMC")
+## ## kfsm <- kalman.uc(pars.mle, df$earr, prior$rstar0.mean, prior$rstar0.var, smooth=TRUE)
+## ## pars$x <- kfsm$att
+## ## (1) MLE
+## tbl[2,1] <- mean(diff(pars$x[1,])^2)
+## g <- ts(pars$x[2,])
+## xdat <- vapply(p:1, function(j) g[j:(T-1-p+j)], numeric(T-p))
+## ydat <- g[(p+1):T]
+## phi.mle <- solve(t(xdat) %*% xdat) %*% t(xdat) %*% ydat
+## tbl[1,1] <- phi.mle
+## tbl[3,1] <- mean((ydat - xdat %*% phi.mle)^2)
+## tbl[4,1] <- mean((y - colSums(pars$x))^2)
+## ## (2) MCMC
+## N <- 1000
+## B <- solve(diag(p)/prior$w + 1/pars$sigv2 * t(xdat) %*% xdat)
+## phi.mcmc <- 1/pars$sigv2 * B %*% t(xdat) %*% ydat
+## ## phi.mcmc <- mean(replicate(N, drawPhi(y, pars, prior)))
+## tbl[1,2] <- phi.mcmc
+## n1v <- prior$n0v + T-p
+## d1v <- prior$d0v + sum((ydat - xdat %*% phi.mcmc)^2)
+## tbl[3,2] <- d1v/2/(n1v/2+1) # mode of inverse gamma is beta/(alpha+1)
+## ## tbl[3,2] <- median(rinvgamma(N, n1v/2, d1v/2))
+## cat("sig_v^2 - cond posterior density at MLE: ", dinvgamma(tbl[3,1], n1v/2, d1v/2), "\n")
+## cat("sig_v^2 - cond posterior density at MCMC:", dinvgamma(tbl[3,2], n1v/2, d1v/2), "\n")
+## n1e <- prior$n0e + T
+## d1e <- prior$d0e + sum((y - pars$x[1,] - pars$x[2,])^2)
+## tbl[4,2] <- d1e/2/(n1e/2+1)
+## ## tbl[4,2] <- median(rinvgamma(N, n1e/2, d1e/2))
+## n1eta <- prior$n0eta + T-1
+## d1eta <- prior$d0eta + sum(diff(pars$x[1,])^2)
+## tbl[2,2] <- d1eta/2/(n1eta/2+1)
+## ## tbl[2,2] <- median(rinvgamma(N, n1eta/2, d1eta/2))
+## print(round(tbl,4))
+
+## ## compare many paths of FFSB to smoothed series
+## Xsamples <- replicate(N, ffsb(y, pars, prior))
+## kfsm <- kalman.uc(pars, y, prior$rstar0.mean, prior$rstar0.var, smooth=TRUE)
+## Xffsb <- apply(Xsamples, c(1,2), quantile, c(0.025, 0.5, 0.975))
+
+## par(mfrow=c(1,2))
+## plot(df$date, kfsm$atT[1,], ylim=range(Xffsb[,1,]), type="l", lwd=2)
+## lines(df$date, Xffsb[2,1,], col="blue")
+## lines(df$date, Xffsb[1,1,], col="blue", lty=2)
+## lines(df$date, Xffsb[3,1,], col="blue", lty=2)
+## plot(df$date, kfsm$atT[2,], ylim=range(Xffsb[,2,]), type="l", lwd=2)
+## lines(df$date, Xffsb[2,2,], col="blue")
+## lines(df$date, Xffsb[1,2,], col="blue", lty=2)
+## lines(df$date, Xffsb[3,2,], col="blue", lty=2)
+
+for (j in 1:M) {
+    if (j %% 1000 == 0)
+        cat("iteration", j, "\n")
+    ## AR(p) parameters
+    pars$phi <- drawPhi(y, pars, prior)
+    ## AR(p) innovation variance
+    g <- pars$x[2,]
+    xdat <- vapply(p:1, function(j) g[j:(T-1-p+j)], numeric(T-p))
+    ydat <- g[(p+1):T]
+    n1v <- prior$n0v + T-p
+    d1v <- prior$d0v + sum((ydat - xdat %*% pars$phi)^2)
+    pars$sigv2 <- rinvgamma(1, n1v/2, d1v/2)
+    ## measurement error variance
+    n1e <- prior$n0e + T
+    d1e <- prior$d0e + sum((y - pars$x[1,] - pars$x[2,])^2)
+    pars$sig2 <- rinvgamma(1, n1e/2, d1e/2)
+    ## random walk innovation variance
+    n1eta <- prior$n0eta + T-1
+    d1eta <- prior$d0eta + sum(diff(pars$x[1,])^2)
+    pars$sigeta2 <- rinvgamma(1, n1eta/2, d1eta/2)
+    ## draw latent state variables
+    pars$x <- ffsb(y, pars, prior)
+    ## save draws
+    phi[j,] <- pars$phi
+    sigv2[j] <- pars$sigv2
+    sig2[j] <- pars$sig2
+    sigeta2[j] <- pars$sigeta2
+    x[j,,] <- pars$x
+}
+
+
+## traceplots
+dev.new()
+par(mfrow = c(2, max(p, 3)))
+for (i in 1:p)
+    plot(phi[,i], type="l", main=paste0("phi - ", i))
+plot(sigv2, type="l", main = "sig_v^2")
+plot(sig2, type="l", main = "sig^2")
+plot(sigeta2, type="l", main = "sig_eta^2")
+
+## drop burnin sample
+ind <- (M/2):M
+
+## parameter estimates
+tbl <- matrix(NA, p+3, 5)
+rownames(tbl) <- c(paste("phi", 1:p), "sigv2", "sig2", "sigeta2")
+colnames(tbl) <- c("MLE", "MCMC mean", "median", "LB", "UB")
+tbl[,1] <- unlist(pars.mle[c("phi", "sigv2", "sig2", "sigeta2")])
+theta <- cbind(phi, sigv2, sig2, sigeta2)
+tbl[,2] <- colMeans(theta[ind,])
+tbl[,3:5] <- t(apply(theta[ind,], 2, quantile, c(.5, .025, .975)))
+print(round(tbl,4))
+pars.mcmc <- list(phi=colMeans(phi[ind,,drop=FALSE]),
+                  sigv2=mean(sigv2[ind]),
+                  sig2=mean(sig2[ind]),
+                  sigeta2=mean(sigeta2[ind]))
+
+kf2 <- kalman.uc(pars.mcmc, y, tau0=prior$rstar0.mean, v0=prior$rstar0.var)
+cat("logLik at posterior mean:", kf2$logLik, "\n")
+cat("logLik at MLE:           ", kf$logLik, "\n")
+
+## prior vs. posterior density for variances
+plotVarDensities <- function(n0, d0, smpl, mle, label="sigma^2") {
+    z <- seq(0.01,1,l=100)
+    f0 <- dinvgamma(z, n0/2, d0/2)
+    f1 <- density(smpl)
+    plot(z, f0, type="l", main=label, ylim=range(c(f0,f1$y)))
+    lines(f1, col="steelblue")
+    abline(v = mle, lty=2)
+}
+if (all(unlist(prior[c("n0v", "d0v", "n0eta", "d0eta", "n0e", "d0e")])>0)) {
+    dev.new()
+    par(mfrow = c(1, 3))
+    plotVarDensities(prior$n0v, prior$d0v, sigv2[ind], pars.mle$sigv2, "sigma_v^2")
+    plotVarDensities(prior$n0eta, prior$d0eta, sigeta2[ind], pars.mle$sigeta2, "sigma_eta^2")
+    plotVarDensities(prior$n0e, prior$d0e, sig2[ind], pars.mle$sig2, "sigma_e^2")
+}
+
+## rstar
+df$rstar.mcmc <- colMeans(x[ind,1,])
+df$rstar.lb <- apply(x[ind,1,], 2, quantile, .025)
+df$rstar.ub <- apply(x[ind,1,], 2, quantile, .975)
+
+## plot
+dev.new()
+yrange <- range(c(df$earr, df$rstar.mle, df$rstar.lb, df$rstar.ub, df$rstar.mcmc))
+plot(df$date, df$earr, ylim=yrange, col="black", type="l", lwd=1, xlab="Year", ylab="Annualized Percent")
+lines(df$date, df$rstar.mle, col="steelblue", lwd=2)
+lines(df$date, df$rstar.mcmc, col="black", lwd=3)
+lines(df$date, df$rstar.lb, col="black", lwd=1, lty=2)
+lines(df$date, df$rstar.ub, col="black", lwd=1, lty=2)
+lines(df$date, getEWMA(df$earr, 0.95), col="green", lwd=2)
+legend("topright", c("Ex-ante real rate", "r* -- MLE", "r* MCMC mean", "r* MCMC CI", "EWMA"), col=c("black", "steelblue", "black", "black", "red", "green"), lwd=c(1,2,3,1,2), lty=c(1,1,1,2,1))
+
+## posterior correlation between sig_v^2 and phi
+## plot(phi, sigv2)
+## plot(phi, sigeta2)
+cor(cbind(phi, sigv2, sigeta2, sig2))
+## could compare to MLE covariance matrix
+
+## convergence diagnostics
+## - run two chains
+
+## cumulative ergodic mean
+dev.new()
+par(mfrow = c(1,4))
+for (i in 1:p)
+    plot(cumsum(phi[ind,i])/ind, type="l", main=paste0("phi - ", i))
+plot(cumsum(sigv2[ind])/ind, type="l", main = "sig_v^2")
+plot(cumsum(sig2[ind])/ind, type="l", main = "sig^2")
+plot(cumsum(sigeta2[ind])/ind, type="l", main = "sig_eta^2")
+
+
+
+
+
+

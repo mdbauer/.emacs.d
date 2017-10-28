@@ -1,0 +1,57 @@
+## Section 3 - Joslin-Priebsch-Singleton
+## - Table 2, top panel
+## - Table 3
+
+rm(list=ls())
+library(xtable)
+source("R/robust_fns.r")
+source("R/var_fns.r")
+set.seed(616)
+
+## jpsdata <- getJPSdata()
+## estSize <- TRUE
+
+jpsdata <- getJPSdata(end.year=2015) # later sample
+estSize <- FALSE
+
+regvars <- c("PC1", "PC2", "PC3", "GRO", "INF")
+K <- length(regvars)
+M <- 5000  # number of bootstrap replications
+
+fmla1 <- get(depvar) ~ PC1 + PC2 + PC3
+fmla2 <- get(depvar) ~ PC1 + PC2 + PC3 + GRO + INF
+X1.names <- c("PC1", "PC2", "PC3")
+X2.names <- c("GRO", "INF")
+
+fmla <- xr.avg ~ PC1 + PC2 + PC3 + GRO + INF
+
+dgpOLS <- getBootDGP(X1.names, X2.names, jpsdata)
+dgpBC <- getBootDGP(X1.names, X2.names, jpsdata, control=list(BC=TRUE))
+
+depvar <- "xr.avg"
+cat("# Dependent variable:", depvar, "\n")
+rvalOLS <- bootstrapTest(fmla1, fmla2, jpsdata, dgpOLS, depvar=depvar, adjR2=TRUE, M=M, estSize=estSize)
+rvalBC <- bootstrapTest(fmla1, fmla2, jpsdata, dgpBC, depvar=depvar, adjR2=TRUE, M=M)
+
+## R^2
+tblR2 <- rbind(rvalOLS$tblR2, rvalBC$tblR2[2:4,])
+print(round(tblR2, digi=3))
+
+## Coefficients
+tbl2 <- rbind(rvalOLS$tblCoef[1:5,], rvalBC$tblCoef[4:5,], rvalOLS$tblCoef[6:7,], rvalOLS$tblSize)
+rownames(tbl2)[4:5] <- paste("Simple bootstrap", rownames(tbl2)[4:5])
+rownames(tbl2)[6:7] <- paste("BC bootstrap", rownames(tbl2)[6:7])
+if (estSize) {
+    ## Power
+    rval3 <- bootstrapTest(fmla1, fmla2, jpsdata, dgpOLS, depvar=depvar, adjR2=TRUE, M=M, H0=FALSE, estSize=TRUE)
+    rownames(rval3$tblSize) <- gsub("Size", "Power", rownames(rval3$tblSize))
+    tbl2 <- rbind(tbl2, rval3$tblSize)
+}
+print(round(tbl2, digi=3))
+printLatexTbl(tbl2)
+
+cat("Data         ", sprintf("& %3.2f ", tblR2[1, c(1,3,5)]), "\\\\ \n")
+cat("Bootstrap    ", sprintf("& %3.2f", tblR2[2, c(1,3,5)]), "\\\\ \n")
+cat("             ", sprintf("& (%3.2f, %3.2f)", tblR2[3, c(1,3,5)], tblR2[3, c(2,4,6)]), "\\\\ \n")
+cat("BC bootstrap ", sprintf("& %3.2f", tblR2[5, c(1,3,5)]), "\\\\ \n")
+cat("             ", sprintf("& (%3.2f, %3.2f)", tblR2[6, c(1,3,5)], tblR2[6, c(2,4,6)]), "\\\\ \n")

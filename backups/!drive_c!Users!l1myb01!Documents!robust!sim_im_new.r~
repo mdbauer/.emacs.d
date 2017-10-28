@@ -1,0 +1,125 @@
+## new simulation results
+## size and power for IM test
+
+rm(list=ls())
+set.seed(616)
+library(xtable)
+source("R/robust_fns.r")  ## for getMueller and asymTstat
+
+M <- 500
+qs <- c(2,4,8,16,24)
+T <- 200
+delta <- 0.999
+rho <- 0.999
+c <- 0.1
+
+doWork <- function(n=T, beta2=0, c1=c, c2=c, sig1=1, sig2=1, sigu=1, trace=FALSE) {
+    ## Globals: M, qs, delta, rho, c
+    b <- matrix(NA, M, 2)
+    se <- matrix(NA, M, 2)
+    tstatboot <- numeric(M)
+    pvalsIM <- matrix(NA, M, length(qs))
+    rho1 <- rho
+    rho2 <- rho
+    for (i in 1:M) {
+        if (i%%500==0)
+            cat("Iteration", i, "\n")
+        v <- matrix(rnorm((n+2)*3), n+2, 3)
+        eps <- cbind(sig1*(delta*v[,3]+sqrt(1-delta^2)*v[,1]), # eps_1t
+                     sig2*v[,2], # eps_2t
+                     sigu*v[,3])   # u_t
+        x1 <- numeric(n+2)
+        x2 <- numeric(n+2)
+        for (t in 2:(n+2)) {
+            x1[t] <- c1 + rho1*x1[t-1] + eps[t, 1]
+            x2[t] <- c2 + rho2*x2[t-1] + eps[t, 2]
+        }
+        x1 <- x1[-1]; x2 <- x2[-1]; eps <- eps[-1,]  # get rid of first obs, where x's are zero
+        y <- beta2*x2[1:n] + eps[2:(n+1), 3]  # beta0=beta1=0
+        df <- data.frame(y = y, x1 = x1[1:n], x2 = x2[1:n], trend = 1:n)
+        ## estimate model in simulated data
+        mod12 <- lm(y ~ x1 + x2, data=df)
+        b[i, ] <- mod12$coef[-1]
+        se[i, ] <- sqrt(diag(vcov(mod12)))[-1]
+        ## ## bootstrap
+        ## ## 1. estimate AR
+        ## ar.x1 <- ar.ols(df$x1, aic=FALSE, order.max=1, demean=FALSE, intercept=TRUE)
+        ## ar.x2 <- ar.ols(df$x2, aic=FALSE, order.max=1, demean=FALSE, intercept=TRUE)
+        ## ## 2. generate single bootstrap sample
+        ## ind <- 1 + sample(n-1, n+2, TRUE)
+        ## e1boot <- ar.x1$resid[ind]
+        ## e2boot <- ar.x2$resid[ind]
+        ## mod.r <- lm(y ~ x1, data=df)
+        ## uboot <- mod.r$resid[ind-1]
+        ## x1boot <- numeric(n+2)
+        ## x2boot <- numeric(n+2)
+        ## for (t in 2:(n+2)) {
+        ##     x1boot[t] <- ar.x1$x.intercept + ar.x1$ar[,,]*x1boot[t-1] + e1boot[t]
+        ##     x2boot[t] <- ar.x2$x.intercept + ar.x2$ar[,,]*x2boot[t-1] + e2boot[t]
+        ## }
+        ## x1boot <- x1boot[-1]; x2boot <- x2boot[-1]; e1boot <- e1boot[-1]; e2boot <- e2boot[-1]; uboot <- uboot[-1]
+        ## yboot <- c(NA, ar.x1$ar[,,]*x1boot[1:n]) + uboot
+        ## bootdf <- data.frame(y = yboot[2:(n+1)], x1 = x1boot[1:n], x2 = x2boot[1:n])
+        ## ## 3. estimate predictive regression on bootstrap sample
+        ## modboot <- lm(y ~ x1 + x2, data=bootdf)
+        ## tstatboot[i] <- (modboot$coef/sqrt(diag(vcov(modboot))))[3]
+        ## IM
+        for (q in qs) {
+            rval <- getMueller(y ~ x1 + x2, data = df, q=q)
+            pvalsIM[i, which(qs==q)] <- rval$tpval[2]
+        }
+    }
+    t <- b/se
+    cv <- qt(0.975, n-3)
+    rval <- c(colMeans(b)-c(0, beta2), 100*(mean(se[,2])/sd(b[,2])-1), mean(abs(t[,2])>cv))
+    ## bootstrap
+    ## cvboot <- quantile(abs(tstatboot), 0.95)
+    ## rval <- c(rval, mean(abs(t[,2])>cvboot))
+    rval <- c(rval, NA)
+    ## IM
+    rval <- c(rval, colMeans(pvalsIM<0.05))
+}
+
+cat("# Simulating...\n")
+tbl <- matrix(NA, 4, 9+length(qs))
+colnames(tbl) <- c("beta_2", "rho", "delta", "c1,c2", "b(b1)", "b(b2)", "SE bias (%)", "size sim", "bootstrap", paste("IM", qs))
+tbl[1, ] <- c(0, rho, delta, 0, doWork())
+## tbl[2, ] <- c(0, rho, delta, 1, doWork(c1=1, c2=1))
+beta2 <- 0.1
+tbl[3, ] <- c(beta2, rho, delta, 0, doWork(beta2=beta2))
+## tbl[4, ] <- c(beta2, rho, delta, 1, doWork(c1=1, c2=1, beta2=beta2))
+print(round(t(tbl), digi=3))
+
+stop()
+
+## barplot(tbl[1:2,8:12], main="Size of tests in simulation: T=100, rho=0.99, delta=1", xlab="Method", ylim=c(0,.5),
+##         col=c("darkblue", "red"),
+##         legend=c("c1=c2=0", "c1=c2=1"), beside=TRUE)
+## abline(h=0.05, lty=2)
+
+betas <- c(0,.01,.02,.03,.05,.07,.1,.15,.2,.25,.3,.35,.4,.5,.6,.7,.8,.9,1)
+
+for (c in c(0, 1)) {
+    tbl2 <- matrix(NA, length(betas), 2+length(qs))
+    colnames(tbl2) <- c("OLS", "bootstrap", paste("IM", qs))
+    rownames(tbl2) <- betas
+    for (beta2 in betas) {
+        cat("# beta2 =", beta2, "\n")
+        rval <- doWork(beta2=beta2, c1=c, c2=c)
+        tbl2[which(betas==beta2),] <- rval[-(1:3)]
+    }
+    print(round(tbl2, digi=3))
+
+    pdf(paste0("figures/sim_size_power_rho", rho, "_delta", delta, "_c", c, "_T",T,".pdf"), width=7, height=5, pointsize=12)
+    par(mar=c(4,4,2,1))
+    cols <- c("black", "steelblue", rainbow(length(qs)))
+    lwds <- c(2,2,2,2,2,2)
+    plot(betas, tbl2[,1], type="l", xlab="beta_2", ylab="Frequency of rejections", ylim=c(0, max(tbl2)),
+         col=cols[1], lwd=lwds[1])
+    title(paste0("Size and power - rho", rho, ", delta=", delta, ", c1=c2=", c, "0, T=", T))
+    for (i in 2:ncol(tbl2))
+        lines(betas, tbl2[,i], col=cols[i], lwd=lwds[2])
+    abline(h=0.05, lty=2)
+    legend("bottomright", colnames(tbl2), col=cols, lwd=lwds, bg="white")
+    dev.off()
+}

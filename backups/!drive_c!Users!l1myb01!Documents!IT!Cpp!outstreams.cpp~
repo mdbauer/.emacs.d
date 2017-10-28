@@ -1,0 +1,12 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+int main() {
+  string file_name = "numbers.txt";
+  ofstream outs(file_name.c_str());
+  // ofstream outs(file_name.c_str(), ios_base::app);
+  outs << 12345 << endl;
+  return(0);
+}

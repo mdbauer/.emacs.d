@@ -1,0 +1,13 @@
+% latex table generated in R 3.3.2 by xtable 1.8-2 package
+% Wed May 17 09:45:44 2017
+ Yields only                                   & 0.24 &  & 0.22 &  \\ 
+                                                & (0.05, 0.40) &  & (0.08, 0.52) &  \\ 
+  Yields and $\pi^\ast_t$                       & 0.44 & 0.20 & 0.31 & \cellcolor{chlt}0.09 \\ 
+                                                & (0.10, 0.44) & (0.00, 0.19) & (0.14, 0.55) & \cellcolor{chlt}(0.00, 0.19) \\ 
+  Yields, $\pi^\ast_t$ and $r^\ast_t$           & 0.54 & 0.30 & 0.51 & \cellcolor{chlt}0.29 \\ 
+                                                & (0.13, 0.47) & (0.00, 0.23) & (0.17, 0.58) & \cellcolor{chlt}(0.00, 0.25) \\ 
+  Yields               & 0.34 & 0.10 & 0.28 & \cellcolor{chlt}0.07 \\ 
+detrended by $\pi^\ast_t$                                                & (0.05, 0.40) & (-0.06, 0.07) & (0.11, 0.52) & \cellcolor{chlt}(-0.12, 0.11) \\ 
+  Yields  & 0.44 & 0.20 & 0.50 & \cellcolor{chlt}0.28 \\ 
+detrended by $\pi^\ast_t$ and $r^\ast_t$                                                & (0.06, 0.40) & (-0.08, 0.11) & (0.10, 0.51) & \cellcolor{chlt}(-0.18, 0.16) \\ 
+  

@@ -1,0 +1,166 @@
+rm(list=ls())
+require(sandwich) # NeweyWest()
+require(xtable) # xtable()
+source("R/trends_fns.r")
+source("R/bootstrap_fns.r")
+
+to.latex <- TRUE
+subsample <- TRUE
+
+df <- loadData()
+if (subsample)
+    df <- df[df$yyyymm >= 198501, ]
+cat("Date range:", range(df$yyyymm), "\n")
+varnames <- c("pistar.ptr", "rstar.mean")
+specs <- rbind(c(1,0),
+               c(1,1))
+
+vcovNW <- function(mod) NeweyWest(mod, lag=6, prewhite=FALSE)
+## Table 3: predictive regressions
+## yields and PCs
+Y <- data.matrix(df[,attr(df, "yield.cols")])
+W <- eigen(cov(Y))$vectors[,1:3]
+W <- W %*% diag(sign(W[nrow(W),])) # make sure PC1 and PC2 correspond to level and slope
+df[paste0("PC", 1:3)] <- Y %*% W
+mats <- c(0.25, 0.5, 1:15)
+attr(df, 'mats') <- mats
+attr(df, 'W') <- W
+dgp <- getBootDGP(c("PC1", "PC2", "PC3"), varnames, df, BC=TRUE)
+T <- nrow(Y)
+tbl <- data.frame(matrix(NA, 11, 7))
+tbl[,1] <- sprintf("%-15s", c("PC1", "",
+                              "PC2", "",
+                              "PC3", "",
+                              "$\\pi_t^\\ast$", "",
+                              "$r_t^\\ast$", "",
+                              "$R^2$"))
+col <- 2
+for (h in c(1, 4)) {
+    ## calculate excess returns
+    df$xr.avg <- 0
+    for (n in 2:15) {
+        nmh <- ifelse(h==1, n, n-1) # approximate n-h - yield if quarterly change
+        xrn <- c(-(n-h/4)*Y[(1+h):T, mats==nmh] + n*Y[1:(T-h), mats==n] - h/4*Y[1:(T-h), mats==h/4], rep(NA, h))
+        df$xr.avg <- df$xr.avg + xrn/14
+    }
+    if (h==1) {
+        df$xr.q <- df$xr.avg
+        vcovfn <- function(mod) vcovHC(mod, "HC")
+    } else if (h==4) {
+        df$xr.a <- df$xr.avg
+        vcovfn <- vcovNW
+    }
+    for (i in 0:2) {
+        if (i==0) {
+            fmla <- xr.avg ~ PC1 + PC2 + PC3
+            regrows <- c(1,3,5)
+        } else {
+            regnames <- varnames[specs[i,]==1]
+            fmla <- formula(paste("xr.avg ~ PC1 + PC2 + PC3 +", paste(regnames, collapse="+")))
+            regrows <- c(1,3,5, seq(7, by=2, len=ncol(specs))[specs[i,]==1])
+        }
+        mod <- lm(fmla, df)
+        tbl[regrows, col] <- mod$coef[-1]
+        V <- vcovfn(mod)
+        tbl[regrows+1, col] <- sqrt(diag(V))[-1]
+        tbl[nrow(tbl), col] <- summary(mod)$r.squared
+        col <- col+1
+    }
+}
+tbl[,-1] <- formatTbl(tbl[,-1], se.rows=c(2,4,6,8,10))
+
+## bootstrap p-values
+tbl <- rbind(tbl[1:8,], "", tbl[9:10,], "", tbl[11,])
+for (h in c(1, 4)) {
+    if (h==1) {
+        vcovfn <- function(mod) vcovHC(mod, "HC")
+        fmla1 <- xr.q ~ PC1 + PC2 + PC3
+        fmla2a <- xr.q ~ PC1 + PC2 + PC3 + pistar.ptr
+        fmla2b <- xr.q ~ PC1 + PC2 + PC3 + pistar.ptr + rstar.mean
+    } else if (h==4) {
+        vcovfn <- vcovNW
+        fmla1 <- xr.a ~ PC1 + PC2 + PC3
+        fmla2a <- xr.a ~ PC1 + PC2 + PC3 + pistar.ptr
+        fmla2b <- xr.a ~ PC1 + PC2 + PC3 + pistar.ptr + rstar.mean
+    }
+    ## pi-star only
+    rval <- bootstrapTest(fmla1, fmla2a, df, dgp, h=h, vcovfn=vcovfn, M=5000)
+    tbl[9, 2+h] <- sprintf("[%4.2f]", rval$tblCoef[5, 4])
+    ##print(round(rval$tblCoef, 2))
+    ##print(round(rval$tblR2, 3))
+    ## pi-star and r-star
+    rval <- bootstrapTest(fmla1, fmla2b, df, dgp, h=h, vcovfn=vcovfn, M=5000)
+    tbl[c(9, 12), 3+h] <- sprintf("[%4.2f]", as.numeric(rval$tblCoef[5, 4:5]))
+    ##print(round(rval$tblCoef, 2))
+    ##print(round(rval$tblR2, 3))
+}
+
+print(tbl)
+
+if (to.latex) {
+    filename <- ifelse(subsample, "tables/returns_subsample.tex", "tables/returns.tex")
+    sink(filename)
+    print(xtable(tbl, digi=2),
+          include.rownames=FALSE, include.colnames=FALSE, only.contents=TRUE,
+          sanitize.text.function=function(x){x}, hline.after=nrow(tbl)-1)
+    sink()
+}
+
+
+
+stop()
+
+## cumulative errors and subsample-fit of predictive regressions
+## in-sample errors
+fmla1 <- xr.a ~ PC1 + PC2 + PC3 + pistar.ptr
+fmla2 <- xr.a ~ PC1 + PC2 + PC3 + pistar.ptr + rstar.mean
+mod1 <- lm(fmla1, df)
+mod2 <- lm(fmla2, df)
+df$e1 <- c(resid(mod1), rep(NA, 4))
+df$e2 <- c(resid(mod2), rep(NA, 4))
+## out-of-sample errors
+df$xrhat1 <- NA; df$xrhat2 <- NA
+T1 <- which(df$yyyymm==198003)
+T2 <- nrow(df) - 4
+for (t in T1:T2) {
+    mod1 <- lm(fmla1, df[1:(t-4),])
+    mod2 <- lm(fmla2, df[1:(t-4),])
+    df$xrhat1[t] <- predict(mod1, newdata=df)[t]
+    df$xrhat2[t] <- predict(mod2, newdata=df)[t]
+}
+df$e1o <- df$xr.a - df$xrhat1
+df$e2o <- df$xr.a - df$xrhat2
+
+dev.new()
+par(mfrow=c(2,1), mar=c(3,4,2,1))
+cols <- c("black", "blue")
+lwds <- c(2,2,2,2)
+plot(df$date, cumsum(df$e1), type="l", ylim=range(c(cumsum(df$e1), cumsum(df$e2)), na.rm=TRUE), col=cols[1], lwd=lwds[1], xlab="", ylab="Percent", main="Cumulative forecast errors")
+lines(df$date, cumsum(df$e2), col=cols[2], lwd=lwds[2])
+legend("topright", c("only pi-star", "pi-star and r-star"), col=cols, lwd=lwds)
+perf.is <-cumsum(df$e1^2)-cumsum(df$e2^2)
+perf.oos <- cumsum(df$e1o[T1:T]^2)-cumsum(df$e2o[T1:T]^2)
+plot(df$date, perf.is, type="l", col="red", ylim=range(c(perf.is, perf.oos), na.rm=TRUE), lwd=lwds[1], xlab="Year", ylab="Squared errors", main="Relative performance")
+lines(df$date[T1:T], perf.oos, col="blue", lwd=lwds[2])
+legend("topleft", c("in-sample", "out-of-sample"), col=c("red", "blue"), lwd=lwds)
+
+cuts <- c(1985, 2000)
+N <- length(cuts)+1 # number of subsamples
+tbl <- matrix(NA, 5, N)
+rownames(tbl) <- c("ME - pi* only", "ME - pi* and r*",
+                   "RMSE - pi* only", "RMSE - pi* and r*", "no. of obs.")
+colnames(tbl) <- rep("", N)
+for (i in 1:N) {
+    first.year <- ifelse(i==1, df$year[1], cuts[i-1])
+    last.year <- ifelse(i==N, tail(df$year, 1)-1, cuts[i]-1)
+    colnames(tbl)[i] <- paste(first.year, last.year, sep="-")
+    ind <- (df$year>=first.year) & (df$year<=last.year)
+    tbl[1, i] <- mean(df$e1[ind])
+    tbl[2, i] <- mean(df$e2[ind])
+    tbl[3, i] <- sqrt(mean(df$e1[ind]^2))
+    tbl[4, i] <- sqrt(mean(df$e2[ind]^2))
+    tbl[5, i] <- sum(ind)
+}
+print(round(tbl, 2))
+cat("Model 1 - RMSE:", sqrt(mean(df$e1[1:(T-4)]^2)), "\n")
+cat("Model 2 - RMSE:", sqrt(mean(df$e2[1:(T-4)]^2)), "\n")

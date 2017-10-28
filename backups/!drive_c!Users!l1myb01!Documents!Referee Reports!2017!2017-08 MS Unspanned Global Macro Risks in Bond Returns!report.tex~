@@ -1,0 +1,200 @@
+% Created 2017-08-28 Mon 20:36
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[left=3cm,right=3cm,top=2.5cm,bottom=3cm,verbose]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\date{}
+\title{Referee Report on MS Manuscript MS-17-01418 "Unspanned Global Macro Risks in Bond Returns"}
+\hypersetup{
+ pdfauthor={},
+ pdftitle={Referee Report on MS Manuscript MS-17-01418 "Unspanned Global Macro Risks in Bond Returns"},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 25.1.1 (Org mode 9.0.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section{Summary}
+\label{sec:org2664c9c}
+
+This paper documents that a factor extracted from international
+macroeconomic data using Partial Least Squares appears to have both
+in-sample and out-of-sample forecasting power for excess returns on
+bonds in the US, UK, Japan and Germany. Some evidence suggests that
+this global macro factor (GMF) is not spanned by the information in the yield
+curves of these countries, i.e., it seems to be an unspanned risk
+factor.
+
+\section{Evaluation}
+\label{sec:org4160062}
+
+This paper makes a valuable contribution to the ongoing debate about
+unspanned macro risks in bond returns. While a number of studies have
+documented apparent incremental predictive power of macro risk factors
+for bond returns, a lot of these findings are not robust either due to
+econometric problems or sub-sample instabilities. The present paper
+claims to have found a new factor that is a robust predictor. This
+could be an important finding, but as it is, the analysis is not yet
+convincing enough. The analysis is somewhat of a hodge-podge of
+different results, using various different techniques and regression
+specifications. It needs substantial improvement.
+
+\begin{enumerate}
+\item First, the focus should be squarely on testing the model with
+yield-curve factors and the GMF against the model with only
+yield-curve factors, that is, the alternative model (9) against
+the null model (8) where
+\(x_t\) contains yield-curve factors. (See also model (18) which
+seems to me the right proposed alternative model.) The relevant
+null is \(\beta_2=0\), i.e., the spanning hypothesis that is at the
+center of the current debate in the macro-finance literature. The
+expectations hypothesis is not the right benchmark, the literature
+has long moved on from it because we've known since
+Campbell-Shiller and Fama-Bliss that the slope has predictive power
+for returns. The paper needs to present convincing in-sample and
+out-of-sample evidence that the spanning hypothesis is robustly
+violated by the GMF.
+
+\item In testing the spanning hypothesis, the Cochrane-Piazzesi factor
+is clearly the wrong variable to use for \(x_t\). It requires
+estimation of the factor in a preliminary step, which is
+undesirable in a recursive, reproducible out-of-sample forecasting
+exercise. Importantly, the top panel of Table 5 shows that the CP
+factor \emph{worsens} the forecasting performance relative to the
+expectations hypothesis (for three of the four countries). This is
+wholly inconsistent with the existing evidence against the
+expectations hypothesis and with Cochrane-Piazzesi's results. It's
+unclear what is going on/wrong here, but what is clear is that the
+null model needs to include yield curve factors, and the
+conventional wisdom suggests that these should improve predictions
+relative to the expectations hypothesis.
+
+\item More generally, the authors need to connect with the existing
+literature, and where the results differ from existing results, the
+paper needs to give a clear explanation for such differences. The
+above-mentioned issue with the (local) CP factor was one example of
+an inconsistency with the literature. Another important one is that
+Ludvigson-Ng find strong predictive power of local macro factors
+for bond returns (although the robustness of this finding across
+sample periods has since been questioned). Why does the present
+paper come to the opposite conclusion that local macro factors do
+not help predict bond returns? There are a number of possible
+explanations for the differences---sample period, macro data, bond
+returns, regression specification, how the factors are constructed,
+the econometric method---and each one needs to be investigated with
+a magnifying glass. For example, if the authors use the exact same
+data as Ludvigson-Ng but their own PLS methodology, do they still
+find the same result? Another inconsistency is with
+Dahlquist-Hasseltoft, as mentioned on page 17. For any such
+difference with the existing literature, the reader will need to be
+convinced that she should believe this paper and not the previously
+published result.
+
+\item A crucial problem with pseudo-out-of-sample analysis as in the
+present paper is that the sample split can be chosen by the authors
+with the benefit of hindsight. Hence it is important to report
+results for different, or ideally for all possible sample
+splits. Welch-Goyal do this very well: they plot the cumulative
+difference in the sum of squared errors against the split of the
+sample, which allows the reader to verify how robust the
+outperformance of a given model is. By contrast, in the present
+paper the OOS results are for one specific sample periodfrom
+1995:Q1 to 2015:Q4. The authors need to report results for a
+variety of sample splits, ideally as done by Welch-Goyal.
+
+\item Another concern about the OOS analysis is the very
+small OOS period of 21 years, which includes only 21
+non-overlapping annual returns. Any test for equal forecast
+accuracy will likely suffer from substantial small-sample
+results. The authors need to be more careful about this inference,
+and should probably report results for alternative
+tests. Diebold-Mariano is a simple way to do this inference, and small-sample
+corrections are available. Giacomini-White have argued that the
+Diebold-Mariano test is more broadly applicable than previously
+thought. The authors of the present paper report the (uncommon) out-of-sample
+\(R^2\) with the (somewhat uncommon) Clark-West "MSPE-adjusted
+statistic." They should report the results in a more standard
+format. And of course my comment from above is worth reiterating:
+the right comparison is between the model with yield factors and
+the model with both yield factors and the GMF (or LMF).
+
+\item There is another econometric problem: the inference appears to
+ignore the estimation uncertainty underlying the PLS factor. The
+authors mention a wild bootstrap, but they are using it to test the
+wrong (expectations) hypothesis and don't show how it can be
+applied to tests of the spanning hypothesis. The authors use the
+Bauer-Hamilton bootstrap, which apparently works well for testing
+the spanning hypothesis, but they do not address the issue that the
+GMF predictor is estimated using PLS. They need to carefully
+address this issue. They may have to use a bootstrap procedure to
+account for the PLS estimation uncertainty in the in-sample
+tests. In any event, they need to refer to other studies that have
+applied the PLS method, and explain whether they assess forecast
+accuracy differently than in existing studies, and if so, why.
+
+\item Finally, the paper lacks a thorough  discussion of the underlying
+economics, the broader relevance, and more generally of the
+interpretation of the results. This holds for the introduction as
+well as for the paper more generally (e.g., in section 3.2 the
+only interpretation is a throwaway sentence on "the integrated nature of
+international bond markets"). The key questions that need to be
+addressed are: Why should we care? What is the relevance of
+unspanned macro risk factors? How do the results change our
+understanding of bond risks and the term structure of interest
+rates? How do the results fit into the literatures on the spanning
+hypothesis; on international
+bond comovements; on the econometrics of predicting financial
+returns? General statements such as "global macro factors represent
+a different source of risks other than interest rate risks" do not
+sufficiently clarify to the reader why this paper is
+important. Furthermore, what would really add value is to try to
+understand what exactly it is about the GMF that helps predict
+returns, e.g., certain macro variables or patterns that are
+reflected in the GMF. It would be well worth it to drill down
+further into the sources of predictability.
+\end{enumerate}
+
+Other issues:
+\begin{itemize}
+\item The correlations reported in Table 1 are not at all "indicative that
+some global common factors may predict international excess bond
+returns" (p. 13) because they simply reflect cross-sectional contemporaneous
+correlations.
+\item The statement "We find that annual excess bond returns of different
+maturities in each market are highly correlated." (p. 13) is not
+supported by any numbers in the tables.
+\item The authors report first-order autocorrelations of \emph{annual}
+overlapping returns. These are serially correlated by
+construction, so it is meaningless to calculate and interpret these
+autocorrelations.
+\item It is not clear for what return Figure 2 reports cumulative SSEs.
+\item The authors make a pretty big deal of calculating the "economic
+value" of adding the predictors (again, mistakenly, relative to the
+expectations hypothesis). But the numbers at the bottom of page 15
+seem very small, so doesn't this say that there is little economic
+value? Also, how can the OOS \(R^2\) change so much and the economic
+value change by so little? This appears inconsistent. All this needs to
+be clarified or, better, deleted in order to have more space
+for careful econometrics.
+\item In Figure 3 there is no return visible, so no correlation can be
+seen. Also, the authors should report the correlation, and they need
+to compare the cyclicality measured this way between the null model
+and the proposed model.
+\end{itemize}
+\end{document}

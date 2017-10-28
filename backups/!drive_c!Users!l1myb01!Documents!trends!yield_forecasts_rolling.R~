@@ -1,0 +1,154 @@
+## forecast yields - new and revised code
+## - estimate only once at each t, construct forecasts at all horizons
+##   -> the sample is shorter for all horizons but h_max
+## - added more forecast methods
+
+rm(list=ls())
+require(xtable) # xtable()
+require(latex2exp)  # TeX()
+require(forecast) # dm.test()
+source("R/trends_fns.R")
+graphics.off()
+
+df <- loadData()
+df$f1015 <- (15*df$y15 - 10*df$y10)/(15-10)
+df$f515 <- (15*df$y15 - 5*df$y5)/(15-5)
+T <- nrow(df)
+
+yieldvars <- c("y5", "y10", "f510")
+nms <- c("RW", "ME", "IO", "AR")
+M <- length(nms)
+h <- c(4,10,20,30,40) # forecast horizons
+t0 <- 20
+cat("# First forecast date:", df$yyyymm[t0], "\n")
+cat("# Last forecast date:", df$yyyymm[T-max(h)], "\n")
+tbls <- setNames(vector("list", 3), yieldvars)
+for (i in 1:3) {
+    y <- df[[yieldvars[i]]]
+    e <- array(NA, c(T-max(h)-t0+1, length(h), M))
+    rownames(e) <- df$yyyymm[t0:(T-max(h))] # forecast dates
+    muhat <- numeric(dim(e)[1])
+    for (t in t0:(T-max(h))) {
+        ## RW
+        e[t-t0+1, , 1] <- y[t+h] - y[t]
+
+        ## ME - macro endpoint: i-star
+        yhat <- ar1Forecast(y[1:t] - df$istar[1:t], h, xbar = 0) + df$istar[t]
+        ## yhat <- ar1Forecast(y[1:t] - df$istar[1:t], h) + df$istar[t]
+        ##  -> allowing for const makes it much worse
+        e[t-t0+1, , 2] <- y[t+h] - yhat
+
+        ## IO - inflation only: pi-star + constant
+        yhat <- ar1Forecast(y[1:t] - df$pistar.ptr[1:t], h) + df$pistar.ptr[t]
+        ## yhat <- ar1Forecast(y[1:t] - df$pistar.ptr[1:t], h, xbar = 2) + df$pistar.ptr[t]
+        ##  -> this substantially improves forecasts and basically beats i*
+        e[t-t0+1, , 3] <- y[t+h] - yhat
+        muhat[t-t0+1] <- mean(y[1:t] - df$pistar.ptr[1:t])
+
+        ## AR
+        yhat <- ar1Forecast(y[1:t], h)
+        e[t-t0+1, , 4] <- y[t+h] - yhat
+    }
+    ## for each forecast method (d=3) and each horizon (d=2) calculate RMSE ...
+    tbl_rmse <- apply(e, c(3,2), function(x) sqrt(mean(x^2)))
+    ## ... and MAE
+    tbl_mae <- apply(e, c(3,2), function(x) mean(abs(x)))
+    colnames(tbl_rmse) <- h
+    colnames(tbl_mae) <- h
+    tbl_rmse <- rbind(tbl_rmse, NA, NA)
+    tbl_mae <- rbind(tbl_mae, NA, NA)
+    ## Diebold-Mariano
+    for (j in seq_along(h)) {
+        ## (3) vs. (1)
+        tbl_rmse[M+1, j] <- dm.test(e[,j,2], e[,j,1], alternative="less", h=h[j], power=2)$p.value
+        tbl_mae[M+1, j] <- dm.test(e[,j,2], e[,j,1], alternative="less", h=h[j], power=1)$p.value
+        ## (3) vs. (2)
+        tbl_rmse[M+2, j] <- dm.test(e[,j,2], e[,j,3], alternative="less", h=h[j], power=2)$p.value
+        tbl_mae[M+2, j] <- dm.test(e[,j,2], e[,j,3], alternative="less", h=h[j], power=1)$p.value
+    }
+    rownames(tbl_rmse) <- c(nms, "DM: ME $\\geq$ RW", "DM: ME $\\geq$ IO")
+    rownames(tbl_mae) <- rownames(tbl_rmse)
+    cat(yieldvars[i], "\n")
+    cat("RMSE:\n")
+    print(round(tbl_rmse,2))
+    cat("MAE:\n")
+    print(round(tbl_mae,2))
+
+    ## collect/format tables for paper
+    tbls[[i]] <- data.frame(cbind(tbl_rmse, tbl_mae))
+    rownames(tbls[[i]]) <- c("\\emph{RW}", "\\emph{ME}", "\\emph{IO}", "\\emph{AR}",
+                             "$H_0: ME \\geq RW$", "$H_0: ME \\geq IO$")
+    for (row in 1:4)
+        tbls[[i]][row, ] <- sprintf("%4.2f", tbls[[i]][row, ])
+    for (row in 5:6)
+        tbls[[i]][row, ] <- sprintf("(%4.2f)", tbls[[i]][row, ])
+
+    if (yieldvars[i]=="y10") {
+        ## statement in text
+        cat("ten-year yield, five years ahead:\n")
+        cat(" model ME lowers the RMSE by", 100*(1-tbl_rmse[2, h==20]/tbl_rmse[1, h==20]), "percent relative to RW\n")
+        cat(" p-value:", tbl_rmse[5, h==20], "\n")
+        cat(" model ME lowers the MAE by", 100*(1-tbl_mae[2, h==20]/tbl_mae[1, h==20]), "percent relative to RW\n")
+        cat(" p-value:", tbl_mae[5, h==20], "\n")
+
+        ## table for presentation
+        tbl <- tbl_mae
+        ## tbl <- formatTbl(tbl, se.rows=tail(1:nrow(tbl), 2))
+        print(xtable(tbl, digits=2),
+              include.rownames=TRUE, include.colnames=FALSE, only.contents=TRUE,
+              sanitize.text.function=function(x){x}, hline.after=M,
+              file = "tables/yield_forecasts_10y_mae_pres.tex")
+
+        ## figure comparing implicit r* estimates
+        ## (1) without Blue Chip
+        pdf("figures/forecasts_rstar.pdf", width=7, height=6, pointsize=10)
+        forecastDates <- df$date[t0:(T-max(h))]
+        cols <- c("black", "forestgreen", "blue")
+        plot(forecastDates, muhat, type="l", ylim=range(muhat, 0, 2), col=cols[1], lwd=2, xlab="", ylab="Percent")
+        lines(forecastDates, df$rstar.mean[t0:(T-max(h))], col=cols[2], lwd=2)
+        abline(h=2, lty=2)
+        ## abline(h=mean(df$y10[t0:T] - df$pistar.ptr[t0:T]), col=cols[4], lwd=1)
+        legend("bottomright", c(TeX("$\\hat{\\mu}_t$ (recursive mean)"), "Macro r*"), col=cols, lwd=2, cex=1.3)
+        dev.off()
+        ## (2) with Blue Chip
+        require(zoo)
+        bc <- loadBlueChip()[c("Date", "yyyymm", "lr")]
+        bc <- merge(df[c("yyyymm", "pistar.ptr")], bc, all=TRUE)
+        bc$pistar.ptr <- na.locf(bc$pistar.ptr)
+        bc$rstar <- bc$lr - bc$pistar.ptr
+        bc <- na.omit(subset(bc, yyyymm <= df$yyyymm[T-max(h)]))
+        write.csv(bc, file="data/export_bc_rstar.csv", row.names=FALSE)
+        pdf("figures/forecasts_rstar_bc.pdf", width=7, height=6, pointsize=10)
+        plot(forecastDates, muhat, type="l", ylim=range(muhat, 0, 2), col=cols[1], lwd=2, xlab="", ylab="Percent")
+        lines(forecastDates, df$rstar.mean[t0:(T-max(h))], col=cols[2], lwd=2)
+        lines(bc$Date, bc$rstar, col=cols[3], lwd=2)
+        abline(h=2, lty=2)
+        legend("bottomright", c(TeX("$\\hat{\\mu}_t$ (recursive mean)"), "Macro r*", "Blue Chip r*"), col=cols, lwd=2, cex=1.3)
+        dev.off()
+
+        ## Goyal-Welch: cumulative performance: cum. SPE (NULL) - cum. SPE (ALTERNATIVE)
+        mALT <- 2
+        horizon <- 20
+        pdf("figures/forecasts_SSE-difference_Welch-Goyal.pdf", width=7, height=6, pointsize=10)
+        par(mfcol=c(2,1))
+        for (mNULL in c(1,3)) {
+            x <- cumsum(e[, h==horizon, mNULL]^2) - cumsum(e[, h==horizon, mALT]^2)
+            plot(forecastDates, x, type="l", ylab = "Cum. SPE")
+            title(paste0("Difference of cum. SE: SSE(", rownames(tbl)[mNULL], ") - SSE(", rownames(tbl)[mALT], ")"))
+            cat("Difference of cumulative squared prediction errors:", tail(x,1), "\n")
+            cat("Root mean squared prediction error (", mNULL, "):", sqrt(sum(e[, h==horizon, mNULL]^2)/nrow(e)), "\n")
+            cat("Root mean squared prediction error (", mALT, "):", sqrt(sum(e[, h==horizon, mALT]^2)/nrow(e)), "\n")
+        }
+        dev.off()
+    }
+}
+
+## tables for paper
+filenames <- paste0("tables/yield_forecasts_", c("10y", "5y", "510f"), ".tex")
+for (i in 1:3) {
+    sink(filenames[i])
+    print(xtable(tbls[[i]], digits=2),
+          include.rownames=TRUE, include.colnames=FALSE, only.contents=TRUE,
+          sanitize.text.function=function(x){x}, hline.after=NULL)
+    sink()
+}

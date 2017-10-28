@@ -1,0 +1,1578 @@
+\documentclass[12pt, oneside]{article}%
+\usepackage{booktabs}
+\usepackage{eurosym}
+\usepackage{dsfont}
+\usepackage{rotating}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage[colorlinks=true,citecolor=blue]{hyperref}
+\usepackage[left=2.4cm,right=2.4cm,top=2.4cm,bottom=3cm,verbose]{geometry}
+\usepackage{amsfonts}
+\usepackage{amssymb}%
+\makeatletter\let\expandableinput\@@input\makeatother
+\bibliographystyle{econ}
+\onehalfspacing
+\newenvironment{changemargin}[1]{  \begin{list}{}{      \setlength{\topsep}{0pt}      \setlength{\leftmargin}{#1}      \setlength{\listparindent}{\parindent}      \setlength{\itemindent}{\parindent}      \setlength{\parsep}{\parskip}    }
+\item[]}{\end{list}}
+\begin{document}
+\begin{titlepage}
+
+  \title{Interest Rates Under Falling Stars} \author{Michael D.~Bauer
+    and Glenn D.~Rudebusch\thanks{Michael D.~Bauer
+      (michael.bauer@sf.frb.org), Glenn D.~Rudebusch
+      (glenn.rudebusch@sf.frb.org): Economic Research Department,
+      Federal Reserve Bank of San Francisco, 101 Market Street, San
+      Francisco, CA 94105. We thank Robert Hodrick for helpful
+      comments, Elmar Mertens, Mike Kiley, and Thomas Lubik for their
+      $r^\ast_t$ estimates, and Simon Riddell and Logan Tribull for
+      excellent research assistance. The views in this paper are
+      solely the responsibility of the authors and do not necessarily
+      reflect those of others in the Federal Reserve System. }
+    \\Federal Reserve Bank of San Francisco } \date{\today}
+\maketitle
+\thispagestyle{empty}
+\begin{abstract}\noindent
+  No-arbitrage theory predicts that the equilibrium real interest
+  rate, $r^\ast_t$, and the perceived trend in inflation,
+  $\pi^\ast_t$, are key determinants of the term structure of interest
+  rates. While term structure analyses generally assume that
+  these endpoints are constant, we show that allowing for
+  fluctuations in both $r^\ast_t$ and $\pi^\ast_t$ is crucial for
+  understanding the empirical dynamics of U.S.~Treasury yields 
+  and risk pricing. Our evidence reveals that accounting for 
+  the time variation in both $r_t^\ast$ and $\pi^\ast_t$
+  substantially increases the accuracy of long-range interest
+  rate forecasts, helps predict excess bond returns, improves 
+  estimates of the term premium in long-term interest rates, 
+  and captures a substantial share of interest rate variability 
+  at low frequencies.
+
+\par
+\vspace{1pc}
+\noindent \textit{Keywords}: yield curve, macro-finance, inflation
+trend, equilibrium real interest rate, shifting endpoints, bond risk premia
+\par
+\noindent \textit{JEL Classifications}: E43, E44, E47
+\end{abstract}
+\end{titlepage}
+
+\section{Introduction}
+
+The level of the risk-free real rate of return that would prevail in
+the absence of transitory disturbances has long been of interest to
+researchers, policymakers, and financial investors.
+However, recent structural changes in the global economy have brought
+questions about the variation and influence of this equilibrium real rate
+to the forefront \citep{clarida-new-neutral,yellen-pace}. Various
+underlying fundamental economic forces,
+such as lower productivity growth and an aging population, appear
+to have slowly altered global saving and investment and, in turn,
+pushed down the steady-state real interest rate. Accordingly, much
+new research has examined potential changes in the level of the
+equilibrium real short-term interest rate, which we denote
+as $r^\ast_t$.\footnote{\label{fn:rstar} Discussions of the
+  decline in $r^\ast$ include \cite{hhhw}, \cite{rachel-smith},
+  \cite{laubach-williams}, \cite{johannsen-mertens}, \cite{kiley},
+  \cite{lubik-mathes}, \cite{christensen-rudebusch-rstar}, and \cite{holston-laubach-williams} among
+  many others.} Remarkably, thus far, there has been very little work
+addressing the effects of changes in $r^\ast_t$ on the dynamics of the
+term structure of interest rates. We fill this gap and analyze how changes in the equilibrium real
+rate will alter yield curves and bond risk pricing.
+
+A useful illustration of the potential importance of accounting for
+the equilibrium real rate is provided in Figure \ref{fig:data1}. The
+secular decline in the 10-year Treasury yield since the early 1980s
+reflects a gradual downtrend in the general level of U.S. interest
+rates. Early on, a key driver of this decline was the reduction in the
+long-run expected level of inflation, which is often referred to as
+trend inflation and denoted as $\pi^\ast_t$. Figure \ref{fig:data1}
+displays a measure of U.S. trend inflation based largely on long-horizon
+inflation projections from a survey of professional forecasters
+(details of this measure are described in the data section
+below). While the link between trend inflation and interest rates is
+often recognized, e.g., \cite{cieslak-povala}, this simple macroeconomic trend clearly cannot
+account for all of the decline in yields. For the past two decades,
+$\pi^\ast_t$ has stabilized close to 2 percent while longer-term
+interest rates have continued to drift lower. Instead, much of the
+recent downtrend in yields may reflect a lower equilibrium real
+short-term interest rate, as is evident in the simple composite
+measure of $r^\ast_t$ shown in Figure \ref{fig:data1} (details of this
+measure are described below). According to this measure, the
+equilibrium real short rate remained little changed in a range between
+2 and 3 percent from 1970 to around 2000 when it started to gradually
+fall to below 1 percent currently. We argue that accounting for this
+recent downtrend in $r^\ast_t$ as well as the earlier decline
+in $\pi^\ast_t$---that is, an environment of falling stars---is critical for
+understanding the dynamics of interest rates and for assessing bond
+risk and expected returns.
+
+Long-term nominal interest rates reflect expectations of future
+inflation and real short rates---including their trend
+components---subject to a risk adjustment. We demonstrate the
+importance of such longer-run components in an affine no-arbitrage term
+structure model that allows for stochastic trends in inflation and the
+real short rate---$\pi^\ast_t$ and $r^\ast_t$. The model shows that
+$\pi^\ast_t$ and $r^\ast_t$ act as level factors for the nominal yield
+curve, as suggested by Figure \ref{fig:data1}. In addition, the model
+describes how the cyclical components of inflation and the real rate
+disproportionately influence the shorter end of the yield curve
+and how a risk-premium factor affects long rates more than short rates. All of these theoretical
+model propositions lead to testable implications about the importance
+of both $r^\ast_t$ and $\pi^\ast_t$ for interest rates, which we take
+to the data. This empirical examination considers five tests of
+whether the trends in inflation and the real rate are quantitatively
+important for interest rate determination.
+
+As a first test, we document that time variation in both $\pi^\ast_t$
+and $r^\ast_t$ is responsible for most of the persistence in
+yields. While interest rates themselves are extremely persistent, the
+difference between long-term interest rates and the equilibrium
+nominal short rate, which is denoted
+$i^\ast_t = \pi^\ast_t + r^\ast_t$, exhibits quick mean
+reversion. Furthermore, regressions of long-term yields on the
+macroeconomic trends recover the unit coefficients predicted by our
+theoretical model. Our findings generalize the results of
+\cite{cieslak-povala}, henceforth CP, who regress nominal yields on a
+proxy for trend inflation. While we confirm their finding that
+$\pi^\ast_t$ is an important persistent component of interest rates,
+we show that it is also crucial to include $r^\ast_t$ in order to
+fully capture the trend component. After accounting for shifts in
+$r_t^\ast$, we uncover strong evidence for a long-run Fisher effect,
+which has found at best lukewarm support in previous studies that have
+focused only on a bivariate relation between yields and
+inflation.\footnote{\label{fn:fisher}Prominent examples include
+  \cite{mishkin92}, \cite{wallace-warner}, and \cite{evans-lewis}.}
+Instead, from our broader perspective that includes fluctuations in
+the equilibrium real rate, we find that the trend components of
+inflation and the real rate are related to interest rates exactly as
+standard finance theory predicts.
+
+Second, we show that accounting for both macroeconomic trends leads to substantial
+improvements in interest rate forecast accuracy at medium and long forecast horizons
+relative to the usual martingale benchmark. Our theoretical model
+shows that such forecast improvements are a natural consequence
+of the time series properties of inflation and the real short rate.
+We document that the improvements in forecast accuracy over the random walk
+alternative from including trend components are both economically and statistically significant.
+Furthermore, as predicted by our model, to achieve these better forecasts,
+it is crucial to incorporate $r^\ast_t$ in the shifting endpoint
+of nominal interest rates---including only $\pi^\ast_t$ is insufficient.
+
+Third, accounting for a time-varying $r^\ast_t$ is important
+for understanding return predictability and estimating bond risk
+premia. Recently, CP used the connection between trend inflation
+and interest rates to decompose the nominal yield curve into risk
+premiums and the expectations hypothesis (EH) component (i.e., a term
+that equals the average short-term interest rate that investors expect
+to prevail during the life of a bond). They present strong evidence
+for the predictive power of the inflation trend for excess bond returns,
+which suggests that incorporating the inflation trend is important to
+understand the risk premium/EH decomposition. Since $r^\ast_t$ plays
+the same role of a persistent level factor for nominal interest rates
+as does $\pi^\ast_t$, our theoretical analysis implies that if $\pi^\ast_t$ has
+predictive power for bond returns then so should $r^\ast_t$. Hence, we
+extend the results of CP by introducing shifts in the equilibrium
+real interest rate into the prediction of risk premiums, and we find
+substantial gains in predictive power for excess bond returns from incorporating
+$r^\ast_t$.
+
+Fourth, these bond return results suggest that measures of the bond
+risk premium should account for movements in both $r^\ast_t$ and
+$\pi^\ast_t$. Therefore, we provide an empirical decomposition of
+long-term yields into expectations and term premium components that
+takes into account the macroeconomic trends. We contrast our estimated
+decomposition with a conventional one based on a stationary VAR of
+yield-curve factors. The conventional decomposition implies an
+implausibly stable expectations component and attributes most of the
+secular decline in interest rates to the residual term premium, as
+noted in critiques by \cite{kim-orphanides} and \cite{brw2}.  Our
+decomposition, which allows the mean of nominal yields to shift with
+$i^\ast_t$, leads to a very different interpretation of the historical
+evolution of long-term yields: the majority of their secular decline
+is attributed to the decrease in $i^\ast_t$. Consequently, the term
+premium, instead of exhibiting a dubious secular downtrend, behaves in
+a predominantly cyclical fashion like other risk premia in asset
+prices \citep{campbell-cochrane}.
+
+As a final avenue of empirical examination, we compare the variance of the trend components of
+inflation and real rates to the variance of interest rate changes
+at different frequencies. \cite{duffee-inflation-risk} proposes using the ratio of the
+variance of inflation news to the variance of innovations in nominal
+interest rates as a useful metric of the importance of inflation
+in the determination of interest rates. He documents that for
+one-quarter innovations, this ratio is small for U.S.~Treasury yields.
+We generalize his measure to
+consider variance ratios for longer $h$-period innovations, which allows us
+to consider the direct contribution of unexpected changes in
+inflation to the variance in nominal bond yields, over, say, the next five or ten years.
+For quarterly changes, we replicate the small inflation variance ratio
+reported by Duffee. But in line with our theoretical predictions, the
+inflation variance ratio increases substantially with the horizon. We also
+generalize Duffee's measure to incorporate fluctuations in $r^\ast_t$ and
+$i^\ast_t$. Although confidence
+intervals are unavoidably wide, our estimates suggest that during the postwar
+U.S.~sample, a large share of the interest rate variability faced by investors over long
+holding periods was due to changes in the macroeconomic trend components of nominal
+yields.
+
+Taken altogether, these five complementary strands of evidence provide the key
+contribution of our paper: strong empirical support for the significance of
+macroeconomic trends in understanding the nominal yield curve.
+Variations in both the inflation trend and the equilibrium
+real interest rate are shown to be quantitatively important, and while the former has
+been increasingly recognized in yield curve analysis, a time-varying $r^\ast_t$ has been
+essentially ignored---a substantial oversight in the literature. 
+Our empirical evidence linking inflation and real rate
+trends to the yield curve and risk pricing has far-reaching
+implications for modeling of interest rates and bond risk
+premia. In order to accurately capture interest rate dynamics, 
+both structural and reduced-form models of the
+yield curve should allow for slow-moving trend components. The common approach of
+specifying a stationary system for the term structure of interest
+rates with constant means for the risk factors is problematic, because
+it counterfactually rules out any structural, long-run changes of
+economic variables and asset prices. Accounting for such long-run
+changes, i.e., for shifting trends, is crucial for researchers
+and practitioners assessing the term premium in long-term interest rates,
+forecasting bond yields and returns, and understanding the drivers and
+historical evolution of the term structure of interest rates.
+
+Our paper relates to several strands of literature. A large literature
+documents the importance of a trend component in the inflation rate,
+notably \cite{kozicki-tinsley}, \cite{stock-watson-ucsv},
+\cite{faust-wright}, and \cite{clark-doh}. The persistence in the real
+interest rate is considered early on by \cite{rose} and was surveyed
+by \cite{neely-rapach}. A related strand of literature investigates
+the long-run Fisher effect (see the references in footnote
+\ref{fn:fisher}). A more recent literature, originated by
+\cite{laubach-williams}, uses macroeconomic and statistical models to
+estimate the equilibrium real interest rate and to understand its
+structural drivers (see the references in footnote
+\ref{fn:rstar}). Our paper sheds a new light on these related strands
+of literature by showing that the apparent trends in inflation and
+real interest rates are not only consistent with the observed behavior
+of the yield curve, but are in fact critially important to understanding
+that behavior. Within the macro-finance literature on the term
+structure of interest rates, some models have been proposed that allow
+for changes in trend inflation; see \cite{htv}, \cite{rudebuschwu},
+and \cite{bcm}. However these models, like essentially all equilibrium
+models \citep[including][]{wachter,bansal-shaliastovich} and reduced-form
+no-arbitrage models \citep[such as][]{chernov-mueller,jps} of the term
+structure of interest rates, generally assume a constant equilibrium
+real rate, in contrast to the findings of the literature cited
+above.\footnote{The only exceptions we are aware of are \cite{abw},
+  who allow regime switching in the mean of the real short rate, and
+  the macro-finance models of Hans Dewachter and co-authors,
+  including \cite{dewachter-lyrio} where $r^\ast_t$ is
+  deterministically linked to $\pi^\ast_t$ and \cite{dewachter-iania}
+  where $r^\ast_t$ is tied to trend output growth.}
+Finally, we contribute to the literature on interest rate
+forecasting. The work in this area most closely related to ours is
+\cite{dijk-etal}, who documented improvements in forecast relative to a
+random walk by including shifting endpoints that were linked to proxies for trend
+inflation. We demonstrate that substantial further gains are possible
+by forecasting that interest rates gradually revert to an endpoint
+$i^\ast_t = \pi^\ast_t + r^\ast_t$ that includes the equilibrium real rate
+
+The paper is structured as follows: Section \ref{sec:model} introduces
+a simple no-arbitrage model of the yield curve that allows for trend
+components in inflation and the real rates, and derives testable
+implications. Section \ref{sec:data} presents our empirical proxies
+for $\pi^\ast_t$ and $r^\ast_t$. In Section \ref{sec:persistence}, we
+investigate sources for the persistence of interest rates.
+In Section \ref{sec:forecasting}, we show substantial improvements
+in forecast accuracy are possible after accounting
+for macroeconomic trends in interest rates. Section \ref{sec:returns}
+documents the evidence for the incremental predictive power of
+$\pi^\ast_t$ and $r^\ast_t$ for future excess bond returns. In Section
+\ref{sec:tp}, we present a novel estimate of the term premium in
+long-term interest rates that accounts for shifting endpoints. Section
+\ref{sec:horizons} presents new estimates, using variance ratios, of
+the importance of the inflation and real-rate trends for interest rate
+changes at different
+frequencies. Section \ref{sec:conclusion} concludes.
+
+\section{A no-arbitrage model with macro trends}
+\label{sec:model}
+
+Our theoretical framework is a stylized affine term structure model
+for real and nominal yields that demonstrates how, under absence of
+arbitrage, changes in $\pi_t^\ast$ and $r_t^\ast$---the inflation
+trend and the equilibrium real short rate---affect interest
+rates. Although our framework is quite parsimonious---with few risk
+factors, no stochastic volatility, and strong risk pricing
+restrictions---it is sufficient to provide some important testable
+predictions about fundamental aspects of the relationship between the
+trend in inflation, the equilibrium real rate, and the yield
+curve.\footnote{This specification generalizes the one in CP to
+  allow for time variation in $r^\ast_t$ and a flexible trend-cycle
+  specification for inflation.}
+
+We model inflation, $\pi_t$, as the sum of trend, cycle, and noise
+components:
+\[ \pi_{t+1} = \pi^\ast_t + c_t + e_{t+1}, \quad \pi^\ast_t =
+\pi^\ast_{t-1} + \xi_t, \quad c_t = \phi_c c_{t-1} + u_t, \]
+where the innovations $\xi_t$ and $u_t$ and the noise component $e_t$
+are mutually independent \emph{iid} normal random variables with
+standard deviations $\sigma_\xi$, $\sigma_u$ and $\sigma_e$. Inflation
+expectations at various horizons are given by $E_t \pi_{t+h+1} = \pi^\ast_t + \phi_c^h c_t$.
+In the limit, expectations converge to the time-varying inflation endpoint, 
+$\underset{h \rightarrow \infty}{\lim} E_t \pi_{t+h}=\pi^\ast_t$, 
+which can be viewed as the perceived
+inflation target of the central bank. This specification of the
+inflation dynamics is in line with the modern empirical
+macro literature, which allows for a trend component in inflation
+\citep[e.g.,][]{stock-watson-ucsv} and is similar to the one in
+\cite{duffee-inflation-risk}. We do assume that
+the shocks $\xi_t$ and $u_t$ affect only expectations of future
+inflation but not current inflation, which slightly simplifies the
+bond pricing formulas but has no fundamental significance.
+
+The one-period real rate, $r_t$, also has a trend
+component, the equilibrium real rate $r_t^\ast$, and a stationary
+component, the cyclical real-rate gap $g_t$:
+\[ r_t = r^\ast_t + g_t, \quad r^\ast_t = r^\ast_{t-1} + \eta_t, \quad
+g_t = \phi_g g_{t-1} + v_t. \]
+The shocks are again mutually uncorrelated and \emph{iid} normal, with
+standard deviations $\sigma_\eta$ and $\sigma_v$. Since
+$\underset{h \rightarrow \infty}{\lim} E_t r_{t+h} = r_t^\ast$, the
+equilibrium real rate can be understood as the real rate that
+prevails in the economy after all shocks have died out. In the macroeconomics
+literature, this endpoint is often called the neutral or natural rate of interest.
+
+Formally, of course, this specification includes an exact unit root in
+inflation and the real rate. We view this assumption merely as a convenient
+way to model very persistent processes.  The use of unit roots
+simplifies the exposition of our model and the arguments regarding
+trend components, but it is not crucial.
+Taken literally, a unit root specification is implausible because
+the forecast error variances of inflation and real rates do not in fact increase
+linearly with the forecast horizon as predicted by a unit root. Instead, both
+variables have always remained within certain bounds.
+However, in finite samples, a stationary process can always be approximated
+arbitrarily well by a unit root process, and it is well-known that
+doing so can often be beneficial for forecasting \citep[e.g.,][]{campbell-perron}.
+Thus, $\pi^\ast_t$ and $r^\ast_t$
+can be viewed simply as highly persistent components of $\pi_t$ and
+$r_t$ that capture expectations at the long horizons relevant for
+investors, even if infinite-horizon expectations are constant. In practice,
+these relevant time horizons are often in the 5- to 10-year range when cyclical shocks
+have largely dissipated, as noted by \cite{laubach-williams} and *** Summers, Lawrence H., 2015, \textquotedblleft Demand Side Secular Stagnation, \textquotedblright\ \emph{American Economic Review, Papers and Proceedings} Vol. 105, No. 5, 60-65.
+
+The final state variable determining interest rates is a risk price
+factor $x_t$, which follows an independent autoregressive process:\footnote{\cite{cp05}
+provide evidence supporting a stationary single factor driving bond risk premiums. Also, see the discussion in CP.}
+\[ x_t = \mu_x + \phi_x x_{t-1} + w_t, \]
+where $w_t$ is \emph{iid} normal with standard deviation
+$\sigma_w$. We collect the state variables as
+$Z_t = (\pi^\ast_t, c_t, r^\ast_t, g_t, x_t)'$, so their dynamics can
+be compactly written as a first-order vector autoregression, a VAR(1):
+\begin{equation}
+ Z_t = \mu + \phi Z_{t-1} + \Sigma \varepsilon_t, \label{eq:var}
+\end{equation}
+where $\mu = (0,0,0,0,\mu_x)'$, $\phi = diag(1,\phi_c,1,\phi_g, \phi_x)$,
+$\Sigma = diag(\sigma_\xi, \sigma_u, \sigma_\eta, \sigma_v, \sigma_w)$,
+and
+$\varepsilon_t$ is a $(5 \times 1)$ \emph{iid} standard normal vector process.
+
+The model is completed by a specification for the log real stochastic
+discount factor (SDF), $m_{t+1}^r$, for which we choose the usual
+essentially affine form of \cite{duffee02}:
+\[ m_{t+1}^r = -r_t - \frac{1}{2} \lambda_t'\lambda_t -
+\lambda_t'\varepsilon_{t+1}, \quad \lambda_t = \Sigma^{-1} (\lambda_0
++ \lambda_1 Z_t). \]
+We only allow $x_t$ to affect the price of risk, so that the
+first four columns of $\lambda_1$ are zero. Furthermore, shocks to
+$x_t$ are not priced, so that the last element of $\lambda_0$ and the
+last row of $\lambda_1$ are zero. The non-zero elements of $\lambda_0$
+are denoted by $\lambda_{0\pi^\ast}, \lambda_{0c}, \lambda_{0 r^\ast},$ and
+$\lambda_{0 g}$, and those of $\lambda_1$ by
+$\lambda_{\pi^\ast x}, \lambda_{cx}, \lambda_{r^\ast x},$ and $\lambda_{g x}$.
+
+The log nominal SDF is $m_{t+1}^n = m_{t+1}^r - \pi_{t+1}$, and the nominal
+short-term interest rate is
+\[ i_t = - E_t m_{t+1}^n - \frac{1}{2} Var_t (m_{t+1}^n) = r^\ast_t +
+g_t + \pi^\ast_t +c_t - \frac{1}{2} \sigma_e^2. \]
+Due to our timing assumption for the inflation process, and because
+the noise shocks $e_t$ are not priced, there is no inflation risk
+premium in the nominal short rate.\footnote{That is, $Cov_t(m_{t+1}^r,
+  \pi_{t+1}) = 0$. CP make the same
+  assumption, which is justified because estimates of this short-run inflation
+  risk premium are typically very small. Note that the nominal
+short rate equation can be related to the popular Taylor rule for monetary
+policy in which $r^\ast_t + \pi^\ast_t$ represents the level of the policy-neutral
+nominal short rate and $g_t + c_t$ captures the cyclical response of the
+central bank.} Prices of
+zero-coupon bonds with maturity $n$, denoted by $P_t^{(n)}$, are easily
+verified to be exponentially affine, i.e., $\log(P_t^{(n)}) = A_n +
+B_n'Z_t$, using the pricing equation $P_t^{(n+1)} =
+E_t(\exp(m_{t+1}^n)P_{t+1}^{(n)})$. The
+coefficients follow the usual recursions of affine term structure models \citep[e.g.,][]{angpiazzesi}:
+\[ A_{n+1} = A_n + B_n' (\mu - \lambda_0) + C_n, \quad C_n :=
+\frac{1}{2} (\sigma_e^2 + B_n' \Sigma \Sigma' B_n), \quad B_{n+1} =
+-(1,1,1,1,0)' + (\phi - \lambda_1)'B_n, \] where $C_n$ captures the
+convexity in bond prices. The initial conditions are
+$A_0=0, B_0 = (0,0,0,0,0)'$. For the individual loadings of bond prices on the risk
+factors we have
+\[ B_{n+1}^{\pi^\ast} = B_{n}^{\pi^\ast} - 1, \quad B_{n+1}^c = \phi_c
+B_n^c -1, \quad B_{n+1}^{r^\ast} =
+B_n^{r^\ast} - 1, \quad B_{n+1}^g = \phi_g B_n^g - 1,\]
+\[ B_{n+1}^x = -\lambda_{\pi^\ast x} B_n^{\pi^\ast} -\lambda_{cx}
+B_n^c - \lambda_{r^\ast x} B_n^{r^\ast} - \lambda_{gx} B_n^g + \phi_x
+B_n^x, \] and the explicit solutions are
+\begin{gather*}
+ B_n^{\pi^\ast} = -n, \quad B_n^c = \frac{\phi^n_c -
+  1}{1-\phi_c},\quad B_n^{r^\ast} = -n, \quad B_n^g = \frac{\phi^n_g -
+  1}{1-\phi_g},\\
+B_n^x = \frac{\lambda_{\pi^\ast x} +
+\lambda_{r^\ast x}}{1-\phi_x}\left(n - \frac{1-\phi_x^n}{1-\phi_x}\right)
++ \frac{\lambda_{cx}}{1-\phi_c}\left( \frac{1-\phi_x^n}{1-\phi_x} -
+  \frac{\phi_x^n - \phi_c^n}{\phi_x - \phi_c} \right)
++ \frac{\lambda_{gx}}{1-\phi_g}\left( \frac{1-\phi_x^n}{1-\phi_x} -
+  \frac{\phi_x^n - \phi_g^n}{\phi_x - \phi_g} \right).
+\end{gather*}
+
+For nominal bond yields, the model implies the following decomposition:
+\begin{eqnarray}
+y_t^{(n)} &=& -\log(P_t^{(n)})/n = -A_n/n - B_n'Z_t/n \nonumber \\
+&=&  \underbrace{\pi_t^\ast + \frac{1-\phi_c^n}{n(1-\phi_c)}
+    c_t}_{\sum_{i=1}^n E_t \pi_{t+i}/n} +
+    \underbrace{r_t^\ast + \frac{1-\phi_g^n}{n(1-\phi_g)}
+    g_t}_{\sum_{i=0}^{n-1} E_t r_{t+i}/n} \quad \underbrace{ -A_n/n
+    - B_n^x x_t/n.}_{\text{convexity and yield term premium}} \label{eq:yields}
+\end{eqnarray}
+This equation shows the effect of fluctuations in the trend and
+cyclical components of inflation and real rates and the
+risk-premium factor on interest rates of different maturities. The
+trend components $\pi^\ast_t$ and $r^\ast_t$ naturally act as level
+factors by affecting yields of all maturities equally.\footnote{The
+  constant loadings of yields on the trend variables shows that unit
+  roots are also present under the risk-neutral measure.  Strictly
+  speaking, this is inconsistent with absence of arbitrage---see
+  \cite{dybvig-ingersoll-ross} and
+  \citet[][p.~433]{campbell-lo-mackinlay}---because the convexity in
+  $-A_n/n$ diverges to minus infinity. However, as in the case of the
+  real-world measure, our predictions are unaffected if the largest
+  roots under the risk-neutral measure are taken to be very close to
+  but below one.} The cyclical components $c_t$ and $g_t$ are slope
+factors as they affect short-term yields more strongly than long-term
+yields, and their loadings approach zero for large $n$. The risk-premium
+factor affects long-term yields more strongly than short-term yields:
+The loadings of yields on $x_t$ start at zero and tend to
+$\underset{n \rightarrow \infty}{\lim} -B_x^n/n = -(\lambda_{\pi^\ast
+  x} + \lambda_{r^\ast x})/(1-\phi_x)$.  Thus, long-term yields
+are mostly driven by the trend components $\pi^\ast_t$ and
+$r^\ast_t$, as well as by the risk-premium factor
+$x_t$. Finally, the long-term yiels are affected by the cyclical factors
+$c_t$ and $g_t$ to a much lesser degree than short-term interest rates. Appendix
+\ref{app:dtsm} provides additional details and results for this affine
+model, including expressions for forward rates.
+
+The model has several predictions about the relationship between
+interest rates and the two macroeconomic trends. Of course, these
+predictions will be evident in the data only to the
+extent that there is material variation in the trend
+components. Furthermore, an empirical assessment requires accurate
+estimates of $\pi^\ast_t$ and $r^\ast_t$ (in Section
+\ref{sec:data} we describe our empirical proxies). Thus, our empirical
+analysis should be viewed as tests of the joint hypothesis that (a) the behavior of the trend
+components and their links to the yield curve conform to our
+no-arbitrage model, (b) variation in the trend components is
+quantitatively important, and (c) our empirical proxies accurately
+capture the evolution of the trend components.
+
+Assuming those conditions, a first straightforward prediction of the model is that for any yield
+maturity $n$, the detrended yield $y_t^{(n)} - \pi^\ast_t - r^\ast_t$
+will be much less persistent than the yield itself. The difference in
+persistence is particularly pronounced for long-term yields or forward rates,
+which place a heavy weight on the trend components. Strictly speaking,
+under the unit root specification, $y_t^{(n)}$ is I(1) while
+$y_t^{(n)} - \pi^\ast_t - r^\ast_t$ is I(0). Furthermore, a regression
+of $y_t^{(n)}$ on $\pi^\ast_t$ and $r^\ast_t$ is a cointegrating
+regression that should recover unit coefficients, since the cointegrating
+vector of $(y_t^{(n)}, \pi^\ast_t, r^\ast_t)$ is $(1, -1, -1)$.
+The model also predicts that a partial detrending with only the inflation
+trend will be much less successful. Namely, $y_t^{(n)} - \pi^\ast_t$
+will exhibit substantial persistence. Similarly, a regression of
+$y_t^{(n)}$ on $\pi^\ast_t$ is a spurious regression that will not
+recover a unit coefficient and will produce residuals that remain highly
+persistent. We will investigate these predictions empirically in Section
+\ref{sec:persistence}.
+
+The fact that interest rates do not have a constant mean but contain the
+stochastic trend $i^\ast_t = \pi^\ast_t + r^\ast_t$ also has important
+implications for yield forecasts. From \eqref{eq:var} and
+\eqref{eq:yields} we have
+\[ \underset{h
+  \rightarrow \infty}{\lim} E_t y^{(n)}_{t+h} = k^{(n)} +
+\pi^\ast_t + r^\ast_t,
+\]
+where the constant $k^{(n)}$ captures convexity and the unconditional
+mean term premium. Hence, interest rates mean-revert to a ``shifting
+endpoint'' \citep{kozicki-tinsley} that is driven by both
+macroeconomic trends. For our empirical investigation we ignore the
+constant $k^{(n)}$---additional forecast gains might be possible by
+accounting for it, but this is unnecessary for our purpose here. The
+model predicts that forecasts of long-horizon interest rates that
+incorporate knowledge of $i^\ast_t$ are more accurate than forecasts
+that ignore it. In particular, long-range forecasts that account for
+$i^\ast_t$ should improve upon the common forecast benchmark of a
+random walk. We will examine these potential forecast improvements empirically in
+Section \ref{sec:forecasting}.
+
+A third area in which macro trends may be empirically relevant is for the
+prediction of excess bond returns. CP report substantial gains in such
+prediction from including their measure of
+trend inflation. In our model, as in the CP model, excess
+bond returns, $rx_{t+1}^{(n)}$, are driven only by the risk premium factor $x_t$:
+\[rx_{t+1}^{(n)} = p_{t+1}^{(n-1)} - p_t^{(n)} - y_t^{(1)}
+= - \frac{1}{2} B_{n-1}' \Sigma \Sigma' B_{n-1} + B_{n-1}'(\lambda_0 +
+\lambda_1 \iota_5)x_t + B_{n-1}'\Sigma \varepsilon_{t+1}, \]
+where $p^{(n)}_t$ denotes the log-price of a zero-coupon bond with maturity
+of $n$ quarters and $\iota_5$ is a $(5 \times 1)$-vector of ones. The better
+performance found by CP in predicting excess bond returns with trend inflation
+suggests that accounting for the trend component helps to identify
+information about expected returns (i.e., the risk-premium factor)
+that is contained in observed interest rates. However, according to our model, the
+equilibrium real rate can drive nominal yields in the same fashion as
+the trend component of inflation. Therefore, our model's prediction is
+that including not only $\pi^\ast_t$ but also
+$r^\ast_t$ should improve the ability of predictive regressions to
+capture variation in bond risk premia. We assess the role of both trend
+components for return predictability in Section
+\ref{sec:returns}. Another measure of the bond risk premium is the
+term premium in long-term yields, and in Section \ref{sec:tp} we contrast term
+premium estimates that account for shifts in $\pi^\ast_t$ and
+$r^\ast_t$ with conventional estimates that do not.
+
+Finally, the model predicts that macroeconomic trends should play a
+particularly important role in accounting for interest rate changes
+at low frequencies. The trend components are highly
+persistent, so while their influence can be obscured by transitory
+volatility at higher frequencies (e.g., quarterly changes), they should
+key drivers of interest rate changes over longer intervals (e.g., over a
+decade or more). This pattern implies that variance ratios of changes in the trend
+components relative to changes in interest rates should exhibit a
+pronounced tendency to rise with the period of the change. In Section
+\ref{sec:horizons} we will use such variance
+ratios to estimate the importance of the
+trend components at different frequencies.
+
+To sum up, our stylized theoretical model provides clear predictions about
+five aspects of the link between interest rates and macroeconomic trends.
+In the following sections we assess these predictions in order to demonstrate
+the importance of accounting for such trends.
+
+\section{Data and trend estimates}
+\label{sec:data}
+
+We now describe the data used in our investigation of the
+relation between long-term interest rates and macroeconomic
+trends. Our data set is quarterly and extends from 1971:Q4 to
+2015:Q4. The interest rate data are zero-coupon Treasury
+yields from \cite{gsw} with maturities from one to 15 years. We
+augment these data with three- and six-month Treasury bill rates from the Federal Reserve's
+H.15 data. We use end-of-quarter interest rates.
+
+For measuring the macroeconomic trends, we simply take existing
+estimates from the macroeconomics literature. Our goal is consider whether
+such off-the-shelf measures can provide evidence linking the
+inflation and real rate trends to the yield curve and risk
+pricing. An alternative and complementary strategy would be to estimate
+time-varying $r^\ast_t$ and $\pi^\ast_t$ within a no-arbitrage term
+structure model. While such an integrated estimation
+of trends and risk pricing has advantages,
+our approach, which conditions on existing
+estimates, can provide a conservative validation of the significance of
+trends for yield curve analysis. In particular, the fact that our
+off-the-shelf measures of $r^\ast_t$ and $\pi^\ast_t$ have not been
+fine-tuned to incorporate no-arbitrage theoretical restrictions or
+fitted to particular risk pricing dynamics arguably makes any evidence
+we do find, say, of improvements in forecasting expected returns in
+Treasury bonds, even more impressive. 
+Indeed, to provide the cleanest evidence of the empirical links between
+macro trends and the yield curve, we avoid any estimates
+of these trends that are based on long-term interest rates. That is, we rule out
+market-based estimates of $\pi^\ast_t$ such as \cite{clr}, and estimates of
+$r^\ast_t$ that incorporate long-term yields such as
+\cite{johannsen-mertens}, \cite{christensen-rudebusch-rstar}, or
+\cite{del-negro-rstar}. All our empirical trend proxies are based only on
+information in macroeconomic variables, short-term interest rates and
+surveys to minimize the chance that the trends are simply reformulated, 
+back-door versions of the yield curve data. 
+
+In our empirical analysis, we focus on long-term
+(five-year and ten-year) yields as well as long-term (five-to-ten-year)
+forward rates to exhibit the importance of $\pi^\ast_t$ and $r^\ast_t$
+and these are the relevant horizons for our trend measures as well.
+Several different empirical proxies for trend inflation, $\pi^\ast_t$, 
+are available including surveys, statistical
+models, or a combination of the two---see, for example,
+\cite{stock-watson-core} and the references therein. We
+employ a well-known survey-based measure, namely, the Federal Reserve's
+research series on the \underline{p}erceived inflation \underline{t}arget
+\underline{r}ate, denoted PTR. PTR
+measures long-run expectations of inflation in the price index of
+personal consumption expenditure (PCE), and is often used in empirical
+work---see, for example, \cite{clark-mccracken}. Since 1979 (i.e., for most of
+our sample) PTR is based exclusively on survey expectations.\footnote{Before 1979
+  PTR is based on estimates from the learning model for expected
+  inflation of \cite{kozicki-tinsley}. For details on the construction of PTR, see
+  \cite{brayton-tinsley}. PTR can be downloaded with the updates of
+  the Federal Reserve's FRB/US large-scale macroeconomic model at
+  \url{https://www.federalreserve.gov/econresdata/frbus/us-models-package.htm}.}
+Figure \ref{fig:data1} shows that from the beginning of our sample to
+the late 1990s, this estimate mostly mirrored the increase and
+decrease in the ten-year yield. Since then, however, it has been
+essentially flat at the level of two percent, which was first officially
+designated as the longer-run inflation goal of the Federal Reserve in 2012. Other survey
+expectations of inflation over the longer run, such as the long-range
+forecasts in the Blue Chip survey, exhibit a similar pattern. The inflation trend
+that CP use is a simple weighted moving average of past core inflation, which,
+as they note, co-moves closely with PTR.
+
+The recent literature on macro-based estimation of the equilibrium 
+real interest rate has grown rapidly. These estimates invariably
+rely on models with macroeconomic structural underpinnings and
+macroeconomic data.\footnote{Alternative survey-based estimates of
+  $r_t^\ast$ would require long-run expectations of both nominal
+  interest rates and inflation. Unfortunately, the available time span
+  for the former is quite limited (the earliest is a biannual Blue
+  Chip Financial Forecasts series that starts in 1986) and they have
+  also been found to be less accurate than forecasts of inflation
+  \citep[see, for example][]{dijk-etal}.}  A popular example is the
+model of \cite{laubach-williams}, in which the unobserved natural rate
+is inferred from macroeconomic data using a simple structural 
+specification and the Kalman filter. In Figure
+\ref{fig:data2}, we plot the (filtered) Laubach-Williams estimate of
+$r_t^\ast$. In addition, the figure also includes the estimates of
+\cite{lubik-mathes}, who employ a time-varying parameter VAR model,
+and \cite{kiley}, who augments the Laubach-Williams model with credit
+spreads. Figure \ref{fig:data2} shows that since the early 1980s,
+these three macro-based estimates evolve in a broadly similar
+fashion. A simple but effective way to smooth across the various
+specific modeling approaches used in these studies and aggregate their
+information is to take the average of the three estimates.  In the
+1970s, 80s, and 90s, this average fluctuated modestly between 2 and 3
+percent, which is consistent with the received wisdom of that era that
+viewed the equilibrium real rate as effectively constant. However,
+from 2000 to 2015, all of the measures fell, with an average decline
+of 2.5 percentage points.\footnote{Macro-based estimates of
+  $r^\ast_t$, as in \cite{laubach-williams} and \cite{kiley},
+  typically use the definition of $r^\ast_t$ as the real rate at which
+  monetary policy is neither expansionary nor contractionary. This
+  differs from our definition (and that in \cite{lubik-mathes}) of
+  $r^\ast_t$ as the trend (or long-run) component of the real
+  rate. However, in the models of \cite{laubach-williams} and \cite{kiley}
+  $r^\ast_t$ is assumed to follow a random walk, so the two
+  definitions in fact coincide.}
+
+Ideally, our trend estimates should reflect information
+that was available contemporaneously to investors. Having a reasonable
+alignment of $r^\ast_t$ and $\pi^\ast_t$ to the real-time evolution 
+of investors' information sets is particularly relevant for properly 
+assessing the value of macro trends in predicting future yields and bond returns
+and determining the term premium in long-term yields (Sections
+\ref{sec:forecasting}--\ref{sec:tp}). Since 1979, our survey-based
+estimate of $\pi^\ast_t$ has been available to bond investors at
+the end of each quarter, when our yields are sampled. Real-time concerns
+have been more acute for estimates of $r^\ast_t$, e.g., \cite{clark-kozicki}.
+To construct $r^\ast_t$, we use one-sided ``filtered'' estimates
+of the equilibrium real rate from the three macroeconomic models noted above. These estimates only
+use data up to quarter $t$ to infer the unobserved value of
+$r^\ast_t$.\footnote{However, the estimated model parameters are based on
+  the full sample of final revised data, which ignores reporting lags and
+  data revisions by the statistical source agencies.}
+Also, \cite{laubach-williams-redux} show that truly real-time
+estimation of their model delivers an estimated series of $r^\ast_t$
+that is close to their final revised estimate over the period that
+both are available. This suggests that real-time estimation is unlikely to have large effects
+on our empirical proxy for $r^\ast_t$.
+
+Intuitively, our empirical measures of $\pi^\ast_t$ and $r^\ast_t$ are consistent
+with a compelling narrative about the evolution of long-term
+nominal interest rates, as shown in Figure \ref{fig:data1}. Starting with
+the Volcker disinflation of the 1980s, interest rates and inflation
+trended down together. Around the turn of the millennium, long-run
+inflation expectations stabilized near 2 percent. However, long-term
+interest rates continued to decline in part because structural changes in the global economy
+started pushing down the equilibrium real rate.  These structural
+changes likely included slowdowns in trend growth in various countries,
+increases in desired saving due to global demographic forces and strong precautionary 
+flows in emerging market economies, and
+declines in desired investment spending partly reflecting a fall in
+the relative price of capital goods \citep{rachel-smith, carvalho-et-al}.
+
+Our analysis below uses these estimates of $r^\ast_t$ and
+$\pi^\ast_t$ to illustrate the importance of accounting for 
+macro trends in understanding the dynamics of yield curves and bond
+returns. That is, we consider whether existing survey- and
+macro-based off-the-shelf estimates can provide evidence linking the
+inflation and real rate trends to the yield curve and risk
+pricing.\footnote{This is similar in spirit to the methodology of CP,
+  but we include $r^\ast_t$ as well as $\pi^\ast_t$ and greatly
+  enlarge the scope of the empirical term structure analysis.} 
+This approach to incorporating survey- and macro-based trends is an important
+initial step toward integrating $\pi^\ast_t$ and
+especially $r^\ast_t$ into analyses of the term structure of interest rates.
+
+\section{Persistence in long-term yields from \texorpdfstring{$r^\ast_t$}{r*} and \texorpdfstring{$\pi^\ast_t$}{pi*}}
+\label{sec:persistence}
+
+If the trend components of inflation and the real interest rate play
+an important role in driving interest rates, then these trends should
+exhibit a close statistical relationship with long-term interest rates and
+account, in particular, for most of the persistence of these rates. A natural starting point
+for assessing this relationship is to consider simple regressions of
+yields on measures of the trend components. Table \ref{tab:reg}
+reports the results for such regressions with three different
+dependent variables: bond yields with 5 and 10 years maturity, and the
+5-to-10-year forward rate. For each maturity, we estimate two versions
+of the regressions (with standard errors calculated using the
+Newey-West estimator with six lags). The first version has only a
+constant and $\pi^\ast_t$ as regressors, which is the same regression
+that CP estimated using their simple moving-average estimate of the
+inflation trend (see their table 1). These regression results show
+high $R^2$'s at all maturities and
+$\pi^\ast_t$ coefficients that are just above one and highly
+significant.\footnote{Our estimated coefficients on $\pi^\ast_t$ are
+  somewhat higher than in CP because our measure of the inflation
+  trend is less variable, though when $r^\ast_t$ is added, the
+  estimated coefficients for $\pi^\ast_t$ decrease toward one.} CP
+interpret these results as indicating that trend inflation drives the
+level of yield curve. However, the second regression results, which add
+$r^\ast_t$ as a regressor, show
+that incorporating a trend real rate is also important. Indeed, with the
+addition of $r^\ast_t$ to the regressions, both the inflation and real rate trends
+coefficients are highly significant, and the regression $R^2$'s
+increase a further 7 to 12 percentage points.
+
+Taken at face value, these estimates suggest that changes in
+$r^\ast_t$ along with changes in $\pi^\ast_t$, are key sources of
+variation in long-term interest rates.
+The interpretation of these results is complicated by the fact
+that all of the variables in the regressions are highly
+persistent. Conventional asymptotic arguments, which justify inference
+based on the Newey-West standard errors and $R^2$'s in Table \ref{tab:reg},
+are not valid if some of the variables contain
+autoregressive roots close to or equal to one. For example, under the assumptions
+of the model in Section \ref{sec:model}, these roots are equal to one, and the static regressions
+in Table \ref{tab:reg} estimate cointegrating relationships between long-term interest
+rates, inflation, and real rates.\footnote{Much empirical work, for example, \cite{kpsw},
+has documented the substantial persistence in nominal interest rates,
+inflation, and real interest rates. The main difference between
+our static regressions and the usual cointegration regressions in this
+context \citep[as in][for example]{rose} is that we use directly observable
+proxies for the trend components of $\pi_t$ and $r_t$.} If there is indeed such a
+cointegrating relationship, then the
+regression provides super-consistent estimates of the cointegrating
+vector, the $R^2$ converges to one, and conventional
+hypothesis tests are likely invalid for inference about the
+coefficients \citep[e.g.,][Chapter 19]{hamilton}. Consequently, the
+regression results in Table \ref{tab:reg}---although suggestive of the
+joint importance of $r^\ast_t$ and $\pi^\ast_t$ for the determination
+of yields---cannot provide definitive answers.
+
+As a first step to providing more compelling statistical evidence that
+our measures of $\pi^\ast_t$ and $r^\ast_t$ capture the persistent
+variation in interest rates, we compare the time series properties of long-term
+interest rates to detrended versions with one or both of the trend
+components subtracted out. For the same three interest rates considered above,
+Table \ref{tab:detrended} reports the standard deviation and two measures of
+persistence: the estimated first-order autocorrelation coefficient,
+$\hat{\rho}$, and the half-life, which
+indicates the number of quarters until half of a given shock has died
+out and is calculated as $\ln(0.5)/\ln(\hat{\rho})$.
+For each interest rate, the table reports these statistics for five
+interest rate variations: the level of the interest rate, versions detrended by
+simply subtracting out $\pi^\ast_t$ or $i^\ast_t$ (assuming unit coefficients on
+these trends), and the residuals from the two static detrending regressions in Table \ref{tab:reg}.
+Several findings stand out: First, detrending with $r^\ast_t$ as well as
+$\pi^\ast_t$ accounts for noticeably more persistence, typically
+reducing the half-life by about 40-50\%. That is, $\pi^\ast_t$ is
+not the only important driver of interest rate persistence. Second, the detrended series are
+substantially less variable and less persistent than the original
+interest rate series. For example, shocks to the ten-year yield have a
+half-life of about 5-1/2 years, whereas shocks to the series that is
+the difference of this yield and the trend components have a half-life
+of less than one year. Finally, there is little difference in the statistical
+properties between series that are detrended using unit
+coefficients and those that are detrended using estimated
+coefficients, in particular for the forward rate.
+
+Unit root tests provide further evidence supporting the detrending with both $r^\ast_t$
+and $\pi^\ast_t$. The last two columns of Table \ref{tab:detrended}
+provide parametric Augmented Dickey-Fuller (ADF) $t$-statistics
+and non-parametric Phillips-Perron (PP) $Z_\alpha$ statistics, which examine
+the persistence properties of these series by testing
+the null hypothesis of a unit autoregressive root.\footnote{For the ADF
+test, we include a constant and $k$ lagged difference in the test
+regression, where $k$ is determined using the general-to-specific procedure
+suggested by \cite{ng-perron-95}. We start with $k=4$ quarterly lags and
+reduce the number of lags until the coefficient on the last lag is
+significant at the ten percent level. For the PP test, we use a
+Newey-West estimator of the long-run variance with four lags.
+When the series under consideration is a residual from
+an estimated cointegration regression, we don't include intercepts in
+the ADF or PP regression equations and use the critical values provided by
+\cite{phillips-ouliaris}, which depend on the number of regressors in
+the cointegration equation.} These tests show strong evidence against the
+unit root null for the series that are detrended with both
+$\pi^\ast_t$ and $r^\ast_t$. By contrast, the unit root null is never rejected
+at the 5 percent level for the original interest rate series or for
+series that are detrended by only $\pi^\ast_t$. This evidence strongly supports the use of
+\emph{both} the $r^\ast_t$ and $\pi^\ast_t$ trends when accounting for interest rate
+persistence and understanding interest rate dynamics. Finally, the rejections are equally
+strong or even stronger for the series that are detrended using unit
+coefficients as for the residuals from the static regressions.
+
+The long-run Fisher effect posits a common trend of inflation and
+interest rates, with a unit coefficient (leaving aside tax
+considerations). A sizeable literature has tested this hypothesis with
+mixed results, a common finding being a coefficient on inflation that
+is less than one (see the references in footnote \ref{fn:fisher}).  We
+have provided evidence that long-term interest rates contain two trend
+components but that the series $y_t - \pi^\ast_t - r^\ast_t$ is
+stationary, consistent with the prediction of our model. Our results
+thus provide strong support for a long-run Fisher effect but show
+that one needs to account for shifts in the equilibrium real rate to
+uncover it.  The importance of time variation in $r^\ast_t$ can explain
+why past research has generally been unable to find a stable
+relationship between nominal interest rates and inflation, going back
+to \cite{rose} and recently summarized by
+\cite{neely-rapach}. Ignoring $r_t^\ast$ as a trend component, for
+example, by regressing $y_t$ only on $\pi^\ast_t$ (or $\pi_t$), leads to a
+misspecified cointegration relationship as the residual contains the
+trend $r^\ast_t$. In such a situation, it will be very difficult
+to uncover the Fisher effect. By contrast, including both $r^\ast_t$
+and $\pi^\ast_t$, we obtain clear,
+unambiguous results: the trend components of inflation and the real
+rate are related to interest rates exactly as standard finance theory
+predicts with a long-run Fisher effect and the two trends
+together capture a large share of the persistence in long-term
+interest rates.
+
+\section{Forecasting interest rates with \texorpdfstring{$r^\ast_t$}{r*} and \texorpdfstring{$\pi^\ast_t$}{pi*}}
+\label{sec:forecasting}
+
+The previous section illustrated the strong persistence of interest rates and
+the close link between that persistence and measures of the inflation trend,
+$\pi^\ast_t$, and the equilibrium real rate, $r^\ast_t$. Here, we provide
+complementary evidence based on interest rate forecasts.
+
+We forecast the five-year
+and ten-year yields, and the five-to-ten-year forward rate. At each
+point in time $t$, starting in 1976:Q1 (at $t=20$) when five years of data are
+available, we forecast each interest rate, $y_t$, at horizons from $h=1$
+to $h=40$ quarters. The benchmark model in the literature is a
+driftless random walk, i.e., the forecast
+$\hat{y}_{t+h} = y_t$ for all $h$. This benchmark is denoted in the
+results as Method 1. The two alternative
+forecast specifications assume that interest rates mean-revert to a
+time-varying endpoint $\hat{\imath}_t$. Of these, Method 2 assumes that this
+endpoint is only driven by the inflation trend, i.e., that
+$\hat{\imath}_t$ equals $\pi^\ast_t$ plus a constant. We estimate this
+constant recursively as the mean of $y_\tau - \pi^\ast_\tau$, using
+observations from $\tau=1$ to $\tau=t$.\footnote{We have found in
+  additional, unreported results that forecasts which assume that this
+  constant is zero perform much worse than this method.} Method 3
+instead assumes that the endpoint is
+$\hat{\imath}_t = i^\ast_t = \pi^\ast_t + r^\ast_t$. For both shifting endpoint forecast methods, the
+speed of mean-reversion is recursively estimated as the first-order
+autocorrelation coefficient of $y_t - \hat{\imath}_t$. Denoting this
+coefficient as $\hat{\rho}_t$, the forecasts for Methods 2 and 3 are
+constructed as
+$\hat{y}_{t+h} = \hat{\rho}_t^h y_t + (1-\hat{\rho}_t^h) \hat{\imath}_t$.
+The exact value of $\hat{\rho}_t$, or even the methodology for determining
+it, affects short-horizon forecasts but was inconsequential for our main results.
+
+Table \ref{tab:yield_forecasts} reports the results of this
+forecasting exercise in terms of root-mean-squared errors (RMSEs) and
+mean-absolute errors (MAEs), in percentage points. We also calculate
+$p$-values for tests of equal finite-sample forecast accuracy
+using the approach of \cite{diebold-mariano} (DM).\footnote{Following
+common use, we construct the DM test with a rectangular window
+for the long-run variance and the small-sample adjustment of
+\cite{harvey-leybourne-newbold}. Monte Carlo evidence in
+  \cite{clark-mccracken} indicates that this test has good size in finite
+  samples. However, for very long forecast horizons there are of
+  course only few non-overlapping observations in our sample, so the
+  $p$-values are subject to substantial uncertainty.} We calculate these DM
+$p$-values, using standard normal critical values, for
+one-sided tests of whether forecasts using the endpoint $\pi^\ast_t +
+r^\ast_t$ (Method 3) improve upon random walk forecasts (Method 1) and upon forecasts that use
+only $\pi^\ast_t$ for the endpoint (Method 2). We find that method 3
+leads to gains in forecast accuracy at long horizons that are both
+substantial and highly significant. Such gains are present for both
+RMSEs and MAEs, but are larger and more strongly significant for
+absolute-error loss. For example, when forecasting the ten-year yield
+five years ahead, using the information in $\pi^\ast_t+r^\ast_t$ lowers the RMSE by over 25\%
+relative to the random walk forecast, an improvement that is
+significant at the five-percent level, while the MAE is decreased by
+more than 40\% with significance at the one percent level. Using $\pi^\ast_t+r^\ast_t$
+for forecasts also improves upon Method 2, which does not use $r^\ast_t$, by a
+magnitude that is typically large and
+statistically significant.
+
+This long-horizon forecast exercise thus confirms that interest rates
+exhibit reversion to a time-varying endpoint of $i^\ast_t = \pi^\ast_t +
+r^\ast_t$. This result is consistent with the theory of Section
+\ref{sec:model}.\footnote{The model in Section \ref{sec:model} implies that
+  the endpoint equals a maturity-specific constant plus $i^\ast_t$,
+  but our results show that it is not necessary to try to estimate and
+  include this constant in the endpoint to obtain accurate forecasts.}
+Earlier authors, such as \cite{dijk-etal}, have found
+that when forecasting interest rates it is beneficial to link long-run
+projections of interest rates to long-run expectations of
+inflation. Our new result shows that including $r^\ast_t$ along
+with $\pi^\ast_t$ improves on long-horizon interest rate
+forecasting to an even greater degree. That is, accounting only
+for the time variation in $\pi^\ast_t$ is insufficient, as it is important
+to include $r^\ast_t$ in understanding
+yield curve dynamics. Furthermore, while earlier
+authors ran regressions of the
+level of interest rates on long-run inflation expectations to scale $\pi^\ast_t$
+for forecasting, our results show
+that no scaling or estimation is necessary for accurate long-range
+forecasts if the endpoint is simply taken as $\pi^\ast_t +
+r^\ast_t$.\footnote{Our approach could easily be extended to jointly forecast the
+whole yield curve as in \cite{diebold-li} and \cite{dijk-etal}, by simply forecasting the
+Nelson-Siegel level factor in the same fashion that we have forecast
+each individual interest rate above.}
+
+Many studies have documented that it is difficult to beat the random
+walk model when forecasting interest rates.\footnote{Prominent
+  examples include \cite{duffee02} and \cite{diebold-li}; see
+  \cite{duffee-handbook-forecasting} for a review of this
+  literature.} This is of
+course due to the extreme persistence of interest rates. But our
+results show that one can obtain better forecasts if one accounts for
+the source of this persistence. The
+use of our empirical proxies for the macroeconomic trends inherent in
+interest rates leads to substantially better long-term forecasts than
+the random walk model. This finding does not imply that either
+interest rates or their trend components are truly I(1) time series, but
+instead reflects the fact that when forecasting highly persistent but
+possibly stationary series, it often helps predictive accuracy to
+model such series as containing a unit root.
+
+\section{Predicting bond returns with \texorpdfstring{$r^\ast_t$}{r*} and \texorpdfstring{$\pi^\ast_t$}{pi*}}
+\label{sec:returns}
+
+We now turn to the role of macroeconomic trends in predicting bond
+returns. In the analysis of CP, proxies for the
+inflation trend have significant predictive power for annual
+excess bond returns, above and beyond the information contained in the
+yield curve itself. Since $r^\ast_t$ also is an important trend
+driving long-term interest rates, we address the natural
+question of what role it plays in such predictive regressions.
+
+We predict excess returns for holding periods of one quarter and four
+quarters. The excess return for a holding period of $h$ quarters for
+a bond with maturity $n$ is calculated as
+\[
+  rx_{t, t+h}^{(n)} = p_{t+h}^{(n-h)} - p_t^{(n)} - h y_t^{(h)} =
+  -(n-h)y_{t+h}^{(n-h)} + n y_t^{(n)} - h y_t^{(h)}.
+\]
+Our long-term bond yields are available only at annual maturities, so
+we calculate one-quarter returns with the usual approximation
+$y_{t+1}^{(n-1)} \approx y_{t+1}^{(n)}$. Our dependent variable is the
+average excess return for all bonds with two to 15 years
+maturity.\footnote{CP focused on annual holding periods and used
+a weighted average that downweights
+  longer-term bonds. Our use of a simple average made no material
+  difference to the results and is more common in
+  this literature. Our sample period is similar to
+  the one considered in CP but ends in 2015 instead of 2011.}
+We begin with three specifications of the predictive
+regressions: The first includes a constant and the first three
+principal components (PCs) of yields. This common baseline regression
+is motivated by work going back to \cite{famabliss} and
+\cite{campbellshiller91} which showed that there is information in the
+yield curve itself, and in particular in its slope (PC2), about
+expected bond returns. The second specification adds $\pi^\ast_t$ and
+is closely related to the specifications including an inflation trend
+that were estimated by CP. The third specification also includes
+$r^\ast_t$, in order to simultaneously capture the effects of both macroeconomic trends
+in the regression.
+
+The top panel of Table \ref{tab:returns} reports the estimation
+results for the full sample. We calculate White's heteroskedasticity-robust standard
+errors for the case of one-quarter returns and Newey-West
+standard errors with six lags for the four-quarter returns (since
+the overlap introduces serial correlations in the error term). Our
+results replicate CP's main finding, namely that inclusion
+of the inflation trend raises the predictive power quite substantially
+compared to a regression that only includes yield-curve
+information, and that both the inflation trend and the level of yields
+(PC1) appear highly significant. However, adding $r^\ast_t$ to the regression leads to impressive
+further gains in predictive power. For both one-quarter and
+four-quarter returns, the $R^2$ increases substantially, the
+coefficients and $t$-statistics for $\pi^\ast_t$ and PC1 rise, and the
+coefficient on $r^\ast_t$ itself is large and highly significant.
+Interestingly, the coefficient on $r^\ast_t$ is about as large as
+the coefficient on $\pi^\ast_t$, which confirms the prediction
+from our theoretical model that these two trends play similar roles
+in determining interest rates.
+
+It is well known that these kinds of predictive regressions for bond returns raise
+some knotty econometric issues. \cite{bauer-hamilton} show that the
+small-sample inference in such cases is particularly problematic when the predictors
+are highly persistent, like interest rates and our macro trends. They
+propose a parametric bootstrap procedure to carry out robust inference
+in such cases. It tests the null hypothesis that only the information
+in the yield curve is useful for predicting excess returns, and it can
+accurately gauge the statistical significance of additional proposed
+predictors. Following their recommendation, we calculate bootstrap
+small-sample $p$-values for the coefficients on $\pi^\ast_t$ and
+$r^\ast_t$. Our bootstrap simulates yields from a simple VAR(1) factor
+model and the additional predictors from a separate VAR(1) model, so
+that the null hypothesis---that macro trends are unimportant---holds
+by construction.\footnote{Estimates of the
+  VAR coefficients are bias-corrected to more accurately capture the high persistence of
+  interest rates and the trend components.} The predictive regression
+is estimated in each bootstrap sample and the $t$-statistics for the
+additional predictors are recorded. With this small-sample
+distribution of the test statistics in hand, $p$-values are calculated
+as the fraction of simulated samples in which the $t$-statistic is at
+least as large (in absolute value) as the $t$-statistic in the actual
+data. These $p$-values, reported in squared brackets in Table
+\ref{tab:returns}, indicate that both of our trends are statistically
+significant even when we account for small-sample econometric
+concerns.
+
+According to the small-sample $p$-values, in the subsample starting in
+1985, the inflation trend is not statistically significant when
+included on its own.\footnote{This is consistent with \cite{bauer-hamilton}
+  who also found that in a subsample starting in 1985 the inflation trend is only
+  marginally significant.}  Only when we add our measure of the equilibrium real
+rate, do both trends matter for bond risk premia; the coefficients on
+$\pi^\ast_t$ and PC1 more than double, the $R^2$ increases
+substantially, and the coefficients on $\pi^\ast_t$ and $r^\ast_t$ are
+statistically significant. These results confirm our intuition from
+Figure \ref{fig:data1} that the real-rate trend has gained in
+importance and significance over time relative to the trend in
+inflation. Therefore, empirical analysis of long-term
+interest rates implies that the trend in the real
+interest rate is as important as, and recently more important
+than, the trend in inflation.\footnote{In additional, unreported
+  results we have found that the predictive gains from including
+  $r^\ast_t$ are particularly large during the early 2000s when both
+  $r^\ast_t$ and long-term interest rates decreased while long-run
+  inflation expectations where anchored close to two percent.}
+
+In the presence of persistent predictors, it is generally
+difficult to interpret the magnitude of $R^2$ as a measure of
+predictive accuracy, because even predictors that are irrelevant in
+population can substantially increase $R^2$ in small
+samples.\footnote{For a thorough discussion of this problem and
+  additional references, see \cite{bauer-hamilton}.} By using the
+bootstrap to avoid this pitfall, we generate small-sample distributions of $R^2$ under
+the null hypothesis that only yields have predictive power. These allow us to
+interpret the statistics obtained in the actual data by comparing them
+to the quantiles of these distributions. Table
+\ref{tab:returns_cycles} reports this comparison for predictive
+regressions of annual excess returns for the three specifications we
+have considered so far, as well as for two additional ones that will be discussed
+below. Adding $\pi^\ast_t$ to the regression increases $R^2$ by 20
+percentage points, but this is only barely higher than the upper end
+of the 95\%-bootstrap interval, which suggests that under the null
+hypothesis it would not be too uncommon to observe an increase in $R^2$ of
+up to 19 percentage points. In contrast, adding $r^\ast_t$ increases $R^2$ to 54\%,
+and the increase relative to the yields-only specification of 31
+percentage points is much higher than what is plausible under
+the null hypothesis. In the post-1985 subsample, the increase in $R^2$
+from only adding $\pi^\ast_t$ is not statistically significant, whereas
+the increase of 29 percentage points from adding both trends is
+strongly significant.
+
+CP defined ``interest rate
+cycles,'' as the de-trended component in interest
+rates and showed that these cycles captured the predictive power in
+interest rates and the inflation trend for future bond returns. They
+estimated these interest rate cycles as the residuals of regressions of
+interest rates on their measure of the inflation trend. Our results
+here and in the previous sections indicate that a better estimate of
+the cycle is obtained by incorporating measures of both an inflation
+trend and a real rate trend. Furthermore, our evidence in Section
+\ref{sec:persistence} supporting a cointegration vector between interest
+rates and the macro trends of $(1, -1, -1)$ justifies the following
+simple calculation of interest rate cycles:
+\begin{equation}
+  c_t^{(n)} = y_t^{(n)} - \pi^\ast_t - r^\ast_t
+  \label{eq:cycles}
+\end{equation}
+This approach for detrending interest rates is also the one prescribed
+by our simple no-arbitrage model in Section \ref{sec:model}. In
+addition to cycles calculated according to equation \eqref{eq:cycles},
+we also consider cycles that are calculated as yields detrended by
+only $\pi^\ast_t$, i.e., $y_t^{(n)} - \pi_t^\ast$, in order to
+understand the importance of both the inflation and real rate endpoint
+in the detrending. Figure \ref{fig:cycles} compares these two measures of
+interest rate cycles, by plotting the average cycle
+across yields of maturities from two to 15 years (as in CP) for each case. The cycle
+that is calculated by detrending only with $\pi^\ast_t$ still contains
+an important trend component, as evident in the substantial decline of
+about four percentage points from the level prevailing in the 1990s to
+the end of the sample. The cycle measure that also accounts for
+changes in the equilibrium real interest rate does not exhibit this
+trend. Instead, it clearly exhibits cyclical behavior with
+mean-reversion around a constant, possibly non-zero mean.
+
+In the spirit of CP, we investigate the use of interest rate cycles,
+i.e., detrended yields, in predictive regressions for bond
+returns. To summarize the information in the detrended yield curve, we
+calculate three PCs of interest rate cycles, in line with our approach
+to capture information in the actual yield curve. Table
+\ref{tab:returns_cycles} shows that using PCs of yields that are
+detrended only by $\pi^\ast_t$ increases $R^2$ by 10 percentage points
+relative to the baseline regression with three PCs of yields that are
+not detrended. But using PCs of yields that are detrending by both
+macro trends increases $R^2$ by 20 percentage points. The difference
+is even more striking in the later subsample that starts in 1985: the
+increase in $R^2$ is only seven percentage points when detrending with
+only $\pi^\ast_t$ but 28 percentage points when detrending with both
+$\pi_t^\ast$ and $r^\ast_t$. We again use the bootstrap to obtain
+distributions of these test statistics under the null hypothesis, by
+running the exact same regressions in bootstrapped samples. For the
+later subsample, the increase in $R^2$ is insignificant for
+$\pi^\ast_t$-detrending but strongly significant when we use the
+correct detrending using both macro trends prescribed by
+no-arbitrage theory.
+
+An intriguing final issue is why information in $\pi^\ast_t$ and
+$r^\ast_t$ is not spanned by the yield curve. Both reduced-form and
+structural/equilibrium models of the term structure of interest rates
+generally imply that the yield curve contains all (i.e., spans) the
+relevant information for predicting future yields and bond returns
+\citep{jls,duffee-handbook-forecasting}. The apparent conflict of this
+model prediction with the empirical evidence of unspanned macro risks
+in bond returns \citep{ludvigson-ng-rfs,jps,cieslak-povala} is an
+important current issue in macro-finance.  CP and
+\cite{bauer-rudebusch-spanning} suggest that measurement error, which
+breaks spanning, can reconcile the models with the
+data. \cite{bauer-hamilton} demonstrate that a lot of the apparent
+evidence for unspanned macro risks is substantially weaker and partly
+spurious once small-sample problems are accounted for, as the presence of
+trending, persistent predictors renders conventional tests of the
+spanning hypothesis unreliable. While these econometric
+issues suggest that the evidence on the predictive power of
+macroeconomic trends should be taken with a grain of salt, there are
+possible complementary explanations for this phenomenon. We use
+observable proxies for trends and have the benefit of hindsight, but
+estimation of the trend components of time series is fraught with a
+large amount of uncertainty, and it is difficult to learn about trends
+in real time \citep{clark-kozicki}. Because forecasters and investors
+are bound to learn slowly about changes in trends, and because they
+may disagree about the trend, bond prices are unlikely to fully
+incorporate the evolution of macroeconomic trends. A related issue is
+the rational expectations assumption that underlies all hypothesis
+tests about bond returns using time series data. The wedge between
+subjective (e.g., survey-based) and objective (statistical)
+expectations of interest rates and bond returns---documented by
+\cite{piazzesi-salomao-schneider}, among others---could cause
+statistical findings of unspanned risks that were not in fact a
+feature of subjective risk premia of investors at the time.  More work
+is needed to better understand how these issues relate to apparent
+failures of the spanning hypothesis and the incremental predictive
+power of macro trend estimates for bond returns that we document here.
+
+In sum, accounting for the persistent components of yields is
+important for understanding return predictability. We find that
+$r^\ast_t$ has strong incremental predictive power for bond returns,
+about on par with the importance of $\pi^\ast_t$ as a predictor. This
+suggests that for estimation of bond risk premia it is crucial to
+account for not only the inflation trend but also estimates of the
+equilibrium real rate.
+
+\section{Calculating the term premium with
+  \texorpdfstring{$r^\ast_t$}{r*} and
+  \texorpdfstring{$\pi^\ast_t$}{pi*}}
+\label{sec:tp}
+
+Our evidence supports the view that for modeling
+the yield curve, forecasting interest rates, or predicting bond
+returns, it is important to account for movements in the
+trend components $r^\ast_t$ and $\pi^\ast_t$. Accordingly,
+these trends should also be integral for estimation of the
+term premium in long-term interest rates, which we denote as $TP_t^{(n)}$.
+This alternative measure of bond risk is defined as the
+difference between holding an $n$-month bond to maturity or facing
+a sequence of 1-period rates over the same period:
+\[ TP_t^{(n)} = y_t^{(n)} - \frac{1}{n} \sum_{j=0}^{n-1} E_t
+  y^{(1)}_{t+j}. \]
+Our earlier results show that the expected path of future short rates
+should not be assumed to return to a constant mean but to a shifting endpoint
+$i^\ast_t = r^\ast_t + \pi^\ast_t$. Here, we introduce a methodology to incorporate information
+about $r^\ast_t$ and $\pi^\ast_t$ in the estimation of the term premium and
+compare the results to a conventional estimate.
+
+Decompositions of long-term interest rates into short-rate
+expectations and term premia are commonly obtained from a variety of
+dynamic models ranging from simple factor models to no-arbitrage term
+structure models. We employ the former in this section, noting that
+the results from such a factor model will be essentially identical to those
+from a model that imposes no-arbitrage restrictions on the loadings of
+yields on risk factors.\footnote{This point, which was made forcefully
+  by \cite{duffee-forecasting} and \cite{jls}, applies only to
+  maximally-flexible models, i.e., to models without restrictions on
+  risk-pricing. \cite{cp08} and \cite{bauer-rrp} emphasized that it
+  can be beneficial to restrict prices of risk, as the cross-sectional
+  behavior of yields can help pin down the estimates of the time
+  series parameters. While the focus of our paper is on the
+  specification of the time-series specification for yields, the
+  specification of risk pricing will become important for developing
+  no-arbitrage models that incorporate our findings.} We estimate a
+time-series process for yield curve PCs and fit the cross section of
+yields using the PC loadings. Short-rate expectations are then
+calculated from the VAR forecasts of the yield PCs and the PC loadings
+of the short rate. Our model uses three PCs and the estimation sample
+includes one- to 15-year Treasury yields, from 1971:Q4 to 2007:Q4. We
+omit the period of near-zero short-rates beginning in 2008, since the
+lower bound on nominal interest rates poses problems for linear factor
+models.\footnote{For an discussion of this issue see
+  \cite{bauer-rudebusch-zlb}.}
+
+To provide a conventional baseline measure of the term premium, we
+estimate a first-order annual VAR(1) in quarterly observations using
+the first three PCs of interest rates.\footnote{That is, observations
+  of the PCs are regressed on an intercept and the one-year lagged
+  values of the PCs. This use of annual lags is motivated by the evidence of \cite{cp05} that the
+  dynamics of risk premia are more evident at the annual frequency
+  \citep[see also][]{cp08}.}
+In line with the underlying structure of the majority of no-arbitrage
+models, this is a stationary VAR. For example, \cite{cp08} estimated
+an annual VAR(1) for five interest rates in monthly observations and
+our results closely parallel theirs. In the top-left panel of Figure
+\ref{fig:tp}, we plot the model-implied expectations of the one-year
+yield at different horizons, as well as the observed one-year
+yield. As emphasized by \cite{cp08}, stationary VARs for the levels of
+interest rates imply forecasts that quickly revert to the
+unconditional mean of the short rate (6.5 percent). The top-right
+panel of Figure \ref{fig:tp} shows the five-to-ten-year forward rate
+with its expectations and term premium components.\footnote{We show
+  the decomposition of the five-to-ten-year forward rate because the
+  difference between constant and shifting endpoints is starker when
+  focusing on long-range forecasts, but the results for the ten-year
+  yield are qualitatively similar.}  Not surprisingly in light of the
+behavior of model-implied forecasts, the expectations component is
+very stable, hovering around the short-rate mean. Therefore the term
+premium, due to its nature as a residual component, has to account for
+the trend in the long-term interest rate since the 1980s.\footnote{The
+  decrease in the forward rate from the average level in 1980-1982 to
+  the average level in 2005-2007 was about 7.5 percentage points, and
+  the estimated term premium accounts for over 80\% of this decline.}
+As argued by \cite{kim-orphanides} and \cite{brw2}, such behavior of
+expectations and term premium components appears at odds with observed
+trends in survey-based expectations \citep{kozicki-tinsley} and the
+cyclical behavior of risk premia in asset prices
+\citep{campbell-cochrane}.
+
+To incorporate a trend component into forecasts of the yield curve, we
+instead model detrended yields as a stationary VAR. That is, we
+subtract $i^\ast_t = r^\ast_t + \pi^\ast_t$ from each yield as called
+for by the evidence in Section
+\ref{sec:persistence}--\ref{sec:returns}, calculate three PCs of
+detrended yields, and again estimate an annual VAR(1). We calculate
+the term premium by forecasting the detrended interest rates and adding the
+trend back in to obtain the expected path of future short rates. This
+shifting-endpoint model for the yield curve is appealing for several
+reasons. It is of course extremely simple to estimate, and it can be
+used to forecast the entire yield curve, to calculate expected returns
+for any bond and holding period, and to estimate the term premium for
+any maturity. While it does not impose no-arbitrage, it is consistent
+with the key predictions of our no-arbitrage model in Section
+\ref{sec:model} regarding the role of time-variation in
+$r^\ast_t + \pi^\ast_t$ for bond yields.
+
+The bottom two panels of Figure \ref{fig:tp} show the implications of
+this model for expectations and the term premium. Short-rate expectations
+approach the trend component $i^\ast_t$ with increasing horizon,
+instead of the unconditional mean of the short rate. Consequently, the expectations
+component reflects the movements in $i^\ast_t$ and accounts for the
+low-frequency movements in the long-term forward rate. The term
+premium, by contrast, behaves in a cyclical fashion with no
+discernible trend.\footnote{Comparing again the average level over
+  1980-1982 with the level prevailing during 2005-2007, about 75\% of
+  the decline is now accounted for by the expectations component, with
+  the remainder attributed to term premium.} This demonstrates how
+accounting for the slow-moving trend component in interest rates
+fundamentally alters our understanding of the driving forces of
+long-term interest rates.
+
+\section{Variance contributions of \texorpdfstring{$r^\ast_t$}{r*} and
+  \texorpdfstring{$\pi^\ast_t$}{pi*}}
+\label{sec:horizons}
+
+Finally, we compare the size of fluctuations in
+$r^\ast_t$ and $\pi^\ast_t$ with those of long-term nominal
+bond yields. \cite{duffee-inflation-risk} finds that news about future inflation is generally small
+relative to the innovations in nominal yields.
+We interpret his results in the context of our model and extend them
+to consider movements in both $r^\ast_t$ and $\pi^\ast_t$ and
+at horizons greater than just one quarter.
+
+The variance ratio used by Duffee divides the variance of quarterly innovations to average inflation
+expectations over $n$ periods by the variance of innovations to the
+bond yield for maturity $n$:
+\[ VR_1^{(n)} = \frac{Var\left((E_t-E_{t-1})n^{-1} \sum_{i=1}^n
+  \pi_{t+i}\right)}{Var\left((E_t-E_{t-1}) y_t^{(n)}\right)}.
+\]
+His ratio compares one-period changes in expected average
+future inflation to the one-period surprise in a bond yield.
+We generalize it to allow for
+a longer time span to measure the change in expectations,
+\[
+  VR_h^{(n)} = \frac{Var\left((E_t-E_{t-h})n^{-1} \sum_{i=1}^n
+    \pi_{t+i}\right)}{Var\left((E_t-E_{t-h}) y_t^{(n)}\right)},
+\]
+so the variances are calculated for the $h$-period innovation 
+(where a period will remain a quarter).
+
+Our theoretical model in Section \ref{sec:model} implies
+analytical expressions for these variance ratios. For one-period
+and $h$-period innovations, respectively, they are
+\begin{eqnarray*}
+  VR_1^{(n)} &=& \frac{\sigma_\xi^2 + a_c(n) \sigma_u^2}{\sigma_\xi^2
+                 + a_c(n) \sigma_u^2 + \sigma_\eta^2 + a_g(n)
+                 \sigma_v^2 + \left(\frac{B_n^x}{n}\right)^2
+                 \sigma_w^2}, \\
+  VR_h^{(n)} &=& \frac{h\sigma_\xi^2 + a_c(n)b_c(h) \sigma_u^2}{h\sigma_\xi^2 + a_c(n) b_c(h) \sigma_u^2 + h \sigma_\eta^2 + a_g(n) b_g(h) \sigma_v^2 + \left(\frac{B_n^x}{n}\right)^2 b_x(h) \sigma_w^2},\\
+             && a_i(n) = \left(\frac{1-\phi_i^n}{n(1-\phi_i)}\right)^2, \quad b_i(h)
+                = \frac{1-\phi_i^{2h}}{1-\phi_i^2}, \quad i = c, g, x.
+\end{eqnarray*}
+These expressions will help elucidate the factors determining the variance ratios.
+
+An important result of Duffee's analysis is that even for long-term
+bonds, $VR_1^{(n)}$ appears to be surprisingly small. This can be understood
+through the lens of our model by noting that
+\[
+\underset{n \rightarrow \infty}{\lim} VR_1^{(n)} =
+\frac{\sigma_\xi^2}{\sigma_\xi^2 + \sigma_\eta^2 + \left(
+    \frac{\lambda_{\pi^\ast x} + \lambda_{r^\ast
+        x}}{1-\phi_x}\right)^2 \sigma_w^2 }.
+\]
+This ratio will be small if shocks to the equilibrium real rate ($\eta_t$) and to
+the risk-premium factor ($w_t$) make more important contributions to yield innovations than shocks
+to the inflation trend ($\xi_t$). One plausible interpretation of Duffee's
+finding is that at a quarterly frequency the trend in inflation
+moves much less than the term premium component of long-term interest
+rates. The term premium is a catch-all
+component of price movements due to a
+variety of factors including changes in risk-sentiment and ``animal spirits'' not attributable to
+changes in real-rate and inflation expectations.  This interpretation is
+consistent with additional evidence in Duffee's paper on the role of
+the term premium, and with a large body of evidence on excess
+volatility of interest rates, going back to
+\cite{shiller-79}.
+
+Another way to understand the link between inflation expectations
+and bond yields is to consider longer horizons. In the limit, this
+generalization appears promising because
+\[
+\underset{h \rightarrow \infty}{\lim} VR_h^{(n)} =
+\frac{\sigma_\xi^2}{\sigma_\xi^2 + \sigma_\eta^2},
+\]
+so asymptotically, this inflation variance ratio is only affected by changes
+in the trend components. Changes in term premia become irrelevant at
+very low frequencies if, as in our model, the risk premium factor $x_t$
+is stationary. Of course, variance ratios for large $h$
+do have the drawback that as $h$ increases, so does the overlap of
+the observations; therefore, we quickly loose degrees of
+freedom and precision in our estimates. However, the profile of variance
+ratios across horizons should give us additional insights about interest
+rate dynamics, even if the maximum horizon is limited in practice by
+data availability.
+
+Estimation of the variance ratios requires modeling expectations of inflation
+and interest rates. Like Duffee, we also consider a simple combination
+of survey-based inflation expectations as represented in $\pi^\ast_t$ and
+martingale interest rate forecasts, which allows us to calculate variance
+ratios based on observed changes in the data. For example, we can calculate
+a simplified $h$-period variance ratio as
+\[
+\widetilde{VR}_h^{(n)} = \frac{Var\left(\Delta_h \pi^\ast_t\right)}{Var\left( \Delta_h
+  y_t^{(n)}\right)}, \qquad \Delta_h z_t = z_t - z_{t-h}.
+\]
+For any given $n$ and $h$, $\widetilde{VR}_h^{(n)}$ differs from
+$VR_h^{(n)}$ because the variances in the simplified ratio include movements
+that were anticipated at $t-h$. However, in many cases, these differences
+are likely to be small, in particular for longer time spans of the
+innovations/changes since
+\[
+\underset{h \rightarrow \infty}{\lim} \widetilde{VR}_h^{(n)} =
+\frac{\sigma_\xi^2}{\sigma_\xi^2 + \sigma_\eta^2} = \underset{h
+  \rightarrow \infty}{\lim} VR_h^{(n)}.
+\]
+Thus, for low-frequency movements, the two inflation variance ratios
+are asymptotically identical.
+
+Figure \ref{fig:vr} shows estimates of $\widetilde{VR}_h^{(n)}$ for
+changes from one quarter to $h=40$ quarters in the five-year yield,
+the ten-year yield, and the 5-to-10-year forward rate. This shows the
+relative importance of fluctuations in long-run inflation
+expectations. Similarly, we also calculate these variance ratios for
+the contribution of changes in the real-rate trend, $r^\ast_t$, and in
+the overall trend component $i^\ast_t = \pi^\ast_t + r^\ast_t$, simply
+by replacing the variance in the numerator of
+$\widetilde{VR}_h^{(n)}$.
+
+For the inflation trend, we find that one-quarter variance ratios are
+around 0.1. This result is consistent with Duffee's
+findings and suggests that changes in the inflation trend play a small role for variation in
+yields at the quarterly frequency. At lower frequencies, however, the 
+relative variability of the inflation trend increases. The point 
+estimates of the $\pi^\ast_t$-variance
+ratio rise with the horizon, and for $h=40$ reach a
+magnitude of around 0.3.
+
+The variance ratio for changes in the real-rate trend, i.e.,
+$Var(\Delta_h r^\ast_t)/Var(\Delta_h y_t)$, is much lower than for 
+inflation, remaining below 0.1 even at long
+horizons. This is unsurprising in light of Figure \ref{fig:data1},
+which shows that over the full sample the movements in $r^\ast_t$ were
+substantially less pronounced than movements in long-term interest
+rates and the inflation trend.\footnote{This finding may partly reflect
+our use of an average of different estimates for $r^\ast_t$---some of
+the individual estimates exhibit distinctly more volatility.} Of
+course, this perspective of unconditional
+variances should not be taken to conclude that changes in the
+equilibrium real rate are unimportant for interest rate dynamics,
+given the ample evidence in Sections
+\ref{sec:persistence}--\ref{sec:returns} of the crucial role of
+$r^\ast_t$ for modeling and forecasting interest
+rates. Furthermore, as $r^\ast_t$ has become a more important driver of changes in
+long-term interest rates in the past couple of decades, more recent variance ratios should
+also reflect this change.\footnote{Due to the paucity of data, conditional
+  variance ratios would need to be obtained using a model with
+  stochastic volatility, in order to impose structure on variances across frequencies and
+  increase the efficiency of the estimates (at the cost of possible
+  misspecification).}
+
+To assess the overall
+importance of the trend components in interest rates, we consider variance ratios for $i^\ast_t$, i.e.,
+$Var(\Delta_h i^\ast_t)/Var(\Delta_h y_t)$. Confidence
+intervals are obtained using the asymptotic distribution of the sample
+variances and the delta method. To account for persistence in
+conditional variances, Newey-West estimates of long-run variances are
+used.\footnote{We use 12 quarterly lags for all long-run variance
+  estimates as indicated by the automatic
+  lag selection procedure of Newey and West.} These
+confidence intervals may understate the true sampling
+variability due to the small number of non-overlapping observations,
+which decreases the reliability of the asymptotic approximations.
+With this caveat in mind, Figure \ref{fig:vr} shows that while the sampling
+uncertainty around the variance ratios for changes in $i^\ast_t$ is
+substantial we can be reasonably confident that these
+variance ratios increase from below 0.15 to a range of around 0.25 to
+0.4, depending on the maturity of the interest rate. The highest
+levels are reached for the 5-to-10-year forward rate---the
+confidence interval at $h=40$ extends from about 0.3 to 0.4---which is
+consistent with the notion that distant forward rates are more
+strongly affected by the trend components.
+
+While our theoretical model, implies that the variance ratios for $i^\ast_t$ approach one
+for sufficiently large $h$, our estimates top out around
+0.4. One possible explanation is
+that we are simply not capturing the trend component with sufficient
+accuracy. Although we have provided
+ample evidence that our trend proxies are closely linked to the
+low-frequency movements in interest rates, he true trend components might be more (or
+less) variable than our measures. Additionally, the largest values of $h$ that we consider
+may not be large enough, a limitation of the available data sample. Finally, 
+it may be that the risk-premium
+factor itself is sufficiently persistent that it drives
+interest rate variation at such low frequencies.
+
+To shed additional light on the respective roles of trends and cycles
+it is useful to consider not only the direct contribution of changes
+in the trend to changes in interest rates, but also indirect
+contributions, due to covariance terms. In Table \ref{tab:vr}, we
+report the variances of changes in interest rates, in the trend
+component $i^\ast_t$, and in the cycle components $y_t -
+i^\ast_t$. The variance of yield changes can be decomposed as follows:
+\[
+Var(\Delta_h y_t) = Var(\Delta_h i^\ast_t) + Var(\Delta_h y_t -
+\Delta_h i^\ast_t) + 2 Cov(\Delta_h i^\ast_t, \Delta_h y_t -
+\Delta_h i^\ast_t).
+\]
+The first term captures the direct contribution of trends, whereas the
+last term captures the their indirect contribution to movements in
+yields. Table \ref{tab:vr} reports all three components. In the data,
+the contribution of the covariance is small at short horizons, but
+substantial at long horizons. The two last rightmost columns of Table
+\ref{tab:vr} report the same variance ratio shown in Figure
+\ref{fig:vr} along with a ratio that also includes the covariance
+contribution---the indirect effects---in the numerator. This second
+ratio rises to over 0.7 with horizon, which suggests that the
+cycle component accounts for less than 30\% of the variance
+of interest rate changes at low frequencies.\footnote{Note that our theoretical
+  model assumed for simplicity that shocks to trend and cycle
+  components are uncorrelated, and would need to be generalized to
+  provide a model-based interpretation of these results.} These estimates show that
+accounting for both direct and indirect effects, changes in macro
+trends play an important role in low-frequency
+movements in interest rates.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+In this paper, we have provided new evidence that interest rates and risk pricing are
+substantially driven by time variation in the trend in inflation and the equilibrium real
+rate of interest. Our empirical approach employed existing
+estimates of these stochastic trends to investigate
+this relationship from a variety of perspectives. We showed
+that accounting for these trend components can help understand, model, and forecast long-term interest rates
+and bond returns. Our results confirm the predictions of no-arbitrage
+theory for the links between macroeconomic trends and the yield curve,
+and they demonstrate that these links are quantitatively important.
+Presumably, a tailor-made joint macro-finance estimation
+that produced fine-tuned estimates of $r^\ast_t$ and $\pi^\ast_t$ would likely
+produce even a better fit for bond pricing and stronger empirical results supporting
+our conclusions.
+
+Our findings open up several avenues for future research. Most
+importantly, they demonstrate the advantages of yield curve models
+that allow for slow-moving changes in the long-run mean of
+inflation and the real rate. This applies to both reduced-form
+no-arbitrage models as well as to more structural, equilibrium models
+of the yield curve. The purpose of specifying and estimating such
+models is typically to understand bond risk premia/term premia and
+risk compensation, and constructing the necessary long-run expectations without
+accounting for shifts in stochastic trends is likely to give
+misleading results for risk premia.
+
+Our analysis should be viewed as a first step in the integration of
+macroeconomic trends into yield curve modeling. We took estimates of
+macroeconomic trends from surveys and models and treated them as
+data. While this is a useful starting point, future research will have
+to investigate the role of model and estimation uncertainty for the
+links between macro trends and the yield curve. Another important
+additional dimension to consider is potential change over time in the
+relative importance of the macroeconomic trends in accounting for
+long-run interest rates. For example, it is well known in empirical
+macroeconomics \citep[e.g.,][]{stock-watson-ucsv} that the trend
+component of inflation was much more variable in the 1970s and 1980s than
+in more recent decades. This raises the question how our (mostly
+unconditional) results are affected by taking a conditional
+perspective. Furthermore, this suggests that incorporating not only
+macroeconomic trends but also stochastic volatility in these trend
+components will be useful for term structure modeling.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bibliography{../../../literature}
+
+\include{br_trends_appendix}
+
+\include{br_trends_tables_figures}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

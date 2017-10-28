@@ -1,0 +1,13 @@
+[user]
+	name = Michael Bauer
+	email = michael.bauer@sf.frb.org
+[core]
+	editor = emacs
+[transfer]
+	fsckObjects = true
+[http]
+#	proxy = http://l1web1.frb.org:8080
+	sslverify = false
+[gui]
+[gc]
+	autoDetach = false

@@ -1,0 +1,129 @@
+% Created 2017-05-12 Fri 11:23
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[left=3cm,right=3cm,top=2.5cm,bottom=3cm,verbose]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\date{}
+\title{Referee Report on JMCB Manuscript 16-536 "Joining the Dots: The FOMC and the future path of policy rates"}
+\hypersetup{
+ pdfauthor={},
+ pdftitle={Referee Report on JMCB Manuscript 16-536 "Joining the Dots: The FOMC and the future path of policy rates"},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 25.1.1 (Org mode 9.0.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section{Summary}
+\label{sec:org6d5afb8}
+
+This paper analyzes the data from FOMC's Summary of Economic
+Projections (SEP), focusing on the median and dispersion of the projection for the future
+policy rate. First, the evolution of this data is described. Second, a
+non-linear model is used to fit the median dots on each date. Third,
+the projections are regressed on macro variables. The regression
+results include  stronger and more significant response coefficients to unemployment than
+inflation. 
+
+\section{Evaluation}
+\label{sec:orge92c3ff}
+
+The SEP releases provide a valuable new source of information not only
+to market participants but also for researchers that are trying to
+better understand the preferences and reactions of policy-makers to
+the changing macroeconomic environment. At the zero lower bound, this
+can be particularly useful since the federal funds rate is stuck near
+zero and projections of its future evolution become even more relevant
+than during normal times. The current paper uses this new data, but
+does not provide any new insights about central bank behavior or this
+particular historic episodes. Part of the analysis is just
+descriptive, while the regression analysis suffers from substantial
+problems that likely invalidate the results. In the following I
+describe the problems in more detail and suggest some possible
+remedies.
+
+\begin{itemize}
+\item The only substantial empirical analysis of the paper are the
+regression results in Section 5, since the rest of the results is
+purely descriptive and does not add any significant value or
+insights relative to the observed behavior of the SEP. The first
+problem with these regressions is that projections of future
+monetary policy is related to current macroeconomic variables. Any
+policy rule or macro model, however, tells us that it is forecasts
+of macro variables that matter for future policy, not the current
+data releases. I recommend that the authors consider macro
+projections from the SEP or surveys. Of course, other empirical work
+has already related SEP macro projections to SEP policy projections,
+so it will be important to explain the value added relative to
+existing work. One idea is to relate revisions in the projections of
+future policy rates to revisions of macro forecasts. The second
+problem of the analysis is that there are only very few observations
+with a large overlap in the dependent variable. Reliable statistical 
+inference in such a setting is next to impossible. From the
+literature on robust (HAC) standard errors it is clear that
+Newey-West standard errors are completely unreliable in such a small
+sample. Third, the analysis ignores balance sheet policies, which
+are an important part of monetary policy during this
+episode. Fourth, given the short time period and specific historic
+circumstances the results are not externally valid, that is, they
+cannot be generalized to the preferences or reactions of monetary
+policy makers during any other time. Fifth, and this is surely a
+result of some of the previous problems I have listed, the results
+are simply implausible, in particular that "the FOMC was responding
+mroe strongly to labour market conditions" than to
+inflation. Inflation was an important concern of policy-makers at
+the time, as public statements and the FOMC meeting minutes make
+abundantly clear.
+
+\item The benefit of smoothing through the observed SEP dots is
+unclear. While the horizon of the projections changes, due to their
+reference period being certain calendar years, there is no
+indication that this matters empirically. The authors hypothesize
+that it is important to interpolate to ensure a constant horizon but
+provide no evidence to this effect. I recommend that any regression
+analysis also be carried out using the raw SEP projections, instead
+of the interpolated/smoothed projections, to see whether this makes
+any material difference.
+
+\item The analysis of the paper is not motivated by a broader question of
+relevance for macroeconomics/monetary economics/central banking. In
+fact, it is unclear what the research question of the paper is. I
+encourage the authors to clearly explain what we learn from the
+analysis in the paper and what broader lessons we can draw from it
+about monetary policy. In addition, the marginal contribution of the
+paper relative to the existing literature should be clarified. At
+this point, the authors simply mention a number related papers (in
+Section 2) which have also used the SEP data. But the question
+remains open how the present paper differentiates itself from those
+papers. In addition, it is necessary to discuss the relation to the
+existing literature on monetary policy not only in terms of whether
+others used the same data (the SEP), but to explain which issues and
+questions that been addressed insufficiently by existing papers and
+to which this paper is attempting to give new answers.
+
+\item The paper ignores that
+different projections for the policy rate can be due to two reasons:
+different macro forecasts and different reaction
+functions. Therefore the degree of dispersion is not only evidence
+of high uncertainty or dispersion about macro forecasts, but simply
+also about different preferences/reaction functions. This
+distinction is fundamental in any discussion and analysis of
+projections for policy rates.
+\end{itemize}
+\end{document}

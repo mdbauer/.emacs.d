@@ -1,0 +1,742 @@
+getSumMA1 <- function(delta, rho, sige2, sigu2) {
+    ## get MA-rep of (1+delta*L)et + (1+rho*L)ut
+    v <- delta + rho*sigu2/sige2
+    w <- 1 + delta^2 + (1+rho^2)*sigu2/sige2
+    theta.1 <- (w + sqrt(w^2 - 4*v^2))/(2*v)
+    theta.2 <- (w - sqrt(w^2 - 4*v^2))/(2*v)
+    sigu2.1 <- (delta*sige2 + rho*sigu2)/theta.1
+    sigu2.2 <- (delta*sige2 + rho*sigu2)/theta.2
+    list(theta.1=theta.1, theta.2=theta.2, sigu2.1=sigu2.1, sigu2.2=sigu2.2)
+}
+
+getTrueVarRatio <- function(b, signu2, sigv2) {
+    rval <- getSumMA1(-1, -b, sigv2, signu2)
+    theta <- rval$theta.1 # get MA coefficient of ARMA representation for differences
+    sigu2 <- rval$sigu2.1
+    var.dpi <- sigu2*(1 + (b+theta)^2/(1-b^2))
+    signu2/var.dpi
+}
+
+getTrueACF <- function(b, signu2, sigv2, maxlag=10) {
+    ## autocorrelations of first differences
+    ## implied by RW-AR(1) model -- ARIMA(1,1,1)
+    theta <- getSumMA1(-1, -b, sigv2, signu2)$theta.1 # get MA coefficient of ARMA representation for differences
+    ## (1 - b*L) delta pi_t = (1 + theta*L) u_t
+    rho <- numeric(maxlag)
+    rho[1] <- (b + theta)*(1 + b*theta)/(1 + 2*b*theta + theta^2)
+    for (i in 2:maxlag) rho[i] = b*rho[i-1]
+    rho
+}
+
+var.ratio <- function(pi, maxlag = 12) {
+    ## adapted from vrtest:::stat.plot (used in vrtest::VR.plot, for example)
+    y <- diff(pi)
+    vr <- numeric(maxlag)
+    for (k in 1:maxlag) {
+        y <- as.matrix(y)
+        n <- nrow(y)
+        m <- mean(y)
+        vr1 <- sum((y - m)^2)/n
+        flt = filter(y, rep(1, k), method = "convolution") # sum of k observations
+        flt = flt[!is.na(flt)]
+        summ = sum((flt - k * m)^2)
+        vr2 <- summ/(n * k)
+        vr[k] <- vr2/vr1
+    }
+    vr
+}
+
+getPiStats <- function(data) {
+    ## statistics about inflation
+    data$pistar <- getEWMA(data$pi)  ## estimate pi-star
+    gap <- data$pi - data$pistar
+    res1 <- setNames(c(var(data$pi), acf(data$pi, plot=FALSE)$acf[2],
+               var(diff(data$pi)),
+               var(data$pistar), acf(data$pistar, plot=FALSE)$acf[2],
+               var(diff(data$pistar)), acf(diff(data$pistar), plot=FALSE)$acf[2],
+               var(gap),  acf(gap, plot=FALSE)$acf[2]),
+             c("var(pi)", "acf(pi)", "var(d.pi)",
+               "var(pistar)", "acf(pistar)", "var(d.pistar)", "acf(d.pistar)",
+               "var(gap)", "acf(gap)"))
+    ## ACF
+    res2 <- setNames(acf(diff(data$pi), plot=FALSE)$acf[2:13], paste("rho(d.pi)", 1:12))
+    ## Cochrane variance ratio - how big is the random walk component?
+    res3 <- setNames(var.ratio(data$pi, 60), paste("vr", 1:60))
+    c(res1, res2, res3[seq(6,60,6)])
+}
+
+kf.rwar1.1 <- function(theta, y) {
+    require(FKF)
+    ## X_t = (pi_t, pi*_t)'
+    ## theta = c(log(b/(1-b)), log(sigv2), log(signu2))
+    b <- exp(theta[1])/(1+exp(theta[1]))
+    sigv2 <- exp(theta[2])
+    signu2 <- exp(theta[3])
+    sigw2 <- sigv2 + signu2
+    ## (1) measurement equation - trivial
+    ct <- matrix(0, 1, 1)
+    Zt <- array(c(1,0), c(1, 2, 1))
+    GGt <- array(0, c(1, 1, 1))
+    ## (2) transition equation
+    Phi <- cbind(c(b, 0), c(1-b, 1))
+    Omega <- cbind(c(sigw2, signu2), signu2)
+    dt <- matrix(0, 2, 1)
+    Tt <- array(Phi, c(2, 2, 1))
+    HHt <- array(Omega, c(2, 2, 1))
+    ## (3) initial observations
+    a0 <- c(pi0, pi0)
+    ## P0 <- v0*diag(2)
+    ## or (does this make a difference?)
+    P0 <- cbind(c(v0 + sigv2/(1-b^2), v0), v0)
+    ## run Kalman filter
+    fkf.R(a0, P0, dt, ct, Tt, Zt, HHt, GGt, matrix(y, 1, length(y)))
+    ## this uses fkf.R instead of fkf which demonstrates (in inf_uc_rwar1.r) that they give the exact same result
+}
+
+kf.rwar1.2 <- function(theta, pi) {
+    require(FKF)
+    ## X_t = (pi*_t, pi*_t-1)'
+    ## theta = c(log(b/(1-b)), log(sigv2), log(signu2))
+    b <- exp(theta[1])/(1+exp(theta[1]))
+    sigv2 <- exp(theta[2])
+    signu2 <- exp(theta[3])
+    ## (1) measurement equation - (1-b*L)pi_t = (1-b*L)pi*_t + vt
+    T <- length(pi)
+    y <- pi[2:T] - b*pi[1:(T-1)]   # first observation is pi_2 - b*pi_1
+    ct <- matrix(0, 1, 1)
+    Zt <- array(c(1, -b), c(1, 2, 1))
+    GGt <- array(sigv2, c(1, 1, 1))
+    ## (2) transition equation
+    Phi <- cbind(c(1, 1), 0)
+    Omega <- diag(c(signu2, 0))
+    dt <- matrix(0, 2, 1)
+    Tt <- array(Phi, c(2, 2, 1))
+    HHt <- array(Omega, c(2, 2, 1))
+    ## (3) initial observations
+    a0 <- c(pi0,pi0)
+    ## P0 <- 10000*diag(2)
+    P0 <- cbind(c(v0 + signu2, v0), v0)
+    ## run Kalman filter
+    fkf(a0, P0, dt, ct, Tt, Zt, HHt, GGt, matrix(y, 1, length(y)))
+}
+
+kf.rwar1.3 <- function(theta, y, pi0=4, v0=10000) {
+    ## UC model for inflation: RW + AR(1)
+    ## - used in inf_rwar1.r and getTwoStepModel()
+    require(FKF)
+    ## X_t = (g_t, pi*_t)'
+    ## theta = c(log(b/(1-b)), log(sigv2), log(signu2))
+    b <- exp(theta[1])/(1+exp(theta[1]))
+    sigv2 <- exp(theta[2])
+    signu2 <- exp(theta[3])
+    ## (1) measurement equation - pi_t = g_t + pi*_t
+    ct <- matrix(0, 1, 1)
+    Zt <- array(c(1, 1), c(1, 2, 1))
+    GGt <- array(0, c(1, 1, 1))
+    ## (2) transition equation
+    Phi <- diag(c(b, 1))
+    Omega <- diag(c(sigv2, signu2))
+    dt <- matrix(0, 2, 1)
+    Tt <- array(Phi, c(2, 2, 1))
+    HHt <- array(Omega, c(2, 2, 1))
+    ## (3) initial observations
+    a0 <- c(0, pi0)
+    P0 <- diag(c(sigv2/(1-b^2), v0))
+    ## run Kalman filter
+    fkf(a0, P0, dt, ct, Tt, Zt, HHt, GGt, matrix(y, 1, length(y)))
+}
+
+kf.rwar1.3.R <- function(theta, y, smoothing=FALSE) {
+    ## same as kf.rwar1.3, but by hand (not using FKF), with smoothing
+    T <- length(y)
+
+    ## X_t = (g_t, pi*_t)'
+    ## theta = c(log(b/(1-b)), log(sigv2), log(signu2))
+    b <- exp(theta[1])/(1+exp(theta[1]))
+    sigv2 <- exp(theta[2])
+    signu2 <- exp(theta[3])
+    Phi <- diag(c(b, 1))
+    Omega <- diag(c(sigv2, signu2))
+    a0 <- c(0, pi0)
+    P0 <- diag(c(sigv2/(1-b^2), v0))
+    H <- matrix(1, 1, 2)
+    R <- matrix(0, 1, 1)
+
+    x.tt <- matrix(NA, T, 2)
+    x.t <- matrix(NA, T, 2)
+    P.tt <- array(NA, c(T, 2, 2))
+    P.t <- array(NA, c(T, 2, 2))
+    x.t[1, ] <- a0
+    P.t[1, , ] <- P0
+    logLik <- - T/2*log(2*pi)
+    for (t in 1:T) {
+        eta <- y[t] - H %*% x.t[t, ] # prediction error
+        V <- as.numeric(H %*% P.t[t,,] %*% t(H) + R) # prediction error variance
+        logLik <- logLik - 0.5 * (log(V) + eta^2/V)
+        K <- P.t[t, , ] %*% t(H) / V
+        x.tt[t, ] <- x.t[t, ] + K %*% eta
+        P.tt[t, , ] <- P.t[t, , ] - P.t[t, , ] %*% t(H) %*% t(K)
+        if (t < T) {
+            x.t[t + 1, ] <- Phi %*% x.tt[t, ]
+            P.t[t + 1, , ] <- Phi %*% P.tt[t, , ] %*% t(Phi) + Omega
+        }
+    }
+    rval <- list(logLik = logLik, x.tt = x.tt)
+    if (smoothing) {
+        x.tT <- matrix(NA, T, 2)
+        x.tT[T,] <- x.tt[T,]
+        for (t in (T-1):1) {
+            J.t <- P.tt[t,,] %*% t(Phi) %*% solve(P.t[t+1,,])
+            x.tT[t,] <- x.tt[t,] + J.t %*% (x.tT[t+1,] - x.t[t+1,])
+        }
+        rval <- c(rval, list(x.tT = x.tT))
+    }
+    rval
+}
+
+kf.rwar2 <- function(theta, y, pi0 = 4, v0 = 10000) {
+    ## UC model for inflation: RW + AR(2)
+    require(FKF)
+    ## X_t = (g_t, g_t-1, pi*_t)'
+    ## theta = c(log(b1/(1-b1)), log(b2/(1-b2)), log(sigv2), log(signu2))
+    z1 <- exp(theta[1])/(1+exp(theta[1]))
+    z2 <- exp(theta[2])/(1+exp(theta[2]))
+    b1 <- z1+z2
+    b2 <- -z1*z2
+    sigv2 <- exp(theta[3])
+    signu2 <- exp(theta[4])
+    ## (1) measurement equation - pi_t = g_t + pi*_t
+    ct <- matrix(0, 1, 1)
+    Zt <- array(c(1, 0, 1), c(1, 3, 1))
+    GGt <- array(0, c(1, 1, 1))
+    ## (2) transition equation
+    Phi <- rbind(c(b1, b2, 0),
+                 c(1, 0, 0),
+                 c(0, 0, 1))
+    Omega <- diag(c(sigv2, 0, signu2))
+    dt <- matrix(0, 3, 1)
+    Tt <- array(Phi, c(3, 3, 1))
+    HHt <- array(Omega, c(3, 3, 1))
+    ## (3) initial observations
+    Psi <- (1+b2)*((1-b2)^2-b1^2)
+    a0 <- c(0, 0, pi0)
+    P0 <- diag(c(sigv2*(1-b2)/Psi, sigv2*(1-b2)/Psi, v0))
+    P0[1,2] <- b1/Psi*sigv2
+    P0[2,1] <- P0[1,2]
+    ## run Kalman filter
+    fkf(a0, P0, dt, ct, Tt, Zt, HHt, GGt, matrix(y, 1, length(y)))
+}
+
+kf.rwar2.R <- function(theta, y, smoothing=FALSE, pi0 = 4, v0 = 10000) {
+    ## same as kf.rwar2, but by hand (not using FKF), with smoothing
+    T <- length(y)
+    z1 <- exp(theta[1])/(1+exp(theta[1]))
+    z2 <- exp(theta[2])/(1+exp(theta[2]))
+    b1 <- z1+z2
+    b2 <- -z1*z2
+    sigv2 <- exp(theta[3])
+    signu2 <- exp(theta[4])
+    ## state equation
+    Phi <- rbind(c(b1, b2, 0),
+                 c(1, 0, 0),
+                 c(0, 0, 1))
+    Omega <- diag(c(sigv2, 0, signu2))
+    Psi <- (1+b2)*((1-b2)^2-b1^2)
+    a0 <- c(0, 0, pi0)
+    P0 <- diag(c(sigv2*(1-b2)/Psi, sigv2*(1-b2)/Psi, v0))
+    P0[1,2] <- b1/Psi*sigv2
+    P0[2,1] <- P0[1,2]
+    ## measurement equation
+    H <- matrix(c(1, 0, 1), 1, 3)
+    R <- matrix(0, 1, 1)
+
+    x.tt <- matrix(NA, T, 3)
+    x.t <- matrix(NA, T, 3)
+    P.tt <- array(NA, c(T, 3, 3))
+    P.t <- array(NA, c(T, 3, 3))
+    x.t[1, ] <- a0
+    P.t[1, , ] <- P0
+    logLik <- - T/2*log(2*pi)
+    for (t in 1:T) {
+        eta <- y[t] - H %*% x.t[t, ] # prediction error
+        V <- as.numeric(H %*% P.t[t,,] %*% t(H) + R) # prediction error variance
+        logLik <- logLik - 0.5 * (log(V) + eta^2/V)
+        K <- P.t[t, , ] %*% t(H) / V
+        x.tt[t, ] <- x.t[t, ] + K %*% eta
+        P.tt[t, , ] <- P.t[t, , ] - P.t[t, , ] %*% t(H) %*% t(K)
+        if (t < T) {
+            x.t[t + 1, ] <- Phi %*% x.tt[t, ]
+            P.t[t + 1, , ] <- Phi %*% P.tt[t, , ] %*% t(Phi) + Omega
+        }
+    }
+    rval <- list(logLik = logLik, x.tt = x.tt)
+    if (smoothing) {
+        x.tT <- matrix(NA, T, 3)
+        x.tT[T,] <- x.tt[T,]
+        for (t in (T-1):1) {
+            J.t <- P.tt[t,,] %*% t(Phi) %*% solve(P.t[t+1,,])
+            x.tT[t,] <- x.tt[t,] + J.t %*% (x.tT[t+1,] - x.t[t+1,])
+        }
+        rval <- c(rval, list(x.tT = x.tT))
+    }
+    rval
+}
+
+getPistarRWAR1 <- function(pi, signu2 = 0.005) {
+    ## filter pistar from RW-AR1 model
+    ## here: small RW
+
+    kf.inf <- function(theta, y, pi0=4, v0=10000) {
+        ## UC model for inflation: RW + AR(1)
+        ## similar to kf.rwar1 but with fixed signu2
+        require(FKF)
+        ## X_t = (g_t, pi*_t)'
+        ## theta = c(log(b/(1-b)), log(sigv2), log(signu2))
+        b <- exp(theta[1])/(1+exp(theta[1]))
+        sigv2 <- exp(theta[2])
+        ## (1) measurement equation - pi_t = g_t + pi*_t
+        ct <- matrix(0, 1, 1)
+        Zt <- array(c(1, 1), c(1, 2, 1))
+        GGt <- array(0, c(1, 1, 1))
+        ## (2) transition equation
+        Phi <- diag(c(b, 1))
+        Omega <- diag(c(sigv2, signu2))
+        dt <- matrix(0, 2, 1)
+        Tt <- array(Phi, c(2, 2, 1))
+        HHt <- array(Omega, c(2, 2, 1))
+        ## (3) initial observations
+        a0 <- c(0, pi0)
+        P0 <- diag(c(sigv2/(1-b^2), v0))
+        ## run Kalman filter
+        fkf(a0, P0, dt, ct, Tt, Zt, HHt, GGt, matrix(y, 1, length(y)))
+    }
+
+    N <- ncol(PC)
+    ## 1) inflation is UC model, RW + AR(1)
+    obj <- function(theta)
+        -kf.inf(theta, pi)$logLik
+    theta0 <- c(0, 0)
+    rval <- optim(theta0, obj, control=list(maxit=1000))
+    ## print(rval)
+    theta <- rval$par
+    ## checkKKT(theta, obj)
+    b <- exp(theta[1])/(1+exp(theta[1]))
+    sigv2 <- exp(theta[2])
+    as.numeric(kf.inf(theta, pi)$att[2,]) # filtered trend inflation
+}
+
+getPistarLocalLevel <- function(infl, q = 1) {
+    kalman <- function(q, infl) {
+        T <- length(infl)
+        mtt <- numeric(T)  # E_t(inf*_t)
+        mt <- numeric(T)   # E_t-1(inf*_t)
+        ptt <- numeric(T)  # Var_t(pi*_t - mtt) / sigma^2_epsilon
+        pt <- numeric(T)   # Var_t-1(infl*_t - mt) / sigma^2_epsilon
+        vt <- numeric(T)   # prediction errors
+        ft <- numeric(T)   # Var_t-1(infl_t - infl_t|t-1) / sigma^2_epsilon
+
+        mtt[1] <- infl[1]
+        ptt[1] <- 1
+        for (t in 2:T) {
+            ## prediction
+            mt[t] <- mtt[t-1]
+            pt[t] <- ptt[t-1] + q
+            vt[t] <- infl[t] - mt[t]
+            ft[t] <- pt[t] + 1
+            ## updating
+            mtt[t] <- mt[t] + pt[t]*vt[t]/ft[t]
+            ptt[t] <- pt[t] - pt[t]^2/ft[t]
+        }
+        sige2 <- sum(vt[2:T]^2/ft[2:T])/(T-1)
+        signu2 <- sige2*q
+        logLik <- -(T-1)/2*(log(2*pi)+1) -(T-1)/2*log(sige2) - .5*sum(log(ft[2:T]))
+        return(list(logLik=logLik, sige2=sige2, signu2=signu2,
+                    mtt=mtt, mt=mt, ptt=ptt, pt=pt, vt=vt, ft=ft))
+    }
+    obj <- function(q)
+        -kalman(q, infl)$logLik
+    cat("Estimation of UC-AR1 model for inflation\n")
+    rval <- optimize(obj, c(0,10))
+    ## print(rval)
+    cat("optimal value for q:", rval$minimum, "- chosen value:", q, "\n")
+    as.numeric(kalman(q, infl)$mtt)
+}
+
+## kalman.arma <- function(pars, x) {
+##     ## state space representation based on Morley (2002) - pretty slow
+##     require(FKF)
+##     ## Kalman filter for ARMA(p,1,q)
+##     p <- length(pars$phi)
+##     q <- length(pars$theta)
+##     ## measurement equation
+##     ct <- matrix(0, 1, 1)
+##     H <- c(1, rep(0, p+q-1))
+##     Zt <- array(H, c(1, p+q, 1))
+##     GGt <- array(0, c(1, 1, 1))
+##     ## transition equation
+##     F <- rbind(c(pars$phi, pars$theta),
+##                cbind(diag(p-1), matrix(0, p-1, q+1)),
+##                0,
+##                cbind(matrix(0, q-1, p), diag(q-1), 0))
+##     Omega <- matrix(0, p+q, p+q)
+##     Omega[1,1] <- pars$sig2; Omega[p+1, p+1] <- pars$sig2; Omega[1, p+1] <- pars$sig2; Omega[p+1, 1] <- pars$sig2
+##     dt <- matrix(0, p+q, 1)
+##     Tt <- array(F, c(p+q, p+q, 1))
+##     HHt <- array(Omega, c(p+q, p+q, 1))
+##     ## initial observations
+##     a0 <- rep(0, p+q)
+##     P0 <- matrix(solve(diag((p+q)^2) - kronecker(F, F)) %*% as.numeric(Omega), p+q, p+q)
+##     ## run Kalman filter
+##     kf <- fkf(a0, P0, dt, ct, Tt, Zt, HHt, GGt, matrix(x, 1, length(x)))
+##     c(kf, list(H=H, F=F))
+## }
+
+## kalman.arma <- function(pars, x) {
+##     ## state-space representation of ARMA process based on Hamilton -- much faster
+##     require(FKF)
+##     ## Kalman filter for ARMA(p,q)
+##     p <- length(pars$phi)
+##     q <- length(pars$theta)
+##     r <- max(p, q+1)
+##     if (r>p) {
+##         phi.ext <- c(pars$phi, rep(0, r-p))
+##     } else {
+##         phi.ext <- pars$phi
+##     }
+##     if (r>q+1) {
+##         theta.ext <- c(pars$theta, rep(0, r-q-1))
+##     } else {
+##         theta.ext <- pars$theta
+##     }
+##     ## measurement equation
+##     ct <- matrix(0, 1, 1)
+##     H <- c(1, theta.ext)
+##     Zt <- array(H, c(1, r, 1))
+##     GGt <- array(0, c(1, 1, 1))
+##     ## transition equation
+##     F <- rbind(phi.ext,
+##                cbind(diag(r-1), 0))
+##     Omega <- matrix(0, r, r)
+##     Omega[1,1] <- pars$sig2
+##     dt <- matrix(0, r, 1)
+##     Tt <- array(F, c(r, r, 1))
+##     HHt <- array(Omega, c(r, r, 1))
+##     ## initial observations
+##     a0 <- rep(0, r)
+##     P0 <- matrix(solve(diag(r^2) - kronecker(F, F)) %*% as.numeric(Omega), r, r)
+##     ## run Kalman filter
+##     kf <- fkf(a0, P0, dt, ct, Tt, Zt, HHt, GGt, matrix(x, 1, length(x)))
+##     c(kf, list(H=H, F=F))
+## }
+
+kalman.arma <- function(pars, x) {
+    ## state-space representation of ARMA process based on Harvey-Koopman
+    require(FKF)
+    ## Kalman filter for ARMA(p,q)
+    p <- length(pars$phi)
+    q <- length(pars$theta)
+    r <- max(p, q+1)
+    if (r>p) {
+        phi.ext <- c(pars$phi, rep(0, r-p))
+    } else {
+        phi.ext <- pars$phi
+    }
+    if (r>q+1) {
+        theta.ext <- c(pars$theta, rep(0, r-q-1))
+    } else {
+        theta.ext <- pars$theta
+    }
+    ## measurement equation
+    ct <- matrix(0, 1, 1)
+    H <- c(1, rep(0, r-1))
+    Zt <- array(H, c(1, r, 1))
+    GGt <- array(0, c(1, 1, 1))
+    ## transition equation
+    F <- cbind(phi.ext, rbind(diag(r-1), 0))
+    v <- c(1, theta.ext)
+    Omega <- pars$sig2*outer(v, v)
+    dt <- matrix(0, r, 1)
+    Tt <- array(F, c(r, r, 1))
+    HHt <- array(Omega, c(r, r, 1))
+    ## initial observations
+    a0 <- rep(0, r)
+    P0 <- uCovVar(F, Omega)
+    ## run Kalman filter
+    kf <- fkf(a0, P0, dt, ct, Tt, Zt, HHt, GGt, matrix(x, 1, length(x)))
+    c(kf, list(H=H, F=F))
+}
+
+getPistarArimaBN <- function(infl, p=12, q=12) {
+    order <- c(p, 1, q)
+    print(arima.fit <- arima(infl, order))
+    pars <- list(phi = arima.fit$model$phi,
+                 theta = arima.fit$model$theta[1:q],
+                 sig2 = arima.fit$sigma2)
+    kf <- kalman.arma(pars, diff(df$pi))
+    c(NA, as.numeric(df$pi[-1] + kf$H %*% kf$F %*% solve(diag(p+q) - kf$F) %*% kf$att))
+}
+
+## getSSMatrices.uc.old <- function(pars, pi0=4, v0=100) {
+##     ## get state-space matrices -- Hamilton for ARMA
+##     p <- length(pars$phi)
+##     q <- length(pars$theta)
+##     r <- max(p, q+1)
+##     if (r>p) {
+##         phi.ext <- c(pars$phi, rep(0, r-p))
+##     } else {
+##         phi.ext <- pars$phi
+##     }
+##     if (r>q+1) {
+##         theta.ext <- c(pars$theta, rep(0, r-q-1))
+##     } else {
+##         theta.ext <- pars$theta
+##     }
+##     H <- matrix(c(1, 1, theta.ext), 1, r+1)
+##     F <- rbind(c(1, rep(0, r)),
+##                c(0, phi.ext),
+##                cbind(0, diag(r-1), 0))
+##     Omega <- diag(c(pars$signu2, pars$sigv2, rep(0, r-1)))
+##     a0 <- c(pi0, rep(0, r))
+##     P0 <- rbind(c(v0, rep(0, r)),
+##                 cbind(0, matrix(solve(diag(r^2) - kronecker(F[-1,-1], F[-1,-1])) %*% as.numeric(Omega[-1,-1]), r, r)))
+##     list(F=F, Omega=Omega, a0=a0, P0=P0, H=H)
+## }
+
+getSSMatrices.uc <- function(pars, pi0=4, v0=100) {
+    ## get state-space matrices  -- Harvey-Koopman for ARMA
+    p <- length(pars$phi)
+    q <- length(pars$theta)
+    r <- max(p, q+1)
+    if (r>p) {
+        phi.ext <- c(pars$phi, rep(0, r-p))
+    } else {
+        phi.ext <- pars$phi
+    }
+    if (r>q+1) {
+        theta.ext <- c(pars$theta, rep(0, r-q-1))
+    } else {
+        theta.ext <- pars$theta
+    }
+    H <- matrix(c(1, 1, rep(0, r-1)), 1, r+1)
+    if (r==1) {
+        F <- diag(c(1, phi.ext))
+    } else {
+        F <- rbind(c(1, rep(0, r)),
+                   cbind(0, phi.ext, rbind(diag(r-1), 0)))
+    }
+    V <- cbind(c(1, rep(0, r)), c(0, 1, theta.ext))
+    Omega <- V %*% diag(c(pars$signu2, pars$sigv2)) %*% t(V)
+    SDs <- sqrt(c(pars$signu2, pars$sigv2))
+    if (any(is.na(SDs))) stop()
+    Sigma <- V %*% diag(SDs)
+    a0 <- c(pi0, rep(0, r))
+    if (r==1) {
+        tmp <- 1 - F[2,2]
+        P0 <- rbind(c(v0, rep(0, r)),
+                    cbind(0, matrix(1/tmp %*% as.numeric(Omega[-1,-1]), r, r)))
+    } else {
+        P0 <- rbind(c(v0, rep(0, r)),
+                    cbind(0, uCovVar(F[-1,-1], Omega[-1,-1])))
+    }
+    list(F=F, Omega=Omega, Sigma=Sigma, a0=a0, P0=P0, H=H, V=V)
+}
+
+kalman.uc <- function(pars, y) {
+    require(FKF)
+    ## X_t = (pi*_t, z_t, ..., z_t-r+1)
+    ##  - z_t is AR(p) process, c_t = theta(L) z_t
+    ##  - similar to kalman.arma
+    rval <- getSSMatrices.uc(pars)
+    r <- length(rval$a0) - 1
+    ## measurement equation
+    ct <- matrix(0, 1, 1)
+    Zt <- array(rval$H, c(1, 1+r, 1))
+    GGt <- array(pars$sig2, c(1, 1, 1))
+    ## transition equation
+    dt <- matrix(0, r+1, 1)
+    Tt <- array(rval$F, c(r+1, r+1, 1))
+    HHt <- array(rval$Omega, c(r+1, r+1, 1))
+    ## run Kalman filter
+    fkf(rval$a0, rval$P0, dt, ct, Tt, Zt, HHt, GGt, matrix(y, 1, length(y)))
+}
+
+simData.uc <- function(pars, T) {
+    r <- length(pars$a0) - 1
+    X <- matrix(NA, r+1, T)
+    P0 <- pars$P0
+    ## P0[1,1] <- 1  # what was this for?
+    X[,1] <- pars$a0 + t(chol(P0)) %*% rnorm(r+1)
+    for (t in 2:T)
+        X[,t] <- pars$F %*% X[,t-1] + pars$Sigma %*% rnorm(2)
+    df <- data.frame(trend = X[1,],
+                     cycle = as.numeric(pars$H[-1] %*% X[-1,]))
+    df$pi <- as.numeric(pars$H %*% X) + rnorm(T, sd=sqrt(pars$sig2))
+    df
+}
+
+getSigNu2 <- function(tau, theta, phi, sigv2) {
+    MAsum <- 1+sum(theta)
+    ARsum <- 1-sum(phi)
+    LRV <- MAsum^2/ARsum^2*sigv2
+    ## tau = sqrt(pars$signu2)/sqrt(LRV)
+    signu2 <- tau^2 * LRV
+}
+
+getSigV2 <- function(tau, theta, phi, signu2) {
+    MAsum <- 1+sum(theta)
+    ARsum <- 1-sum(phi)
+    ## tau = sqrt(pars$signu2)/sqrt(MAsum^2/ARsum^2*sigv2)
+    sigv2 <- signu2/MAsum^2*ARsum^2/tau^2
+}
+
+est.uc <- function(infl, p, q=0, TAU, SIG2, nstarts=10) {
+    fixed <- rep(NA, q)
+    qfree <- sum(is.na(fixed))
+    nvars <- 1 + is.na(TAU) + is.na(SIG2)
+    gamma2pars <- function(gamma) {
+        pars <- list(sigv2 = exp(gamma[p+qfree+1]))
+        pars$tau <- ifelse(is.na(TAU), exp(gamma[p+qfree+2]), TAU)
+        pars$sig2 <- ifelse(is.na(SIG2), exp(gamma[p+qfree+nvars]), SIG2)
+        u <- gamma[1:p]
+        a <- (1-exp(-u))/(1+exp(-u)) # PACFs constrained to (-1,1) -> ensures stationarity
+        pars$phi <- DL.fast(a)
+        if (q>0) {
+            pars$theta <- as.double(fixed)
+            v <- gamma[(p+1):(p+qfree)]
+            pars$theta[mask] <- v   # MA coefficients unconstrained
+        }
+        pars$signu2 <- getSigNu2(pars$tau, pars$theta, pars$phi, pars$sigv2)
+        pars
+    }
+    pars2gamma <- function(pars) {
+        a <- ARMAacf(ar=pars$phi, pacf=TRUE) ## PACFs implied by AR(p)
+        u <- -log((1-a)/(1+a))
+        if (q>0) {  # MA coefficients
+            b <- pars$theta[is.na(fixed)]
+            v <- b  # MA coefficients unconstrained
+            rval <- c(u, v)
+        } else {
+            rval <- u
+        }
+        rval <- c(rval, log(pars$sigv2))
+        if (is.na(TAU))
+            rval <- c(rval, log(pars$tau))
+        if (is.na(SIG2))
+            rval <- c(rval, log(pars$sig2))
+        rval
+    }
+    obj <- function(gamma) {
+        penalty <- 5000
+        if (any(abs(gamma)>10))
+            return(penalty)
+        pars <- gamma2pars(gamma)
+        -kalman.uc(pars, df$pi)$logLik
+    }
+    ## random starting values
+    best.llk <- -Inf
+    tbl <- matrix(NA, nstarts, 3 + nvars)
+    nms <- c("starting LLK", "optimal LLK", "conv", "sigv2")
+    if (is.na(TAU)) {
+        nms <- c(nms, "tau")
+    }
+    if (is.na(SIG2)) {
+        nms <- c(nms, "sigma^2")
+    }
+    colnames(tbl) <- nms
+    for (i in 1:nstarts) {
+        gamma0 <- c(rnorm(p, sd=1), rnorm(qfree, sd=1), log(runif(nvars, 0.01, .1)))
+        rval <- optim(gamma0, obj, control=list(maxit=10000))
+        tbl[i, ] <- c(-obj(gamma0), -rval$value, rval$convergence, exp(tail(rval$par, nvars)))
+        cat("Optimization", i, "- starting value", -obj(gamma0), "maximal value", -rval$value, "...\n")
+        if (-rval$value > best.llk) {
+            best.llk <- -rval$value
+            gamma <- rval$par
+            cat("best LLK improved to", best.llk, "\n")
+        }
+    }
+    print(round(tbl[order(tbl[,2], decreasing=TRUE),], 2))
+    stopifnot(all.equal(gamma, pars2gamma(gamma2pars(gamma))))
+    cat("log-lik at starting values:", -obj(gamma), "\n")
+    ## optimization
+    cat("# 1. Nelder-Mead optimization...\n")
+    rval <- optim(gamma, obj, control=list(maxit=10000))
+    print(rval)
+    gamma <- rval$par
+    cat("# 2. gradient-based method...\n")
+    rval <- optim(gamma, obj, method="L-BFGS-B", hessian=TRUE)
+    print(rval[-6])
+    H <- rval$hessian
+    cat("Hessian eigenvalues", round(eigen(H)$values, 4), "\n")
+    gamma <- rval$par
+    checkKKT(gamma, obj)
+    cat("likelihood at optimum:", -obj(gamma), "\n")
+    pars <- gamma2pars(gamma)
+
+    ## look at results
+    cat("# Parameters in unconstrained space and standard errors:\n")
+    SEs <- sqrt(diag(solve(H)))
+    tbl <- cbind(gamma, SEs, grad(obj, gamma), diag(H))
+    print(round(tbl, d=4))
+    cat("abs(AR roots):", abs(polyroot(c(1, -pars$phi))), "\n")
+    cat("abs(MA roots):", abs(polyroot(c(1, pars$theta))), "\n")
+
+    getParVec <- function(pars) {
+        ## get vector with parameters, LLK, and summary stats
+        x <- pars$phi
+        nms <- paste("AR", 1:p)
+        if (q>0) {
+            x <- c(x, pars$theta[is.na(fixed)])
+            nms <- c(nms, paste("MA", which(is.na(fixed))))
+        }
+        x <- c(x, pars$sigv2)
+        nms <- c(nms, "sigma_v^2")
+        if (is.na(TAU)) {
+            x <- c(x, pars$tau)
+            nms <- c(nms, "tau")
+        }
+        if (is.na(SIG2)) {
+            x <- c(x, pars$sig2)
+            nms <- c(nms, "sig2")
+        }
+        setNames(x, nms)
+    }
+    getStatVec <- function(pars) {
+        ## log-likelihood
+        llk <- kalman.uc(pars, df$pi)$logLik
+        MAsum <- 1+sum(pars$theta)
+        ARsum <- 1-sum(pars$phi)
+        LRV <- MAsum^2/ARsum^2*pars$sigv2
+        signal.to.noise <- sqrt(pars$signu2)/sqrt(LRV)
+        setNames(c(pars$signu2, llk, MAsum, ARsum, signal.to.noise),
+                 c("sigma_nu^2", "LLK", "MA-sum", "AR-sum", "signal-to-noise"))
+    }
+    obj2 <- function(x) {
+        pars <- list(phi = x[1:p],
+                     sigv2 = x[p+qfree+1])
+        pars$tau <- ifelse(is.na(TAU), x[p+qfree+2], TAU)
+        pars$sig2 <- ifelse(is.na(SIG2), x[p+qfree+nvars], SIG2)
+        if (qfree > 0) {
+            pars$theta <- as.double(fixed)
+            if (airline) {
+                pars$theta[c(1,12)] <- x[p+1:2]
+                pars$theta[13] <- x[p+1]*x[p+2]
+            } else {
+                pars$theta[mask] <- x[(p+1):(p+qfree)]
+            }
+        }
+        pars$signu2 <- getSigNu2(pars$tau, pars$theta, pars$phi, pars$sigv2)
+        -kalman.uc(pars, df$pi)$logLik
+    }
+    x <- getParVec(pars)
+    stopifnot(all.equal(obj2(x), obj(gamma)))
+    H2 <- hessian(obj2, x, method.args=list(eps=1e-9))
+    SEs <- sqrt(diag(solve(H2)))
+    cat("Table with parameters (standard errors) and summary statistics:\n")
+    stats <- getStatVec(pars)
+    tbl <- cbind(c(x, stats), c(SEs, rep(NA, length(stats))))
+    rownames(tbl) <- c(names(x), names(stats))
+    colnames(tbl) <- c("Estimates", "SEs")
+    print(round(tbl, d=4))
+
+    c(pars, list(pistar = kalman.uc(pars, df$pi)$att[1,]))
+}

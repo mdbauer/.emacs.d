@@ -1,0 +1,1492 @@
+* Next actions
+** TODO edits to paper
+*** emphasize excellent size and power of bootstrap
+*** update code (possibly rerun) simulations -- without IM
+* Calls with Jim
+** call with Jim about paper/Chicago
+*** Duffee discussion
+**** my thoughts
+- what point is he making about overlapping observations?
+  - maybe suggestion is to use Hodrick (1992) standard errors?
+    - R1 also brings these up
+    - those are only valid under the null of the expectations hypothesis
+      hypothesis, so I believe they cannot be used to test the spanning hypothesis?!
+    - should we still investigate them?
+  - should we expand our theory to include overlapping observations?
+    - clearly size distortions get a lot worse, because the effects we
+      describe interact with overlapping observations, similar to how
+      Stambaugh bias interacts with overlapping observations
+    - for now we stick to simulations in this case
+- I am not 100% convinced that slide 7 is right - is the intuition for
+  Stambaugh bias really that simple?
+  - x_t is not correlated with u_t+1 -- beta_x is still consistent
+  - is his intuition still right?
+- otherwise his derivations make sense
+  - nice intuitoin about Stambaugh bias
+  - nice complement to our local-to-unity derivations to see the intuition
+  - shows clearly why spurious regression and Stambaugh bias *together*
+    make estimator for beta_y problematic
+- but our local-to-unity derivations have some clear advantages
+  - give precise distribution of estimator
+  - show why distribution is non-standard
+  - Duffee's arguments don't explain why asymptotic standard errors do
+    poorly in small samples, but ours do
+**** Jim
+- thinks slide 7 is right
+- slide 11 - mean zero
+- Hodrick standard errors
+  - don't solve the problem we describe for h=1
+  - no reason to believe they'd work well
+  - may look into them
+- he's not saying something fundamentally different than we are
+
+*** shifting inflation trend
+- I am quite convinced by the evidence in Cieslak-Povala and R1's
+  report
+  - Why is it so helpful to detrend PC1?
+  - don't have good intuition why spanning could be violated with
+    shifting trends
+    - what is wrong with standard spanning argument?
+    - measurement error (BR, CPo) is one possible explanation
+  - if yields are cointegrated with inflation and pi Granger-causes y
+    then pi (or pi*) belongs in predictive equations
+  - Crucial feature that pi doesn't help but pi* helps a lot - need to
+    explain this
+  - I am trying to build yield-curve models that incorporate shifting trends
+- may need to tone down language in our paper
+- worth thinking harder about econometric issues in Cieslak-Povala
+- What do I respond if people bring this up in Chicago?
+- What do we do about this issue in our paper?
+  - bootstrap pi* using stationary bootstrap since it's tough to capture
+    behavior with AR(1)
+  - just focus on the econometrics of these regressions, don't get too
+    involved into debate of whether pi* is spanned theoretically
+
+**** Jim
+- time trend
+  - can increase distortion if it's not there
+  - put in time trend in estimated regression
+- CPo - should do bootstrap
+- thinks we might be able to explain it with time trend/quadratic
+  trend
+- if think the time trend is important
+- how to include Cieslak-Povala
+  - my thinking: if we do our usual thing it won't explain it
+  - additional thing we can do: include trend so that our simulations
+    contain trend
+- cointegration?
+  - if x1 and x2 are cointegrated it's not a spurious regression
+  - would work against it
+
+plan A: problems can get more serious if you add time trends, we think
+that's behind this, we'll investigate this further
+plan B: have results before Friday
+
+*** what/when are our next steps for the revision?
+- suggest to go through reports after Chicago
+- Jim: maybe in a couple of weeks
+
+*** my slides
+could leave out slides 2 and 3
+slide 15 - IM - if I run behind just say it does well
+replace slides 22-23 by one slide with one bullet point
+
+*** EL
+- I need to revise it more: (a) make it more accessible, (b) emphasize
+  broader relevance
+=> send edits to him before sending them to Glenn/Oscar
+
+** call with Jim about Cieslak-Povala
+- what type of bootstrap should we do?
+  - parametric bootstrap for inflation
+  - have relation between yields and inflatio but not spanning
+    - consider cointegration?
+
+*** notes
+priority: what's going on with the Cochrane trend/Cieslak-Povala
+- did we ever do a simulation like this, where we start them at their
+  historical t_0 value
+  - this might put a trend into it
+  - let's try this for basic setup, JPS parameters:
+    simulate PCs, regression with and without time trend
+- about CPo:
+  - also do an EWMA to the simulated inflation data
+  - for simulating inflation, could do AR, UC model, or ARIMA(p, 1, 0)
+    (changes in inflation are AR(p))
+- my idea that PC1 and INF have the same trend
+  - he thinks that is a real promising one
+  - consider their model as a DGP, or something close to it
+  - or rather use their model just to think about what I'm saying
+- spanning in CPo - his idea
+  - inflation trend is spanned by PCs
+  - higher-order PCs  - span PCs but may be unstable predictors
+  - might be parallel with CP - maybe use IM test
+- look at later sample in CPo - Duffee loved this part of our paper
+
+** call with Jim about new ideas on CPo [2016-05-18 Wed]
+my questions:
+
+1. How exactly does his idea work? why do we find t-c.v. around 6?
+   - what is the role of serial correlation in the intuition described
+     in his Word file? seems like we don't need that for Stambaugh bias
+   - should we do it in a simple simulation setup?
+2. what if PC1 has RW/trend + mean reversion component
+   - how would this affect his setup?
+   - would this correspond to my setup? (I think yes)
+   - isn't this what's going on in the data?
+   - does then spanning not hold?
+3. what part of my example/idea do you disagree with?
+   - why can't spanning be said to hold?
+4. Is it worth pursuing a setup where x1 and x2 are cointegrated?
+5. where do we go from here?
+
+*** how he's thinking
+- seems like we got a strong indication that if you put a variable in
+  that captures trend, this gives an additional avenue for Stambaugh
+  bias
+- generate PC1 plus noise, throw it into regression, should work
+  - this thing is cointegrated with PC1
+  - suppose that this variable looks like it has predictive power
+  - does CPo variable do anything beyond that?
+- trouble he had with my setup
+  - I had something that *should* have predictive power
+  - but he wanted something that has *no added value*
+  - MAYBE there's something we could do with my idea
+  - what bothered him about my example is that x_2t non-spuriously
+    predicts x_1t
+- my question about xi_1t being random walk
+  - his derivations are for RW
+- we should start considering the CPo data/setup
+  - we need to figure out what's going on in CPo results
+  - it's different because there it's not a time trend
+Let's both work on it and see what we can come up with.
+-> put together CPo data set and send to Jim
+-> look at trends
+-> generate PC1 plus noise, throw into regression
+
+** call with Jim [2016-05-23 Mon]
+*** things to bring up
+- in economic terms, do we believe that detrending level makes it a
+  solid predictor of future returns
+  - I must say I am quite convinced
+  - maybe we could spin the paper differently: our own section showing
+    that/how the level of the yield curve can be useful as a predictor
+  - add new evidence: bootstrapped CPo, Cochrane, etc
+  - key question: what about spanning hypothesis? maybe qualify it? or
+    can we reconcile the evidence with is?
+
+- detrending with moving average of level works in JPS sample
+
+- let's think about parametric bootstrap for Cieslak-Povala
+  (a) independent (b) cointegrated
+
+- revisit my idea that level is contaminated by a trend but contains
+  component that has predictive power
+  - review why my idea implies that x2 predicts x1
+  - think about ideas so that x2 does not predict x1
+
+- can we generate data for PCs in a different way so that level
+  contains a trend?
+
+*** notes from call
+his vision:
+- we identified two problems
+  - standard error bias
+  - spurious trends -- we observe that if you add a variables with
+    trend it has bias and size distortion -- explains a lot of CPo,
+    SPF, Cochrane stuff
+- thinks it would hit home run, address referee concerns
+- we'll see how far we get
+
+*next*
+- allow intercept for PC1 to change in January 1985 in DGP
+  - AR(1) for CPI trend? that wouldn't work
+  -> actual series for CPI trend
+  -> time trend with break
+
+reaction to my suggestion of how to spin the paper
+- makes paper less interesting
+- you wouldn't want to detrend because it creates huge bias
+
+overall, he is convinced that it's about the deterministic trend and
+not the stochastic trend -- there's something fundamentally different
+going on with the drift/linear trend
+- doesn't think it's useful to play around with other bootstrap
+  designs that involve stochastic trend in pi* or common trend
+
+and he always goes back to the argument that if there was a trend that
+is useful to know, then it should be incorporated in yields, and we
+would need a measurement error story not to see it
+
+=> keep thinking about trends, spanning, the role of the level --
+maybe something will come to me that convinces both Jim and me
+
+** call with Jim [2016-06-13 Mon]
+- things to bring up
+  - what to include in CPo section
+  - can we agree on interpretation of CPo results?
+    - OLS coefficients give lousy predictions? but they work out of sample?
+    - breaking trend - does this really question their finding?
+    - overall result is that inflation trend matters, no?
+  - How to spin the paper
+  - next steps to deal with referee reports
+  - what to include in WFA presentation
+
+- CPo statistically significant and economically significant
+  - but he'd like to be persuaded that they are useful forecasts, and
+    isn't yet
+  - noticed bias in PC1 - mb_sim_unified_20160612.pdf - what is this
+    bias? calculate one very long simulation to get population value
+  - is this a good way to forecast interest rates? trend bias says
+    it's not -- biased coefficients won't give you good forecasts
+  - we do not have a good understanding for why trend is different
+
+his thinking: pure trend always beats their trend, so then let's focus
+on that, and for completeness also look at their trend
+
+- our preferred sample ends in 2013 -- be consistent
+- our replication files should exactly reproduce the results
+  - make sure posted files give same results -- use seed
+- Hodrick SEs/reverse regressions in CPo
+- CPo yields - we may want to use Anh Le
+
+- maybe account for bias when constructing excess returns?
+  - could be something to try. but wouldn't give the same in-sample
+    fit, by construction.
+
+- out of sample forecasts
+  - I think better baseline is null model with level and slope
+    (instead of 6 forward rates)
+  - could be worth trying it ourselves
+  - Jim agrees it (2 cycles) is doing pretty well
+- his key question: how important is trend bias for their result --
+  not for hypothesis test but for usefulness of the coefficients
+
+=> let's figure out the bias in PC1 and trend
+  - don't worry about all kinds of different specs, focus on pure
+    trend
+
+common trend
+- canonical way: trend-cpi is just PC1 + noise
+- otherwise you always violate spanning hypothesis
+
+slides:
+- try to get slides with trend bias and SE bias
+  - similar to email: here is a common framework
+- leave all discussion of CPo out for now
+
+** call with Jim [2016-06-14 Tue]
+comments on what I sent him
+- how does the detrending work?
+  - send him PCs
+- there might be just purely standard error bias
+  - Monte Carlo: see effect on standard error bias if only x_2t
+    includes intercept -- isolate how this makes things worse
+    (intermediate regression even worse properties)
+- how large are the biases in restricted regression on PCs?
+  - report results for restricted
+
+second call:
+- maybe not emphasize dichotomy "SE bias" and "trend bias"
+  - it's more of a continuum
+  - basically: including something irrelevant can make bias worse
+- our section 2.2
+  - mention in the end that it's aggravated if drift in x_2t
+  - include simple simulations for intercepts both zero and non-zero
+  - change Table 1-3 in the paper - bring in different examples
+
+- simple slide with simulation results for Utah
+- email to Anna - Jim draft, I respond/edit
+
+- cointegration -- go ahead and play with it
+  - fine example - spanning hypothesis holds
+
+- prioritize reverse regression
+
+** call with Jim [2016-06-28 Tue]
+- things to bring up
+  - JPS data - all clear?
+  - IM test - big picture: want to include in the paper?
+  - IM test - different ways to assess power
+    - explain my way of simulating under the alternative: yields only
+      load on PCs, macro variables predict yield factors. this is just what
+      JPS suggest to capture unspanned macro risk. implied beta_2
+      comes from the predictive power of macro variables for yield factors.
+    - Jim's suggestion: could work as well. worth trying. problem:
+      inconsistent to first simulate from yields-only model and then
+      add term - may lead to different moments (yield variance, yield
+      serial correlation) than in the data. advantage: may get
+      directly at h-period predictability whereas VAR always imposes
+      first-order Markov structure
+    - let's try both. how can we check that it's a good way to
+      simulate data? compare moments and in particular coefficients to
+      the actual data
+  - IM test - unreliable for level, slope, and curvature
+  - regressions without level - Duffee's suggestion
+    - worth putting this in the paper?
+    - why do LN regressions still have size distortions? if the CP/LN
+      factors are used, then there is no level factor. Is it just
+      Newey-West? Should we look at one-period returns/Wei-Wright SEs?
+  - CPo - how to interpret their results
+    - what to make of reverse regression results?
+    - have we converged on an interpretation? do we agree with the
+      statement "level is not useful by itself, but detrended level is
+      useful"?
+  - anything else that we should take away from WFA?
+
+- lack of enthusiasm on my part?
+- get some simple power numbers
+  - his way to do it: add beta2'x_2t to holding period returns
+  -> do it both ways
+  - acknowledge Duffee's point - power can be small for small
+    departures
+- IM test for q=16 for JPS (original sample) depends on what you do
+  with last subsample
+  - the way he was doing it - distribute last subsample to others -
+    they have
+  -> do it like that in the paper
+
+- CPo reverse regressions?
+  - big picture: solves the problem of serial correlation in u_t, but
+    doesn't solve the problem we lay out => reverse regression are
+    still problematic
+  - do we need to replicate more closely?
+  - Anna didn't seem to think there's a choice about "window length" -
+    h=18 - describe, argue why we do it this way
+  -> look at one-period returns
+  -> let's use PCs like we do elsewhere, but use exactly their
+  inflation trend
+- CPo message - converged?
+  - Jim: like in LN, something there, but less convincing than they
+    claimed
+  - make reference to their theoretical model?
+- LN specification - no SE bias?
+  - Jim: x_2t could be Stambaugh bias variable - if you drop the
+    level, then x_2t could be correlated with lagged returns
+- how to tighten up the paper?
+  - move more first-order asymptotics to appendix, more readable
+  - tighten up the simulation study
+  - worry about this later
+
+- big thing is how that CPo section is going to read, what are the key results
+  => use one consistent data set
+  => produce one table
+
+** call with Jim [2016-07-20 Wed]
+- talk about section 2
+- cointegration results
+- CPo section
+- what should I do?
+
+- delta - level vs innovations of x_1t
+  - do we want to get into something quantitative we have to specify
+    it
+  - don't need it now
+
+- return-forecasting factors
+  - just mention in LN section
+  - *I need to look at one-period returns*
+
+- table for section 2
+  - add two columns for bootstrap and IM test
+  - add panels for different values of rho and delta
+  - maybe columns -> rows
+
+- small-sample simulations vs local-to-unity
+   - only keep local-to-unity
+   - I need to check why they're not the same for small T
+
+- Table 3
+  - delta for h=1
+  - delta for x_2t not needed
+  - may not need table - just talk about the numbers in JPS etc.
+
+"warning flags"
+  - conclusion or section 2 somewhere
+
+revisit CPr and GV once we know how long the paper is
+  - possibly one section with "other studies"
+
+** call with Jim [2016-07-29 Fri]
+- go through editor's letter
+- how do we connect our theory better to applications
+  - add results for monthly returns to JPS section
+  - how to write up CPo section
+- do we need to address the null with 5 PCs?
+
+- we need to satisfy referee 1
+- address editor 1-3
+  - careful paragraph in introduction
+    - other hypotheses are interesting
+    - properly citing the papers
+    - but Occam's razor, 3 PCs seem to do well
+    - less dogmatic
+  - more nuanced acknowledgement
+  - write it in a way that doesn't offend people
+  - let's look at something testable
+  - parsimony - are three enough
+- editor 4.1, referee table 1
+  - kind of like IM test
+  - include IM figure in CPo section
+  - top panel: PC1, PC2, CPI trend
+  - bottom panel: PC1, PC2
+  - explain in more detail to referee 1
+  - but also acknowledge that the slope is the more important
+    predictor of the two
+  - cite papers on predictive power of slope
+  - don't say level and slope are robust, just say there isn't robust
+    evidence for much else, but level + slope do seem to matter
+  - acknowledge in JPS that slope is more important than the level
+  - include results for PCs only in CPo section only
+- trends
+  - primary mission of 2.3, address referee 1
+  - respond in CPo section that that's not all but does give you some bias
+  - response to referee 1 - evidence needs to be interpreted carefully
+- how relevant is that new theory on trends for our applications
+  - my concern is that the referee questions the connection of our
+    theory on trends (just like he questioned the connection of our
+    theory on SE bias) with the applications
+  - how do we show that this is what's going on in application?
+  - show that mu_2 is large relative to sigma_2?
+  -> look at mean change in inflation vs. its standard deviation
+     - look at CPI trend inflation OR y-o-y inflation
+     - compare long-run-variance to mean
+  -> re-run CPo with mu_2=0 -- maybe just use AR(1)
+  -> also look at importance of persistence by setting it to 0.5
+  also:
+  - AR(1) for inflation with breaking mu coefficient in 1985
+  - VAR(1) for PCs
+- we want to see whether with this setup we can get larger size
+  distortions; and that they come from the points that we are highlighting
+- referee 2 - no-arbitrage
+  - throw in something that gives editor cover to over-rule referee 3
+  - footnote - get same results with no-arbitrage
+  - if it is Joslin, he'll never want to publish our paper, but we can
+    provide cover to editor
+  - might be worth doing it with no-arbitrage model
+- referee 2 - discuss papers Duffee etc.
+
+* JF Referee Reports
+** Singleton
+(a) what is the core source of the documented large R^2's from prior
+predictive regressions
+(b) what novel insights does your analysis offer in terms the nature
+and resolution of this phenomenon?
+
+- admittedly we are not very clear about what the MAIN reason is and
+  what this means for macro/finance
+
+** DONE Referee 1
+- contribution is not methodology but the empirical results
+- some doubts about empirical results
+  - lack of power
+  - economic significance
+*** letter to editor
+"I think that the decision to reject or not lies in assessing the
+contribution of the empirical evidence for unspanned macro
+variables. The methodological contribution seems too modest to warrant
+publication in the JF. Most of the simulation evidence characterizing
+the biases is unsurprising. The empirical evidence revisiting the
+earlier studies seems to be the main contribution of the paper. Here
+is where it gets tricky. The JPS paper has about 250 google cites
+today, while Ludvigson and Ng have about 450. There are many working
+papers on unspanned macro risk with a small number of citations. This
+is to some extent an aficionado’s stream in the literature, but I
+think an important enough one. If indeed, there is no robust evidence
+for unspanned macro risks that predict bond returns, this should be
+known. But, there are reasons to be skeptical of the claim."
+
+*** DONE review papers on equity returns that do similar things
+- these papers got into top journals
+**** Conrad, Dittmar and Kaul (JF 03) wrong reference
+**** Chun (2009 working paper)
+*** DONE discuss literature in the introduction
+*** our analytical results are modest
+- very close to existing results
+- I totally agree
+- we may be overemphasizing/overselling this
+  - also in abstract
+*** DONE downplay the importance of results in 2.2 in introduction and abstract
+*** it's the standard errors and not the bias
+- add a row in Table 5
+- ratio of HAC to bootstrap standard errors
+*** DONE future interest rates and bond returns different persistence -> focus on returns
+- it's different when trying to set up comparable simulation results
+- it is different in terms of balanced vs unbalanced
+*** DONE include robust/HAC standard errors in simulations? take a look
+*** DONE clarify role of overlapping returns
+"overlapping returns makes things much more messsy"
+- "may not be worth it?"
+  - we definitely need to address it since we want to revisit literature
+  - we could add results without overlapping returns to address the
+    question how big the size distortions are in that case
+-> footnote on JPS monthly returns
+*** a lot of the results can be expected based on what is known
+- known that the lagged stochastic regressor bias is stronger when the
+  variables are persistent (p.7)
+- known that even when the small sample bias in the coefficient is not
+  at issue, the standard errors are too large in finite samples with persistent predictive regressors (p.8, 13)
+- for example, Stambaugh already shows that standard errors are too
+  small
+*** DONE power and validity of the bootstrap
+his suggestions
+- establish whether/how valid it is
+- simulate from alternative
+=> worry about that once another referee asks for it
+=> but clarify already *in introduction*
+
+*** economic significance?
+(we could look at Sharpe ratios?)
+- seems like a throwaway comment
+- could puff up these existing results - use quote from LN/JPS
+*** DONE sign of delta - negative more natural
+- like in Campbell-Shiller
+- corresponds to our empirical section
+- I guess our footnote is not enough
+
+=> change table 1 and 2?
+  => keep everything the same for now
+=> cite Campbell-Shiller
+
+*** mention in intro that bootstrap addresses BC and delta \neq 0
+*** DONE improve notation pages 9 and 11
+- notation gamma and add sentence about A
+** DONE Referee 2
+- highly skeptical of bootstrap procedure
+*** letter to editor
+"the proposed bootstrap procedure does not take into account a small,
+but persistent component in the fitting errors in generating simulated
+yields. I suspect that this is precisely the predictive component in
+bond yields and returns which is captured by the unspanned
+factors. Since the bootstrap method eliminates, by construction, any
+serial correlation in the measurement errors, it is hardly surprising
+that none of the unspanned factors is found to contain any predictive
+information. From a technical perspective, the proposed bootstrap
+method is also asymptotically invalid (inconsistent) under the adopted
+local-to-unity asymptotics. As you will see in my referee report, I am
+also critical of various other aspects of the bootstrap method (it is
+not clear if it mimics well the correlation structure of all series)
+and the other (IM) method used in the paper (which, strictly
+speaking, is also invalid under the local-to-unity asymptotics and the
+choice of q, used by the authors, does not reflect the highly
+persistent nature of bond yields/PCs and factors)."
+
+"In light of all the concerns that I have about the proposed
+methodology and the tenuous nature of the findings, I recommend that
+the paper is rejected for publication in the Journal of Finance."
+
+*** DONE serial correlation in fitting errors
+- bootstrap uses iid errors, but in the data high serial correlation
+- thinks that ignoring this is key to our findings
+- but we show that even absent serially correlated errors, we can
+  reproduce the large increases in R^2 in the data
+**** investigate bootstrap that has serially correlated errors
+**** DONE discuss this in the paper
+- add footnote that this is not grounds for criticism
+- we are generating *data where there is no predictability* but when you
+  use these tests you would think you found some
+  -> include a sentence in the introduction
+*** does bootstrap procedure generate same delta?
+- we looked at this, can easily report in paper
+- let's not put this in until we have a clear understanding
+*** "nothing new in Section 2.2.1" and "Section 2.2.2 is redundant"
+- agreed. could relegate to appendix
+- paper is already pretty long, and we want to focus on the validity
+  of bootstrap and the empirical results
+****  Cavanagh, Elliott and Stock (1995)
+
+*** DONE bootstrap is invalid
+- because c_i are not consistently estimable
+**** DONE how to address
+- sentence in the introduction
+- references and clarification in Section 2.3
+* Luetkepohl feedback
+- are you sure that the VAR works and gives you the right
+  distribution? it's not obvious
+  - my answer: it won't give you the exactly right solution
+- the predictive regression is a bad model
+  - it is unbalanced, a stationary LHS variable and highly persistent
+    RHS variables
+  - surprised that this is considered so commonly in this literature
+  - instead of trying to fix the problems of this bad model, why not
+    simply estimate a better model which is well-specified?
+  - make the regression balanced by including lags of x, possibly lags
+    of the dependent variable
+  - standard bootstrap would work fine in this model, but may not even
+    be necessary (only for small-sample issues)
+- what if (elements of) x_1t and x_2t are cointegrated?
+  - in our simple setting, what effects does this have on size etc?
+  - could generate bootstrap samples under cointegration
+  - [does cointegration between INF and PC1 contradict spanning?]
+- Sims-Stock-Watson show that it's okay to estimate regression in
+  levels
+- was very concerned about the IM test. He said "if you ever need an
+insignificant p-value, this is the way to do it" since one could
+easily find a value of q that gives the desired result. Of course we
+have the defense that IM used 8 and 16, but this does remain a
+concern.
+
+* some open issues
+** cointegration
+- estimate two-variable VECM with level and pi*
+  - what is the estimated value of alpha?
+- relate to existing simulation results for cointegration
+- answer Jim's criticism
+
+*** previous cointegration results
+- give same size distortions
+- would appease referee who says it's NOT spurious regression but
+  cointegration
+- but Jim thinks these results don't show that, because I am making
+  the cointegration residual near-integrated
+
+*** TODO test cointegration in CPo data to address R1's criticism
+
+** breaking trends in CPO
+what is the role of allowing for a break in the trend, or a break in
+all parameters, in Jan-1985?
+- do this using monthly returns for ease of computation
+  - no breaks (largest root for X2 is >1) - 0.199 / 0.208 (why
+    difference between getBootDGP and getCPoBootDGP?)
+  - break in trend/intercept              - 0.285
+  - break in mu AND Phi                   - 0.308
+- do it for annual returns and reverse regressions
+  - no breaks                             - 0.239
+  - break in trend (compare to 8/17 notes)- 0.277
+  - break in mu and Phi                   - 0.300
+
+** trends in JPS
+*** understand role of drift
+Why does initializing at t=1 values not help? Does it really not help?
+
+- Results using population mean are actually *stronger*!
+- same for h=1
+- same when initialization is a draw from unconditional distribution
+- despite there being a pronounced drift in yields and macro variables
+  when initialization is at t=1 values
+
+- need to check that yields and macro variables really drift down, on
+  average, when I initialize at t=1 values, and that they both don't
+  drift down when I initialize at the population mean
+
+** How are Sims' results related to our issue at hand?
+
+* balanced vs unbalanced regression issue
+=> add a paragraph or a footnote
+
+** DONE what is serial correlation of residuals?
+** DONE investigate lags
+include lags in predictive regression
+- following Pesaran's and Luetkepohl's suggestions
+- auxiliary model which improves balance and avoids serial correlation
+- investigate in simulations when this works
+- could choose lag order for both x_1t and x_2t using AIC/BIC
+
+** DONE look at papers on balanced/unbalanced
+- Ventosa-Santaularia (2009) "Spurious Regressions"
+- Ventosa-Santaularia (2012) "Unbalanced Regressions and Spurious Inference"
+- Noriega and Ventosa-Santaularia (2007) "Spurious Regression and
+  Trending Variables"
+- Stewart (2011) "A Note on Spurious Significance in Regressions
+  Involving I(0) and I(1) Variables"
+
+** DONE Jim's email 1/2/2016 - understood and verified in simulations
+- implicit: y_t has a unit root (component) since it's our standard setup
+- reasoning for his conclusions: based on chapter 18 in his book
+  - see 18.3, page 561-562
+
+* Big picture/vision/goal
+Question: Why higher-order/hidden/unspanned factors predict excess returns?
+- Using simulation studies, tease out what feature of the DGP generates
+small-sample predictability a la Cochrane-Piazzesi.
+- Assess evidence in published papers
+  - do some key results go away with inference that is robust against
+    spurious results?
+  - can we create a related experimental design to generate similar
+    results with what is in fact a purely spurious predictive relation
+
+* Relevant papers
+** Dai-Singleton-Wang critique and Cochrane response
+** Ludvigson-Ng - RFS
+- they emphasize cyclicality
+  - is there cyclicality when using only level and slope as return predictors?
+- to replicate return data we want to use bond prices to construct yields
+- they argue that CP factor is already controlling for all the information in the yield curve
+*** What they do in their appendix
+- bootstrap under the null -- weak EH
+  - obtain distribution and CIs of coefficients under null
+  - estimated coefficients are outside these confidence intervals
+- bootstrap under the alternative
+  - CIs exclude zero
+** Watson slides
+** Bekaert, Hodrick, Marshall (1997) On biases in EH tests
+*positive* bias in Campbell-Shiller regressions
+accounting for bias leads to "more consistent rejection of the
+expectations hypothesis"
+** Bekaert, Hodrick, Marshall (2001) Peso problem explanations for term structure anomalies
+- use bootsrap as described below
+- regime-switching to explain deviations from EH
+
+** Bekaert and Hodrick (2001) Expectations Hypothesis Tests
+- basic idea: simulate yields under EH
+- small-sample inference is less strong than under asymptotic
+  inference
+  - conventional tests reject the EH too often
+  - this seems to conflict with their 1997 paper
+- nice systematic discussion of why EH could be rejected
+
+** Fama papers -- Fama-Bliss, Fama-French
+** Stambaugh bias/predicting stock returns with persistent regressors
+*** Mankiw and Shapiro (1986) Do we reject too often?
+*** Stambaugh (1999) Predictive regressions
+- classical reference
+- small-sample results
+- relate bias in beta to bias in rho
+  - upward bias in beta if downward bias in rho and negative
+    correlation of innovations
+
+*** Elliott and Stock (1994)
+ - study a similar setting to Stambaugh
+ - analyze it using local-to-unity
+ - closely related to Campbell and Yogo (2006)
+*** Campbell and Yogo (2006) Efficient tests of stock return predictability
+1. pretest to determine whether conventional tests are valid
+2. efficient test, based on Bonferroni method
+ - only practical for scalar predictor
+ - fails for stationary predictor (see Phillips, 2014)
+
+- nicely distinguish first-order and local-to-unity asymptotics
+- eq (11) shows really nicely how delta nonzero causes trouble
+
+related papers:
+- Lewellen (2004)
+- Elliott and STock (1994)
+- Valkanov (2003)
+
+*** Valkanov (2001, JFE) Long-horizon regressions: theoretical results and applications
+ - valid inference for long-horizon regressions, which include Campbell-Shiller and many others
+   - asymptotic results are based on the assumption that the horizon
+     goes to infinity
+ - also derives asym. distribution of R^2 for local-to-unity process
+   - shows that it converges to a random limit
+
+*** Torous, Valkanov, Yan (2004) On Predicting Stock Returns with Nearly Integrated Explanatory Variables
+ - tests based on local-to-unity for both one-period and overlapping
+   returns
+ - seems similar to Campbell and Yogo
+ - size distortions larger for long-horizon returns
+
+*** Hjalmarsson (2011, JFQA) New Methods for Inference in Long-Horizon Regressions
+ - instead of using robust standard errors, divide t-statistic by square
+ root of forecasting horizon
+ - for endogenous regressors, need augmented regression which is not
+   feasible
+ - feasible methods only available for scalar
+** robust inference/HAC
+*** Hodrick (1992)
+*** Andrews (1991)
+*** Kiefer and Vogelsang (2005, Econometric Theory)
+*** Goncalves and Vogelsang (2011) Block Bootstrap HAC Robust Tests- The Sophistication of the Naive Bootstrap
+*** Sun (2004) A Convergent t-Statistic in Spurious Regressions
+*** Sun (2014, JE) Let’s fix it Fixed-b asymptotics versus small-b asymptotics in heteroskedasticity and autocorrelation robust inference
+*** Sun (2014) Fixed-smoothing Asymptotics and Asymptotic F and t Tests in the Presence of Strong Autocorrelation
+*** Mueller (2014) HAC Corrections for Strongly Autocorrelated Time Series
+*** Ibragimov-Mueller
+ papers that cite them:
+ -> could only find applications to clustered data
+ -> but good description of time series context and simulation resutls in the paper
+**** Stock: The Other Transformation in Econometric Practice: Robust Tools for Inference
+ discusses autocorrelation-robust inference only in context of panel data
+**** Bloom et al: Does management matter: Evidence from India
+   - use Ibragimov-Mueller to get robust standard errors:
+     - obtain estimates for each firm separately, then t-test across firms
+**** Cameron-Miller: Robust inference with clustered data
+ An alternate approach for correct inference with few clusters is presented by Ibragimov
+ and Muller (2010). Their method is best suited for settings where model identi?cation,
+ and central limit theorems, can be applied separately to observations in each cluster. They
+ propose separate estimation of the key parameter within each group. Each group's estimate
+ is then a draw from a normal distribution with mean around the truth, though perhaps
+ with separate variance for each group. The separate estimates are averaged, divided by
+ the sample standard deviation of these estimates, and the test statistic is compared against
+ critical values from a T distribution. This approach has the strength of o?ering correct
+ inference even with few clusters. A limitation is that it requires identi?cation using only
+ within-group variation, so that the group estimates are independent of one another
+
+** other time series econometrics
+*** Magdalinos and Phillips (2009) Limit Theory for Cointegrated Systems with Moderately Integrated and Moderately Explosive Regressors
+ - also Phillips, P. C. B. and T. Magdalinos (2007), “Limit theory for Moderate deviations
+ from a unit root.” (univariate)
+ - develop limit theory for ``near-stationary'' (KMS) or ``mildly
+   integrate'' (Phillips and Magdalinos, 2009)
+ - root is rho = 1+c/k_n and k_n grows more slowly than n (e.g., k_n =
+   n^alpha, alpha < 1)
+ -  "Such roots represent moderate deviations from unity in the sense that they belong to larger asymptotic neighborhoods of
+ one than conventional local to unity roots." Phillips and Magdalinos
+ (2009, p.1)
+*** Phillips and Magdalinos (2009)
+ - use limit theory developed by MP09 to estimate cointegrated systems
+   with instruments
+ Q: how exactly is this related to a standard cointegrated system?
+   - apparently A is the matrix of cointegrating coefficients
+ - if mildly integrated then ``the system (1) - (2) has characteristics that
+ are similar to those of a stationary simultaneous equations model. For example, suit-
+ ably standardized sample moments converge to constant matrices rather than random
+ matrices, in which case the traditional effects of (first order) simultaneous equations
+ bias begin to manifest in ordinary least squares estimation.''
+ - if near-integrated or integrated, then very different.
+ - problem is that /we don't know a priori what is the case/
+   - need ``valid inference without knowledge of the precise degree of in-
+ tegration of the regressors''
+ - robustify inference using mildly integrated instruments
+   - it is possible to remove the long run endogeneity that is present
+     in conventional cointegration theory even in the local to unity
+     regressor case
+ - IVX
+   - constructed with linear filter from Delta x_t
+   - instruments are mildly integrated and correalted with x_t
+   - asymptotically relevant
+   - asymptotically valid - asymptotic orthogonality
+ - bias-corrected IVX estimator
+   - (similar to FM-OLS, i.e., fully-modified least squares)
+   - need nonparametric estimate of one sided long run covariance
+     matrix Delta_0x
+   - is asymptotically mixed normal or normal, depending on beta
+ - Wald statistic is chi-squared in any case
+   - no a priori knowledge of the order of persistence is required
+   - while rate of convergence of IVX estimator depends on persistence
+   - but this does not affect self normalized tests such as the Wald test
+*** Jansson and Moreira (2006)
+ test statistic conditioning
+ - practical experience has been disappointing
+ - algorithmic complications
+*** Chevillon-Mavroeidis-Zhan (2015) Robust inference in structural VARs with long-run restrictions
+*** Mikusheva (2012) One-dimensional inference in autoregressive models with the potential presence of a unit root
+ cited in Chevillon et al
+*** fully modified regression
+ Phillips (1995) Fully Modified Least Squares and Vector Autoregression, Econometrica
+ Phillips and Hansen (1990) Statistical Inference in Instrumental Variables Regression with I(1) Processes
+** Goyal and Welch (2008, RFS) A comprehensive look at the empirical performance of equity premium prediction
+** Schorfheide et al (2014)
+Schorfheide: "The posterior predictive checks are depicted in Figures
+5 and 6, where you can see very wide intervals. The estimated LLR
+model served as DGP - so the calculation underlying the pictures has a
+similar flavor as your bootstrap. Here it is just used as a model
+diagnostic.
+
+When I first saw the wide bands I was very surprised, but after seeing
+the presentation of your work at the summer institute, I am less
+puzzled. The mechanics of the regressions are a bit different from
+what you presented, but I presume the underlying econometric problem
+is similar."
+
+*** Abstract
+We develop a nonlinear state-space model that captures the joint dynamics of consumption,
+dividend growth, and asset returns. Our model consists of an economy containing a common
+predictable component for consumption and dividend growth and multiple stochastic volatility
+processes. The estimation is based on annual consumption data from 1929 to 1959, monthly
+consumption data after 1959, and monthly asset return data throughout. We maximize the
+span of the sample to recover the predictable component and use high-frequency data, whenever
+available, to efficiently identify the volatility processes. Our Bayesian estimation provides strong
+evidence for a small predictable component in consumption growth (even if asset return data are
+omitted from the estimation). Three independent volatility processes capture different frequency
+dynamics; our measurement error specification implies that consumption is measured much more
+precisely at an annual than monthly frequency; and the estimated model is able to capture key
+asset-pricing facts of the data.
+
+*** my summary
+- to estimate LRR models need both
+  - long span of data (to identify persistent component of consumption)
+  - and high frequency
+- paper combines both in mixed frequency setting
+  - time aggregation is important
+- include different volatility processes to fit the data
+- estimation using particle-filter-based likelihood approximation in M-H algorithm
+  - linear state space conditional on volatility states -- similar to Creal-Wu
+- strong evidence for a small predictable component in consumption growth
+
+** Timmermann - bond return predictability
+** IVX
+- Kostakis-Magdalinos-Stamatogiannis (2015) Robust Econometric Inference for Stock Return Predictability
+- Phillips and Lee (2013) Predictive regression under various degrees of persistence and robust long-horizon regression
+    - overlapping observations -- cumulated returns
+- Lee (2012) Predictive quantile regressions with persistent
+  covariates. Working Paper, Department of Economics, Yale University.
+- Gonzalo and Pitarakis (2012) Regime-Specific Predictability in Predictive Regressions
+  - this estimation could be applied to see whether violations of EH are cyclical!
+- Chevillon, Mavroeidis and Zhan (2015) Robust inference in structural
+  VARs with long-run restrictions
+** Bootstrap
+- Horowitz, J. L. (2003): “The Bootstrap" in Handbook of Econometrics
+- Hardle-Horowitz-Kreiss (2001) Bootstrap Methods for Time Series
+- Berkowitz-Kilian - Recent Developments for Bootstrapping Time Series
+- Kilian (1999) Finite-sample properties of percentile and
+  percentile-t bootstrap confidence intervals for impulse reponses
+  - critique of percentile-t bootstrap
+  - percentile bootstrap w/o studentizing may be more accurate in
+    small samples
+
+bootstrap invalid for unit root / local-to-unity processes:
+**** Basawa et al (Annals of Statistics, 1991)
+http://www.jstor.org/stable/2242105
+**** Hansen (Restat, 1999) The Grid Bootstrap and the Autoregressive Model
+- motivated by the fact that for autoregressive models "it is known
+  that conventional bootstrap methods fail to provide correct
+  first-order asymptotic cov erage when an autoregressive root is
+  close to unity"
+**** Mikusheva (Econometrica, 2007) Uniform Inference in Autoregressive Models
+http://onlinelibrary.wiley.com/doi/10.1111/j.1468-0262.2007.00798.x/abstract
+
+**** Park (Journal of Econometrics, 2006) A bootstrap theory for weakly integrated processes
+http://www.sciencedirect.com/science/article/pii/S0304407605001296
+- bootstrap valid for these processes
+- maybe our bootstrap is valid, we just need to use different
+  asymptotic justification?
+
+"Indeed, Basawa et al. (1991) show that for AR(1) model the bootstrap
+based on the fitted regression becomes inconsistent if the process has
+a unit root, i.e., the resulting bootstrap distribution is different
+from the sample distribution even asymptotically."
+
+"As shown recently by Park (2003a) "Bootstrap unit root tests" the
+bootstrap becomes consistent and gives an asymptotic refinement if the
+presence of the unit root is imposed in generating bootstrap samples."
+
+** Bias correction
+- Kilian (1998) Small-sample confidence intervals for impulse response
+  functions
+- Chau (2014) On the equivalence of infirect inference and bootstrap
+  bias correction
+
+** Pastor and Stambaugh (2009)
+** Binsbergen and Kojen (2010) Predictive regressions: a present value approach
+model expected returns and expected dividend growth rates as latent processes and use filtering techniques to uncover them
+
+** lagged dependent variables
+- Durbin (1970, Econometrica) Testing for Serial Correlation in
+  Least-Squares Regression When Some of the Regressors are Lagged
+  Dependent Variables
+- Keele and Kelly (2005) Dynamic Models for Dynamic Theories: The Ins
+  and Outs of Lagged Dependent Variables
+- Greene, chapter 21
+- Wooldridge, Introduction to Econometrics, Chapter 12
+
+** local-to-unity econometrics
+- Chan (1988) The Parameter Inference for Nearly Nonstationary Time
+  Series
+- Phillips (1987, Econometrica) -- unit roots
+- Phillips (1987, Biometrika) -- local to unity
+- Phillips (1988) Regression theory for near-integrated time series
+
+** spurious regression
+*** Granger and Newbold (1974) Spurious Regressions in Econometrics
+*** Granger, Hyung, Jeon (2001) Spurious regressions with stationary series
+- key question: how often is the null falsely rejected?
+- even if series are stationary we can have spurious rejections
+- they have some asymptotic theory, based on conventional first-order asymptotics
+- conclusion: use a better specification
+
+** spurious predictability
+*** Ferson, Sarkissian and Simin (FSS, JF 03) Spurious Regressions in Financial Economics
+- cite this paper in the introduction
+- spin our paper similarly - no big new econometrics, but important
+  new results
+*** Novy-Marx (JFE 14) Predicting anomaly performance with politics, the weather, global warming, sunspots, and the stars
+http://www.sciencedirect.com/science/article/pii/S0304405X14000208
+- nice Merton quote: "difficult to use the time series of realized
+  returns to distinguish among different models for expected return."
+- "If one insists on rejecting the conclusion that El Nin˜o, solar activity, and the planetary aspects have
+significant power predicting anomaly performance, when standard predictive regressions fail to reject the
+hypotheses that these variables are unrelated to anomaly returns, than one must reject some other precept
+of the methodology. I suppose that one could, instead, question the assumption, completely standard in the
+literature, of a time homogeneous linear relation between expected returns and the predictive variable. For a
+discussion of some related issues, see Roll (1977)."
+*** Deng (J. Financial Econometrics, 13) "Understanding Spurious Regression in Financial Economics"
+http://jfec.oxfordjournals.org/content/12/1/122
+Abstract:
+A new asymptotic framework is used to provide finite sample
+approximations for various statistics in the spurious return
+predictive regression analyzed by Ferson, Sarkissian, and Simin
+(2003a). Our theory explains all the findings of Ferson, Sarkissian,
+and Simin (2003a) and confirms the theoretical possibility of a
+spurious regression bias. The theory developed in the article has
+important implications with respect to existing inferential theories
+in predictive regressions. We also propose a simple diagnostic test to
+detect potential spurious regression bias in empirical analysis. The
+test is applied to four variants of the SP500 monthly stock returns
+and the six Fama-French benchmark portfolio monthly returns.
+
+*** Kan and Zhang (1999) GMM tests of stochastic discount factor models with useless factors
+http://www.sciencedirect.com/science/article/pii/S0304405X99000331
+Abstract: This paper studies generalized method of moments tests for
+the stochastic discount factor representation of asset pricing models
+when one of the proposed factors is in fact useless, defined as being
+independent of the asset returns. Analytic results on asymptotic
+distributions and simulation results on finite sample distributions
+both show that (i) the Wald test tends to overreject the hypothesis of
+a zero factor premium for a useless factor when the model is
+misspecified, (ii) with the presence of a useless factor, the power of
+the over-identifying restriction test in rejecting misspecified models
+is reduced, and in some cases a misspecified model with a useless
+factor is more likely to be accepted than the true model.
+
+** Phillips (2015) Pitfalls and Possibilities in Predictive Regression
+** out-of-sample forecasting
+**** Hansen and Timmermann (2015) Equivalence Between Out-of-Sample Forecast Comparisons and Wald Statistics
+http://rady.ucsd.edu/docs/faculty/SplitTime_2015_0206.pdf
+**** Hansen and Timmermann (2012) Choice of Sample Split in Out-of-Sample Forecast Evaluation
+Abstract: Out-of-sample tests of forecast performance depend on how a given data set is split
+into estimation and evaluation periods, yet no guidance exists on how to choose the
+split point. Empirical forecast evaluation results can therefore be di cult to interpret,
+particularly when several values of the split point might have been considered. When
+the sample split is viewed as a choice variable, rather than being Þxed ex ante, we
+show that very large size distortions can occur for conventional tests of predictive accuracy.
+Spurious rejections are most likely to occur with a short evaluation sample, while
+conversely the power of forecast evaluation tests is strongest with long out-of-sample
+periods. To deal with size distortions, we propose a test statistic that is robust to the
+e!ect of considering multiple sample split points. Empirical applications to predictability
+of stock returns and inßation demonstrate that out-of-sample forecast evaluation
+results can critically depend on how the sample split is determined.
+
+"out-of-sample performance as the “ultimate test of a forecasting
+model” (Stock & Watson (2007, p. 571))."
+
+"tests of predictive accuracy for a model with one additional
+parameter conducted at the nominal 5% level, but conducted at all
+split points between 10% and 90% of the sample, reject 15% of the
+time, i.e., three times as often as they should."
+
+* Presentations/conferences
+** DONE mini-talk -- 30 minute discussion
+   SCHEDULED: <2015-02-11 Wed>
+
+** DONE submit to 26th CEPR European Summer Symposium in Financial Markets
+   DEADLINE: <2015-03-24 Tue>
+** DONE submit to NBER SI Forecasting and Empirical Methods in Macro and Finance
+   DEADLINE: <2015-03-31 Tue>
+http://www.nber.org/confsubmit/backend/cfp?id=SI15EFWW
+** DONE submit to AEAs
+   DEADLINE: <2015-04-01 Wed>
+** DONE submit to Econometric Society Winter Meetings
+   DEADLINE: <2015-05-05 Tue>
+https://www.econometricsociety.org/meetings/schedule/2016/01/03/2016-north-american-winter-meeting
+** DONE submit to our FI conference
+   DEADLINE: <2015-05-23 Sat>
+** DONE submit to NBER-NSF time series conference
+   DEADLINE: <2015-06-01 Mon>
+2015 NBER-NSF Time Series Conference
+http://wutimeseries2015.wu.ac.at/
+
+** DONE give brown bag
+   DEADLINE: <2015-05-29 Fri>
+** DONE submit to Macro-Finance Society conference
+   SCHEDULED: <2015-08-31 Mon>
+The next Macro Finance workshop will be held in Philadelphia on
+October 29-30 (Thursday-Friday) at the Wharton School, sponsored by
+the Rodney L. White Center for Financial Research.  Urban Jermann and
+Nick Roussanov are in charge of the program.  You are invited to
+submit your papers for this conference by August 31 by replying to
+mfssubmission@gmail.com
+
+** DONE submit to Jackson Hole Finance Conference
+   DEADLINE: <2015-09-25 Fri>
+** DONE put out FRBSF working paper
+** DONE submit to JF
+
+* edits to presentation
+** see comments in PDF for Hamburg presentation
+** other edits
+- work in a reference to our spanning paper, say, on slides 5 or 6
+- combine 5 and 6
+- 9: preview issues or just say small-sample issues?
+- repetitive/confusing: 9, 12, 15
+- should 18 come after we show results for simple case?
+- (12?) weak exog. first, then serial corr.
+- 31: emphasize that H_0 holds, non-zero corr is not that important
+- 34: "prediction with" instead of "regression on"
+* discussion in Cleveland
+- Duffee (2007) general null vs. restricted null
+  - http://www.econ2.jhu.edu/People/duffee/duffeePremiaMacro.pdf
+- Huang and Shi (2014) SAGLasso
+** Todd Clark
+- Did LN have out-of-sample results?
+  - If they screwed up the in-sample, how did they get OOS?
+- Can we prove the validity of our bootstrap under local-to-unity?
+  - take a look at Clark and McCracken paper where beta_2 is local-to-zero
+- Heteroskedasticity?
+  - some German guys use moving-block bootstrap for residuals
+
+I have pasted below a link to the paper that develops a paper for a
+VAR with conditional heteroskedasticity.  Mike McCracken and I used a
+version of their bootstrap for tests of predictive ability applied to
+conditional forecasts from VARs (conditioning makes the forecasts
+conditional on the error variance matrix, so we couldn’t use the
+standard bootstrap).
+
+https://ub-madoc.bib.uni-mannheim.de/36858/1/Br%C3%BCggemann,_Jentsch,_Trenkler_14-21.pdf
+
+Clark and McCracken (2014) Evaluating Conditional Forecasts from
+Vector Autoregressions
+
+* Our bootstrap
+** DONE bis issue: spanning hypothesis doesn't hold
+issue:
+- spanning hypothesis does not hold if all of the following are true
+  - we simulate x_1t from VAR(12)
+  - x_1t and x_2t are correlated
+  - we regress on only one lag
+- the reason is that x_2t is not orthogonal to the error term
+*** Jim's suggestions:
+1. Include lags in predictive regression
+  - pros: std bootstrap still valid
+  - con: different regression than what people ran
+2. Use VAR(1)
+  - pros: same regression, simple setup
+  - con: data may have more complex serial correlation than that, may
+    not be able to capture predictability under the null
+3. Have independent Vars
+  - pros: simple, same as before
+  - cons: results weak, ignores strong correlation
+*** open questions:
+- What does the math look like for annual excess returns?
+- Can we try to flexibly and accurately capture the correlations in
+  the data and at the same time generate bootstrap samples in which
+  exactly the null we are interested in holds?
+- Can we generate an error term that is orthogonal to x_2t by
+  construction?
+  - could ensure spanning hypothesis by orthogonalizing returns
+    w.r.t. x_2t
+- How do we know that our bootstrap fits the data well?
+  - model-implied vs. empirical (auto/cross)covariances
+  - compare empirical covariance to population cov and CI for
+    small-sample covariance
+** notes phone call on omitted-lags issue
+- clean message in the paper
+  - econometric issue about this inference
+  - to show how these issues mattered, use VAR(1) (as baseline case)
+- but also, richer dynamics probably there
+  - if VAR(12) then would need 12 lags in predictive regression
+  - VAR(12) more consistent with observed correlations
+- which one matters more?
+  - how important are the two factors -- small-sample vs. omitted
+    variables
+- compare VAR(1) and VAR(12) for JPS and LN
+- lag choice
+  - show that you need more than one lag
+    - test VAR(1) vs. VAR(12) likelihood ratio test
+    - or information criterion
+  - why necessarily VAR(12) for yields?
+    - instead choose both p and q using BIC
+
+** our contribution
+- people realize size distortions and address them with bootstrap
+  - Cooper-Priestley " the results show that for horizons greater than one month, in-
+ference in predictive regressions using Newey-West t-statistics and statements
+about predictive power based on the R 2 can be hazardous if regard to the small-
+sample properties is ignored." p. 2827
+  - Ang-Bekaert -- Ang, A., and G. Bekaert. 2007. Stock Return Predictability: Is it There? Review of Financial Studies 20:651¡V707
+  - Ludvigson-Ng, Cochrane-Piazzesi, Greenwood-Vayanos
+  - Bekaert-Hodrick, Bekaert et al
+- but these bootstrap experiments always impose the null of *no predictability*
+- instead, we impose the null that only the first three PCs of yields have predictive power
+
+** DONE bias correction to get DGP parameters
+** DONE parametric Student-t GARCH bootstrap
+** DONE using existing simulation study
+** DONE extend to capture cross-correlation from x1(t-1) to x2(t)
+- make sure this is correct
+** DONE re-sample residuals instead of drawing from normal distribution
+** what does H0 imply? Phi12=0 necessarily?
+- write down regression coefficients beta2 in terms of DGP parameters
+- what does beta2 = 0 imply?
+- maybe less restrictive than Phi12=0?
+- do this just for VAR(1) to get intuition, hopefully avoid math for VAR(12) (but could always do canonical form)
+** measurement errors (serially correlated?) / PC estimation
+*** DONE include reasonably sized measurement errors
+*** TODO include serially correlated measurement errors
+*** TODO use estimated PCs instead of true factors
+** bootstrap results not only for xr.avg but also for four individual bond maturities
+** should we bootstrap test stats for x1 (instead of only F-stat for x2)?
+- bootstrap t-stats on all predictors
+  - would have to simulate under the null that predictors don't affect returns
+** unit root for PC1? cointegration?
+** stationary/block bootstrap?
+** consider other test statistics than just F-stat?
+- slope coefficient, increase in R^2, partial R^2
+- t-stats
+* Lower Priority
+** think about what causes size distortions in LN regressions using CP and H8 (delta seems tiny, persistence not that high)
+** Monte Carlo simulation -- include IM test of $\beta_1 = 0.99$ ?
+I wonder whether we want to include in the Monte Carlo simulation
+results discussed in 2.4 the IM test for beta_1 = 0. This would likely
+show the serious size distortions in the presence of coefficient
+bias. That would then probably cast doubt on our evidence from the IM
+test for the predictive power of PC1 and PC2, which might force us to
+either tone down those claims or provide additional support for them
+using the bootstrap.
+** mention in LN CP/H8 table why we're not including IM results
+** improve bootstrap computational efficiency
+*** draw initial observation from unconditional distribution for p>1
+see Luetkepohl p. 708 and Berkowitz-Kilian p.5
+*** be more efficient if doing the same for multiple dependent variables
+** CIs for level and slope
+- how to say that level and slope are robust predictors?
+- could generate CIs around the coefficients!
+** fix VAR.Boot2 -- shouldn't condition on first observations of actual data (VAR.ys2)
+** include sub-sample results for CP in appendix
+** include an equation or two for the intuition for spanning? (Cochrane's suggestion)
+** cite Bauer-Rudebusch, BRW, and Rudebusch's work on bias correction
+** IVX
+*** TODO Newey-West IV
+*** TODO revisit h=1
+- simulation results didn't look too bad!
+  - do they depend a lot on choice of rho?
+** introduce tau^star, compare to tau
+I noticed that we don't talk about the asymptotic distribution of
+tau^star = beta^star_2 / SE(beta^star_2) anymore (unless I oversaw
+it). I think bringing this back can help intuition. The limiting
+distribution of tau^star looks similar to that of tau, with the
+crucial difference that K_{c1,c2} is replaced by J^mu_c2 -- this makes
+the distribution standard normal since each of the terms is normal
+conditional on W_2 and hence unconditionally. We could then clarify
+that under first-order asymptotics tau^star has the same distribution
+as tau (because A_T goes to zero) but under local-to-unity asymptotics
+this is not generally the case. Again, this matters only under
+delta>0, whereas with delta=0 tau and tau^star have the same limiting
+distribution even with near-spurious regressors. I may work that into
+the presentation.
+
+** TODO use Muellers S12/S24 inference
+
+** TODO power -- simulate from model where H0 is false
+- how often is false null rejected
+- e.g., simulate from unrestricted VAR
+- make sure test is consistent -- power goes to one as T -> Infty
+** TODO IM test
+*** TODO think harder about choice of q -- trade-off!
+- think about math for correlation between blocks
+*** TODO verify assumptions using bootstrap
+** TODO Hodrick (1992)
+*** DONE replicate Wei-Wright
+*** DONE test relevant null using reverse regression
+- need to use reverse regression delta method
+*** TODO figure out why more obvious way for standard errors does not work
+*** compare to CP results/returns/inference?
+- Wei-Wright data is basically the same
+
+*** add Hodrick-92 inference to Ludvigson-Ng and other case studies ?
+- not unless it makes any difference for CP
+
+** subsample analysis for CP
+*** DONE results if I split samples in half
+- PC4 and PC5 are not significant in second half of the sample
+
+*** DONE sub-sample analysis of Duffee in forecasting-handbook
+   :LOGBOOK:
+   CLOCK: [2015-02-11 Wed 19:27]--[2015-02-11 Wed 19:27] =>  0:00
+   :END:
+  -> he's right that the CP sample is highly unusual
+  -> only sample where R^2 are that high
+  -> 1952-2010 PC4 and PC5 are *not significant*, R^2  .16 -> .19
+  -> 1972-2010 barely 1% significant, .15 -> .21
+
+*** TODO CP: what did PC4 do in 2003-2013?
+- different sign?
+- seems like it from plotting subsample betas
+*** TODO every possible start date: T0 to T, trying all different T0s
+*** TODO *rolling subsamples* -- where to PC4/PC5 matter?
+*** TODO rotate outliers in and out
+
+** TODO economic significance
+- variance decomposition?
+- R2 of orthogonal regressors
+- partial R2 (when regressors are not orthogonal)
+- can you make money by including the additional regressors?
+
+** TODO real-time data
+** TODO additional DGPs in simulations
+ (standardize using Y(t) = A + B*X(t))
+  - made up DGPs with higher persistence
+  - DTSMs, e.g. only slope has predictive power
+** TODO understand simulation study better
+*** TODO simulation results vs. estimates in the data?
+- GRO/INF very different -- possible scaling issue?
+  -> yields are simulated under the null that GRO and INF do not matter!!
+- PC3 typicaly quite different between simulation and data, both for JPS and CP
+*** TODO what is the RIGHT significance level?
+- for X2, H0 is true, so 5% is the right size
+ - what is the right size for other coefficients?
+  - for PC1, coefficient always significant
+  - for PC2, significant in 50% of the cases
+  - for PC3, significant in 7% of the cases
+
+** case study: stochastic vol/implied vol
+- what other papers are out there?
+** case study: lags of the term structure -- CP find that lags matter -- address this
+** TODO investigate cyclical behavior of slope-predictions over the last 50 years
+** TODO revisit Duffee's hidden factor results
+- take a close look at time series on his website
+- can we do something regression-based?
+-> his stuff in section 3 is mostly regression based
+-> equation 33 and corresponding column in Table 3
+*** main points of Duffee's paper
+- we should use latent factors, and more than three
+- filtering information reveals hidden factors
+*** critique
+- expected returns should be priced into current yields
+- hidden factor has no intuitive interpretation
+- result may be by construction
+  - higher-order models imply higher full-information predictability
+  - principal components of observed yields cannot keep up (even if number of PCs=number of factors)
+*** ways to investigate these issues
+1. get RP factor
+   - get RP factor from Greg
+   - estimate four-/five-factor models, replicate results in Table 2
+2. test whether it has additional forecasting power beyond the first three PCs of yields
+
+** TODO influential analysis of Cochrane-Piazzesi and Ludvigson-Ng
+- outlier detection
+http://www.r-bloggers.com/a-tutorial-on-outlier-detection-techniques/
+** TODO Cochrane-Piazzesi
+*** TODO experimental design that can generate CP's key results?
+- no predictive power of higher-order PCs -- purely spurious
+  (a) EH
+  (b) only slope predicts excess returns
+- 2-4 factors drive yields, but only 0-1 factors drive excess returns
+- investigate:
+  - patterns of coefficients on forward rates in small and large samples?
+    - reproduce CP's figure 4 a,b using simulation (maybe analytically too)
+  - effects of measurement error specifications
+    - serial correlation
+    - cross correlation
+- other ideas for DGP:
+  - bias correction for factor VAR or fitting errors
+  - *12 lags!*
+*** TODO Idea how CP result could be spurious
+- measurement error across yields could produce tent shape
+  - middle forward rate gets largest effect somehow due to its maturity being central, being the average maturity
+- tent-shape predictability for forward rates translates naturally into strong predictive power of 4-5 year yield spread
+- in data with 1-5 year yields, 4th PC naturally captures 4-5 year spread
+  - typical feature of yield data -- after level, slope, curve, spread between long rates is important
+
+**** TODO design measurement errors that create tent shape
+**** TODO try measurement errors on forward rates instead of yields
+
+** TODO figure out difference between Stambaugh bias and spurious regressions
+- in simulations, separately show Stambaugh bias vs. spurious results
+- for example, regress bond returns /only/ on independent, persistent regressors
+  - what is the population vs. small-sample R^2? is it zero?
+
+** TODO think about new ways to do inference/new test
+*** autocorrelation-robust inference
+- is there a way to do even better than with Simplified-HH?
+  - what is the autocorrelation function of f(t)*eps(t+1)?
+    - look at it empirically
+    - derive as function of yield dynamics
+*** use what we know about the problem
+time-series and cross-sectional properties of yields imply:
+(i) the specific form of correlation between yields and excess returns
+(ii) the autocorrelation function of f(t)*eps(t+1)
+How can we take advantage of these for inference?
+
+*** TODO bootstrap using bias correction and/or cointegration
+- CP report their tests in Table 4 only for standard VAR bootstrap
+- but yields are highly persistent and that VAR is biased!
+
+** TODO understand relationship VAR parameters/yield loadings <=> predictability/EH
+- what is the model-implied predictability for simple factor-model?
+- in which case does the EH hold, i.e., when is population R^2 = 0?
+- can we test the EH using only VAR parameters?
+
+VAR describes auto/cross-covariances of yields in (more or less) parsimonious fashion
+
+Does estimated factor model tell me predictability in population vs. small sample?
+-> then I should be using that instead of excess-return regressions !?
+
+I'm confused: VAR tells me population values but regressions tell me small-sample values?
+-> can't be right. both are based on small-sample estimates
+Rather:
+- assuming VAR parameters are true DGP, I can get pred. for both population and small samples
+- But of course I don't really know the true DGP
+
+There should be a sense in which the VAR estimates imply the same predictability as the regression estimates.
+- for VAR(1) the implied predictabtiliy is lower than in the regressions
+- for VAR(12) (or HAR) it presumably is the same
+- e.g., if I have a VAR model which captures covariances between all five yields at annual lags, then it should imply EXACTLY the same coefficients as in the regressions
+
+* bootstrap in other papers
+** Cochrane-Piazzesi bootstrap
+to get robust standard errors
+- parametric/residual bootstrap from VAR(12)
+  - estimate VAR(12)
+  - bootstrap residuals
+  - create 50,000 bootstrap sample
+  - estimate coefficients
+  - obtain standard errors
+- cointegrated VAR
+to test the expectations hypothesis
+- bootstrap under the EH
+  - estimate AR(12) for the short rate
+  - bootstrap residuals to create bootstrap samples
+  - calculate EH-consistent long rates based on AR(12) expectations
+  - run regressions in bootstrap samples
+
+** Ludvigson-Ng (2009, Technical Appendix; 2010, Section 5.2)
+- parametric bootstrap for each series
+- generate data samples under the null hypothesis
+
+** Greenwood-Vayanos
+- use stationary block bootstrap of Politis and Romano (1994) to obtain distribution of test statistic
+- not clear whether the distribution is generated under the null!
+  - this is necessary to obtain p-values
+  - but it seems like the procedure of G-V just generates bootstrap samples from the empirical distribution of the data
+
+** Bekaert-Hodrick-Marshall (1997)
+Monte Carlo/bootstrap:
+- estimate VAR for yields with bias correction
+- estimate GARCH for residuals
+- generate data under the null
+  - bootstrap standardized residuals to construct series of long rates and short rate
+  - calculate EH-consistent long rates/spreads
+  - run Campbell-Shiller regression
+  - repeat 5,000 times
+
+** Bekaert-Hodrick (2001)
+- parametric bootstrap using a VAR which imposes the null hypothesis
+  - complicated parameter restrictions on VAR to impose expectations hypothesis
+** Bekaert-Hodrick-Marshall (2001)
+- parametric model for the short rate (regime-switching model)
+- simulate data under EH
+  - simulate short rate
+  - calculate EH-consistent long yields
+  - run Campbell-Shiller regression
+  - repeat 200,000 times
+
+* Features of simulation studies
+** sample size
+- compare small samples to large samples
+- look for pattern that is characteristic of small samples and goes
+  away when sample size goes to infinity
+** measurement errors
+*** serial correlation of measurement errors
+*** small vs. large measurement errors
+  - relative to the size of the innovations of the factors
+*** cross correlation of measurement errors
+** Predictability of excess returns
+- variability of true excess returns
+- serial correlation of true excess returns
+  -> serial dependence is important for spurious regression, see JF article!
+** Predictors
+- PCs of simulated data
+- PCs using true weights from actual data
+- true factors plut linear comb. of measurement errors
+** Realized returns
+calculated using either fitted or observed (simulated) yields
+
+
+
+
+
+
+
+
+

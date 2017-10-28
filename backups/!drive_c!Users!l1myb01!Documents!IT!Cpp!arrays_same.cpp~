@@ -1,0 +1,13 @@
+#include <iostream>
+using namespace std;
+
+bool same_elements(int a[], int b[], int n) {
+
+}
+
+int main() {
+  int* x = {1, 2, 2, 0};
+  int* y = {2, 1, 0, 2};
+  cout << same_elements(x, y, 4) << endl;
+  return 0;
+}

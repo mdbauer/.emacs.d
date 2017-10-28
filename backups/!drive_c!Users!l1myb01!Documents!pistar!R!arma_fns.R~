@@ -1,0 +1,113 @@
+## getSumMA1 <- function(delta, rho, sige2, sigu2) {
+##     ## get MA-rep of (1+delta*L)et + (1+rho*L)ut
+##     v <- delta + rho*sigu2/sige2
+##     w <- 1 + delta^2 + (1+rho^2)*sigu2/sige2
+##     theta.1 <- (w + sqrt(w^2 - 4*v^2))/(2*v)
+##     theta.2 <- (w - sqrt(w^2 - 4*v^2))/(2*v)
+##     sigu2.1 <- (delta*sige2 + rho*sigu2)/theta.1
+##     sigu2.2 <- (delta*sige2 + rho*sigu2)/theta.2
+##     list(theta.1=theta.1, theta.2=theta.2, sigu2.1=sigu2.1, sigu2.2=sigu2.2)
+## }
+
+## getTrueVarRatio <- function(b, signu2, sigv2) {
+##     rval <- getSumMA1(-1, -b, sigv2, signu2)
+##     theta <- rval$theta.1 # get MA coefficient of ARMA representation for differences
+##     sigu2 <- rval$sigu2.1
+##     var.dpi <- sigu2*(1 + (b+theta)^2/(1-b^2))
+##     signu2/var.dpi
+## }
+
+## getTrueACF <- function(b, signu2, sigv2, maxlag=10) {
+##     ## autocorrelations of first differences
+##     ## implied by RW-AR(1) model -- ARIMA(1,1,1)
+##     theta <- getSumMA1(-1, -b, sigv2, signu2)$theta.1 # get MA coefficient of ARMA representation for differences
+##     ## (1 - b*L) delta pi_t = (1 + theta*L) u_t
+##     rho <- numeric(maxlag)
+##     rho[1] <- (b + theta)*(1 + b*theta)/(1 + 2*b*theta + theta^2)
+##     for (i in 2:maxlag) rho[i] = b*rho[i-1]
+##     rho
+## }
+
+## kalman.arma <- function(pars, x) {
+##     ## state-space representation of ARMA process based on Hamilton -- much faster than Morley (2002)
+##     require(FKF)
+##     ## Kalman filter for ARMA(p,q)
+##     p <- length(pars$phi)
+##     q <- length(pars$theta)
+##     r <- max(p, q+1)
+##     if (r>p) {
+##         phi.ext <- c(pars$phi, rep(0, r-p))
+##     } else {
+##         phi.ext <- pars$phi
+##     }
+##     if (r>q+1) {
+##         theta.ext <- c(pars$theta, rep(0, r-q-1))
+##     } else {
+##         theta.ext <- pars$theta
+##     }
+##     ## measurement equation
+##     ct <- matrix(0, 1, 1)
+##     H <- c(1, theta.ext)
+##     Zt <- array(H, c(1, r, 1))
+##     GGt <- array(0, c(1, 1, 1))
+##     ## transition equation
+##     F <- rbind(phi.ext,
+##                cbind(diag(r-1), 0))
+##     Omega <- matrix(0, r, r)
+##     Omega[1,1] <- pars$sig2
+##     dt <- matrix(0, r, 1)
+##     Tt <- array(F, c(r, r, 1))
+##     HHt <- array(Omega, c(r, r, 1))
+##     ## initial observations
+##     a0 <- rep(0, r)
+##     P0 <- matrix(solve(diag(r^2) - kronecker(F, F)) %*% as.numeric(Omega), r, r)
+##     ## run Kalman filter
+##     kf <- fkf(a0, P0, dt, ct, Tt, Zt, HHt, GGt, matrix(x, 1, length(x)))
+##     c(kf, list(H=H, F=F))
+## }
+
+kalman.arma <- function(pars, x) {
+    ## state-space representation of ARMA process based on Durbin-Koopman
+    require(FKF)
+    ## Kalman filter for ARMA(p,q)
+    p <- length(pars$phi)
+    q <- length(pars$theta)
+    r <- max(p, q+1)
+    if (r>p) {
+        phi.ext <- c(pars$phi, rep(0, r-p))
+    } else {
+        phi.ext <- pars$phi
+    }
+    if (r>q+1) {
+        theta.ext <- c(pars$theta, rep(0, r-q-1))
+    } else {
+        theta.ext <- pars$theta
+    }
+    ## measurement equation
+    ct <- matrix(0, 1, 1)
+    H <- c(1, rep(0, r-1))
+    Zt <- array(H, c(1, r, 1))
+    GGt <- array(0, c(1, 1, 1))
+    ## transition equation
+    F <- cbind(phi.ext, rbind(diag(r-1), 0))
+    v <- c(1, theta.ext)
+    Omega <- pars$sig2*outer(v, v)
+    dt <- matrix(0, r, 1)
+    Tt <- array(F, c(r, r, 1))
+    HHt <- array(Omega, c(r, r, 1))
+    ## initial observations
+    a0 <- rep(0, r)
+    P0 <- uCovVar(F, Omega)
+    ## run Kalman filter
+    kf <- fkf(a0, P0, dt, ct, Tt, Zt, HHt, GGt, matrix(x, 1, length(x)))
+    c(kf, list(H=H, F=F))
+}
+
+BeveridgeNelsonTrend <- function(pi, arima.fit, p, q) {
+    pars <- list(phi = arima.fit$model$phi,
+                 theta = arima.fit$model$theta[1:q],
+                 sig2 = arima.fit$sigma2)
+    kf <- kalman.arma(pars, diff(pi))
+    cat("log-likelihood from Kalman Filter:  ", kf$logLik, "\n")
+    c(NA, as.numeric(pi[-1] + kf$H %*% kf$F %*% solve(diag(nrow(kf$F)) - kf$F) %*% kf$att))
+}

@@ -1,0 +1,17 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   .gitignore
+#	modified:   R/bod_plot.R
+#	modified:   R/clean_raw_data.R
+#	modified:   data/interest.csv
+#	modified:   data/pce.csv
+#	modified:   png/interest.png
+#	modified:   png/pce.png
+#	modified:   ra_scripts/template.R
+#	modified:   raw_data/Interest Rates_SBC.xlsx
+#

@@ -1,0 +1,32 @@
+library(boot)
+R <- 80000
+cd4.rg <- function(data, mle) MASS::mvrnorm(nrow(data), mle$m, mle$v)
+cd4.mle <- list(m = colMeans(cd4), v = var(cd4))
+print(corr(cd4))
+print(system.time(cd4.boot <- boot(cd4, corr, R, sim = "parametric", ran.gen = cd4.rg, mle = cd4.mle)))
+## print(cd4.boot)
+print(boot.ci(cd4.boot, type = c("norm", "basic", "perc"), conf = 0.9, h = atanh, hinv = tanh))
+
+## do it in parallel
+run1 <- function(...) {
+    library(boot)
+    cd4.rg <- function(data, mle) MASS::mvrnorm(nrow(data), mle$m, mle$v)
+    cd4.mle <- list(m = colMeans(cd4), v = var(cd4))
+    boot(cd4, corr, R=10000, sim = "parametric", ran.gen = cd4.rg, mle = cd4.mle)
+}
+cl <- makeCluster(detectCores())
+print(cl)
+clusterSetRNGStream(cl, 123)
+print(system.time(cd4.boot2 <- do.call(c, parLapply(cl, seq_len(R/10000), run1))))
+print(boot.ci(cd4.boot2, type = c("norm", "basic", "perc"), conf = 0.9, h = atanh, hinv = tanh))
+stopCluster(cl)
+
+## alternative approach
+cl <- makeCluster(detectCores())
+clusterExport(cl, c("cd4.rg", "cd4.mle"))
+junk <- clusterEvalQ(cl, library(boot))
+clusterSetRNGStream(cl, 123)
+res <- clusterEvalQ(cl, boot(cd4, corr, R=10000, sim="parametric", ran.gen=cd4.rg, mle=cd4.mle))
+cd4.boot3 <- do.call(c, res)
+print(boot.ci(cd4.boot3, type = c("norm", "basic", "perc"), conf = 0.9, h = atanh, hinv = tanh))
+## but this does it only once on each core

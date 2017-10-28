@@ -1,0 +1,71 @@
+## our general model with inflation cycle and real-rate gap
+rho.c = 0.95
+rho.g = 0.99
+rho.x = 0.99
+lam.pistar = -0.01
+lam.rstar = -.02
+lam.c = 0.01
+lam.g = 0.01
+
+N <- 120
+
+B.pistar <- numeric(N+1)
+B.c <- numeric(N+1) #
+B.rstar <- numeric(N+1)
+B.g <- numeric(N+1) #
+B.x <- numeric(N+1)
+B.pistar[1] <- 0
+B.c[1] <- 0
+B.rstar[1] <- 0
+B.g[1] <- 0
+B.x[1] <- 0
+for (n in 2:(N+1)) {
+    B.pistar[n] <- -1 + B.pistar[n-1]
+    B.c[n] <- -1 + rho.c*B.c[n-1]
+    B.rstar[n] <- -1 + B.rstar[n-1]
+    B.g[n] <- -1 + rho.g*B.g[n-1]
+    B.x[n] <- B.x[n-1]*rho.x - B.pistar[n-1]*lam.pistar - B.c[n-1]*lam.c - B.rstar[n-1]*lam.rstar - B.g[n-1]*lam.g
+}
+B.pistar <- -B.pistar[2:(N+1)]/(1:N)
+B.rstar <- -B.rstar[2:(N+1)]/(1:N)
+B.g <- -B.g[2:(N+1)]/(1:N)
+B.c <- -B.c[2:(N+1)]/(1:N)
+B.x <- -B.x[2:(N+1)]/(1:N)
+
+cols <- c("black", "green", "blue", "yellow", "red")
+plot(B.pistar, ylab="Loadings", xlab="Maturity", col=cols[1], ylim=range(-B.x/(1:N)), type="l", lwd=2, lty=1)
+lines(B.c, col=cols[2], lwd=2, lty=2)
+lines(B.rstar, col=cols[3], lwd=2, lty=3)
+lines(B.g, col=cols[4], lwd=2, lty=3)
+lines(B.x, col=cols[5], lwd=2, lty=1)
+## abline(h=0, lty=2)
+legend("bottomright", c("pi*", "c", "r*", "g", "x=RP"), col=cols, bg="white", lwd=c(2,2,2,2,2), lty=c(1,2,3,3,1), cex=0.8)
+
+B <- rbind(B.pistar, B.c, B.rstar, B.g, B.x)
+
+affineLoadings <- function(pars, mats) {
+    J <- length(mats)
+    A <- matrix(NA, 1, J)
+    B <- matrix(NA, 5, J)
+    Atmp <- 0
+    Btmp <- rep(0, 5)
+    phiQ <- pars$phi - pars$lam1
+    phiQp <- t(phiQ)
+    delta1 <- c(1,1,1,1,0)
+    for (n in 1:max(mats)) {
+        Btmp <- phiQp %*% Btmp - delta1
+        ind <- mats==n
+        if (any(ind)) {
+            B[,which(ind)] <- - Btmp/n
+        }
+    }
+    list(A=A, B=B)
+}
+
+pars <- list(phi = diag(c(1, rho.c, 1, rho.g, rho.x)),
+             lam1 = cbind(matrix(0, 5, 4), c(lam.pistar, lam.c, lam.rstar, lam.g, 0)))
+B2 <- affineLoadings(pars, mats = 1:N)$B
+
+print(round(cbind(t(B), NA, t(B2)), 2))
+
+stopifnot(isTRUE(all.equal(B, B2, check.attributes=FALSE)))

@@ -1,0 +1,86 @@
+* Request process
+- M account
+  - go through Tri
+- jump server access for M-account
+  - https://onefed.frb.org/communities/ADLT/_layouts/15/WopiFrame.aspx?sourcedoc=/communities/ADLT/Technical%20PaaS%20Documents/AWS-Sandbox-Cloud-Jump-Server-Request-Instructions.pdf&action=default
+- Smartronix account
+
+* Notes on suitability for statistical computing
+- RAM: 1GB, max 8GB could be too small
+* instructions/connection
+** launch and manage instances on Amazon console
+This is the first step in the process
+- login to AWS console using credentials provided by Smartronix
+https://frbsanfran.signin.aws.amazon.com/console
+- launch EC2 instance per NIT/Smartronix instructions
+https://onefed.frb.org/communities/ADLT/_layouts/15/WopiFrame.aspx?sourcedoc=/communities/ADLT/Technical%20PaaS%20Documents/AWS-Sandbox-Customer-Guide.pdf&action=default
+- retrieve password (need PEM file obtained from Smartronix) and
+  private IP
+
+** RDP from COE to jump server
+- Launch "Remote Desktop Connection" (RDP)
+- connect to jump server NR3PWVGCS700
+- use M-account credentials
+
+** choice of instance
+https://blog.cloudability.com/comparing-aws-t2-large-and-m4-large-ec2-instances/
+https://blog.cloudability.com/m4-large-vs-c4-large-examining-the-two-aws-ec2-instances/
+
+monitoring EC2 metrics:
+http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring_ec2.html
+
+** my EC2 Windows server
+- RDP from jump server to EC2 instance
+10.121.104.245
+- login with credentials obtained at AWS console
+Administrator
+WeOP8@GCx&;x2jmWxTbbl6pWZe6G2Eik
+
+- download Google Chrome and set as default browser
+- download dropbox desktop app
+- install R and Rstudio and necessary R packages
+- install putty
+** my EC2 Linux instance
+private IP: 10.121.104.243
+connection using putty and ppk key from Windows machine (jump box or
+instance)
+
+git pull https://bitbucket.org/mdbauer/linux-install.git
+cp linux-install/.emacs ~
+linux-install/install.sh
+
+*** Things to set up better
+- instance settings | Change User Data
+
+- store credentials for bitbucket
+
+*** How to run jobs
+If I want to start a long-running job and disconnect:
+ nohup Rscript job.R &
+
+or: screen/tmux
+https://unix.stackexchange.com/questions/479/keep-ssh-sessions-running-after-disconnection
+
+
+* Performance
+- run delnegro_estimate.R in different settings, M=20,000
+| system                           | time         |
+|----------------------------------+--------------|
+| my computer                      | 15.0 minutes |
+| t2.micro, 1GB, Windows           | 20.7 minutes |
+| m4.xlarge, 4 cores, 16GB, Ubuntu | 20.0 minutes |
+| t2.medium, 2 cores, 4GB, Ubuntu  | 19.0 minutes |
+| cn40                             | 30.7         |
+| cn16                             | 24.9 minutes |
+| SLURM                            |              |
+| other compute nodes other        |              |
+
+
+
+
+
+
+
+
+* AWS
+https://aws.amazon.com/marketplace/pp/prodview-lizzdzsm3yq5o?ref_=dsk_srh_res_product_image

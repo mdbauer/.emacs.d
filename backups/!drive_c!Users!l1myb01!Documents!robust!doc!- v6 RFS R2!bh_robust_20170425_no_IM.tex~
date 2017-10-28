@@ -1,0 +1,1769 @@
+%2multibyte Version: 5.50.0.2953 CodePage: 65001
+\documentclass[12pt, oneside]{article}%
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{eurosym}
+\usepackage{dsfont}
+\usepackage{rotating}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage[colorlinks=true,citecolor=blue]{hyperref}
+\usepackage[left=2.4cm,right=2.4cm,top=1in,bottom=1in,verbose]{geometry}
+\usepackage{amsfonts}
+\usepackage{amssymb}%
+\setcounter{MaxMatrixCols}{30}
+%TCIDATA{OutputFilter=latex2.dll}
+%TCIDATA{Version=5.50.0.2953}
+%TCIDATA{Codepage=65001}
+%TCIDATA{LastRevised=Wednesday, January 11, 2017 09:38:39}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Language=American English}
+%BeginMSIPreambleData
+\providecommand{\U}[1]{\protect\rule{.1in}{.1in}}
+%EndMSIPreambleData
+\onehalfspacing
+\newenvironment{changemargin}[1]{  \begin{list}{}{      \setlength{\topsep}{0pt}      \setlength{\leftmargin}{#1}      \setlength{\listparindent}{\parindent}      \setlength{\itemindent}{\parindent}      \setlength{\parsep}{\parskip}    }
+\item[]}{\end{list}}
+\begin{document}
+\begin{titlepage}
+\title{Robust Bond Risk Premia\thanks{The views expressed in this
+paper are those of the authors and do not necessarily reflect
+those of others in the Federal Reserve System. We thank Anna Cieslak, John
+Cochrane, Greg Duffee, Graham Elliott, Robin Greenwood, Helmut
+L\"{u}tkepohl, Ulrich M\"{u}ller, Hashem Pesaran and
+Glenn Rudebusch for useful suggestions, conference participants
+and discussants at the 7th Annual Volatility Institute Conference at the NYU
+Stern School of Business, the NBER Summer Institute 2015, the Federal
+Reserve System Macro Conference 2015 in Cleveland, the Federal Reserve
+Bank of San Francisco Fixed Income Research Conference 2015, the
+CESifo Conference on Macro, Money and International Finance 2016 in Munich, the
+Spring 2016 NBER Asset Pricing Workshop in Chicago, and the
+Western Finance Association Conference 2016 in Park City, as
+well as seminar participants at the Federal Reserve Bank of Boston, the Free University
+of Berlin, and the University of Hamburg for helpful comments, Javier Quintero and Simon
+Riddell for excellent research assistance, and Anh Le, Marcel
+Priebsch, Serena Ng, Robin Greenwood, Richard Priestley and Anna Cieslak for the data used
+in their papers.}}  \author{Michael
+D. Bauer\footnote{Federal Reserve Bank of San Francisco,
+101 Market St MS 1130, San Francisco, CA 94105, phone: 415-974-3299,
+e-mail: michael.bauer@sf.frb.org} and James
+D.~Hamilton\footnote{University of California at San Diego, 9500
+Gilman Drive, La Jolla, CA 92093-0508, phone: 858-534-5986, e-mail: jhamilton@ucsd.edu}}
+\date{April 16, 2015 \\
+Revised: \today}
+\maketitle
+\thispagestyle{empty}
+\begin{abstract}\noindent
+A consensus has recently emerged that variables beyond the level,
+slope, and curvature of the yield curve can help predict bond
+returns. This paper shows that the statistical tests underlying this
+evidence are subject to serious small-sample distortions. We propose
+more robust tests, including a novel bootstrap procedure
+specifically designed to test the spanning hypothesis. We revisit the
+analysis in six published studies and find that the evidence against
+the spanning hypothesis is much weaker than it originally
+appeared. Our results pose a serious challenge to the prevailing
+consensus.
+\par
+\vspace{1pc}
+\noindent \textit{Keywords}: yield curve, spanning, return predictability, robust inference, bootstrap
+\par
+\noindent \textit{JEL Classifications}: E43, E44, E47
+\end{abstract}
+\end{titlepage}
+
+
+\section{Introduction}
+
+Identifying the contribution of risk premia to long-term interest rates is
+crucial for monetary policy, investment strategy, and interpreting historical
+episodes such as the unprecedented low interest rates since 2008. Since the
+risk premium is just the difference between the current long rate and the
+expected average value of future short rates, the core question for estimating
+risk premia is how to construct short-rate expectations. Is it sufficient to
+consider the current yield curve, or should estimates incorporate additional
+information such as macroeconomic variables? This is the question we address
+in this paper.
+
+A powerful theoretical argument suggests that the current yield curve
+itself should contain most (if not all) information useful for
+forecasting future interest rates and bond returns. Investors use
+information at time $t$---which we can summarize by a state vector
+$z_{t}$---to forecast future interest rates and risk premia. The price
+of a zero-coupon bond is thus a function of $z_t$ and its
+maturity. The yield curve results from the prices of bonds with many
+different maturities, each of which is a different function of
+$z_t$. Under quite general assumptions the yield curve therefore
+contains the same information as $z_t$, since $z_t$ can be inferred
+from yields. In other words, the yield curve spans all information
+relevant for forecasting future yields and returns, and no variables
+other than the current yield curve are needed. While this ``spanning
+hypothesis'' could be violated for various reasons, it is in fact
+implied by essentially all macro-finance models.\footnote{\label{fn:models}Examples of
+  equilibrium models of the term structure that imply spanning include
+  \cite{wachter}, \cite{piazzesi-schneider-eqbm},
+  \cite{bekaert-engstrom-xing}, and
+  \cite{bansal-shaliastovich}. Macro-finance models with production
+  economies (i.e., DSGE models) that imply spanning include
+  \cite{htv}, \cite{dewachter-lyrio}, \cite{rudebuschwu}, and
+  \cite{rudebusch-swanson}.} Therefore the spanning hypothesis is the
+natural benchmark when investigating the empirical relevance of
+macroeconomic and other variables for predictions of excess bond
+returns and estimation of bond risk premia, and a large literature has
+taken it as the relevant null hypothesis. Recent literature reviews by
+\cite{gurkaynak-wright} and \cite{duffee-handbook-macrofinance}
+identify the spanning hypothesis as a central issue in macro-finance.
+If it holds true it would greatly simplify forecasting of interest
+rates and estimation of monetary policy expectations and bond risk
+premia, as such forecasts and estimates would not require any
+macroeconomic series, other asset prices or quantities, volatilities,
+or survey expectations, but only the information in the current yield
+curve.\footnote{We will discuss the spanning hypothesis and its
+  theoretical underpinnings in more detail in Section
+  \ref{sec:spanning}.}
+
+Importantly, the spanning hypothesis does not imply that macroeconomic
+variables are unimportant for interest rates and risk premia. Quite to
+the contrary, interest rates are of course driven by macro variables
+in many ways, an obvious example being the importance of inflation
+expectations for nominal yields.\footnote{Much theoretical and
+  empirical work has investigated the links between macroeconomic
+  variables, interest rates, and risk premia. Some prominent examples
+  include \cite{campbell-cochrane}, \cite{dra}, \cite{bikbov-chernov},
+  \cite{rudebusch-swanson}, and \cite{bansal-shaliastovich}.} The
+yield curve reflects the information in current and future macro
+variables, and the spanning hypothesis simply posits that it
+\emph{fully} reflects and spans this information. Macroeconomic
+variables are drivers of risk premia, but our
+question here is what variables should be used for the
+\emph{estimation} of these risk premia.
+
+%% 3 PCs - our preferred spanning hypothesis - closely related
+%% question is what summary statistics of the yield curve/linear
+%% combinations of yields span the relevant information
+How should we summarize the information in the yield curve to
+empirically test the spanning hypothesis? It has long
+been recognized that the first three principal components (PCs) of yields,
+commonly labeled level, slope, and curvature, provide an excellent empirical
+summary of the entire yield curve \citep{littermanscheinkman}, as they explain
+almost all of the cross-sectional variance of observed yields. \ This
+motivates a specific version of the spanning hypothesis, a very practical and empirically focused
+interpretation of the question posed above: Do level, slope and
+curvature completely capture all the information that is useful for forecasting future yields
+and estimating bond risk premia? This is the question we focus on in
+this paper.\footnote{While most of our analysis centers on this
+  question, we also report results for alternative spanning hypotheses
+  under which four or five PCs fully capture the information in the
+  yield curve.}
+
+There is a growing consensus in the literature that the spanning
+hypothesis can be rejected by the observed data. \ This evidence comes
+from predictive regressions for bond returns on various predictors,
+controlling for information in the current yield curve. The variables
+that have been found to contain additional predictive power in such
+regressions include measures of economic growth and inflation
+\citep{jps}, factors inferred from a large set of macro variables
+\citep{ludvigson-ng-rfs,ludvigson-ng-handbook}, long-term trends in
+inflation or inflation expectations \citep{cieslak-povala}, the output
+gap \citep{cooper-priestley}, and measures of Treasury bond supply
+\citep{greenwood-vayanos}. These results suggest that there might be
+unspanned or hidden information that is not captured by the current
+yield curve but that is useful for forecasting. In addition,
+\cite{cp05} found that higher-order (fourth and fifth) PCs of bond
+yields appear useful for predicting bond returns, which suggests that
+the miniscule amount of yield variation not captured by the first
+three PCs somehow contains relevant information about bond risk
+premia.
+
+But these predictive regressions have a number of problematic features. The
+true predictive variables under the null hypothesis are necessarily correlated
+with lagged forecast errors because they summarize the information in the
+current yield curve. As a consequence they violate the condition of strict
+econometric exogeneity. In addition, the predictive variables are typically
+highly persistent. We show that this leads to substantial \textquotedblleft
+standard error bias\textquotedblright\ in samples of the size commonly
+studied: estimated standard errors are too small, leading to spurious
+rejection of the spanning hypothesis even though it is true. This problem
+inherent in all tests of the spanning hypothesis has to our knowledge not
+previously been recognized. \cite{mankiw-shapiro} and \cite{stambaugh}
+documented small-sample coefficient bias in predictive regressions with a
+persistent regressor that is not strictly
+exogenous.\footnote{\cite{cavanagh-elliott-stock} and \cite{campbell-yogo}
+considered this problem using local-to-unity asymptotic theory.} By contrast,
+in our setting there is no coefficient bias pertaining to the additional
+predictors, and instead a downward bias of the estimated standard errors
+distorts the results of conventional inference. An additional problem is that
+the common predictive regressions are estimated in monthly data but with an
+annual excess bond return as the dependent variable, and the presence of
+overlapping observations introduces substantial serial correlation in the
+prediction errors. As a result, standard errors are even less reliable, and
+regression $R^{2}$ are harder to interpret. \ We demonstrate that the
+procedures commonly used for inference about the spanning hypothesis do not
+adequately address these issues and are subject to serious small-sample distortions.
+
+We propose three procedures that researchers can use to obtain more
+robust inference in these predictive regressions. The first is a novel
+parametric bootstrap that generates data samples under the spanning
+hypothesis. We calculate the first three PCs of the observed set of
+yields and summarize their dynamics with a VAR fit to the observed
+PCs. Then we use a residual bootstrap to resample the PCs, and
+construct bootstrapped yields by multiplying the simulated PCs by the
+historical loadings of yields on the PCs and adding a small Gaussian
+measurement error. Thus by construction no variables other than the
+PCs are useful for predicting yields or returns in our generated
+data. We then fit a separate VAR to the proposed additional
+explanatory variables alone, and generate bootstrap samples for the
+predictors from this VAR. Using our novel bootstrap procedure, we can
+calculate the properties of any regression statistic under the
+spanning hypothesis.\footnote{Our procedure notably differs from the
+  bootstrap approach commonly employed in this literature, which
+  generates artificial data under the expectations hypothesis, such as
+  \cite{bekaertetal}, \cite{cp05},
+  \cite{ludvigson-ng-rfs,ludvigson-ng-handbook}, and
+  \cite{greenwood-vayanos}.}  This calculation demonstrates that the
+conventional tests reject the true null much too often. We show that
+the tests employed in published studies, which are intended to have a
+nominal size of five percent, have a true size between 8 and 61\%. We
+then use our bootstrap to ask how likely it would be under the null to
+observe the patterns of predictability that researchers have found in
+the data. We find that the proposed predictors are always much less
+significant than appeared in conventional tests, and are often
+statistically insignificant. These results provide a strong caution
+against using conventional tests for inference about bond risk premia,
+and we recommend that researchers instead use the bootstrap procedure
+proposed in this paper.
+
+Finally, we take advantage of the data that have arrived since publication of
+these studies. This allows us to re-estimate the proposed models in new data,
+and to evaluate whether they improve true out-of-sample forecasts. \ We find
+that the proposed additional predictors are rarely helpful in the new data,
+reinforcing the case that the apparent strength of the in-sample evidence may
+be an artifact of the small-sample problems we highlight.
+
+After revisiting the evidence in the six influential papers cited above we
+draw two main conclusions: First, conventional methods of inference are
+extremely unreliable in these predictive regressions, because they often
+suggest that variables are relevant for bond risk premia which in truth are
+irrelevant. New approaches for robust inference are needed, and we propose
+three in this paper. Second, when reconsidered with more robust methods for
+inference, the evidence against the spanning hypothesis appears weaker and
+much less robust than would appear from the published results, and in some
+cases appears to be spurious.
+
+Our paper is related to other studies that critically assess return
+predictability in finance. \cite{fss} raised the possibility of finding
+spurious predictability if a persistent component of stock returns is
+unobserved. \cite{welch-goyal} questioned the predictability of stock returns
+based on the observation that it largely disappears in out-of-sample analysis.
+\cite{ang-bekaert-2007} showed that the commonly employed Newey-West standard
+errors are not reliable for inference about stock return predictability at
+long horizons. \cite{lewellen-etal} showed that estimating factor models for
+equity risk premia can lead to spuriously high $R^{2}$ for truly irrelevant
+risk factors. Our paper parallels these studies by also documenting that
+published evidence on predictability and risk premia is fraught with serious
+econometric problems and appears to be partially spurious. But our work is
+distinct in that we describe a new, different econometric issue and focus on
+evidence on unspanned risks in bond returns instead of predictability of stock
+returns. The literature on bond returns and the expectations hypothesis goes
+back to \cite{famabliss} and \cite{campbellshiller91}, who established that
+the slope of the yield curve helps predict bond returns. \cite{bekaertetal}
+and \cite{bekaert-hodrick-2001} documented that rejections of the expectations
+hypothesis are robust to the Stambaugh bias that arises in predictive
+regressions for bond returns. Our paper shows that a different kind of
+bias---standard error bias---arises in the widely used tests of the spanning
+hypothesis, and that accounting for it can change the empirical conclusions.
+
+\section{Inference about the spanning hypothesis}
+\label{sec:econometrics}
+
+In this section we first explain the economic underpinnings and common empirical tests
+of the spanning hypothesis, and then document previously unrecognized
+econometric problems with these tests. Then we propose a new way of
+inference about the spanning hypothesis that solves these problems,
+using an easy-to-implement parametric bootstrap.
+
+\subsection{The spanning hypothesis}
+\label{sec:spanning}
+
+A simple but powerful theoretical argument demonstrates that under
+certain assumptions about financial markets the yield curve
+fully spans the information set that is relevant for forecasting future
+interest rates and estimating risk premia.\footnote{This argument
+  largely follows the one in \citet[][Section
+  2.3]{duffee-handbook-forecasting}.} If the vector $z_t$ denotes
+the information that investors use for pricing financial assets, then
+bond prices and yields are functions of $z_t$. Since bond yields are
+determined by investor's expectations of future short-term rates and
+future excess returns, $z_t$ contains the information required to
+construct these forecasts. For example, $z_t$ would likely contain
+macroeconomic variables that matter for interest rates, such as
+current and expected future inflation. Denoting by $Y_t$ a
+vector of $N$ yields of different maturities we have $Y_t = f(z_t)$
+where $f(\cdot)$ is a vector-valued function. The spanning hypothesis
+requires that $f$ is invertible, because in that case the information
+in $z_t$ can be inferred as $z_t = f^{-1}(Y_t)$. A necessary condition
+for this invertibility condition is that $N$ is at least as large as
+the number of variables in $z_t$, which is a plausible assumption
+given the large number of yields that constitute the yield
+curve. Invertibility is guaranteed for example if $f$ is
+linear and its Jabobian has full column rank, but it will also hold
+under much more general conditions. Most asset pricing and macro-finance
+models imply invertibility of model-implied yields for state variables, hence the
+spanning hypothesis holds in these models.\footnote{See footnote
+  \ref{fn:models} for relevant references on this point.} As mentioned above, the spanning hypothesis
+of course does not imply that macro variables are unimportant for
+interest rates, but simply states that the yield curve fully spans the relevant
+information in macro (and other) variables.
+
+While essentially all asset pricing models imply some version of
+spanning, there are a number of reasons why the relevant information
+may not be spanned by the first three PCs of observed yields, which is
+the null hypothesis we focus on in this paper. First, yields may of
+course depend on more than three state variables. For
+  example, in \cite{bansal-shaliastovich} yields are functions of four
+  state variables.  Second, even if three linear combinations of
+model-implied yields span $z_{t}$,
+this might be difficult to exploit in practice due to measurement
+error. In particular, \cite{duffee-info} demonstrated that if the
+effects of some elements of $z_{t}$ on yields nearly offset each
+other, those components will be very difficult to infer from current
+observed yields alone. \cite{cieslak-povala} and
+  \cite{bauer-rudebusch-spanning} noted that in affine
+  yield-curve models, even small measurement errors can make it
+  impossible to recover $z_{t}$ from observed yields. Third,
+there may be singularities, non-linearities, or structural
+breaks that prevent invertibility and lead to a violation of
+the spanning hypothesis. Our paper does not address these theoretical
+possibilities, and instead focuses on the empirical question whether
+the spanning hypothesis is a good description of the data.
+
+Evidence against the spanning hypothesis typically comes from regressions of
+the form
+\begin{equation}
+y_{t+h}=\beta_{1}^{\prime}x_{1t}+\beta_{2}^{\prime}x_{2t}+u_{t+h},
+\label{eq:pred}%
+\end{equation}
+where the dependent variable $y_{t+h}$ is the return or excess return on a
+long-term bond (or portfolio of bonds), $x_{1t}$ and $x_{2t}$ are vectors
+containing $K_{1}$ and $K_{2}$ predictors, respectively, and $u_{t+h}$ is a
+forecast error. The predictors $x_{1t}$ contain a constant and the information
+in the yield curve, typically captured by the first three PCs of observed
+yields, i.e., level, slope, and curvature. The null hypothesis of interest is
+\[
+H_{0}:\quad\beta_{2}=0,
+\]
+which says that the relevant predictive information is spanned by the
+information in the yield curve and that $x_{2t}$ has no additional
+predictive power. A key feature of these regressions is that because
+the regressors in $x_{1t}$ capture information in the current yield
+curve, they are necessarily correlated with $u_{t}$ and hence not
+strictly exogenous. The predictors are also typically very
+persistent. This gives rise to a previously unrecognized problem,
+\textquotedblleft standard error bias,\textquotedblright\ that causes
+tests to reject the null hypothesis much too often. In addition,
+empirical work typically tries to predict returns over $h=12$
+months, and such use of
+overlapping returns, and the resulting serial correlation in
+$u_{t+h}$, leads to additional econometric problems. In the following subsections
+we describe these problems in detail.
+
+The spanning hypothesis is of course different from the expectations hypothesis
+(EH) which posits that expected excess bond returns (i.e., bond risk
+premia) are constant. A
+large literature has tested the EH by asking whether any variables
+help predict excess bond returns. The strongest predictor appears to
+be the slope of the yield curve, as documented by
+\cite{famabliss} and \cite{campbellshiller91}. These results are perfectly consistent with the
+spanning hypothesis. While EH-regressions suffer from small-sample
+problems similar to those that arise in tests of the spanning
+regressions, including Stambaugh bias and standard error bias,
+\cite{bekaertetal} and \cite{bekaert-hodrick-2001} documented that
+rejections of the EH are robust to accounting for these problems. By
+contrast, we will show that rejections of the spanning hypothesis are
+not robust and can arise spuriously.
+
+\subsection{The source of standard error bias}
+
+\label{sec:intuition}
+
+Here we explain the intuition for standard error bias in the case when $h=1$
+and $u_{t+1}$ is white noise. According to the Frisch-Waugh Theorem, the OLS
+estimate of $\beta_{2}$ in \eqref{eq:pred} can always be viewed as having been
+obtained in two steps. First we regress $x_{2t}$ on $x_{1t}$ and calculate the
+residuals $\tilde{x}_{2t}=x_{2t}-\hat{A}_{T}x_{1t}$ for $\hat{A}_{T}=\left(
+\sum\nolimits_{t=1}^{T}x_{2t}x_{1t}^{\prime}\right)  \left(  \sum
+\nolimits_{t=1}^{T}x_{1t}x_{1t}^{\prime}\right)  ^{-1}.$ Second we regress
+$y_{t+1}$ on $\tilde{x}_{2t}$. The coefficient on $\tilde{x}_{2t}$ in this
+regression will be numerically identical to the coefficient on $x_{2t}$ in the
+original regression \eqref{eq:pred}.\footnote{We provide a proof of this and
+other statements in this section in Appendix \ref{app:intuition}.} The
+standard Wald statistic for a test about $\beta_{2}$ can be expressed as
+\begin{equation}
+W_{T}=\left(  \sum\nolimits_{t=1}^{T}u_{t+1}\tilde{x}_{2t}^{\prime}\right)
+\left(  s^{2}\sum\nolimits_{t=1}^{T}\tilde{x}_{2t}\tilde{x}_{2t}^{\prime
+}\right)  ^{-1}\left(  \sum\nolimits_{t=1}^{T}\tilde{x}_{2t}u_{t+1}\right)
+\label{eq:wald stat}%
+\end{equation}
+for $s^{2}=(T-K_{1}-K_{2})^{-1}\sum\nolimits_{t=1}^{T}(y_{t+1}-b_{1}^{\prime
+}x_{1t}-b_{2}^{\prime}x_{2t})^{2}$ and $b_{1}$ and $b_{2}$ the OLS estimates
+from (\ref{eq:pred})$.$ \ The validity of this test depends on whether $W_{T}$
+is approximately $\chi^{2}(K_{2}).$ If $x_{1t}$ and $x_{2t}$ are stationary
+and ergodic, the estimate $\hat{A}_{T}$ will converge to the true value
+$A=E(x_{2t}x_{1t}^{\prime})\left[  E(x_{1t}x_{1t}^{\prime})\right]  ^{-1}$. In
+that case the sampling uncertainty from the first step is asymptotically
+irrelevant and $W$ would have the same asymptotic distribution as if we
+replaced $\tilde{x}_{2t}$ with $x_{2t}-Ax_{1t}$, which gives rise to the
+standard result for stationary regressors that $W_{T}\overset{d}{\rightarrow
+}\chi^{2}(K_{2})$.
+
+If, however, the regressors are highly persistent, a regression of $x_{2t}$ on
+$x_{1t}$ behaves like a spurious regression. \ For example, if $x_{1t}$ and
+$x_{2t}$ are unit-root processes, the value of $\hat{A}_{T}$ is not tending to
+some constant but instead to a random variable $\tilde{A}$ that is different
+in every sample, even as the sample size $T$ approaches infinity. If $x_{1t}$
+was strictly exogenous, this would not affect the asymptotic distribution of
+$W_{T}$. But in tests of the spanning hypothesis $x_{1t}$ is necessarily
+correlated with $u_{t}$, and due to this lack of strict exogeneity $\sum
+_{t=1}^{T}\tilde{x}_{2t}u_{t+1}$ has a nonstandard limiting distribution with
+variance that is larger\footnote{More formally, the difference between the two
+matrices is a positive definite matrix.} than that of $\sum\nolimits_{t=1}%
+^{T}x_{2t}u_{t+1}.$ \ By contrast, OLS hypothesis tests act as if the variance
+of $\sum_{t=1}^{T}\tilde{x}_{2t}u_{t+1}$ is \emph{smaller} than that of
+$\sum_{t=1}^{T}x_{2t}u_{t+1}$, since $\sum\nolimits_{t=1}^{T}\tilde{x}%
+_{2t}\tilde{x}_{2t}^{\prime}$ is smaller by construction in every sample than
+$\sum\nolimits_{t=1}^{T}x_{2t}x_{2t}^{\prime}$. Therefore OLS standard errors
+are necessarily too small, $W_{T}$ does not converge to a $\chi^{2}(K_{2})$
+distribution, and conventional $t$- or $F$-tests about the value of $\beta
+_{2}$ in \eqref{eq:pred} will reject more often than they should.\footnote{In
+Appendix \ref{app:intuition} we go through this argument in more detail, and
+provide additional proofs. Note also that we have focused on conventional OLS
+standard errors that assume conditional homoskedasticity, but very similar
+reasoning applies when White's heteroskedasticity-robust standard errors are
+used.}
+
+\subsection{A canonical example}
+
+\label{sec:sebias}
+
+In this section we explore the size of these effects in a canonical example,
+using first local-to-unity asymptotics and then small-sample simulations based
+on the model
+\begin{equation}
+y_{t+1}=\beta_{0}+\beta_{1}x_{1t}+\beta_{2}x_{2t}+u_{t+1} \label{eq: orig reg}%
+\end{equation}
+where $x_{1t}$ and $x_{2t}$ are scalar AR(1) processes%
+\begin{equation}
+x_{1,t+1}=\mu_{1}+\rho_{1}x_{1t}+\varepsilon_{1t} \label{eq: rho in x1}%
+\end{equation}%
+\begin{equation}
+x_{2,t+1}=\mu_{2}+\rho_{2}x_{2t}+\varepsilon_{2t} \label{eq: rho in x2}%
+\end{equation}
+with $\varepsilon_{it}$ martingale-difference sequences and $x_{i0}=0$. \ Our
+interest is in what happens when the persistence parameters $\rho_{i}$ are
+close to unity. \ We first focus on the case without drift in these processes
+$(\mu_{1}=\mu_{2}=0).$ \ We assume that innovations to $x_{1t}$ have correlation $\delta$ with
+$u_t$, whereas $x_{2t}$ is uncorrelated with both
+$x_{1t}$ and $u_{t}$:%
+\begin{align*}
+E\left[
+\begin{array}
+[c]{c}%
+\varepsilon_{1t}\\
+\varepsilon_{2t}\\
+u_{t}%
+\end{array}
+\right]  \left[
+\begin{array}
+[c]{ccc}%
+\varepsilon_{1s} & \varepsilon_{2s} & u_{s}%
+\end{array}
+\right]   &  =\left[
+\begin{array}
+[c]{ccc}%
+\sigma_{1}^{2} & 0 & \delta\sigma_{1}\sigma_{u}\\
+0 & \sigma_{2}^{2} & 0\\
+\delta\sigma_{1}\sigma_{u} & 0 & \sigma_{u}^{2}%
+\end{array}
+\right]  \text{ \ \ \ if }t=s\\
+&  =0\text{
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ otherwise.}%
+\end{align*}
+Thus when $\beta_{2}=0,$ the variable $x_{2t}$ has nothing to
+do with either $x_{1s}$ or $y_{s}$ for any $t$ or $s.$
+
+One device for seeing how the results in a finite sample of some particular
+size $T$ differ from those predicted by conventional first-order asymptotics
+is to use a local-to-unity specification as in \cite{phillips-88} and
+\cite{cavanagh-elliott-stock}:%
+\begin{equation}
+x_{i,t+1}=(1+c_{i}/T)x_{it}+\varepsilon_{i,t+1}\quad i=1,2.
+\label{local to unity}%
+\end{equation}
+For example, if our data come from a sample of size $T=100$ when $\rho
+_{i}=0.99,$ the idea is to approximate the small-sample distribution of
+regression statistics by the asymptotic distribution obtained by taking
+$c_{i}=-1$ in \eqref{local to unity} and letting $T\rightarrow\infty
+$.\footnote{It is well known that approximations from such local-to-unity
+asymptotics are substantially better than those based on conventional
+first-order asymptotics which take $T\rightarrow\infty$ and treat $\rho
+_{i}=0.99$ as a constant; see for example \cite{chan-88} and
+\cite{nabeya-sorensen}.} The local-to-unity asymptotics turn out to be
+described by Ornstein-Uhlenbeck processes. \ For example%
+\[
+T^{-2}%
+%TCIMACRO{\tsum \nolimits_{t=1}^{T}}%
+%BeginExpansion
+{\textstyle\sum\nolimits_{t=1}^{T}}
+%EndExpansion
+(x_{it}-\bar{x}_{i})^{2}\Rightarrow\sigma_{i}^{2}\int_{0}^{1}[J_{c_{i}}^{\mu
+}(\lambda)]^{2}d\lambda
+\]
+where $\Rightarrow$ denotes weak convergence as $T\rightarrow\infty$ and%
+\[
+J_{c_{i}}^{\mu}(\lambda)=J_{c_{i}}(\lambda)-\int_{0}^{1}J_{c_{i}}(s)ds\qquad
+J_{c_{i}}(\lambda)=c_{i}\int_{0}^{\lambda}e^{c_{i}(\lambda-s)}W_{i}%
+(s)ds+W_{i}(\lambda)\qquad i=1,2
+\]
+with $W_{1}(\lambda)$ and $W_{2}(\lambda)$ denoting independent standard
+Brownian motion.\footnote{When $c_{i}=0,$ (\ref{local to unity}) becomes a
+random walk and the local-to-unity asymptotics simplify to the standard
+unit-root asymptotics involving functionals of Brownian motion as a special
+case: $J_{0}(\lambda)=W(\lambda).$}
+
+We show in Appendix \ref{app:example} that under local-to-unity asymptotics
+the coefficient from a regression of $x_{2t}$ on $x_{1t}$ has the following
+limiting distribution:%
+\begin{equation}
+A_{T}=\frac{%
+%TCIMACRO{\tsum }%
+%BeginExpansion
+{\textstyle\sum}
+%EndExpansion
+(x_{1t}-\bar{x}_{1})(x_{2t}-\bar{x}_{2})}{%
+%TCIMACRO{\tsum }%
+%BeginExpansion
+{\textstyle\sum}
+%EndExpansion
+(x_{1t}-\bar{x}_{1})^{2}}\Rightarrow\frac{\sigma_{2}\int_{0}^{1}J_{c_{1}}%
+^{\mu}(\lambda)J_{c_{2}}^{\mu}(\lambda)d\lambda}{\sigma_{1}\int_{0}%
+^{1}[J_{c_{1}}^{\mu}(\lambda)]^{2}d\lambda} = (\sigma_{2}/\sigma_{1})A,
+\label{A asymptotics}%
+\end{equation}
+where the last equality defines the random variable $A$. Under first-order
+asymptotics the influence of $A_{T}$ would vanish as the sample size grows.
+But using local-to-unity asymptotics we see that $A_{T}$ behaves similarly to
+the coefficient in a spurious regression and does not converge to zero---the
+true correlation between $x_{1t}$ and $x_{2t}$ in this setting---but to a
+random variable that differs across samples. The implication is that the
+$t$-statistic for $b_{2}$ can have a small-sample distribution that is very
+poorly approximated using first-order asymptotics. Appendix \ref{app:example}
+demonstrates that this $t$-statistic has a local-to-unity asymptotic
+distribution under the null hypothesis that is given by%
+\begin{equation}
+\frac{b_{2}-\beta_{2}}{\left\{  s^{2}/%
+%TCIMACRO{\tsum }%
+%BeginExpansion
+{\textstyle\sum}
+%EndExpansion
+\tilde{x}_{2t}^{2}\right\}  ^{1/2}}\Rightarrow\delta Z_{1}+\sqrt{1-\delta^{2}%
+}Z_{0} \label{b2 t stat}%
+\end{equation}%
+\[
+Z_{1}=\frac{\int_{0}^{1}K_{c_{1},c_{2}}(\lambda)dW_{1}(\lambda)}{\left\{
+\int_{0}^{1}[K_{c_{1},c_{2}}(\lambda)]^{2}d\lambda\right\}  ^{1/2}}\qquad
+Z_{0}=\frac{\int_{0}^{1}K_{c_{1},c_{2}}(\lambda)dW_{0}(\lambda)}{\left\{
+\int_{0}^{1}[K_{c_{1},c_{2}}(\lambda)]^{2}d\lambda\right\}  ^{1/2}}\qquad
+K_{c_{1},c_{2}}(\lambda)=J_{c_{2}}^{\mu}(\lambda)-AJ_{c_{1}}^{\mu}(\lambda)
+\]
+for $s^{2}=(T-3)^{-1}%
+%TCIMACRO{\tsum }%
+%BeginExpansion
+{\textstyle\sum}
+%EndExpansion
+(y_{t+1}-b_{0}-b_{1}x_{1t}-b_{2}x_{2t})^{2}$ and $W_{i}(\lambda)$ independent
+standard Brownian processes for $i=0,1,2.$ Conditional on the realizations of
+$W_{1}(.)$ and $W_{2}(.),$ the term $Z_{0}$ will be recognized as a standard
+Normal variable, and therefore $Z_{0}$ has an unconditional $N(0,1)$
+distribution as well.\footnote{\label{fn:normal}The intuition is that for
+$v_{0,t+1}\sim$ i.i.d.~$N(0,1)$ and $K=\{K_{t}\}_{t=1}^{T}$ any sequence of
+random variables that is independent of $v_{0},$ $%
+%TCIMACRO{\tsum \nolimits_{t=1}^{T}}%
+%BeginExpansion
+{\textstyle\sum\nolimits_{t=1}^{T}}
+%EndExpansion
+K_{t}v_{0,t+1}$ has a distribution conditional on $K$ that is $N(0,%
+%TCIMACRO{\tsum \nolimits_{t=1}^{T}}%
+%BeginExpansion
+{\textstyle\sum\nolimits_{t=1}^{T}}
+%EndExpansion
+K_{t}^{2})$ and $%
+%TCIMACRO{\tsum \nolimits_{t=1}^{T}}%
+%BeginExpansion
+{\textstyle\sum\nolimits_{t=1}^{T}}
+%EndExpansion
+K_{t}v_{0,t+1}/\sqrt{%
+%TCIMACRO{\tsum \nolimits_{t=1}^{T}}%
+%BeginExpansion
+{\textstyle\sum\nolimits_{t=1}^{T}}
+%EndExpansion
+K_{t}^{2}}\sim N(0,1).$ \ Multiplying by the density of $K$ and integrating
+over $K$ gives the identical unconditional distribution, namely $N(0,1)$.
+\ For a more formal discussion in the current setting, see
+\citet[][pp.~602-607]{hamilton}.} \ In other words, if $x_{1t}$ is strictly
+exogenous ($\delta=0$) then the OLS $t$-test of $\beta_{2}=0$ will be valid in
+small samples even with highly persistent regressors. By contrast, if
+$\delta\neq0$ the random variable $Z_{1}$ comes into play, which has a
+nonstandard distribution because the term $dW_{1}(\lambda)$ in the numerator
+is not independent of the denominator. In particular, Appendix
+\ref{app:example} establishes that Var$(Z_{1})>1$. Moreover $Z_{1}$ and
+$Z_{0}$ are uncorrelated with each other.\footnote{The easiest way to see this
+is to note that conditional on $W_{1}(.)$ and $W_{2}(.)$ the product has
+expectation zero, so the unconditional expected product is zero as well.}
+Therefore the $t$-statistic in \eqref{b2
+t stat} has a non-standard distribution with variance $\delta
+^{2}\text{Var}(Z_{1})+(1-\delta^{2})1>1$ which is monotonically increasing in
+$|\delta|$. This shows that whenever $x_{1t}$ is correlated with $u_{t}$
+($\delta\neq0)$ and $x_{1t}$ and $x_{2t}$ are highly persistent, in small
+samples the $t$-test of $\beta_{2}=0$ will reject too often when $H_{0}$ is
+true.\footnote{Expression (\ref{b2 t stat}) can be viewed as a straightforward
+generalization of result (2.1) in \cite{cavanagh-elliott-stock} and expression
+(11) in \cite{campbell-yogo}. \ In their case the explanatory variable is
+$x_{1,t-1}-\bar{x}_{1}$ which behaves asymptotically like $J_{c_{1}}^{\mu
+}(\lambda)$. \ The component of $u_{t}$ that is correlated with $\varepsilon
+_{1t}$ leads to a contribution to the $t$-statistic given by the expression
+that \cite{cavanagh-elliott-stock} refer to as $\tau_{1c}$, which is labeled
+as $\tau_{c}/\kappa_{c}$ by \cite{campbell-yogo}. \ This variable is a
+local-to-unity version of the Dickey-Fuller distribution with well-known
+negative bias. \ By contrast, in our case the explanatory variable is
+$\tilde{x}_{2.t-1}=x_{2,t-1}-A_{T}x_{1,t-1}$ which behaves asymptotically like
+$K_{c_{1},c_{2}}(\lambda).$ \ Here the component of $u_{t}$ that is correlated
+with $\varepsilon_{1t}$ leads to a contribution to the $t$-statistic given by
+$Z_{1}$ in our expression (\ref{b2 t stat}). \ Unlike the Dickey-Fuller
+distribution, $Z_{1}$ has mean zero, so that there is no bias in $b_{2}$.}
+
+We can quantify the magnitude of these effects in a simulation study. We
+generate values for $x_{1t}$ and $x_{2t}$ by drawing $\varepsilon_{1t}$ and
+$\varepsilon_{2t}$ as i.i.d. Gaussian random variables with $\sigma_{1}%
+=\sigma_{2}=1$, using $\mu_{1}=\mu_{2}=0$ and different values of $\rho
+_{1}=\rho_{2}=\rho,$ starting from $x_{10}=x_{20}=0$. We generate $y_{t}%
+=u_{t}=\delta\varepsilon_{1t}+\sqrt{1-\delta^{2}}v_{t}$ where $v_{t}$ is a
+standard normal random variable.\footnote{We can focus on
+$0\leq\delta\leq1$, since only $|\delta|$ matters for the distribution of the
+$t$-statistic.} Hence, in our data-generating process (DGP)
+we have $\beta_{0}=\beta_{1}=\beta_{2}=0$, $\sigma_{u}=1$, and $Corr(u_{t}%
+,\varepsilon_{1t})=\delta$. We simulate 1,000,000 samples, estimate regression
+\eqref{eq: orig reg} in each sample, and study the small-sample behavior of
+the $t$-statistic for the test of $H_{0}:\beta_{2}=0$, using critical values from the Student-$t$ distribution with 97 degrees
+of freedom. In addition, we also draw from the
+local-to-unity asymptotic distribution of the $t$-statistic given in equation
+\eqref{b2 t stat} using well-known Monte Carlo methods.\footnote{We simulate
+samples of size $\tilde{T}$ from near-integrated processes with $c_{1}%
+=c_{2}=T(\rho-1)$ and approximate the integrals in \eqref{b2 t stat} using
+Rieman sums---see, for example, \cite{chan-88}, \cite{stock-91}, and
+\cite{stock-94}. We use $\tilde{T}=1000$, since even moderate sample sizes
+generally yield accurate approximations to the limiting distribution
+\citep[][uses $\tilde{T}=500$]{stock-91}.}
+
+The first panel of Table \ref{tab:sim} shows the results of this exercise for
+different values of $\rho$ and $\delta$. If the regressors are either strictly
+exogneous ($\delta=0$) or not serially correlated ($\rho=0$), the true size of
+the $t$-test of $\beta_{2}=0$ is equal to the nominal size of five percent.
+If, however, both $\rho\neq0$ and $\delta\neq0$, the true size exceeds the
+nominal size, and this size distortion increases in $\rho$ and $\delta
+$. In the presence of high persistence the true size of this
+$t$-test can be quite substantially above the nominal size: For $\rho=0.99$
+and $\delta=1$, the true size is around 15 percent, meaning that we would
+reject the true null hypothesis more than three times as often as we should.
+The size calculations are, not surprisingly, very similar for the small-sample
+simulations and the local-to-unity asymptotic approximations.
+
+Figure \ref{fig:size} plots the size of the $t$-test for the case with
+$\delta=1$ for sample sizes from $T=50$ to 1000, based on the local-to-unity
+approximation. When $\rho<1$, the size
+distortion decreases with the sample size. For example for $\rho=0.99$ the
+size decreases from 15 percent to about 9 percent. In contrast, when $\rho=1$
+the size distortions are not affected by the sample size, as indeed in this
+case the non-Normal distribution corresponding to \eqref{b2 t stat} with
+$c_{i}=0$ governs the distribution for arbitrarily large $T$.
+
+The reason for the size distortions when testing $\beta_{2}=0$ is not
+coefficient bias. The top panel of Table \ref{tab:sim} shows that
+$b_{1}$ is downward biased but $b_{2}$ is unbiased. However, the
+conventional OLS standard errors underestimate the true sampling
+variability of the OLS estimates: they can average up to 30\% below
+the standard deviation of the coefficient estimates across
+simulations. This standard error bias is the reason why the $t$-test
+rejects too often.
+
+\subsection{The role of trends}
+
+\label{sec:trends}
+
+Up to now we have been considering the case when the true values of the
+constant terms $\mu_{i}$ in equations (\ref{eq: rho in x1}%
+)-(\ref{eq: rho in x2}) are zero. \ As seen in the second and third panels of
+Table \ref{tab:sim}, the size distortions on tests about $\beta_{2}$ can
+nearly double when $\mu_{i}\neq0,$ and the bias in the estimate of $\beta_{1}$
+increases as well.
+
+We can understand what is going on most easily by considering the case when
+the roots $\rho_{i}$ are exactly unity.\footnote{The following results are
+proved formally in Appendix \ref{app:trends}.} \ In that case, if $\mu_{1}$ is
+zero and $\mu_{2}$ is not, $x_{2t}$ will exhibit a deterministic time trend
+and this ends up stochastically dominating the random walk component of
+$x_{2t}$. \ The regression (\ref{eq: orig reg}) would then be asymptotically
+equivalent to a regression of $y_{t+1}$ on $(1,x_{1t},\mu_{2}t)^{\prime}.$
+\ When $\delta=1$ the asymptotic distribution of a $t$-test of a true null
+hypothesis about $\beta_{1}$ in regression (\ref{eq: orig reg}) would be
+identical to that if we were to perform a Dickey-Fuller test of the true null
+hypothesis $\eta=0$ in the regression%
+\begin{equation}
+\Delta x_{1,t+1}=\mu_{1}+\eta x_{1t}+\xi t+\varepsilon_{1,t+1},
+\label{eq: Dickey Fuller reg}%
+\end{equation}
+which is the well-known Dickey-Fuller Case 4 distribution described in
+\citet[][eq. {[}17.4.55{]}]{hamilton}. We know that the coefficient bias and
+size distortions are bigger when a time trend is included in regression
+\eqref{eq: Dickey Fuller reg} compared to the case when it is
+not.\footnote{See Case 2 versus Case 4 in
+\citet[][Tables B.5 and B.6]{hamilton}.}\ For the same reason we would find
+that the Stambaugh bias of $b_{1}$ in regression (\ref{eq: orig reg}) becomes
+worse when a variable $x_{2t}$ with a deterministic trend is added to the
+regression. \ The standard error bias for $b_{2}$ is also exacerbated when the
+true $\mu_{2}$ is nonzero$.$
+
+In the case when $\rho_{2}$ is close to but strictly less than unity, this
+problem would vanish asymptotically but is still a factor in small samples. An
+apparent trend shows up in a finite sample because when a stationary variable
+with mean $\mu_{2}/(1-\rho_{2})$ is started from $x_{20}=0,$ it will tend to
+rise toward its unconditional mean. \ As $\rho_{2}$ approaches unity, this
+trend within a finite sample becomes arbitrarily close to that seen in a true
+random walk with drift $\mu_{2}.$ While in the applications in this paper the
+trend in explanatory variables like inflation is typically downward instead of
+upward, the issue is the same, because the distribution of $b_{1}$ is
+identical whether $x_{t2}$ begins at $x_{20}=2\mu_{2}/(1-\rho_{2})$ and then
+drifts down to its mean or whether it begins at $x_{20}=0$ and drifts up. Note
+that the values we have used for simulation in Table \ref{tab:sim} are
+representative of those that may be encountered in practice.\footnote{For
+example, an AR(1) process fit to  the trend inflation variable used by
+\cite{cieslak-povala} over the  sample 1985-2013 has $\rho_{2}=0.99$ and
+$\mu_{2}/\sigma_{2}=1.5,$  an even stronger drift relative to innovation than
+the value  $\mu_{2}/\sigma_{2}=1.0$ used in Table \ref{tab:sim}. \ And their
+variable has a value in 1985:1 that is 5 times the size of $\mu_{2}
+/(1-\rho_{2}),$  implying a downward drift over 1985-2013 that is 4 times as
+fast as  in the Table \ref{tab:sim} simulation.}
+
+When both $x_{1t}$ and $x_{2t}$ have trends (see panel 3 of Table 1) we have
+the same issues just discussed but with a reinterpretation of the variables.
+\ Consider for example the case when both trends are the same $(\mu_{1}%
+=\mu_{2}).$ \ Note that a regression of $y_{t+1}$ on $(1,x_{1t},x_{2t}%
+)^{\prime}$ has the identical fitted values as a regression of $y_{t+1}$ on
+$(1,x_{1t}-x_{2t},x_{2t})^{\prime},$ which again is asymptotically equivalent
+to a regression in which the second variable is a driftless unit-root process
+correlated with the lagged residual and the third variable is dominated by a
+deterministic time trend. \ Now the Stambaugh bias will show up in the
+coefficient on $x_{1t}-x_{2t}.$ \ Translating back in terms of the original
+regression of $y_{t+1}$ on $(1,x_{1t},x_{2t})^{\prime}$ we would now find
+Stambaugh biases in both $b_{1}$ and $b_{2}$ that are mirror images of each
+other. Note the implications of this example. \ When $\mu_{1}$ and $\mu_{2}$
+are both nonzero, if we were to regress $y_{t+1}$ on $x_{1t}$ alone, there
+would be no Stambaugh bias and no problem with $t$-tests about $\beta_{1},$
+because $x_{1t}$ is dominated by the time trend. \ The same is true if we were
+to regress $y_{t+1}$ on $x_{2t}$ alone. \ But when both $x_{1t}$ and $x_{2t}$
+are included in the regression, spurious conclusions about both coefficients
+would emerge.
+
+The practical relevance of these results is that when the proposed
+additional predictors in $x_{2t}$ are trending, this can substantially
+magnify the small-sample problems and lead to more poorly sized tests
+and spurious rejections of the spanning hypothesis.
+
+\subsection{Overlapping returns}
+
+\label{sec:overlapping}
+
+A separate econometric problem arises in predictive regressions for bond
+returns with holding periods that are longer than the sampling interval, i.e.,
+$h>1$. Most studies in this literature, and all those that we revisit in this
+paper, focus on predictive regressions for annual excess bond returns in
+monthly data, that is regression \eqref{eq:pred} with $h=12$ and
+\begin{equation}
+y_{t+h}=p_{n-h,t+h}-p_{nt}-hi_{ht}, \label{eq:rx}%
+\end{equation}
+for $p_{nt}$ the log of the price of a pure discount $n$-period bond purchased
+at date $t$ and $i_{nt}=-p_{nt}/n$ the corresponding zero-coupon yield. In
+that case, $E(u_{t}u_{t-v})\neq0$ for $v=0,\ldots,h-1$, as the overlapping
+observations induce a MA$(h-1$) structure for the error terms. This raises
+additional problems in the presence of persistent regressors that can be seen
+even using conventional first-order asymptotics, as we briefly note in this section.
+
+If $x_{1t}$ and $x_{2t}$ are uncorrelated and the true value of $\beta_{2}=0,$
+we show in Appendix \ref{app:overlapping} that under conventional first-order
+asymptotics
+\begin{equation}
+\sqrt{T}b_{2}\overset{d}{\rightarrow}N(0,Q^{-1}SQ^{-1}),
+\label{b2 distribution}%
+\end{equation}%
+\begin{equation}
+Q=E(x_{2t}x_{2t}^{\prime}), \quad S=\sum\nolimits_{v=-\infty}^{\infty}E(u_{t+h}u_{t+h-v}x_{2t}x_{2,t-v}^{\prime
+}). \label{eq: S def}%
+\end{equation}
+Note that the product $u_{t+h}x_{2t}$ will be serially correlated when
+$x_{2t}$ is persistent, since\linebreak $E(u_{t+h}u_{t+h-v}x_{2t}x_{2,t-v}^{\prime
+})=E(u_{t}u_{t-v})E(x_{2t}x_{2,t-v}^{\prime})\neq0$. Overlapping observations,
+in combination with persistent regressors, substantially increase the sampling
+variability of the OLS estimate $b_{2}$, because the long-run covariance
+matrix $S$ will exceed the value $S_{0}=E(u_{t+h}^{2}x_{2t}x_{2t}^{\prime})$
+that would be appropriate for serially uncorrelated residuals.
+
+The standard approach is to use heteroskedasticity- and
+autocorrelation-consistent (HAC) standard errors to try to correct for
+this, for example, the estimators proposed by \cite{newey-west} or
+\cite{andrews-91}%
+. However, long-run variance estimation is notoriously difficult,
+particularly in small samples, and different HAC estimators of $S$ can
+lead to substantially different empirical conclusions
+\citep{mueller-hac}. That Newey-West standard errors are unreliable
+for inference with overlapping returns was demonstrated convincingly
+by \cite{ang-bekaert-2007}. Here we emphasize that the higher the
+persistence of the predictors, the less reliable is HAC inference,
+since the effective sample size becomes very small. The
+reverse-regression approach of \cite{hodrick92} and \cite{wei-wright}
+can alleviate but not overcome the problem arising from overlapping
+returns, as we will show in Section \ref{sec:cpo}.
+
+There is another consequence of basing inference on overlapping observations
+that appears not to be widely recognized: it substantially reduces the
+reliability of $R^{2}$ as a measure of goodness of fit. \ Let $R_{1}^{2}$
+denote the coefficient of determination in a regression that includes only
+$x_{1t},$ compared to $R_{2}^{2}$ for the regression that includes both
+$x_{1t}$ and $x_{2t}$. \ We show in Appendix \ref{app:overlapping} that again
+for the case when $x_{1t}$ and $x_{2t}$ are uncorrelated and $\beta_{2}=0$
+\begin{equation}
+T(R_{2}^{2}-R_{1}^{2})\overset{d}{\rightarrow}r^{\prime}Q^{-1}r/\gamma,
+\quad \gamma=E[y_{t}-E(y_{t})]^{2},\quad r\sim N(0,S).
+\label{diff R2 asymptotic}%
+\end{equation}%
+The difference $R_{2}^{2}-R_{1}^{2}$ converges in probability to zero, but in
+a given finite sample it is positive by construction. If $x_{2t}u_{t+h}$ is
+positively serially correlated, then $S$ exceeds $S_{0}$ by a
+positive-definite matrix, and $r$ exhibits more variability across samples.
+\ This means $R_{2}^{2}-R_{1}^{2},$ being a quadratic form in a vector with a
+higher variance, would have both a higher expected value as well as a higher
+variance when $x_{2t}u_{t+h}$ is serially correlated compared to situations
+when it is not. This serial correlation in $x_{2t}u_{t+h}$ would contribute to
+larger values for $R_{2}^{2}-R_{1}^{2}$ on average as well as to increased
+variability in $R_{2}^{2}-R_{1}^{2}$ across samples. \ In other words,
+including $x_{2t}$ could substantially increase the $R^{2}$ even if $H_{0}$ is
+true. We will use bootstrap approximations to the small-sample distribution of
+$R_{2}^{2}-R_{1}^{2}$, and demonstrate that the dramatic values sometimes
+reported in the literature are often entirely plausible under the
+spanning hypothesis.
+
+\subsection{Three solutions for more robust inference}
+
+\label{sec:solutions}
+
+We now propose three approaches for more robust inference about the spanning hypothesis.
+
+\subsubsection{A bootstrap design to test the spanning hypothesis}
+
+\label{sec:bootstrap}
+
+Obviously the main question is whether the above considerations make a
+material difference for tests of the spanning hypothesis. \ We propose a
+parametric bootstrap that generates data under the spanning hypothesis to
+assess how serious these econometric problems are in practice.\footnote{An
+alternative approach would be a nonparametric bootstrap under the null
+hypothesis, using for example a moving-block bootstrap to re-sample $x_{1t}$
+and $x_{2t}$. However, \cite{berkowitz-kilian} found that parametric bootstrap
+methods such as ours typically perform better than nonparametric methods.}
+With this bootstrap approach we can calculate the size of conventional tests
+to assess their robustness. In addition, we can use it to test the spanning
+hypothesis with better size and power than for conventional
+tests.\footnote{\label{fn:bootstrap-null}\cite{cp05} and \citet{ludvigson-ng-rfs,ludvigson-ng-handbook}
+also used the bootstrap to test $\beta_{2}=0$. They did so with bootstrap
+confidence intervals generated under the alternative hypothesis. But it is
+well known that bootstrapping under the null hypothesis generally leads to
+better numerical accuracy and more powerful tests
+\citep{hall-wilson,horowitz}, and of course this is the only way to obtain
+bootstrap estimates of the size of conventional tests.}
+
+Our bootstrap design is as follows: First, we calculate the first three PCs of
+observed yields which we denote%
+\[
+x_{1t}=(PC1_{t},PC2_{t},PC3_{t})^{\prime},
+\]
+along with the weighting vector $\hat{w}_{n}$ for the bond yield with maturity
+$n$:%
+\[
+i_{nt}=\hat{w}_{n}^{\prime}x_{1t}+\hat{v}_{nt}.
+\]
+That is, $x_{1t}=\hat{W}i_{t}$, where $i_{t}=(i_{n_{1}t},\ldots,i_{n_{J}
+t})^{\prime}$ is a $J$-vector with observed yields at $t$, and $\hat{W}%
+=(\hat{w}_{n_{1}},\ldots,\hat{w}_{n_{J}})^{\prime}$ is the $3\times J$ matrix
+with rows equal to the first three eigenvectors of the variance matrix of
+$i_{t}$. We use normalized eigenvectors so that $\hat{W}\hat{W}^{\prime}%
+=I_{3}$. Fitted yields are
+obtained as $\hat{\imath}_{t}=\hat{W}^{\prime}x_{1t}$. Three factors generally
+fit the cross section of yields very well, with fitting errors $\hat{v}_{nt}$
+(pooled across maturities) that have a standard deviation of only a few basis
+points.\footnote{For example, in the data of \cite{jps} this standard
+deviation is 6.5 basis points.} Then we estimate by OLS a VAR(1) for $x_{1t}%
+$:
+\begin{equation}
+x_{1t}=\hat{\phi}_{0}+\hat{\phi}_{1}x_{1,t-1}+e_{1t}\text{ \ \ \ \ }
+t=1,\ldots,T. \label{empirical var x1}%
+\end{equation}
+This time-series specification for $x_{1t}$ completes our simple factor model
+for the yield curve. Though this model does not impose absence of arbitrage,
+it captures both the dynamic evolution and the cross-sectional dependence of
+yields. A no-arbitrage model is a special case of this structure with
+additional restrictions on $\hat{W}$, but these restrictions typically do not
+improve forecasts of yields; see for example \cite{duffee-forecasting} and
+\cite{hw3}. Next we generate 5000 artificial yield data samples from this
+model, each with length $T$ equal to the original sample length. We first
+iterate on
+\[
+x_{1\tau}^{\ast}=\hat{\phi}_{0}+\hat{\phi}_{1}x_{1,\tau-1}^{\ast}+e_{1\tau
+}^{\ast}\text{ }%
+\]
+where $e_{1\tau}^{\ast}$ denotes bootstrap residuals. We start every bootstrap
+sample at $x_{10}^{\ast}=x_{10},$ the starting value for the observed sample,
+to allow for a possible contribution of trends resulting from initial
+conditions as discussed in Section \ref{sec:trends}. \ Then we obtain the
+bootstrap yields using
+\begin{equation}
+i_{n\tau}^{\ast}=\hat{w}_{n}^{\prime}x_{1\tau}^{\ast}+v_{n\tau}^{\ast}
+\label{bootstrap yn}%
+\end{equation}
+for $v_{n\tau}^{\ast}\overset{iid}{\sim} N(0,\sigma_{v}^{2}).$ The standard
+deviation of the measurement errors, $\sigma_{v}$, is set to the sample
+standard deviation of the fitting errors $\hat{v}_{nt}$.\footnote{Some
+evidence in the literature suggests that yield fitting errors are serially
+correlated \citep{acm,hw3}. We have also investigated a setting with serial
+correlation in $v_{n\tau}^{\ast}$ and found that this does not change any of
+our findings.} We thus have generated an artificial sample of yields
+$i_{n\tau}^{\ast}$ which by construction only the three factors in $x_{1\tau
+}^{\ast}$ have any power to predict, but whose covariance and dynamics are
+similar to those of the observed data $i_{nt}.$
+
+We likewise fit a VAR(1) to the observed data for the proposed predictors
+$x_{2t},$
+\begin{equation}
+x_{2t}=\hat{\alpha}_{0}+\hat{\alpha}_{1}x_{2,t-1}+e_{2t},
+\label{empirical var x2}%
+\end{equation}
+from which we then bootstrap 5000 artificial samples $x_{2\tau}^{\ast}$ in a
+similar fashion as for $x_{1\tau}^{\ast}$. The bootstrap residuals $(e_{1\tau
+}^{\prime\ast},e_{2\tau}^{\prime\ast})$ are drawn from the joint empirical
+distribution of $(e_{1t}^{\prime},e_{2t}^{\prime})$.
+
+Using the bootstrapped samples of predictors and yields, we can then
+investigate the properties of any proposed test statistic involving
+$y_{\tau+h}^{\ast}$, $x_{1\tau}^{\ast}$, and $x_{2\tau}^{\ast}$ in a
+sample in which the serial correlation of these variables is similar
+to the actual data, but in which by construction the null hypothesis
+is true that $x_{2\tau}^{\ast}$ has no incremental predictive
+power.\footnote{\label{fn: holding yield example}For example, if
+  $y_{t+h}$ is an $h$-period excess return as in equation
+  (\ref{eq:rx}) then in our bootstrap%
+\begin{align*}
+y_{\tau+h}^{\ast}  &  =ni_{n\tau}^{\ast}-hi_{h\tau}^{\ast}-(n-h)i_{n-h,\tau
++h}^{\ast}\\
+&  =n(\hat{w}_{n}^{\prime}x_{1\tau}^{\ast}+v_{n\tau}^{\ast})-h(\hat{w}%
+_{h}^{\prime}x_{1\tau}^{\ast}+v_{h\tau}^{\ast})-(n-h)(\hat{w}_{n-h}^{\prime
+}x_{1,\tau+h}^{\ast}+v_{n-h,\tau+h}^{\ast})
+\end{align*}
+which replicates the predictable component and the MA($h-1$) serial
+correlation structure of the excess returns that is both seen in the data and
+predicted under the spanning hypothesis.} Consider for example a $t$-test for
+significance of a parameter in $\beta_{2}$. Denote the $t$-statistic in the
+data by $t$ and the corresponding $t$-statistic in bootstrap sample $i$ as
+$t_{i}^{\ast}$. To obtain a bootstrap estimate of the size of this test we
+calculate the fraction of samples in which $|t_{i}^{\ast}|$ exceeds the
+usual asymptotic critical value. And to use the bootstrap to carry out the
+hypothesis test, we calculate the bootstrap $p$-value as the fraction of
+samples in which $|t_{i}^{\ast}|>|t|$, and reject the null if this is less
+than, say, five percent. Equivalently, we can calculate the bootstrap critical
+value as the 97.5th percentile of $|t_{i}^{\ast}|$ and reject the null if
+$|t|$ exceeds it.
+
+Note that this bootstrap procedure does not generate a test with an exact size
+of 5\%. First, under local-to-unity asymptotics the bootstrap is not a
+consistent test because the test statistics are not asymptotically
+pivotal---their distribution depends on the nuisance parameters $c_{1}$ and
+$c_{2}$, which cannot be consistently estimated.\footnote{This result goes
+back to \cite{basawa-etal}. See also \cite{horowitz} and the references therein.} Second, least squares typically
+underestimates the autocorrelation of highly persistent processes due to
+small-sample bias \citep{kendall,pope}, so that the VAR underlying our
+bootstrap would typically be less persistent than the true DGP. We can address
+the second issue by using bias-corrected VAR parameter estimates for
+generating bootstrap samples. We will use the bias correction proposed by
+\cite{kilian} and refer to this as the \textquotedblleft bias-corrected
+bootstrap.\textquotedblright\footnote{We have found in Monte Carlo experiments
+that the size of the bias-corrected bootstrap is closer to five percent than
+for the simple bootstrap.} We have found that even the bias-corrected
+bootstrap tends to be slightly oversized. This means that if our bootstrap
+test fails to reject the spanning hypothesis, the reason is not that the test
+is too conservative, but that there simply is not sufficient evidence for
+rejecting the null.
+
+We can use the Monte Carlo simulations in Section \ref{sec:sebias} to
+calculate the size of our bootstrap test. \ In each sample $i$ simulated from
+a known parametric model, we can: (i) calculate the $t$-statistic (denoted
+$\tilde{t}_{i})$ for testing the null hypothesis that $\beta_{2}=0$; (ii)
+estimate the autoregressive models for the predictors by using OLS on that
+sample; (iii) generate a \emph{single} bootstrap sample using these estimated
+autoregressive coefficients; (iv) estimate the predictive regression on the
+bootstrap sample;\footnote{In this simple Monte Carlo setting, we bootstrap
+the dependent variable as $y_{\tau}^{\ast}=\hat{\phi}_{1}x_{1,\tau-1}^{\ast
+}+u_{\tau}^{\ast}$ where $u_{\tau}^{\ast}$ is resampled from the residuals in
+a regression of $y_{t}$ on $x_{1,t-1}$, and is jointly drawn with
+$\varepsilon_{1\tau}^{\ast}$ and $\varepsilon_{2\tau}^{\ast}$ to maintain the
+same correlation as in the data. \ By contrast, in our empirical analysis the
+bootstrapped dependent variable is calculated from the bootstrapped bond
+yields, obtained using \eqref{bootstrap yn}, and the definition of $y_{t+h}$
+(for example, as an annual excess return).} and (v) calculate the
+$t$-statistic in this regression, denoted $t_{i}^{\ast}$. \ We generate many
+samples from the maintained model, repeating steps (i)-(v), and then calculate
+the value $c$ such that $|t_{i}^{\ast}|>c$ in 5\% of the samples. Our
+bootstrap procedure amounts to the recommendation of rejecting $H_{0}$ if
+$|\tilde{t}_{i}|>c,$ and we can calculate from the above simulation the
+fraction of samples in which this occurs. \ This number tells us the true size
+if we were to apply our bootstrap procedure to the chosen parametric model.
+\ This number is reported in the second-to-last column of Table \ref{tab:sim}.
+We find in these settings that our bootstrap has a size above but fairly close
+to five percent.
+
+%combine with previous paragraph and shorten
+We will repeat the above procedure to estimate the size of our bootstrap test
+in each of our empirical applications, taking a model whose true coefficients
+are those of the VAR estimated in the sample as if it were the known
+parametric model, and estimating VAR's from data generated using those
+coefficients. \ To foreshadow those results, we will find that the size is
+typically quite close to or slightly above five percent. In addition, we will
+show that our bootstrap procedure has good power properties. The implication
+is that if our bootstrap procedure fails to reject the spanning hypothesis, we
+should conclude that the evidence against the spanning hypothesis in the
+original data is not persuasive.
+
+\subsubsection{New data: subsample stability and out-of-sample forecasting}
+
+Our third approach to assess claims of return predictability is to confront
+published results with new data. To circumvent econometric problems of
+predictability regressions a common practice is to perform pseudo
+out-of-sample (OOS) analysis, splitting the sample into an initial estimation
+and an OOS period. We are skeptical of this approach because the researcher
+has access to the full sample when formulating the model, and the sample-split
+is arbitrary. However, for each of the studies that we revisit a significant
+amount of new data have come in since the original research. \ This gives us
+an opportunity both to reestimate the models over a sample period that
+includes new data, and further to evaluate the true out-of-sample forecasting
+performance of each proposed model.
+
+\section{Economic growth and inflation}
+
+\label{sec:jps}
+
+In this section we examine the evidence reported by \cite{jps} (henceforth
+JPS) that macro variables may help predict bond returns. We will follow JPS
+and focus on predictive regressions as in equation \eqref{eq:pred} where
+$y_{t+h}$ is an excess bond return for a one-year holding period ($h=12$),
+$x_{1t}$ is a vector consisting of a constant and the first three PCs of
+yields, and $x_{2t}$ consists of a measure of economic growth (the three-month
+moving average of the Chicago Fed National Activity Index, $GRO$) and of
+inflation (one-year CPI inflation expectations from the Blue Chip Financial
+Forecasts, $INF$). While JPS also presented model-based evidence in favor of
+unspanned macro risks, those results stem from the substantial
+in-sample predictive power of $x_{2t}$ in the excess return regressions. The
+sample contains monthly observations over the period
+1985:1-2008:12.\footnote{We recreated the data set using
+  unsmoothed Fama-Bliss yields from Anh Le and data from the Chicago
+  Fed and Blue Chip to reconstruct GRO and INF. Note that the last observation corresponds to excess
+returns over the holding period from 2007:12 to 2008:12.}
+
+\subsection{Predictive power according to $\bar{R}^{2}$}
+
+JPS found that for the ten-year bond, the (adjusted) $\bar{R}^{2}$ of
+regression \eqref{eq:pred} increased from 0.20 to 0.37 when $x_{2t}$ is
+included. \ For the two-year bond, the change is even more striking, with
+$\bar{R}^{2}$ increasing from 0.14 to 0.48. JPS interpreted this as strong
+evidence that macroeconomic variables have predictive power for excess bond
+returns beyond the information in the yield curve, and concluded that
+\textquotedblleft macroeconomic risks are unspanned by bond
+yields\textquotedblright\ (p.~1203). We report the $\bar{R}^{2}$ for an
+average excess-return on 2- to 10-year bonds in the first row of Table
+\ref{tab:r2}, where the first three entries are based on the same data set
+that was used by JPS.\footnote{In Table \ref{tab:r2} we have attempted to
+summarize results for $R^{2}$ or $\bar{R}^{2}$ across different studies on a
+comparable basis that is as close as possible to that in the original study.
+\ In the case of JPS, they reported results for only the 2-year and 10-year
+bonds and not an average. \ In Table \ref{tab:app-jps} in Appendix
+\ref{app:jps} we present analogous results for each individual bond from two
+through ten years maturity. The increase in $\bar{R}^{2}$ when adding macro
+variables is particularly pronounced for short-term bonds, but most of our
+conclusions apply to these short maturities as well.} The entry $\bar{R}%
+_{1}^{2}$ gives the $\bar{R}^{2}$ for the regression with only $x_{1t}$ as
+predictors, and $\bar{R}_{2}^{2}$ corresponds to the case when $x_{2t}$ is
+added to the regression. For this specification, $\bar{R}^{2}$ also increases
+quite substantially, by 19 percentage points.
+
+However, there are some warning flags for these predictive regressions. First,
+the predictors are very persistent; the first-order sample autocorrelations of
+$PC1$ and $PC2$ are 0.98 and 0.97, respectively, while that of $INF$ is 0.99.
+Second, the sample is relatively small, with 276 observations. Third, the
+dependent variable is an annual overlapping return, i.e., $h=12$. The arguments in
+Section \ref{sec:overlapping} therefore suggest that even large increases in $\bar{R}^{2}$
+may be plausible under the null hypothesis.
+
+The second row of Table \ref{tab:r2} reports the mean $\bar{R}^{2}$ across
+5000 replications of the bootstrap described in Section \ref{sec:bootstrap},
+that is, the average value we would expect to see for these statistics in a
+sample of the size used by JPS in which $x_{2t}$ in fact has no true ability
+to predict $y_{t+h}$ but whose serial correlation properties are similar to
+those of the observed data. The third row gives 95\% bootstrap intervals, that
+is, the 2.5th and 97.5th percentiles of the bootstrap distributions which
+impose the null hypothesis. The variability of the $\bar{R}^{2}$ is very high.
+Values for $\bar{R}_{2}^{2}$ as high as 60\% would not be uncommon, as
+indicated by the bootstrap intervals. Most notably, adding the regressors
+$x_{2t}$ often substantially increases the $\bar{R}^{2}$---even increases of
+20 percentage points are not uncommon---although $x_{2t}$ has no predictive
+power in population by construction. According to the bootstrap small-sample
+distribution of $\bar{R}^{2}$, the increase in the data of 19 percentage
+points is not inconsistent with the spanning hypothesis.
+
+Since the persistence of $x_{2t}$ is high, it may be important to adjust for
+small-sample bias in the VAR estimates, so we also carried out
+the bias-corrected (BC) bootstrap. The expected values and 95\% bootstrap
+intervals are reported in the bottom two rows of the top panel in Table
+\ref{tab:r2}. \ As expected, more serial correlation in the generated data
+(due to the bias correction) increases the mean and the variability of the
+$\bar{R}^{2}$ and of their difference. Hence $\bar{R}_{2}^{2}-\bar{R}%
+_{1}^{2}$ is even more comfortably within the
+bootstrap interval.
+
+\subsection{Testing the spanning hypothesis}
+
+While JPS only reported $\bar{R}^{2}$ for their excess return
+regression, one is naturally interested in formal tests of
+the spanning hypothesis. We report coefficient estimates and test
+statistics in Table \ref{tab:jps}. The common approach to address the
+serial correlation in the residuals due to overlapping observations is
+to use the standard errors and test statistics proposed by
+\cite{newey-west}, and in regressions for annual returns with monthly
+data researchers typically use 18 lags \citep[see among many
+others][]{cp05,ludvigson-ng-rfs}. In the second row of Table
+\ref{tab:jps} we report the resulting $t$-statistic for each
+coefficient along with the Wald test of the hypothesis $\beta_{2}=0$. The third
+row reports the $p$-values for these statistics if they were
+interpreted using the conventional asymptotic approximation. According
+to this popular test, $GRO$ and $INF$ appear strongly significant,
+both individually and jointly. In particular, the Wald test gives a
+$p$-value below 0.1\%.
+
+However, the small-sample problems described in Section \ref{sec:econometrics}
+likely distort these test results. The canonical correlation between
+innovations in one-month excess returns and innovations in the three yield PCs
+(the generalization of the parameter $\delta$ in Section \ref{sec:sebias}) is
+0.99. This correlation is always high in tests of
+the spanning hypothesis, because the yield PCs in $x_{1t}$ explain
+current yields very well, and so innovations to $x_{1t}$ are
+highly correlated with returns realized at $t$. Furthermore, as noted
+above, the autocorrelations of the
+predictors are high and the sample size is relatively small. Our theory
+predicts that standard error bias will be severe in this application. In
+addition, the well-known small-sample problems of Newey-West standard errors
+are likely to be particularly pronounced in this setting.
+
+We therefore employ our bootstrap to carry out tests of the spanning
+hypothesis that account for these small-sample issues. Again, we use both
+simple (OLS) and BC bootstrap. For each, we report five-percent critical
+values for the $t$- and Wald statistics, calculated as the 95th percentiles of
+the bootstrap distribution, as well as bootstrap $p$-values, i.e., the
+frequency of bootstrap replications in which the bootstrapped test statistics
+are at least as large as in the data. Using either the simple or BC bootstrap,
+the coefficient on $GRO$ is insignificant even at the 10\% level, and the
+coefficient on $INF$ is marginally significant at the 5\% level. The bootstrap
+$p$-value for the Wald test of the spanning hypothesis is slightly below 5\%
+for the simple bootstrap and slightly above 5\% for the BC bootstrap. These
+tests give much weaker evidence against the spanning hypothesis than one
+would have thought based on conventional asymptotic interpretation of the test statistics.
+
+Using the bootstrap we can calculate the true size of the conventional
+HAC and the bootstrap tests, which both have a nominal size of five percent.
+These are reported in the \emph{Size} section of the top panel of Table
+\ref{tab:jps}. For the conventional HAC tests, this is calculated as the
+frequency of bootstrap replications in which the test statistics
+exceed the usual asymptotic critical values. The results reveal that the true
+size of these conventional tests is 20-37\% instead of the presumed five
+percent. These substantial size distortions are also reflected in the
+bootstrap critical values, which far exceed the conventional ones.
+
+We can also use our bootstrap to evaluate the power of our proposed tests.
+\ To do so, we simply add $\hat{\beta}_{2}x_{2\tau}^{\ast}$ to the value
+generated by our bootstrap for $y_{\tau+h}^{\ast},$ where $\hat{\beta}_{2}$ is
+the coefficient on $x_{2t}$ in the original data sample. We now have a
+generated sample in which $x_{2t}$ in fact does predict $y_{t+h},$ and with a
+magnitude that is exactly that claimed in the original study. \ We repeat this
+to obtain 5000 such samples and in
+each sample calculate all our tests. \ We find that the bootstrap Wald
+test rejects the (false) spanning hypothesis in 89\% of the
+samples. In other
+words, these tests should reject the spanning hypothesis in the data if
+it were indeed false, which suggests that the reason that they do not reject is not a lack of power, but the
+fact that empirical spanning is a reasonable description of the observed sample.
+
+\subsection{New data}
+
+What happens when we augment the sample with the eight years of new data that
+have arrived since the original analysis by JPS? The last
+three columns of the top panel of Table \ref{tab:r2} show that the in-sample
+improvement in $\bar{R}^{2}$ when $x_{2t}$ is included in the regression is
+substantially smaller over the 1985-2015 data set than was found on the
+original JPS data set, and the improvement is far from statistically
+significant.\footnote{This also turns out to be the case for every individual
+bond maturity; see Table \ref{tab:app-jps} in Appendix
+\ref{app:jps}.} And as seen in the second panel of Table \ref{tab:jps}, the
+values of the HAC test statistics are substantially smaller on
+the longer data set than in the original data, and the
+Wald statistic is no longer statistically significant even if interpreted in the usual way. \ The $t$-statistic on
+inflation would still appear to be significant if interpreted based on the
+conventional asymptotic distribution, but based on the bootstrap small-sample
+distribution it is clearly insignificant.
+
+Row 1 of Table \ref{tab:oos} reports the pure OOS forecast comparison for
+$y_{t+h}$ the average 12-month excess return across 2- to 10-year
+bonds. We used a recursive scheme where we re-estimate the predictive
+regressions by extending the estimation window each month of the newly
+available data. Whereas in the original JPS in-sample regression, the
+addition of $x_{2t}$ improved the mean squared prediction error by 24\%, the
+addition of $x_{2t}$ leads to a deterioration in the OOS prediction error by
+140\%. Moreover, this deterioration is statistically significant
+according to the \cite{diebold-mariano} (DM) test.\footnote{In
+related work, \cite{giacoletti-etal} evaluate the real-time OOS forecasting
+performance of a model similar to that used in JPS. They find that including
+macro variables only helps for predicting very short-term yields and only over
+a specific subsample, but that overall ``'macro rules' add little to the
+forecast accuracy of the basic yields-only rule'' (p.~29). While this supports
+the spanning hypothesis, they find some incremental predictive power when
+including survey forecast disagreement.}
+
+Adding new observations to the JPS data set substantially weakens the evidence
+against the spanning hypothesis. But if the null hypothesis were truly false,
+we would expect to find the evidence against it become stronger, not weaker,
+when we use a bigger data set. We conclude on the basis of the
+bootstrap and the evidence in newly available data that the JPS evidence on unspanned macro
+risks is far from convincing.
+
+\section{Factors of large macro data sets}
+
+\label{sec:ln}
+
+\cite{ludvigson-ng-rfs,ludvigson-ng-handbook} found that factors extracted
+from a large macroeconomic data set are helpful in predicting excess bond
+returns, above and beyond the information contained in the yield curve. Here
+we revisit this evidence, focusing on the results in
+\cite{ludvigson-ng-handbook} (henceforth LN). They started with a panel data
+set of 131 macro variables observed over 1964:1-2007:12 and extracted eight
+macro factors using the method of principal components. These factors, which
+we will denote by $F1$ through $F8$, were then related to future one-year
+excess returns on two- through five-year Treasury bonds. They also included
+the return-forecasting factor that was proposed by \cite{cp05}, denoted as
+$CP$, which is the linear combination of forward rates that best predicts the
+average excess return across maturities. Based on comparisons of $\bar{R}^{2}$
+of regressions with and without macro factors, as well as inference using
+Newey-West standard errors, LN concluded that macro factors help predict
+excess returns, even when controlling for information in the yield curve using
+the $CP$ factor.
+
+We estimate regression \eqref{eq:pred} where now $y_{t+h}$ is the average one-year excess
+bond return for maturities of two through five years, $x_{1t}$ contains a
+constant and three yield PCs, and $x_{2t}$ contains eight macro
+PCs. The specification is very similar to that of LN, with
+two differences: First, we capture the information in the yield curve using
+the first three PCs of yields, while LN use the $CP$ factor. Second, we do not
+carry out LN's preliminary specification search---they considered many
+different combinations of the factors along with squared and cubic terms---in
+order to focus squarely on hypothesis testing for a given regression
+specification.\footnote{We were able to closely replicate the results in LN's
+tables 4 through 7, and have also applied our techniques to those regressions,
+which led to qualitatively similar results.}
+
+
+Table \ref{tab:r2} shows that in LN's data set the $\bar{R}^{2}$ increases by
+10 percentage points when the macro factors are included, consistent with LN's
+findings. The first three rows of Table \ref{tab:ln} show the coefficient
+estimates, HAC $t$- and Wald statistics (using Newey-West standard errors with
+18 lags as in LN), and conventional $p$-values. There are five macro factors that
+appear to be statistically significant at the ten-percent level, among which
+three are significant at the five-percent level. The Wald statistic for
+$H_{0}$ far exceeds the critical values for conventional significant levels
+(the five-percent critical value for a $\chi^{2}(8)$ distribution is 15.5).
+\ Taken at face value, this evidence suggests that macro factors have strong
+predictive power, above and beyond the information contained in the yield curve.
+
+How robust are these econometric results? We first check the warning flags. As
+usual, the first two yield PCs are very persistent, with autocorrelations of
+0.98 and 0.94. The most persistent macro variables have first-order
+autocorrelations of around 0.75, so the persistence of $x_{2t}$ is lower than
+in the data of JPS but still considerable. As always, the yield PCs strongly
+violate strict exogeneity by construction, for the reasons explained in the
+previous section. Based on these indicators, it appears that small-sample
+problems may well distort the results of conventional inference methods.
+
+To address the potential small-sample problems we again
+bootstrapped 5000 data sets of artificial yields and macro data in which
+$H_{0}$ is true in population. The samples each contain 516 observations,
+which corresponds to the length of the original data sample. We report results
+only for the simple bootstrap without bias correction, because the bias in the
+VAR for $x_{2t}$ is estimated to be small. Note that LN also considered
+bootstrap inference, but their main bootstrap design imposed the expectations
+hypothesis, in order to test whether excess returns are predictable by macro
+factors and the $CP$ factor. Using this setting, LN produced convincing
+evidence that excess returns are predictable, which is fully consistent with
+our results. Our null hypothesis of interest, however, is that excess returns
+are predictable only by current yields. While LN also reported results for a
+bootstrap under the alternative hypothesis, our bootstrap under the
+null provides more accurate tests of the spanning hypothesis and
+allows us to estimate the size of conventional tests under the null
+(see also footnote \ref{fn:bootstrap-null}).
+
+Table \ref{tab:r2} shows that the observed increase in predictive power from
+adding macro factors to the regression, measured by $\bar{R}^{2}$, would not
+be implausible if the null hypothesis were true, as the increase in $\bar
+{R}^{2}$ is within the 95\% bootstrap interval. And as seen in Table
+\ref{tab:ln}, our bootstrap finds that only three coefficients are significant
+at the ten-percent level (instead of five using conventional critical values),
+and one at the five-percent level (instead of three). While the Wald statistic
+is significant even compared to the critical value from the bootstrap
+distribution, the evidence is weaker than when using the asymptotic distribution.
+
+We again use the bootstrap to estimate the size and power of the different
+tests with a nominal size of five percent. The results, reported in Table
+\ref{tab:ln}, reveal that the conventional $t$-tests have modest size
+distortions, with true size of 9-14\% instead of the nominal five percent. But
+the Wald test is seriously distorted, with a true size of 32 percent. The Wald
+test compounds the problems resulting from the non-standard small-sample
+distribution of each of the eight coefficient estimates for $x_{2t}$, and
+therefore ends up with a large size distortion. By contrast, our proposed
+bootstrap test has close to correct size. They also have good
+power, in particular the bootstrap Wald test.
+
+Again there are several years of data that have arrived since the original LN
+analysis was conducted.\footnote{To construct the macro factors for the
+1985-2015 sample period, we used the macro data set of \cite{mccracken-ng} and
+transformed the data and extracted the PCs in the same way as LN did. Using
+the data constructed in this way, we also obtained results similar to LN's
+over their original sample period.} \ We repeated our analysis using the same
+1985-2015 sample period that we used to reassess the results of JPS. \ There
+it was a strictly larger sample than the original, but here our new sample adds data at the end but leaves some out at the
+beginning. \ Reasons for interest in this sample period include the
+significant break in monetary policy in the early 1980s, the advantages of
+having a uniform sample period for comparison across all the different studies
+considered in our paper, and investigating robustness of the original claims
+in describing data since the papers were originally published. The results,
+shown in the right panel of Table \ref{tab:r2} and the bottom panel of Table
+\ref{tab:ln}, show that over the later sample period, the evidence for the
+predictive power of macro factors is quite weak. The increases in $\bar{R}%
+^{2}$ in Table \ref{tab:r2} are not statistically significant, being squarely
+within the bootstrap intervals under the spanning hypothesis. The Wald test
+rejects $H_{0}$ when using asymptotic critical values, but is very far from
+significant when using bootstrap critical values. \citet[][Section
+7]{duffee-handbook-forecasting} has also noted problems with the stability of
+the results in \cite{cp05} and \cite{ludvigson-ng-handbook} across different
+sample periods.
+
+We also repeated the pure OOS exercise and report the results in the second
+row of Table \ref{tab:oos}. In contrast to the results for JPS (in the first row), we
+find that the unrestricted model which includes macro variables does better
+both in-sample and OOS than the model that only includes yield PCs. Adding the
+eight macro factors reduces the MSE for predicted returns over the 2009-2015
+period by 25\%. However, this improvement is not large enough to be
+statistically significant based on the DM test.
+
+Overall, these results again show that conventional measures of fit and
+hypothesis tests are not reliable for assessing the spanning hypothesis.
+Furthermore, the evidence that macro factors have predictive power beyond the
+information already contained in yields is weaker than the results in LN would
+initially have suggested. Both small-sample econometric problems as well as
+subsample stability raise concerns about the robustness of the
+results.\footnote{Appendix \ref{app:ln} reports additional results for
+predictive regressions with return-forecasting factors, using an empirical
+approach that was also advocated by LN. \ These results reinforce our
+conclusions.}
+
+\section{Trend inflation}
+
+\label{sec:cpo}
+
+\cite{cieslak-povala} (henceforth CPO) presented evidence that measures of the
+trend in inflation can help to estimate risk premia in bond returns. \ They
+found this using a variety of measures of trend inflation. \ Their strongest
+results (and the specification we investigate here) calculates the trend in
+inflation using a very slowly adjusting weighted average of observed inflation
+rates,%
+\begin{equation}
+\tau_{t}=(1-\nu)%
+%TCIMACRO{\tsum \nolimits_{i=0}^{t-i}}%
+%BeginExpansion
+{\textstyle\sum\nolimits_{i=0}^{t-i}}
+%EndExpansion
+\nu^{i}\pi_{t-i}, \label{eq:cpo_trend}%
+\end{equation}
+for $\pi_{t}$ the month $t$ year-over-year inflation in the core CPI
+and $\nu=0.987.$ \ CPO found that although $\tau_{t}$ alone does not
+predict excess returns, when added to a regression that also includes
+yields, the inflation trend becomes highly significant and the
+predictive power of yields improves tremendously as well.
+
+CPO calculated standard errors using the \cite{wei-wright} reverse regression
+(RR) approach as a way to mitigate the problems resulting form
+overlapping observations identified in Section
+\ref{sec:overlapping}. The RR approach uses the insight of
+\cite{hodrick92} that it is beneficial to base inference in predictions for overlapping
+returns on estimates from regressions of one-period (non-overlapping) returns
+on cumulated predictors, and extends Hodrick's approach to perform
+inference about other hypotheses than the absence of predictability. \ We also
+use the RR approach throughout this section as we replicate and extend CPO's results.
+
+To reproduce CPO's key results in a similar structure to those used in
+discussing the previous two studies, let $y_{t+h}$ denote a weighted
+average\footnote{We use the same type of weighted average of excess
+  returns as CPO, where returns are divided by the bond's duration
+  before being averaged.}  of the annual excess returns on 2- to
+10-year bonds, $x_{1t}$ a constant and the first three PCs of yields,
+and $x_{2t}=\tau_{t}.$ \ The first three rows of Table \ref{tab:cpo}
+reproduce CPO's conclusion that the ability of the PCs alone to
+predict excess returns is modest and only the slope is a significant
+predictor of bond returns, consistent with the long-standing results
+of \cite{campbellshiller91}. \ But when $\tau_{t}$ is added (rows
+4-6), the trend is highly significant, and the values and statistical
+significance of the coefficients on $PC1$ and $PC2$ increase tremendously
+as well.
+
+The value of $\tau_{t}$ is plotted in Figure \ref{fig:cpo_trend} along
+with the yield on a 10-year bond. \ Both $\tau_{t}$ and nominal
+interest rates exhibited an upward trend until the early 1980s and a
+distinct downward trend since then. From the start to the end of CPO's
+original sample, the value of $\tau_{t}$ fell by more than 200 basis
+points and the 10-year yield by over 400 basis points. \ The variable
+$\tau_{t}$ is also extremely persistent, with an autocorrelation of
+0.9985. \ The analysis in Section \ref{sec:trends} showed that in a
+setting like this, the problems from standard error bias can become
+much worse due to the presence of trends, and both the predictive
+power of $\tau_{t}$ and its apparent usefulness in refining the
+predictive power of the PCs could be spurious.
+
+We again investigate these concerns using our bootstrap.\footnote{Our
+  bootstrap uses a VAR(1) for yield PCs and an AR(1) for the inflation
+  trend.  While more sophisticated bootstrap designs for inflation and
+  the inflation trend are possible---e.g., calculating the
+  bootstrapped inflation trend as a moving average of inflation
+  simulated from an ARIMA model---we have found that our key results
+  remain essentially unaffected by this choice.} \ In this case,
+because of the very high persistence of $\tau_{t}$ we use the
+bias-corrected bootstrap. \ The key question is the following: For
+data generated under the null hypothesis that $x_{1t}$ alone is useful
+in predicting returns, how often do we reject this null hypothesis?
+This estimate of the true size of the RR $t$-test is 44.8\%, as
+reported in Table \ref{tab:cpo}. The enormous size distortion results
+from the simultaneous presence of multiple problems, namely standard
+error bias, trends in $x_{1t}$ and $x_{2t}$, and overlapping annual
+observations. We can use the bootstrap to investigate further the
+specific features of the DGP that lead to this poor test size.
+
+The main problem is the presence of trends in $PC1$ and $\tau_t$. In our
+bootstrap DGP $x_{1t}$ and $x_{2t}$ are highly
+persistent but stationary series, with the trend in the observed
+sample coming from the fact that the initial values for $PC1$ and
+$\tau_1$ are the historical values in 1971, which are significantly
+above the population means implied by the coefficients estimated from
+the entire sample. \ When we instead initialize the bootstrap samples at
+the population means, so that trends are absent by construction, the
+size of the RR $t$-test is only 16\% instead of 45\%. This reveals that the size distortions in the
+CPO analysis arise primarily from the problems with trending variables
+analyzed in Section \ref{sec:trends}.\footnote{By contrast, in the JPS
+  data we found that the biggest single source of the size distortions
+  is the use of overlapping returns and Newey-West standard errors.
+  And in the LN data it is a combination of the overlapping returns
+  and the presence of a relatively large number of predictors in
+  $x_{2t}$, which magnifies the size distortions.} 
+
+The interaction of the trends present in $PC1$ and $\tau_t$ renders the
+inference about the coefficients on both predictors highly unreliable,
+as the following exercise shows. If we regress
+$y_{t+h}$ on $x_{1t}$ alone, RR $t$-test rejects the false null hypothesis
+that the coefficient on $PC1$ is zero in only 17\% of the bootstrap
+samples. Likewise, if we regress $y_{t+h}$ on a constant and
+$\tau_{t}$ alone, we reject the null hypothesis that $\beta_{2}=0$ in
+14\% of the bootstrap samples.\footnote{In our DGP, as in the data,
+  bond risk premia are driven mainly by $PC2$; the population
+  coefficient on $PC1$ is nonzero but close to zero. And $\tau_{t}$ is
+  correlated with $x_{1t}$ in the bootstrap DGP so $\tau_{t}$ by
+  itself also has some predictive power. But for both $PC1$ and
+  $\tau_t$ the predictive power is usually not big enough for the RR $t$-test to detect.}  \ However,
+when both $x_{1t}$ and $x_{2t}$ are in the regression, we reject
+the hypothesis that the coefficient on $PC1$ ($\tau_t$) is zero in
+53\% (45\%) of the samples. The typical finding would thus be that although both $PC1$ and
+$\tau_{t}$ individually have almost no predictive power for $y_{t+h}$,
+when both are added to the same regression they typically appear
+statistically significant.  We have also found that adding $\tau_t$ to
+the regression doubles the root-mean-square error for the coefficient
+estimate on $PC1$ around its true value. This suggests that rather than helping refine the predictive
+power of $x_{1t},$ the addition of $x_{2t}$ in fact leads to a
+substantial deterioration of the forecasting model.
+The reason for all of these problems is the simultaneous presence
+of trends in $x_{1t}$ and $\tau_t$ which substantially distorts the
+inference about the spanning hypothesis, in line with the econometric arguments explained in
+\ref{sec:trends}.
+
+Furthermore, the problems stemming from overlapping observations are
+only partially alleviated by the RR test. If instead of RR standard
+errors we use Newey-West standard errors with the usual 18 lags, the
+test of $\beta_{2}=0$ has an even larger size of 56\%, compared to the
+45\% size of the RR test. In the absence of overlapping observations,
+a $t$-test of the same hypothesis has a size of 34\%. Since this is
+quite a bit below 45\% the RR test apparently does not
+completely solve the problem of overlapping observations.\footnote{To
+  obtain this result we set $h=1$ and construct $y_{t+1}$ from monthly
+  excess returns, using the approximation
+  $y_{t+1}^{n-1}\approx y_{t+1}^{n}$ and the one-month Treasury yield
+  from Anh Le's unsmoothed Fama-Bliss yield data. Then we test the
+  spanning hypothesis in bootstrap data using White's
+  heteroskedasticity robust standard errors \citep[as in, for
+  example,][Section 7]{duffee-handbook-forecasting}. It is well-known
+  that RR standard errors, just like Hodrick's standard errors, do not
+  eliminate the problem of Stambaugh bias; note for example the size
+  distortions in Table 1 of \cite{wei-wright}. Therefore it is
+  unsurprising that this approach does not eliminate standard error
+  bias.}
+
+Notwithstanding, we emphasize that these concerns cannot entirely
+explain the size of the effects found by CPO. \ As seen in Table
+\ref{tab:r2}, it would not be surprising to see the estimated
+$\bar{R}^{2}$ go from 15\% when only PCs are used to as high as 40\%
+when $\tau_{t}$ is added. \ In the data, however, we find an
+$\bar{R}^{2}$ of 46\% when $\tau_{t}$ is added, too big to be
+attributed to the factors captured by our bootstrap alone. \ We also
+see from Table \ref{tab:cpo} that while it would not be surprising to
+see the RR $t$-statistic for $\beta_{2}$ as high as 3.6, the value
+observed in the data of 6.2 is much too big to be explained by these
+considerations alone.\footnote{We note from Figure \ref{fig:cpo_trend}
+  that $\tau_{t}$ is even better characterized as exhibiting two
+  different trends rather than a single downward trend as captured in
+  our bootstrap. \ We have found in simulations that a mixture of
+  breaking trends can substantially exacerbate the problems that arise
+  from a single trend, but did not attempt to develop a complete
+  statistical or empirical analysis of this effect.}
+
+On the other hand, the IM tests for $q=2,8,$ or 16 do not reject the spanning
+hypothesis, though if we use $q=4$ we do reject.\footnote{Values for $q=2$ and
+4 are reported in Appendix B.} These tests seem to be somewhat oversized, with
+the true size estimated around 14\% instead of the nominal 5\%. \ The size
+distortion in this case arises from the Stambaugh bias noted in Section
+\ref{sec:trends}. \ The failure to reject using this test is thus not the
+result of having relied on an undersized test.
+
+Figure \ref{fig:cpo_im} provides some insight into why IM fails to reject. The
+figure plots the coefficients on each predictor across the $q=8$ subsamples.
+The coefficients are standardized by dividing them by the sample standard
+deviation across the eight estimated coefficients for each predictor. Thus,
+the IM $t$-statistics, which are reported in the legend of Figure
+\ref{fig:cpo_im}, are equal to the means of the standardized coefficients
+across subsamples, multiplied by $\sqrt{8}$. The figure shows that the
+coefficient on the trend appears to be strongly positive in the second
+subsample but negative in the first, seventh, and eighth subsamples. \ This
+instability across subsamples leads the IM test to conclude that $x_{2t}$ may
+not have true predictive power.
+
+We also reestimated the predictive regressions over the 1985-2015 period that
+we have used as a common comparison with the other studies. \ The increase in
+$\bar{R}^{2}$ is smaller and no longer statistically significant on this
+dataset, as seen in the last three columns of Table \ref{tab:r2}. \ Compared
+to the bootstrap small-sample critical values, the RR $t$-statistic is only
+marginally statistically significant at the 5\% level, as seen in the second
+panel of Table \ref{tab:cpo}. \ And the IM test fails to reject $H_{0}$ over
+this sample period for any $q$. Note that in the post-1985 sample the downward
+drift in the level of yields and the inflation trend is even more pronounced,
+adding to the econometric problems caused by trends in explanatory variables.
+
+We also evaluated the true OOS usefulness of $\tau_{t}$ using new data after
+the end of CPO's sample period, which we report in line 3 of Table
+\ref{tab:oos}. \ Whereas within CPO's original sample the trend reduces the
+MSE by 40\%, for the data that have arrived since 2011 including the inflation
+trend actually increases the MSE by a factor of 12. \ However, due to the
+short OOS period, even this dramatic deterioration in forecast accuracy is not
+statistically significant, based on the DM statistic.
+
+In sum, there are two possibly complementary explanations for the strong in-sample
+predictive power of the inflation trend $\tau_t$ documented by CPO. First, the
+addition of $\tau_t$ may truly help improve forecasts of bond returns. The level of the nominal yield curve and
+$\tau_t$ likely share a common trend, and accounting for it may somehow uncover additional predictive power
+in the deviation of the level of the yield curve from its trend. This interpretation is
+supported by the fact that CPO's finding survives even in our
+bootstrap correction for small-sample problems, at least in their
+original data set. But a second explanation, suggested by the
+theoretical arguments in Section \ref{sec:trends}, by our bootstrap
+analysis of the the role of trends, by the failure to reject in the
+original sample using the IM test, and by the poor out-of sample
+performance, is that a large share of the incremental predictive power
+of $\tau_t$ arises spuriously from its trending nature.  Clearly
+one needs to exercise great care in interpreting evidence against the
+spanning hypothesis in such a situation.
+
+\section{Higher-order PCs of yields}
+
+\label{sec:cp}
+
+\cite{cp05} (henceforth CP) documented several striking new facts about excess
+bond returns. They showed that a tent-shaped combination of forward rates
+predicts annual excess returns on different long-term bonds with an $R^{2}$ of
+up to 37\% (and even up to 44\% when lags are included). Importantly for our
+context, CP found that the first three PCs of yields---level, slope, and
+curvature---did not fully capture this predictability, but that the fourth and
+fifth PC were also very helpful. As usual, the first three PCs explain a large
+share of the cross-section variation in yields (99.97\% in their data), but CP
+found that the other two PCs, which explain only 0.03\% of the cross-section
+variation in yields, are statistically important for predicting excess bond
+returns. In particular, the fourth PC appeared \textquotedblleft very
+important for explaining expected returns\textquotedblright\ (p.~147). Here we
+assess the robustness of this finding, by revisiting the null hypothesis that
+only the first three PCs, but not higher-order PCs, predict excess returns.
+
+The last panel of Table \ref{tab:r2} shows (unadjusted) $R^{2}$ for predictive
+regressions for the average excess bond return using three and five PCs as
+predictors, and the first entries replicate the results of CP. In Table
+\ref{tab:cp} we report the results of HAC inference for the regressions with 5
+PCs using Newey-West standard errors with 18 lags, and the Wald statistic is
+identical to that reported by CP in their Table 4. The $p$-values indicate
+that $PC4$ is very strongly statistically significant, and that the spanning
+hypothesis would be rejected.
+
+We then use our bootstrap procedure to obtain robust inference about the
+relevance of the predictors PC4 and PC5. We find that CP's result is
+not due to small-sample size distortions. \ The
+persistence of higher-order PCs is quite low, so that the size distortions of
+conventional tests are small. And the Newey-West
+$t$-statistic on $PC4$ is far too large to be accounted for by the kinds of
+factors identified in Section \ref{sec:econometrics}. \ Likewise the increase
+in $R^{2}$ reported by CP would be quite implausible under the null
+hypothesis, as it falls far outside the 95\% bootstrap interval under the null.
+
+Interestingly, however, Table \ref{tab:cp} shows that the IM tests fail to
+reject the null hypothesis that $\beta_{2}=0$. These tests conclude that the
+coefficients on $PC4$ and $PC5$ are not statistically significant, and find
+only the level and slope to be robust predictors of excess bond returns. Using
+the bootstrap we find that in this case the IM tests have the correct size,
+close to five percent, and good power. The excellent size and power
+of the IM tests for PC4, together with its failure to reject the null,
+question the finding that this variable
+really helps to predict bond returns. Figure \ref{fig:cp_im} again conveys why
+the IM test for $q=8$ fails to reject. The figure shows that PC1 and PC2
+have consistent predictive power across subsamples, whereas the coefficient on
+$PC4$ switches signs several times. The strong association between $PC4$ and
+excess returns is mostly driven by the fifth subsample, which starts in
+September 1983 and ends in July 1988.\footnote{Consistent with this finding,
+an influence analysis of the predictive power of $PC4$ indicates that the
+observations with the largest leverage and influence are almost all clustered
+in the early and mid 1980s.}
+
+In the last three columns of Table \ref{tab:r2} and the bottom panel of Table
+\ref{tab:cp} we report results for the 1985--2015 sample period. In this case,
+the increase in $R^{2}$ due to inclusion of higher-order PCs is comfortably
+inside the 95\% bootstrap intervals, and the coefficients on $PC4$ and $PC5$
+are not significant for any method of inference.
+
+CP's sample period ended more than ten years prior to the time of this
+writing, giving us the longest true OOS period among the studies considered.
+The last row of Table \ref{tab:oos} shows that in contrast to the in-sample
+estimates, where including $PC4$ and $PC5$ reduces the MSE by 11\%, OOS
+predictive power deteriorates by 20\% when the null hypothesis is not imposed.
+While the DM test does not reject the hypothesis that both models have equal
+predictive accuracy in population, restricting the predictive model to use
+only the level, slope and curvature leads to more stable and more accurate
+return predictions in this particular sample.
+
+It is worth emphasizing the similarities and differences between the tests of
+interest to CP and in our own paper. \ Their central claim, with which we
+concur, is that the factor they have identified is a useful and stable
+predictor of bond returns. \ However, this factor is a function of all 5 PC's,
+and the first 3 of these account for 76\% of the variation of the CP factor.
+\ Our results suggest that it is mainly the role of $PC1$-$PC3$ in the CP factor, and not
+the addition of $PC4$ and $PC5,$ that makes this factor a robust predictor of
+bond returns. Our test for structural stability differs from those performed
+in CP and their accompanying online appendix. CP conducted tests of the
+usefulness of their return-forecasting factor for predicting returns across
+different subsamples, a result that we have been able to reproduce and
+confirm. Our tests, by contrast, look at stability of the role of each
+individual PC. \ While we agree with CP that the first three PC's indeed have
+a stable predictive relation, the predictive power of the 4th and 5th PC is much more tenuous, and is
+insignificant in most of the subsample periods that CP
+considered.\footnote{\citet[][Section 7]{duffee-handbook-forecasting} also
+documented that extending CP's sample period to 1952--2010 alters some of
+their key results, and we have found that over Duffee's sample period the
+predictive power of higher-order PCs disappears.} We conclude from both our
+in-sample and OOS results that the evidence for predictive power of
+higher-order factors is tenuous and sample-dependent, and that there is no
+compelling evidence that the first three PCs of yields are insufficient to
+estimate bond risk premia.\footnote{\cite{cattaneo-crump} also investigated
+the robustness of the results of \cite{cp05} and obtained even more negative
+results: Using a new HAC test proposed by \cite{mueller-hac} they did not
+reject the null hypothesis that the CP factor had no predictive power in a
+variety of in-sample and OOS specifications.}
+
+\section{Other studies}
+
+\label{sec:other}
+
+Several other studies have also reported evidence that might appear to be
+inconsistent with the spanning hypothesis. \ \cite{cooper-priestley} concluded
+that the output gap contains useful information for forecasting interest
+rates, while \cite{greenwood-vayanos} found the same for measures of Treasury
+bond supply. We have repeated our analysis using the datasets in these studies
+and found that evidence against the spanning hypothesis in these two cases is
+even weaker than for any of the studies discussed in Sections \ref{sec:jps} to
+\ref{sec:cp}. \ Details of our investigations are reported in Appendices
+\ref{app:gv} and \ref{app:cpr}.
+
+\section{Conclusion}
+
+\label{sec:conclusion}
+
+Conventional tests of whether variables other than the level, slope and
+curvature can help predict bond returns have significant size distortions, and
+the $R^{2}$ of the regression can increase dramatically when other variables
+are added to the regression even if they have no true explanatory power.
+
+We proposed three strategies for dealing with this problem: First, a simple
+bootstrap based on PCs; second, a robust $t$-test based on subsample estimates
+proposed by \cite{ibragimov-mueller}; and third, examining the proposed
+variables' usefulness in new data, preferably in a true out-of-sample
+forecasting exercise. \ We used these methods to revisit six different widely
+cited studies, and found in each case that the evidence that variables other
+than the current level, slope and curvature predict excess bond returns is
+substantially less convincing than the original research would have led us to believe.
+
+%\bibliography{literature}
+%Jim uses this
+
+\bibliographystyle{econ}
+\bibliography{../../../literature}
+%Michael uses this
+
+\include{bh_robust_tables_figures}
+
+\appendix
+\include{bh_robust_appendix}
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

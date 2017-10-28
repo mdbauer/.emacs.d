@@ -1,0 +1,5 @@
+n <- 5
+d <-
+x <- seq(0,1,100)
+
+plot(dinvgamma(x,

@@ -1,0 +1,1158 @@
+convertDate <- function(date)
+    ## convert numeric date YYYYMMDD to Date object
+    return(as.Date(as.character(date), format="%Y%m%d"))
+
+getYields <- function(df) {
+    stopifnot("yield.cols" %in% names(attributes(df)))
+    stopifnot(!any(is.na(match(attr(df, "yield.cols"), names(df)))))
+    as.matrix(df[attr(df, "yield.cols")])
+}
+
+openPlotDevice <- function(plot.mode=0, filename, eps.width=7, eps.height=8.5, pdf.width=7, pdf.height=5) {
+    if (plot.mode==0) {
+        dev.new()
+    } else {
+        if (missing(filename))
+            stop("filename can't be missing if plotting to file")
+        filename <- paste("figures/", filename, sep="")
+        if (plot.mode==1) {
+            filename <- paste(filename, ".pdf", sep="")
+            ## for presentation
+            pdf(filename, width=pdf.width, height=pdf.height, pointsize=12)
+        } else if (plot.mode==2) {
+            filename <- paste(filename, ".eps", sep="")
+            ## for paper
+            postscript(filename, horizontal=FALSE, onefile=FALSE, paper="special", width=eps.width, height=eps.height)
+        }
+        cat("saving plot in file:", filename, "\n")
+    }
+}
+
+printLatexTbl <- function(tbl, d=3) {
+    require(xtable)
+    xtbl <- xtable(tbl, digi=d)
+    print(xtbl, include.rownames=TRUE, include.colnames=FALSE, only.contents=TRUE,
+          sanitize.text.function=function(x){x})
+}
+
+vcovNW <- function(lm.)
+    NeweyWest(lm., lag = 18, prewhite=FALSE)
+
+calcReturns <- function(yields, h=12) {
+    ## construct h-period excess returns based on annualized yields
+    T <- nrow(yields)
+    Y <- getYields(yields)
+    ## yields are in annualized percentage points -> returns are as well
+    mats <- attr(yields, "mats")
+    for (n in mats[mats>h])
+        if (any(mats==n))
+            if (any(mats==n-h)) {
+                yields[paste0('xr', n/12)] <- c(-(n-h)*Y[(h+1):T, mats==n-h] + n*Y[1:(T-h), mats==n] - h*Y[1:(T-h), mats==h], rep(NA, h))/12
+            } else {
+                ## approximate: y(t+h)^(n-h) = y(t+h)^(n)
+                yields[paste0('xr', n/12)] <- c(-(n-h)*Y[(h+1):T, mats==n] + n*Y[1:(T-h), mats==n] - h*Y[1:(T-h), mats==h], rep(NA, h))/12
+            }
+    yields$xr.avg <- rowMeans(as.matrix(yields[,grep("xr", names(yields))]))
+    return(yields)
+}
+
+calcMonthlyReturns <- function(yields) {
+    require(zoo)
+    ## constructs monthly excess returns
+    ## - uses approximation that y^{n-1} = y^{n}
+    T <- nrow(yields)
+    Y <- getYields(yields)
+    mats <- attr(yields, "mats")
+    if (!"y1m" %in% names(yields))
+        stop("Yield data set does not contain one-month yield")
+    for (n in mats[mats>1]) {
+        y.n <- Y[, mats==n]
+        y.nm1 <- Y[, mats==n] ## approximation
+        xr <- c(-(n-1)*y.nm1[2:T] + n*y.n[1:(T-1)] - yields$y1m[1:(T-1)], NA)/12
+        yields[paste0('xr1m', n/12)] <- xr
+    }
+    yields$xr1m.avg <- rowMeans(as.matrix(yields[,grep("xr1m", names(yields))]))
+    ## calculate cumulated annual returns
+    varnames <- names(yields)[grep("xr1m", names(yields))]
+    for (varname in varnames)
+        yields[sub("1m", "12m", varname)] <- rollsum(unlist(yields[varname]), 12, na.pad=TRUE, align="left")
+    return(yields)
+}
+
+addPCs <- function(data, N=5) {
+    ## calculate PCs of yields
+    Y <- getYields(data)
+    W <- eigen(cov(Y))$vectors[,1:N]
+    W <- W %*% diag(sign(W[nrow(W),])) # make sure PC1 and PC2 correspond to level and slope
+    X1 <- Y %*% W
+    data[paste0("PC", 1:N)] <- X1
+    Yhat <- X1 %*% t(W)
+    errors <- Y - Yhat
+    sigma <- sqrt(mean(errors^2))
+    cat("Measurement error from", N, "PCs:", sigma, "\n")
+    structure(data, W = W)
+}
+
+getOneMonthYield <- function() {
+    df <- read.csv("data/yields_le_monthly.csv")
+    df <- df[,1:2]
+    colnames(df)[1:2] <- c("dates", "y1m")
+    df$y1m <- 100*df$y1m
+    df$date <- convertDate(df$dates)
+    df$yyyymm <- floor(df$dates/100)
+    df
+}
+
+getCPdata <- function() {
+    ## read in all data
+    data <- read.csv("data/CP/cp_famabliss.csv", na.strings="#N/A")
+    data$year <- as.numeric(substr(data$date,1,4))
+    data$yyyymm <- as.numeric(substr(data$date, 1, 6))
+    data$dates <- data$date
+    data$date <- convertDate(data$dates)
+    ## 1964-2003
+    data <- data[data$year>=1964 & data$year<=2003, ]
+    ## calculate yields from prices
+    price.cols <- paste0("p", 1:5)
+    p <- log(data[price.cols]/100)  # log prices
+    Y <- as.matrix(-p * rep(100/(1:5), each=nrow(p))) # annualized percentage points
+    yield.cols <- sub("p", "y", price.cols)
+    colnames(Y) <- yield.cols
+    data <- cbind(data, Y)
+    ## forward rates
+    mult <- rep(2:5, each=nrow(data))
+    data[paste0("f", 1:5)] <- cbind(data$y1, mult*data[paste0("y", 2:5)] - (mult-1)*data[paste0("y", 1:4)])
+    ## add one-month rate
+    data1m <- getOneMonthYield()[c("y1m", "yyyymm")]
+    stopifnot(length(intersect(names(data1m), names(data)))==1)
+    data <- merge(data, data1m, by="yyyymm", all.x=TRUE)
+    ## returns and PCs
+    data <- structure(data, yield.cols=yield.cols, mats=12*(1:5))
+    data <- calcReturns(data)
+    ##data <- calcMonthlyReturns(data)
+    data <- addPCs(data)
+    data
+}
+
+getFBdata <- function(beg=NULL, end=NULL, use.yields = FALSE) {
+    df <- read.csv("data/wrds_famabliss.csv")
+    df <- df[c("KYTREASNOX", "MCALDT", "TMNOMPRC", "TMYTM")]
+    names(df) <- c("id", "dates", "p", "y")
+    df <- subset(df, id >= 2000047 & id <= 2000051)
+    df$dates <- as.Date(df$dates, format="%m/%d/%Y")
+    df$id <- df$id - min(df$id) + 1
+    df <- reshape(df, v.names=c("p", "y"), idvar="dates", timevar="id", direction="wide")
+    names(df) <- c("dates", "p1", "y1", "p2", "y2", "p3", "y3", "p4", "y4", "p5", "y5")
+    if (!use.yields)
+        ## calculate yields from prices
+        for (n in 1:5) {
+            pname <- paste0("p", n)
+            yname <- paste0("y", n)
+            df[yname] <- -log(df[pname]/100)/n*100
+        }
+    attr(df, "mats") <- 12*(1:5)
+    attr(df, "yield.cols") <- paste0('y', 1:5)
+    ## sample period
+    df$yyyymm <- as.numeric(format(df$dates, "%Y%m"))
+    if (!is.null(beg)) df <- df[df$yyyymm >= beg,]
+    if (!is.null(end)) df <- df[df$yyyymm <= end,]
+    ## forward rates
+    mult <- matrix(2:5, nrow=nrow(df), ncol=4, byrow=TRUE)
+    df[paste0("f", 1:5)] <- cbind(df$y1, mult*df[paste0("y", 2:5)] - (mult-1)*df[paste0("y", 1:4)])
+    ## returns and PCs
+    df <- calcReturns(df)
+    df <- addPCs(df)
+    df
+}
+
+getCPRdata <- function() {
+    yields <- getFBdata(use.yields=TRUE)
+    xr.cols <- grep("xr", names(yields))
+    yields[xr.cols] <- yields[xr.cols]/100
+    gap <- read.csv("data/cpr/cpr_gap.csv", sep=",", header=TRUE)
+    gap$date <- as.Date(gap$date,"%m/%d/%Y")
+    gap$yyyymm <- as.numeric(format(gap$date, "%Y%m"))
+    ## gap$gap <- c(NA, gap$gap[1:(nrow(gap)-1)])
+    cprdata <- merge(gap, yields, by="yyyymm")
+    cprdata <- subset(cprdata, yyyymm <= 200312)
+    cprdata <- subset(cprdata, yyyymm >= 195206)
+    attr(cprdata, "yield.cols") <- paste0("y", 1:5)
+    attr(cprdata, "mats") <- 12*(1:5)
+    attr(cprdata, "W") <- attr(yields, "W")
+    cat("Date range of CPR data:", range(cprdata$yyyymm), "\n")
+    cprdata
+}
+
+getGVdata <- function() {
+    gvdata <- read.csv("data/gv/greenwood-vayanos.csv")
+    d <- as.Date(gvdata$qdate, format="%d-%b-%y")
+    gvdata$date <- as.Date(ifelse(d > "2050-01-01", format(d, "19%y-%m-%d"), format(d)))
+    gvdata$yyyymm <- as.numeric(format(gvdata$date, "%Y%m"))
+
+    ## calculate returns from excess returns
+    gvdata$r2yr <- gvdata$rx2yr + gvdata$logy1yr
+    gvdata$r3yr <- gvdata$rx3yr + gvdata$logy1yr
+    gvdata$r4yr <- gvdata$rx4yr + gvdata$logy1yr
+    gvdata$r5yr <- gvdata$rx5yr + gvdata$logy1yr
+    gvdata$rxavg <- rowMeans(as.matrix(gvdata[paste0("rx", 2:5, "yr")]))
+
+    gvdata$rlt12 <- gvdata$rxlt12 + gvdata$logy1yr
+    gvdata$rlt36 <- gvdata$rxlt36 + gvdata$logy3yr
+    gvdata$rlt60 <- gvdata$rxlt60 + gvdata$logy5yr
+    gvdata$yldlt <- gvdata$tspreadlt + gvdata$logy1yr
+
+    ## join with Fama Bliss data
+    ##fbdata <- getFBdata()
+    ##gvdata <- merge(gvdata, fbdata, all.x=TRUE, by="yyyymm")
+
+    gvdata <- gvdata[!is.na(gvdata$logy1yr),]
+
+    attr(gvdata, "yield.cols") <- paste0("logy", 1:5, "yr")
+    attr(gvdata, "mats") <- 12*(1:5)
+    gvdata <- addPCs(gvdata)
+    gvdata <- calcReturns(gvdata)
+    gvdata
+}
+
+getLNdata <- function(beg=196401, end=200712, original.macro=TRUE) {
+    yields <- getFBdata(beg, end, use.yields=FALSE)
+    if (beg!=196401 | end!=200712)
+        original.macro <- FALSE
+    if (original.macro) {
+        ## original macro data used in handbook chapter
+        ## constructed using LN's data and code in folder data/LN/handbook-big
+        ## (available on Serena Ng's website)
+        macro <- read.csv("data/LN/Fhat.csv", header=FALSE)
+        names(macro) <- c("yyyymm", paste0("F", 1:8));
+    } else {
+        ## McCracken-Ng macro data from FRED-MD (https://research.stlouisfed.org/econ/mccracken/fred-databases/)
+        ## this code is based on Ng-McCracken's MATLAB code (see folder data/LN/mccracken-ng)
+        ## and LN's MATLAB code (see folder data/LN/handbook-big)
+        df <- read.csv("data/LN/fred-md-2017-01.csv")
+        tcode <- as.numeric(df[1,2:ncol(df)])
+        df <- df[-1,]
+        rawdata <- data.matrix(df[,-1])
+        dates <- as.Date(df$sasdate, format="%m/%d/%Y")
+        yyyymm <- as.numeric(format(dates, "%Y%m"))
+        prepare_missing <- function(rawdata, tcode) {
+            transxf <- function(x, tcode) {
+                T <- length(x)
+                switch(tcode,
+                       x,
+                       c(NA, diff(x)),
+                       c(NA, NA, diff(x, d=2)),
+                       log(x),
+                       c(NA, diff(log(x))),
+                       c(NA, NA, diff(log(x), d=2)),
+                       c(NA, NA, diff(diff(x)/x[1:(T-1)])))
+            }
+            T <- nrow(rawdata)
+            N <- ncol(rawdata)
+            yt <- matrix(NA, T, N)
+            for (i in 1:N)
+                yt[, i] <- transxf(rawdata[, i], tcode[i])
+            yt
+        }
+        yt <- prepare_missing(rawdata, tcode)
+        date.sel <- yyyymm <= end & yyyymm >= beg
+        yt <- yt[date.sel, ] # select subsample
+        yyyymm <- yyyymm[date.sel]
+        yt <- yt[, colSums(is.na(yt))==0]               # only include series without NA
+        cat("Number of series:", ncol(yt), "\n")
+        cat("Number of observations:", nrow(yt), "\n")
+        yt <- scale(yt)
+        yy <- yt %*% t(yt)
+        U <- svd(yy, nu=8, nv=0)$u
+        Fhat <- U[,1:8]*sqrt(nrow(yt))
+        colnames(Fhat) <- paste0("F", 1:8)
+        macro <- data.frame(yyyymm, Fhat)
+    }
+
+    ## merge macro and yield data
+    stopifnot(length(intersect(names(yields), names(macro)))==1)
+    data <- merge(yields, macro, all.y=TRUE)
+    data <- data[data$yyyymm>=beg & data$yyyymm<=end, ]
+    attr(data, "yield.cols") <- paste0("y", 1:5)
+    attr(data, "mats") <- 12*(1:5)
+    attr(data, "W") <- attr(yields, "W")
+    if (min(data$yyyymm)!=beg || max(data$yyyymm)!=end) {
+        print(range(data$yyyymm))
+        stop("date range incorrect")
+    }
+    data
+}
+
+getJPSdata <- function(end.year=2007) {
+    ## updated macro data
+    df <- read.csv("data/jps/jps_new.csv", na.strings="#N/A")
+    if (end.year == 2015) {
+        df$GRO <- df$gro_2015  ## gro_jps contains JPS' vintage, gro_2015 contains 2015 vintage
+    } else if (end.year == 2016) {
+        df$GRO <- df$gro_2016
+    } else if (end.year == 2007) {
+        df$GRO <- df$gro_jps
+    } else {
+        stop("vintage not available")
+    }
+    df[c("gro_jps", "gro_2015", "gro_2016")] <- NULL
+    df$INF <- 100*df$INF
+    ## Anh Le's yields
+    yields <- read.csv("data/yields_le_monthly.csv")
+    mats <- c(.5, 1:10)*12
+    yield.cols <- paste0("y", mats)
+    yields$yyyymm <- floor(yields$Date/100)
+    yields <- yields[c("yyyymm", yield.cols)]
+    yields[yield.cols] <- yields[yield.cols]*100
+    ## combine macro and yields
+    df <- merge(df, yields, all.x=TRUE)
+    attr(df, "mats") <- mats
+    attr(df, "yield.cols") <- yield.cols
+    df <- calcReturns(df)
+    df <- df[df$yyyymm <= end.year*100 + 12,]  ## this is what JPS are doing: first calculate returns, then end sample in 2007:12
+    df <- addPCs(df)
+    df
+}
+
+calcWeightedRetAvg <- function(df, retName, nyields) {
+    ## calculate weighted average of returns, like CPo downweighting longer maturities
+    avg <- 0
+    for (n in 2:nyields)
+        avg <- avg + (nyields-1)^-1*df[[paste0(retName, n)]]/n
+    avg
+}
+
+CPoEWMA <- function(pi) {
+    ## what they do: use truncated sum, 10 years of pre-sample values
+    v <- 0.987
+    N <- 120
+    T <- length(pi)
+    pistar <- numeric(T)
+    for (t in (N+1):T)
+        pistar[t] <- sum(v^(0:N)*pi[seq(t, t-N, -1)])
+    pistar/sum(v^(0:N))
+}
+
+CPoTrend <- function(from, to) {
+    ## create inflation trend myself
+    cpi <- read.csv("data/cpo/CPILFESL.csv") # from https://fred.stlouisfed.org/series/CPILFESL
+    cpi$Date <- as.Date(cpi$DATE, "%Y-%m-%d") + 31 ## account for publication lag
+    cpi$DATE <- NULL
+    cpi$yyyymm <- as.numeric(format(cpi$Date, "%Y%m"))
+    T <- nrow(cpi)
+    ## year-over-year core CPI inflation
+    cpi$pi <- 100*c(rep(NA, 12), log(cpi$CPI[13:T]) - log(cpi$CPI[1:(T-12)]))
+    cpi <- subset(cpi, yyyymm >= from - 1000)  ## ten years prior
+    cpi$pistar <- CPoEWMA(cpi$pi)
+    cpi <- subset(cpi, yyyymm >= from & yyyymm <= to)
+    cpi[c("yyyymm", "pi", "pistar")]
+}
+
+getOwnCPoData <- function(from = 197111, to = 201112, yieldData = c("le", "gsw", "h15")) {
+    ## use our own yields and trend factors
+    ## -> ability to extend sample period
+    ## Arguments:
+    ##  to: end of sample period (like elsewhere in this code, this is the last observation with yields available)
+    yieldData <- match.arg(yieldData)
+    if (yieldData == "le") {
+        df <- read.csv("data/yields_le_monthly.csv")
+        nyields <- 10
+        mats <- c(1, 12*(1:nyields))
+        df <- df[c("Date", paste0("y", mats))]
+        yield.cols <- c("y1m", paste0("yld", 1:nyields))
+        colnames(df) <- c("dates", yield.cols)
+        df[yield.cols] <- 100*df[yield.cols]
+        df$yyyymm <- floor(df$dates/100)
+        df <- subset(df, yyyymm>=from & yyyymm<=to )
+    } else if (yieldData == "gsw") {
+        df <- read.csv("data/yields_gsw_monthly.csv")
+        nyields <- 15
+        mats <- c(1, 12*(1:nyields))
+        df <- df[, c(1, 3+(1:nyields))]
+        colnames(df) <- c("dates", paste0("yld", 1:nyields))
+        df$yyyymm <- floor(df$dates/100)
+        df <- subset(df, yyyymm>=from & yyyymm<=to )
+        df1m <- getOneMonthYield()[c("y1m", "yyyymm")]
+        df <- merge(df, df1m, by="yyyymm", all.x=TRUE)
+        yield.cols <- c("y1m", paste0("yld", 1:nyields))
+        mats <- c(1, 12*(1:nyields))
+    } else if (yieldData == "h15") {
+        stop("not yet")
+    }
+    attr(df, "yield.cols") <- yield.cols
+    attr(df, "mats") <- mats
+    if (to > max(df$yyyymm))
+        stop("yield data not available for entire sample period", call.=FALSE)
+    ## add returns
+    df <- calcReturns(df)
+    df$xr.avg <- calcWeightedRetAvg(df, "xr", nyields)
+    ## df$xr.simple.avg <- rowMeans(as.matrix(df[paste0("xr", 2:nyields)]))
+    df <- calcMonthlyReturns(df)
+    df$xr1m.avg <- calcWeightedRetAvg(df, "xr1m", nyields)
+    df$xr12m.avg <- calcWeightedRetAvg(df, "xr12m", nyields)
+    ## add PCs
+    df$ybar <- rowMeans(as.matrix(df[paste0("yld", 2:nyields)]))
+    df <- addPCs(df)
+
+    ## CPI trend
+    rval <- CPoTrend(from, to)
+    df$trend <- rval$pistar
+    df$pi <- rval$pi
+
+    ## cycle factors
+    for (i in 1:nyields)
+        df[paste0("c", i)] <- resid(lm(get(paste0("yld", i)) ~ trend, df))
+    df$cbar <- rowMeans(as.matrix(df[paste0("c", 2:nyields)]))
+
+    cat("Re-created data set to replicate Cieslak-Povala\n")
+    cat("Sample period:", range(df$yyyymm), "\n")
+    df
+}
+
+getReturn <- function(Y, n, h, mats) {
+    if (h==1) {
+        (-(n-1)*Y[2:nrow(Y), mats==n] + n*Y[1:(nrow(Y)-1), mats==n] - Y[1:(nrow(Y)-1), mats==1])/12 # approx
+    } else {
+        (-(n-h)*Y[(1+h):nrow(Y), mats==n-h] + n*Y[1:(nrow(Y)-h), mats==n] - h*Y[1:(nrow(Y)-h), mats==h])/12
+    }
+}
+
+getAvgReturn <- function(Y, h, mats)
+    rowMeans(sapply(mats[mats>h], function(n) getReturn(Y, n, h, mats)))
+
+simulateData <- function(dgp, T, h=12) {
+    simVAR <- function(T, mu, Phi, SigmaInv, EX, V, e, X.init) {
+        if (is.vector(e))
+            dim(e) <- c(length(e), 1)
+        N <- max(length(mu), length(mu))
+        lags <- max(dim(Phi)[1], dim(Phi)[1])
+        Tsim <- lags + T
+        Xsim <- matrix(0, Tsim, N)
+        ## draw initial obs from unconditional distribution
+        if (dgp$init) {
+            Xsim[1,] <- X.init
+        } else {
+            if (lags==1) {
+                ## draw from unconditional distribution
+                Xsim[1,] <- EX + t(chol(V)) %*% SigmaInv %*% e[1,]
+            } else {
+                stop("not yet implemented - no given initialization and lag>1")
+            }
+        }
+        for (t in (lags+1):Tsim) {
+            tmpsum <- mu + e[t,]
+            for (j in 1:lags)
+                tmpsum <- tmpsum + Phi[j,,] %*% Xsim[t-j,]
+            Xsim[t,] <- tmpsum
+        }
+        Xsim[(lags+1-1):(lags+T-1),]
+    }
+    ## bootstrap residuals
+    Tsim <- 1 + h + T
+    if (dgp$corr) {
+        resids <- na.omit(cbind(dgp$resid1, dgp$resid2))
+        resids <- resids[sample(1:nrow(resids), Tsim, replace=TRUE),,drop=FALSE]
+        resids1 <- resids[,dgp$X1.names,drop=FALSE]
+        resids2 <- resids[,dgp$X2.names,drop=FALSE]
+    } else {
+        resids1 <- na.omit(dgp$resid1)
+        resids1 <- resids1[sample(1:nrow(resids1), Tsim, replace=TRUE),,drop=FALSE]
+    }
+    ## (a) X1 and yields
+    X1sim <- simVAR(T+h, dgp$mu1, dgp$Phi1, dgp$SigmaInv1, dgp$EX1, dgp$V1, resids1, dgp$X1.init)
+    Yhat <- X1sim %*% t(dgp$W)
+    J <- length(dgp$mats)
+    errors <- matrix(rnorm(J*(T+h), mean=0, sd=dgp$sigma), T+h, J)
+    Ysim <- Yhat + errors
+    colnames(Ysim) <- paste0("y", dgp$mats/12)
+    if (dgp$mats[1]==1) colnames(Ysim)[1] <- "y1m"
+    ## predictors
+    if (is.vector(X1sim)) {
+        xdat1 <- as.matrix(X1sim[1:T])
+    } else {
+        xdat1 <- X1sim[1:T,]
+    }
+    colnames(xdat1) <- paste0("PC", 1:ncol(xdat1))
+    ## (b) returns
+    n <- dgp$mats[dgp$mats>h]
+    returns <- sapply(n, function(i) getReturn(Ysim, i, h, dgp$mats))
+    colnames(returns) <- paste0("xr", n/12)
+    ## put together data set
+    df <- data.frame(returns, xdat1, Ysim[1:T,])
+    nyields <- sum(dgp$mats>=12)
+    if (dgp$weightedReturns) {
+        df$xr.avg <- calcWeightedRetAvg(df, "xr", nyields)
+    } else {
+        df$xr.avg <- rowMeans(returns)
+    }
+    if (h==1) {
+        df$xr1m.avg <- df$xr.avg
+        for (nm in names(returns))
+            df[nm] <- NULL  # only keep average return
+    }
+    if (dgp$monthlyReturns) {
+        returns1m <- sapply(n, function(i) getReturn(Ysim, i, h=1, dgp$mats)) # monthly
+        returns12m <- rollsum(returns1m, 12, na.pad=TRUE, align="left")   # cumulative annual
+        colnames(returns1m) <- paste0("xr1m", n/12)
+        colnames(returns12m) <- paste0("xr12m", n/12)
+        returns1m <- head(returns1m, T)
+        returns12m <- head(returns12m, T)
+        df <- data.frame(df, returns1m, returns12m)
+        if (dgp$weightedReturns) {
+            df$xr1m.avg <- calcWeightedRetAvg(df, "xr1m", nyields)
+            df$xr12m.avg <- calcWeightedRetAvg(df, "xr12m", nyields)
+        } else {
+            df$xr1m.avg <- rowMeans(returns1m)
+            df$xr12m.avg <- rowMeans(returns12m)
+        }
+    }
+    df$ybar <- rowMeans(Ysim[1:T,which(dgp$mats>12)])
+    df$yld1 <- Ysim[1:T,which(dgp$mats==12)]
+    ## (c) X2
+    if (dgp$simX2) {
+        if (is.null(dgp$simX2fn)) {
+            resids2 <- na.omit(dgp$resid2)
+            resids2 <- resids2[sample(1:nrow(resids2), Tsim, replace=TRUE),,drop=FALSE]
+            X2sim <- simVAR(T, dgp$mu2, dgp$Phi2, dgp$SigmaInv2, dgp$EX2, dgp$V2, resids2, dgp$X2.init)
+            if (is.vector(X2sim)) {
+                xdat2 <- as.matrix(X2sim[1:T])
+            } else {
+                xdat2 <- X2sim[1:T,]
+            }
+            colnames(xdat2) <- dgp$X2.names
+            df <- data.frame(df, xdat2)
+        } else {
+            ## CPo
+            df$trend <- dgp$simX2fn(dgp, T)
+        }
+    }
+    df
+}
+
+getBootDGP <- function(X1.names, X2.names, data, control = list()) {
+    ## configuration/parameters
+    con <- list(lag1=1, lag2=1, corr=TRUE, BC=FALSE, trace=1, sigma=NULL, flagCheckStable=TRUE, simX2=TRUE, init=TRUE, weightedReturns=FALSE, monthlyReturns=FALSE)
+
+    ## prepare factors/variables and yield loadings
+    X1 <- as.matrix(data[X1.names])
+    X2 <- as.matrix(data[X2.names])
+    if (!("mats" %in% names(attributes(data))))
+        stop("data frame does not contain attribute 'mats'")
+    if (!("W" %in% names(attributes(data))))
+        stop("data frame does not contain attribute 'W'")
+    W <- attr(data, "W")
+    W <- W[,1:ncol(X1)]
+    N1 <- ncol(X1); N2 <- ncol(X2)
+
+    ## bootstrap configuration
+    nmsC <- names(con)
+    con[(namc <- names(control))] <- control
+    if (length(noNms <- namc[!namc %in% nmsC]))
+        warning("unknown names in control: ", paste(noNms, collapse = ", "))
+    if (is.null(con$sigma)) {
+        ## determine size of measurement error
+        Yhat <- X1 %*% t(W)
+        Y <- getYields(data)
+        errors <- Y - Yhat
+        con$sigma <- sqrt(mean(errors^2))
+    }
+    if (!con$simX2) {
+        con$corr <- FALSE
+    }
+
+    dgp <- c(con, list(W=W, mats=attr(data, "mats"), X1.names=X1.names, X2.names=X2.names))
+    if (dgp$monthlyReturns)
+        stopifnot(dgp$mats[1]==1)
+    if (con$init) {
+        dgp$X1.init <- X1[1,]
+        dgp$X2.init <- X2[1,]
+    }
+
+    if (con$trace>0) {
+        cat("# DGP for Bootstrap \n")
+        cat("lag1 =", con$lag1, "  lag2 =", con$lag2, "\n")
+        cat("Measurement error:", con$sigma, " percent\n")
+        if (con$sigma>1)
+            cat("! Warning - factor model does not fit yields well - PC matrix not orthonormal?\n")
+        cat(ifelse(con$corr, "correlated", "orthogonal"), "residuals\n")
+        cat(ifelse(con$BC, "with", "without"), "bias-correction\n")
+    }
+
+    ## VAR estimation - for X1 and X2 separately
+    if (con$BC) {
+        ## bootstrap bias correction
+        rval1 <- VAR.Boot2(X1, dgp$lag1, nb=5000)
+    } else {
+        ## OLS
+        rval1 <- VAR.est2(X1, dgp$lag1)
+    }
+    dgp$B1 <- rval1$coef[, -ncol(rval1$coef), drop=FALSE]
+    if (con$flagCheckStable && !checkStable(dgp$B1))
+        stop("VAR for X1 not stable")
+    dgp$Phi1 <- coef2array(dgp$B1, N1, dgp$lag1)
+    dgp$resid1 <- rbind(matrix(NA, dgp$lag1, N1), rval1$resid)
+    dgp$Omega1 <- rval1$sigu
+    dgp$Sigma1 <- t(chol(dgp$Omega1))
+    dgp$SigmaInv1 <- solve(dgp$Sigma1)
+    dgp$mu1 <- rval1$coef[, ncol(rval1$coef), drop=FALSE]
+    if (con$lag1==1) {
+        if (N1==1) {
+            ## unconditional mean
+            ## dgp$EX1 <- mean(X1)
+            ## dgp$mu1 <- dgp$EX1*(1 - dgp$Phi1[,,])
+            dgp$EX1 <- dgp$mu1/(1 - dgp$Phi1[,,])
+            ## unconditional variance
+            dgp$V1 <- dgp$Omega1/(1 - dgp$Phi1[1,,]^2)
+        } else {
+            ## unconditional mean
+            ## dgp$EX1 <- colMeans(X1)
+            ## dgp$mu1 <- (diag(N1) - dgp$Phi1[1,,]) %*% dgp$EX1
+            dgp$EX1 <- solve(diag(N1) - dgp$Phi1[1,,]) %*% dgp$mu1
+            ## unconditional variance
+            dgp$V1 <- matrix(solve(diag(N1^2) - kronecker(dgp$Phi1[1,,], dgp$Phi1[1,,]))%*%as.numeric(dgp$Omega1), N1, N1)
+        }
+    }
+    if (con$trace>0)
+        cat("max. abs. eigenvalue VAR for X1:", max(abs(getEVs(dgp$B1))), "\n")
+    if (con$simX2) {
+        if (con$BC) {
+            ## bootstrap bias correction
+            rval2 <- VAR.Boot2(X2, dgp$lag2, nb=5000)
+        } else {
+            ## OLS
+            rval2 <- VAR.est2(X2, dgp$lag2)
+        }
+        dgp$B2 <- rval2$coef[, -ncol(rval2$coef), drop=FALSE]
+        dgp$Phi2 <- coef2array(dgp$B2, N2, dgp$lag2)
+        dgp$resid2 <- rbind(matrix(NA, dgp$lag2, N2), rval2$resid)
+        dgp$Omega2 <- rval2$sigu
+        dgp$Sigma2 <- t(chol(dgp$Omega2))
+        dgp$SigmaInv2 <- solve(dgp$Sigma2)
+        dgp$mu2 <- rval2$coef[, ncol(rval2$coef), drop=FALSE]
+        if (con$lag2==1) {
+            if (N2==1) {
+                ## unconditional mean
+                ## dgp$EX2 <- mean(X2)
+                ## dgp$mu2 <- dgp$EX2*(1 - dgp$Phi2[,,])
+                dgp$EX2 <- dgp$mu2/(1 - dgp$Phi2[,,])
+                ## unconditional variance
+                dgp$V2 <- dgp$Omega2/(1 - dgp$Phi2[1,,]^2)
+            } else {
+                ## unconditional mean
+                ## dgp$EX2 <- colMeans(X2)
+                ## dgp$mu2 <- (diag(N2) - dgp$Phi2[1,,]) %*% dgp$EX2
+                dgp$EX2 <- solve(diag(N2) - dgp$Phi2[1,,]) %*% dgp$mu2
+                ## unconditional variance
+                dgp$V2 <- matrix(solve(diag(N2^2) - kronecker(dgp$Phi2[1,,], dgp$Phi2[1,,]))%*%as.numeric(dgp$Omega2), N2, N2)
+            }
+        }
+        if (con$trace>0)
+            cat("max. abs. eigenvalue VAR for X2:", max(abs(getEVs(dgp$B2))), "\n")
+    }
+    dgp
+}
+
+summaryDGP <- function(dgp, fmla, data, h=12) {
+    predmod <- lm(fmla, data)
+    cat("# Summary of DGP:\n")
+    cat("1.1. delta -- correlations of innovations in", dgp$X1.names, "with lagged prediction error\n")
+    T <- nrow(dgp$resid1)
+    cat("Correlations:\n")
+    u <- predmod$resid[1:(T-h)]
+    e <- dgp$resid1[(1+h):T,]
+    if (dgp$lag1>h) {
+        ind <- (dgp$lag1-h+1):length(u)
+        u <- u[ind]
+        e <- e[ind,]
+    }
+    print(cor(e, u))
+    modcorr <- lm(u ~ e)
+    cat("sqrt(R^2) =", sqrt(summary(modcorr)$r.squared), "\n")
+    cat("Multivariate correlation:", cancor(e, u)$cor, "\n")
+
+    cat("1.2. correlations of innovations in", dgp$X2.names, "with lagged prediction error\n")
+    e <- dgp$resid2[(1+h):T,]
+    print(cor(e, u))
+    cat("Multivariate correlation:", cancor(e, u)$cor, "\n")
+
+    ## 2. correlation of X1 with X2
+    cat("2. gamma -- correlation of innovations in", dgp$X1.names, "with", dgp$X2.names, "\n")
+    lag <- max(dgp$lag1, dgp$lag2)
+    e1 <- dgp$resid1[(1+lag):T,]
+    e2 <- dgp$resid2[(1+lag):T,]
+    print(cor(e1, e2))
+    cat("Canonical correlations:", cancor(e1, e2)$cor, "\n")
+
+    ## 3. persistence of VAR
+    cat("3. rho -- persistence\n max(ev) of X1:", max(abs(getEVs(dgp$B1))), "\n")
+    cat(" max(ev) of X2:", max(abs(getEVs(dgp$B2))), "\n")
+}
+
+bootstrapTest <- function(fmla1, fmla2, data, dgp, h=12, depvar = "xr.avg", M=1000, control = list(), vcovfn = vcovNW, adjR2=FALSE, estSize=FALSE, estBootstrapSize=estSize, H0=TRUE) {
+    require(sandwich)
+    require(lmtest)
+    regnames <- attr(terms(fmla2), "term.labels")
+    K <- length(regnames)
+    K1 <- length(attr(terms(fmla1), "term.labels"))
+    K2 <- K - K1
+    R2fn <- if (adjR2) {
+        function(mod) summary(mod)$adj.r.squared
+    } else {
+        function(mod) summary(mod)$r.squared
+    }
+    if (any(grep("PC", depvar))) {
+        ## regression for leads of PCs -- find i
+        iPC <- as.numeric(substr(depvar, 3, 3))
+    }
+
+    updateSimData <- function(simData) {
+        ## calculate necessary variables in simulated data set
+        if (any(grep("PC", depvar)))
+            simData[depvar] <- c(simData[2:T, paste0("PC", iPC)], NA)
+        if ("CP" %in% regnames)
+            simData$CP <- lm(xr.avg ~ y1 + y2 + y3 + y4 + y5, data=simData)$fitted
+        if ("H8" %in% regnames)
+            simData$H8 <- lm(xr.avg ~ F1 + F2 + F3 + F4 + F5 + F6 + F7 + F8 + I(F1^3), data=simData)$fitted
+        if ("timetrend" %in% regnames)
+            simData$timetrend <- 1:nrow(simData)
+        simData
+    }
+
+    ## tables with results
+    tblCoef <- matrix(NA, 5, K + 1)  ## 3 rows for data, 2 rows for bootstrap
+    colnames(tblCoef) <- c(regnames, "Wald")
+    rownames(tblCoef) <- c("Coefficient", "HAC statistic", "HAC $p$-value",
+                           "Bootstrap 5\\% c.v.", "Bootstrap $p$-value")
+    tblSize <- matrix(NA, 2, K + 1)
+    colnames(tblSize) <- c(regnames, "Wald")
+    rownames(tblSize) <- c("Size HAC", "Size Bootstrap")
+    tblR2 <- matrix(NA, 4, 6)
+    rownames(tblR2) <- c("Data", "Bootstrap mean", "Bootstrap 95% CI", "Bootstrap p-val")
+    colnames(tblR2) <- c("R^2_1", "", "R^2_2", "", "R^2_2 - R^2_1", "")
+
+    ## data
+    lm1 <- lm(fmla1, data=data)
+    lm2 <- lm(fmla2, data=data)
+    T <- length(lm2$residuals) + ifelse(any(grep("PC", depvar)), 1, 0)
+    tblCoef[1, 1:K] <- lm2$coef[-1]
+    ## HAC inference
+    SEs <- sqrt(diag(vcovfn(lm2)))
+    tstats <- (lm2$coef/SEs)[-1]
+    tblCoef[2, 1:K] <- tstats
+    tblCoef[3, 1:K] <- pt(abs(tstats), lm2$df, lower.tail=FALSE)*2
+    rval <- waldtest(lm1, lm2, vcov=vcovfn, test="Chisq")
+    stopifnot(K2 == rval$Df[2])  # check degrees of freedom
+    tblCoef[2, K+1] <- rval$Chi[2]
+    tblCoef[3, K+1] <- rval$Pr[2]
+    ## R^2
+    tblR2[1, c(1,3,5)] <- c(R2fn(lm1), R2fn(lm2), R2fn(lm2) - R2fn(lm1))
+
+    print(round(tblCoef, 3))
+
+    ## bootstrapping
+    cat("# Simulating bootstrap samples: T =", T, ", M =", M, "...\n")
+    if (!H0)
+        cat("# Simulating under alternative hypothesis!\n")
+    statsHAC <- matrix(NA, M, K+1)
+    pvalsHAC <- matrix(NA, M, K+1)
+    bootCoefs <- matrix(NA, M, K)
+    bootCoefs1 <- matrix(NA, M, K1)
+    if (estBootstrapSize)
+        bootstats <- matrix(NA, M, K+1)
+    R2.r <- numeric(M)
+    R2.ur <- numeric(M)
+    for (b in 1:M) {
+        simData <- simulateData(dgp, T, h)
+        simData <- updateSimData(simData)
+        if (!H0)
+            simData[depvar] <- simData[depvar] + as.matrix(simData[regnames[(K1+1):K]]) %*% tail(lm2$coef, K-K1)
+        mod1 <- lm(fmla1, data=simData)
+        mod2 <- lm(fmla2, data=simData)
+        R2.r[b] <- R2fn(mod1)
+        R2.ur[b] <- R2fn(mod2)
+        bootCoefs[b,] <- mod2$coef[-1]
+        bootCoefs1[b,] <- mod1$coef[-1]
+        ## HAC
+        SEs <- sqrt(diag(vcovfn(mod2)))
+        statsHAC[b, 1:K] <- abs(mod2$coef/SEs)[-1]
+        pvalsHAC[b, 1:K] <- pt(statsHAC[b, 1:K], mod2$df, lower.tail=FALSE)*2
+        rval <- waldtest(mod1, mod2, vcov=vcovfn, test="Chisq")
+        statsHAC[b, K+1] <- rval$Chi[2]
+        pvalsHAC[b, K+1] <- rval$Pr[2]
+        if (estBootstrapSize) {
+            ## Bootstrap
+            ## 1. estimate VARs
+            attr(simData, "mats") <- dgp$mats; attr(simData, "W") <- dgp$W
+            bootDGP <- getBootDGP(dgp$X1.names, dgp$X2.names, simData, control=list(sigma=dgp$sigma, trace=0, lag1=dgp$lag1, lag2=dgp$lag2, flagCheckStable=FALSE, init=TRUE))
+            ## 2. generate single bootstrap sample
+            bootSimData <- simulateData(bootDGP, T, h)
+            bootSimData <- updateSimData(bootSimData)
+            ## 3. estimate predictive regression in bootstrap sample and record HAC stats
+            bootmod1 <- lm(fmla1, data=bootSimData)
+            bootmod2 <- lm(fmla2, data=bootSimData)
+            SEs <- sqrt(diag(vcovfn(bootmod2)))
+            bootstats[b, 1:K] <- abs(bootmod2$coef/SEs)[-1]
+            rval <- waldtest(bootmod1, bootmod2, vcov=vcovfn, test="Chisq")
+            bootstats[b, K+1] <- rval$Chi[2]
+        }
+    }
+    if (lm2$df != mod2$df)
+        stop("degrees of freedom not the same in actual and simulated data")
+    tblCoef[4, ] <- apply(statsHAC, 2, quantile, .95)  ## bootstrap critical values
+    tblCoef[5, ] <- colMeans(statsHAC > rep(abs(tblCoef[2, ]), each=M))
+    tblCoef[4:5, 1:K1] <- NA
+    tblSize[1, ] <- colMeans(pvalsHAC < 0.05)
+    if (estBootstrapSize) {
+        cvboot <- apply(bootstats, 2, quantile, 0.95)
+        cvboot <- matrix(rep(cvboot, each=M), M, K+1)
+        tblSize[2, ] <- colMeans(statsHAC > cvboot)
+    }
+    tblSize[, 1:K1] <- NA
+    tblR2[2,c(1,3,5)] <- colMeans(cbind(R2.r, R2.ur, R2.ur-R2.r))      ## means
+    tblR2[3, 1:2] <- quantile(R2.r, c(.025, .975))
+    tblR2[3, 3:4] <- quantile(R2.ur, c(.025, .975))
+    tblR2[3, 5:6] <- quantile(R2.ur-R2.r, c(.025, .975))
+    tblR2[4, c(1,3,5)] <- 2*c(mean(R2.r > R2fn(lm1)), mean(R2.ur > R2fn(lm2)), mean(R2.ur-R2.r > R2fn(lm2) - R2fn(lm1)))
+    list(tblCoef=tblCoef, tblSize=tblSize, tblR2=tblR2, bootCoefs=bootCoefs, bootCoefs1=bootCoefs1, statsHAC=statsHAC, pvalsHAC=pvalsHAC)
+}
+
+bootstrapTestRR <- function(fmla1, fmla2, data, dgp, h=12, M=1000, vcovfn = vcovNW, H0=TRUE, estBootstrapSize=FALSE) {
+    ## bootstrap HAC and reverse regression tests
+    ## - obtain SEs using (a) HAC/Newey-West, and (b) reverse regression delta method in actual and bootstrap data
+    ## - other differences from bootstrapTest:
+    ##   - depvar not required, taken from formulas (can't contain "get(depvar)")
+    ##   - no Wald test
+    ##   - calculates adjusted R^2
+    require(sandwich)
+    regnames <- attr(terms(fmla2), "term.labels")
+    K <- length(regnames)
+    K1 <- length(attr(terms(fmla1), "term.labels"))
+    R2fn <- function(mod) summary(mod)$adj.r.squared
+
+    ## tables with results
+    tblCoef <- matrix(NA, 9, K)  ## 3 rows for data, 2 rows for bootstrap
+    colnames(tblCoef) <- regnames
+    rownames(tblCoef) <- c("Coefficient",
+                           "HAC t-statistic", "HAC p-value",
+                           "RR t-statistic", "RR p-value",
+                           "Bootstrap HAC 5% c.v.", "Bootstrap HAC p-value",
+                           "Bootstrap RR 5% c.v.", "Bootstrap RR p-value")
+    tblSize <- matrix(NA, 3, K)
+    colnames(tblSize) <- regnames
+    rownames(tblSize) <- paste("Size", c("HAC", "RR", "Bootstrap"))
+    tblR2 <- matrix(NA, 3, 6)
+    rownames(tblR2) <- c("Data", "Bootstrap mean", "Bootstrap 95% CI")
+    colnames(tblR2) <- c("R^2_1", "", "R^2_2", "", "R^2_2 - R^2_1", "")
+
+    ## data
+    lm1 <- lm(fmla1, data=data)
+    lm2 <- lm(fmla2, data=data)
+    lm2_1m <- lm(xr1m.avg ~ PC1 + PC2 + PC3 + trend, data=data)
+    T <- length(lm2$residuals)
+    tblCoef[1, ] <- lm2$coef[-1]
+    ## HAC/Newey-West inference
+    SEs <- sqrt(diag(vcovfn(lm2)))
+    tstats <- (lm2$coef/SEs)[-1]
+    tblCoef[2, ] <- tstats
+    tblCoef[3, ] <- pt(abs(tstats), lm2$df, lower.tail=FALSE)*2
+    ## RR inference
+    rval <- RevRegDelta(regnames, data)
+    tblCoef[4, ] <- rval$tstat
+    tblCoef[5, ] <- pt(abs(rval$tstat), lm2$df, lower.tail=FALSE)*2
+    ## R^2
+    tblR2[1, c(1,3,5)] <- c(R2fn(lm1), R2fn(lm2), R2fn(lm2) - R2fn(lm1))
+
+    ## bootstrapping
+    cat("# Simulating bootstrap samples: T =", T, ", M =", M, "...\n")
+    if (!H0)
+        cat("# Simulating under alternative hypothesis!\n")
+    depvar <- deparse(fmla1[[2]])
+    bootCoefs <- matrix(NA, M, K)
+    bootStatsRR <- matrix(NA, M, K)
+    bootPvalsRR <- matrix(NA, M, K)
+    bootStatsHAC <- matrix(NA, M, K)
+    bootPvalsHAC <- matrix(NA, M, K)
+    if (estBootstrapSize)
+        bootSizeStats <- matrix(NA, M, K)
+    R2.r <- numeric(M)
+    R2.ur <- numeric(M)
+    for (b in 1:M) {
+        simData <- simulateData(dgp, T, h)
+        ## simulate under the alternative
+        if (!H0) {
+            simData[depvar] <- simData[depvar] + as.matrix(simData[dgp$X2.names]) %*% tail(lm2$coef, K-K1)
+            simData$xr1m.avg <- simData$xr1m.avg + as.matrix(simData[dgp$X2.names]) %*% tail(lm2_1m$coef, K-K1)
+        }
+        mod1 <- lm(fmla1, data=simData)
+        mod2 <- lm(fmla2, data=simData)
+        R2.r[b] <- R2fn(mod1)
+        R2.ur[b] <- R2fn(mod2)
+        bootCoefs[b,] <- mod2$coef[-1]
+        ## HAC
+        SEs <- sqrt(diag(vcovfn(mod2)))
+        bootStatsHAC[b, ] <- abs(mod2$coef/SEs)[-1]
+        bootPvalsHAC[b, ] <- pt(bootStatsHAC[b,], mod2$df, lower.tail=FALSE)*2
+        ## Reverse regression delta method
+        rval <- RevRegDelta(regnames, simData)
+        bootStatsRR[b, ] <- abs(rval$tstat)
+        bootPvalsRR[b, ] <- pt(abs(rval$tstat), mod2$df, lower.tail=FALSE)*2
+        if (estBootstrapSize) {
+            ## Bootstrap
+            ## 1. estimate VARs
+            attr(simData, "mats") <- dgp$mats; attr(simData, "W") <- dgp$W
+            bootDGP <- getBootDGP(dgp$X1.names, dgp$X2.names, simData, control=list(sigma=dgp$sigma, trace=0, flagCheckStable=FALSE, weightedReturns=TRUE, monthlyReturns=TRUE))
+            ## 2. generate single bootstrap sample
+            bootSimData <- simulateData(bootDGP, T, h)
+            ## 3. estimate predictive regression in bootstrap sample and record HAC stats
+            bootmod1 <- lm(fmla1, data=bootSimData)
+            bootmod2 <- lm(fmla2, data=bootSimData)
+            ## 4. calculate RR tests
+            rval <- RevRegDelta(regnames, bootSimData)
+            bootSizeStats[b, ] <- abs(rval$tstat)
+        }
+    }
+    ## bootstrap CV
+    tblCoef[6, ] <- apply(bootStatsHAC, 2, quantile, .95)
+    tblCoef[8, ] <- apply(bootStatsRR, 2, quantile, .95)
+    ## bootstrap p-value
+    tblCoef[7, ] <- colMeans(bootStatsHAC > rep(abs(tblCoef[2, ]), each=M))
+    tblCoef[9, ] <- colMeans(bootStatsRR > rep(abs(tblCoef[4, ]), each=M))
+    tblCoef[6:9, 1:K1] <- NA
+    ## size of tests
+    tblSize[1, ] <- colMeans(bootPvalsHAC < 0.05)
+    tblSize[2, ] <- colMeans(bootPvalsRR < 0.05)
+    if (estBootstrapSize) {
+        cvboot <- apply(bootSizeStats, 2, quantile, 0.95)
+        cvboot <- matrix(rep(cvboot, each=M), M, K)
+        tblSize[3, ] <- colMeans(bootStatsRR > cvboot)
+    }
+    tblSize[, 1:K1] <- NA
+    tblR2[2,c(1,3,5)] <- colMeans(cbind(R2.r, R2.ur, R2.ur-R2.r))      ## means
+    tblR2[3, 1:2] <- quantile(R2.r, c(.025, .975))
+    tblR2[3, 3:4] <- quantile(R2.ur, c(.025, .975))
+    tblR2[3, 5:6] <- quantile(R2.ur-R2.r, c(.025, .975))
+    list(tblCoef=tblCoef, tblR2=tblR2, tblSize=tblSize, bootCoefs=bootCoefs, bootStatsRR=bootStatsRR, bootPvalsRR=bootPvalsRR)
+}
+
+bootstrapTestRRPC1 <- function(data, dgp, h=12, M=1000) {
+    ## RR inference on coefficient on PC1, with and without including of additional predictors
+    fmla1 <- xr.avg ~ PC1 + PC2 + PC3
+    fmla2 <- xr.avg ~ PC1 + PC2 + PC3 + trend
+    fmla3 <- xr.avg ~ trend
+    regnames1 <- attr(terms(fmla1), "term.labels")
+    regnames2 <- attr(terms(fmla2), "term.labels")
+    regnames3 <- attr(terms(fmla3), "term.labels")
+
+    ## determine true value of coefficient using long simulation
+    simData <- simulateData(dgp, T=1000000, h)
+    mod1 <- lm(fmla1, data=simData)
+    mod2 <- lm(fmla2, data=simData)
+    beta1 <- mod1$coef[2]
+    cat("true beta1:", beta1, "\n")
+
+    ## bootstrapping
+    lm1 <- lm(fmla1, data=data)
+    lm2 <- lm(fmla2, data=data)
+    lm3 <- lm(fmla3, data=data)
+    T <- length(lm2$residuals)
+    cat("# Simulating bootstrap samples: T =", T, ", M =", M, "...\n")
+    bootCoefs <- matrix(NA, M, 2)
+    bootRRCoefs <- matrix(NA, M, 2)
+    bootStats <- matrix(NA, M, 2)
+    bootSEs <- matrix(NA, M, 2)
+    bootTauStats <- matrix(NA, M, 2)
+    for (b in 1:M) {
+        simData <- simulateData(dgp, T, h)
+        ## OLS
+        mod1 <- lm(fmla1, data=simData)
+        mod2 <- lm(fmla2, data=simData)
+        mod3 <- lm(fmla3, data=simData)
+        ## Coefficients
+        bootCoefs[b, 1] <- mod1$coef[2]
+        bootCoefs[b, 2] <- mod2$coef[2]
+        ## Reverse regression delta method
+        rval1 <- RevRegDelta(regnames1, simData)
+        rval2 <- RevRegDelta(regnames2, simData)
+        rval3 <- RevRegDelta(regnames3, simData)
+        bootSEs[b, 1] <- rval1$se[1]
+        bootSEs[b, 2] <- rval2$se[1]
+        bootRRCoefs[b, 1] <- rval1$coef[1]
+        bootRRCoefs[b, 2] <- rval2$coef[1]
+        bootTauStats[b, 1] <- abs(rval2$coef[4]/rval2$se[4])
+        bootTauStats[b, 2] <- abs(rval3$coef[1]/rval3$se[1])
+    }
+
+    list(beta1=beta1, bootCoefs=bootCoefs, bootSEs=bootSEs, bootRRCoefs=bootRRCoefs, bootTauStats=bootTauStats)
+}
+
+RevRegDelta <- function(regvars, df, h=12, depvar1m="xr1m.avg") {
+    ## Arguments
+    ##  regvars - vector with regressor names
+    require(matrixcalc)
+    require(sandwich)
+    stopifnot(depvar1m %in% names(df))
+    T <- nrow(df)
+    N <- length(regvars)
+    X <- data.matrix(df[regvars])
+    xbar <- colMeans(X[1:(T-h),,drop=FALSE])
+    r1m <- df[[depvar1m]]  ## r1m[t] = return from t to t+1
+    rbar <- mean(r1m[h:(T-1)])
+    regvars.h <- paste0(regvars, "h")
+    Xh <- matrix(NA, T, N)
+    for (i in 1:N)
+        Xh[,i] <- rollsum(df[regvars[i]], 12, align="right", na.pad=TRUE)
+    xhbar <- colMeans(Xh[h:(T-1),,drop=FALSE])
+    Xh.dem <- sweep(Xh[h:(T-1),,drop=FALSE], 2, xhbar)
+    g2t <- matrix(NA, T-h, N*(N+1)/2)
+    for (t in 1:(T-h)) {
+        xxp <- t(X[t,,drop=FALSE]-xbar) %*% (X[t,,drop=FALSE]-xbar)
+        g2t[t,] <- xxp[lower.tri(xxp, diag=TRUE)]   # vech
+    }
+    ## theta2 <- matrix(duplication.matrix(N) %*% colMeans(g2t), N, N) # (1) my version -- estimate theta2 = Vxx = cov(x)
+    ## stay close to Anna's code
+    ## - different df adjustment because using cov function
+    ## - dont use last observation
+    ##   - Wei-Wright are not precise about this, but probably shouldn't use last observation
+    theta2 <- cov(X[1:(T-h-1),,drop=FALSE])  # (2) do it like Anna
+    g1t <- (r1m[h:(T-1)]-rbar)*Xh.dem
+    ## theta1 <- colMeans(g1t)  # (1) my version -- W-W do not use df adjustment
+    theta1 <- as.numeric(cov(r1m[h:(T-1)], Xh[h:(T-1),,drop=FALSE])) # (2) do it like Anna
+    beta <- solve(theta2) %*% theta1
+    gt <- cbind(g1t, g2t)
+    S0 <- lrvar(gt, "Newey-West", prewhite=FALSE, adjust=FALSE, h)
+    if (N>1) {
+        deriv <- cbind(solve(theta2), -kronecker(t(theta1)%*%solve(theta2), solve(theta2)) %*% duplication.matrix(N))
+    } else {
+        deriv <- matrix(c(1/theta2, -theta1/theta2^2), 1, 2)
+    }
+    V <- deriv %*% S0 %*% t(deriv)
+    SE <- sqrt(diag(V))
+    list(coef = beta, vcov = V, se = SE, tstat = beta/SE, Wald = t(beta) %*% solve(V) %*% beta)
+}
+
+doOOS <- function(df, in.smpl, depvars, X1.names, X2.names, flag.latex=FALSE, flag.plot=FALSE, plot.mode=0, plot.filename="oos") {
+    require(forecast)
+    require(xtable)
+    T <- nrow(df)
+    oos.range <- c(max(which(in.smpl)) + 1, T - 12)
+    oos.smpl <- (1:T) <= oos.range[2] & (1:T) >= oos.range[1]
+    stopifnot(oos.range[1]==min(which(oos.smpl)))
+    stopifnot(oos.range[2]==max(which(oos.smpl)))
+    cat("Number of in-sample observations:", sum(in.smpl), "\n")
+    cat("Last in-sample observation:", df$yyyymm[max(which(in.smpl))], "\n")
+    cat("Number of OOS observations:      ", sum(oos.smpl), "\n")
+    cat("First OOS observation:", df$yyyymm[oos.range[1]], "\n")
+    cat("Last OOS observation:", df$yyyymm[oos.range[2]], "\n")
+    ## print(cbind(df$yyyymm, in.smpl, oos.smpl, df$xr.avg))
+
+    ## construct yield PCs using in-sample estimates of PC loadings
+    ## Y <- getYields(df)
+    ## W <- eigen(cov(Y[in.smpl,]))$vectors[,1:5]
+    ## df[paste0("PC", 1:5)] <- Y %*% W
+    ## construct formulas
+    fmla.r <- formula(paste("get(depvar) ~ ", paste(X1.names, collapse="+")))
+    fmla.ur <- formula(paste("get(depvar) ~ ", paste(c(X1.names, X2.names), collapse="+")))
+    ## table for results
+    tbl <- matrix(NA, length(depvars), 13)
+    rownames(tbl) <- depvars
+    colnames(tbl) <- c("R^2_R", "R^2_UR", "RMSE_R", "RMSE_UR", "MSE-ratio",
+                       "RMSE_R fix", "RMSE_UR fix", "MSE-ratio fix", "p-value",
+                       "RMSE_R exp", "RMSE_UR exp", "MSE-ratio exp", "p-value")
+    M <- sum(in.smpl) # length of estimation window
+    for (i in seq_along(depvars)) {
+        depvar <- depvars[i]
+        lm.r <- lm(fmla.r, data=df[in.smpl,])
+        lm.ur <- lm(fmla.ur, data=df[in.smpl,])
+        tbl[i, 1] <- summary(lm.r)$adj.r.squared
+        tbl[i, 2] <- summary(lm.ur)$adj.r.squared
+        df$rxhat.ur <- predict(lm.ur, newdata=df)
+        df$rxhat.r <- predict(lm.r, newdata=df)
+        df$rxhat.mean <- mean(df[[depvar]][in.smpl])
+        e.r.ins <- (df$rxhat.r - df[[depvar]])[in.smpl]
+        e.ur.ins <- (df$rxhat.ur - df[[depvar]])[in.smpl]
+        e.r.oos <- (df$rxhat.r - df[[depvar]])[oos.smpl]
+        e.ur.oos <- (df$rxhat.ur - df[[depvar]])[oos.smpl]
+        tbl[i, 3] <- sqrt(mean(e.r.ins^2))
+        tbl[i, 4] <- sqrt(mean(e.ur.ins^2))
+        tbl[i, 5] <- mean(e.ur.ins^2)/mean(e.r.ins^2)
+        tbl[i, 6] <- sqrt(mean(e.r.oos^2))
+        tbl[i, 7] <- sqrt(mean(e.ur.oos^2))
+        tbl[i, 8] <- mean(e.ur.oos^2)/mean(e.r.oos^2)
+        rval <- dm.test(e.ur.oos, e.r.oos, h=12)
+        tbl[i, 9] <- rval$p.value
+
+        ## recursive estimation
+        df$rxhat.r <- NA
+        df$rxhat.ur <- NA
+        df$rxhat.mean <- NA
+        for (t in oos.range[1]:oos.range[2]) {
+            est.smpl <- 1:(t-12)
+            lm.r <- lm(fmla.r, data=df[est.smpl,])
+            lm.ur <- lm(fmla.ur, data=df[est.smpl,])
+            df$rxhat.r[t] <- predict(lm.r, newdata=df)[t]
+            df$rxhat.ur[t] <- predict(lm.ur, newdata=df)[t]
+            df$rxhat.mean[t] <- mean(df[[depvar]][est.smpl])
+        }
+        e.r.rec <- (df[[depvar]] - df$rxhat.r)[oos.smpl]
+        e.ur.rec <- (df[[depvar]] - df$rxhat.ur)[oos.smpl]
+        tbl[i, 10] <- sqrt(mean(e.r.rec^2))
+        tbl[i, 11] <- sqrt(mean(e.ur.rec^2))
+        tbl[i, 12] <- mean(e.ur.rec^2)/mean(e.r.rec^2)
+        rval <- dm.test(e.ur.rec, e.r.rec, h=12)
+        tbl[i, 13] <- rval$p.value
+    }
+    print(round(tbl, digi=3))
+    if (flag.latex) {
+        xtbl <- xtable(tbl, digi=3)
+        print(xtbl, include.rownames=TRUE, include.colnames=TRUE,
+              only.contents=TRUE, hline.after=nrow(xtbl), sanitize.text.function=function(x){x})
+    }
+    if (flag.plot) {
+        openPlotDevice(plot.mode, filename)
+        par(mar=c(4,4,1,1))
+        start.year <- floor(min(df$yyyymm[oos.smpl])/100)
+        xr <- ts(df[oos.smpl, depvar], start=c(start.year,1), freq=12)
+        xrhat1 <- ts(df[oos.smpl, "rxhat.r"], start=c(start.year,1), freq=12)
+        xrhat2 <- ts(df[oos.smpl, "rxhat.ur"], start=c(start.year,1), freq=12)
+        xrmean <- ts(df[oos.smpl, "rxhat.mean"], start=c(start.year,1), freq=12)
+        yrange <- range(c(xr, xrhat1, xrhat2, xrmean))
+        plot(xr, ylim=yrange, type="l", xlab="Year", ylab="Excess return")
+        cols <- c("black", "blue", "red", "black")
+        ltys <- c(1, 1, 2, 3)
+        lwds <- c(1,2,2,2)
+        lines(xrhat1, lwd=lwds[2], lty=ltys[2], col=cols[2])
+        lines(xrhat2, lwd=lwds[3], lty=ltys[3], col=cols[3])
+        lines(xrmean, lwd=lwds[4], lty=ltys[4], col=cols[4])
+        legend("topright", c("Realized", "Restricted model", "Unrestricted model", "Sample mean"),
+               col=cols, lty=ltys)
+        if (plot.mode>0) dev.off()
+    }
+    setNames(c(df$yyyymm[oos.range[1]], sum(oos.smpl), tbl[length(depvars),]),
+             c("First obs", "N", colnames(tbl)))
+}
+
+asymTstat <- function(delta, c1, c2=c1, T=1000) {
+    ## simulate t-stats from their asymptotic distribution
+    ## using FCLT asymptotics
+    ## simulate near-integrated processes
+    x1 <- numeric(T)
+    x2 <- numeric(T)
+    ## generate innovations: e[,1]=e_1t, e[,2]=e_2t, e[,3]=e_0t
+    e <- matrix(rnorm((T+1)*3), T+1, 3)
+    for (t in 2:(T+1)) {
+        x1[t] <- (1+c1/T)*x1[t-1] + e[t-1,1]   ## x1[2:(T+1)] = ... + e1[1:T]
+        x2[t] <- (1+c2/T)*x2[t-1] + e[t-1,2]
+    }
+    ## drop first observation (zero) and demean
+    x1dem <- x1[-1] - mean(x1[-1])    ## x1[1:T] = ... + e1[1:T]
+    x2dem <- x2[-1] - mean(x2[-1])
+    ## calculate Rieman sums
+    intJc2dW0 <- mean(x2dem*e[2:(T+1),3])
+    intJc2dW1 <- mean(x2dem*e[2:(T+1),1])
+    intJc1dW0 <- mean(x1dem*e[2:(T+1),3])
+    intJc1dW1 <- mean(x1dem*e[2:(T+1),1])
+    A <- sum(x1dem*x2dem)/sum(x1dem^2)
+    num <- delta*(intJc2dW1 - A*intJc1dW1) + sqrt(1-delta^2)*(intJc2dW0 - A*intJc1dW0)
+    denom <- sqrt(1/T*mean((x2dem-A*x1dem)^2))
+    num/denom
+}
+

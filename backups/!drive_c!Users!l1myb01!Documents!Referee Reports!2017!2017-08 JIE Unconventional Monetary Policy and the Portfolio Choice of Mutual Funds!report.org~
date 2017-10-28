@@ -1,0 +1,92 @@
+#+TITLE: Referee Report on RFS Manuscript 20170635 "Dynamics of the Expectations and Risk Premium in the OIS Term Structure"
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+LATEX_HEADER: \usepackage[left=3cm,right=3cm,top=2.5cm,bottom=3cm,verbose]{geometry}
+# #+LATEX_HEADER: \usepackage[verbose]{geometry}
+# #+LATEX_HEADER: \geometry{margin=1.5in}
+#+LATEX_HEADER: \usepackage{setspace}
+#+LATEX_HEADER: \onehalfspacing
+
+* Summary
+
+This paper estimates six different dynamic term structure models (DTSMs) to OIS
+rates from 2002 to 2015, including a proposed new "stepwise CIR"
+model. Two models, this
+new model as well as a jump-Gaussian model, explicitly incorporate the
+meeting schedule of the FOMC. The models are estimated using Bayesian methods. For
+decompositions of movements in the OIS term spread, the models that
+incorporate the FOMC meeting schedule imply that the expectations
+component accounts for most of these movements, whereas the other four
+models ascribe an important role to the risk premium component. The
+authors argue that this supports the use of these two models, as other
+evidence and market practice suggests that OIS rates mainly reflect
+expectations and not risk premia. The paper also attempts to interpret
+the results of the stepwise CIR model in terms of whether the Fed was
+"behind the curve" at certain times. 
+
+* Evaluation
+
+The paper is an interesting exercise in modeling OIS rates, but it adds no new
+insights to our understanding of OIS markets, the effects of monetary
+policy, or the behavior of expectations and risk premiums. The authors
+mainly use the DTSMs to confirm their prior that expectations are the
+main drivers of OIS rates. In light of a host of other published
+evidence, some of it cited in the paper, this may be a reasonable
+prior, but on the other hand Piazzesi and Swanson (2008, JME) argue
+that risk premia may be important even at these short maturities. The
+paper does not add new evidence to this debate. It is also well-known
+that accounting for FOMC meeting schedules can be important when
+modeling short-term interest rates, as evidenced in the work by
+Piazzesi and others. 
+
+The paper claims to generate new insights about whether the Fed was
+behind or ahead of the curve. This is based on the notion that when
+market expectations deviate from the current federal funds rate, then
+the Fed was "behind the curve", such as in 2006 (when the market
+expected easing) or in 2015 (when the market expected
+tightening). This is very different from what is commonly meant by the
+expression that a central bank falls "behind the curve": this means
+that it reacts too slowly and too late to economic
+developments. Modern central banking involves managing
+expectations of future policy rates, as documented by a large
+literature (see, for example, the target and path factors of
+Guerkaynack, Sack and Swanson, 2005, IJCB). So of course there are
+episodes where expectations deviate from the current policy rate, but
+this does in no way mean that the Fed fell behind the curve. The
+paper's interpretation of the DTSM estimates regarding the Fed's
+policy stance is plain wrong.
+
+A key result of the paper is that the stepwise CIR model attributes
+changes in the OIS term spread to expectations. But this is almost
+surely a mechanical result of the DTSM's structure. The main level
+factor is the (highly unusual) "reversion center", but this is
+deterministic. The fact that investors ignore the uncertainty in this
+factor makes this a highly unrealistic bond pricing model. The result
+is that there is no risk premium associated with it. Since the key
+yield curve factor has no risk premium it is naturally impossible for
+the risk premium to play a big role in this model. Another problem
+with this model is that there is an enormous amount of parameters to
+estimate, and still the model fits the cross section of yields much
+worse than a simple two-factor CIR model. Why do we need the stepwise
+CIR model? It has the abovementioned problems, and in addition the
+much more reasonable jump-Gaussian model tells exactly the same story
+about expectations vs. risk premia. I see many problems but no
+benefits to the stepwise CIR model.
+
+What is puzzling and worth investigating is why the jump-Gaussian
+model gives such different results from the standard affine Gaussian
+and CIR models. The authors do not provide enough details on these
+models as they focus the exposition on the stepwise CIR model. They
+should instead describe exactly what these models are that they
+estimate. Where do they fall within the Dai-Singleton (2000, JF) model
+classification? What is the speed of mean reversion under the
+P/real-world measure and the Q/risk-neutral measure? I am guessing
+that the estimation on daily data leads to fast mean reversion, which
+makes the expectation component in the Gaussian model essentially
+flat. This is what I recommend the authors investigate more and to
+provide more details on. It is important to compare apples to apples,
+and to explain exactly what  causes the dramatic
+differences for the role of the expectations vs. risk premium
+components. Is it really the incorporation of the FOMC meeting
+schedule or, as it appears to me, some other model feature?
+

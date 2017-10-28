@@ -1,0 +1,158 @@
+#+OPTIONS: toc:nil
+#+AUTHOR: Michael Bauer
+#+LATEX_HEADER: \usepackage[margin=0.5in]{geometry}
+
+* Questions
+** Evolution of yield curve
+- Why have long-term Treasury yields fallen since December 2016,
+  despite three rate hikes by the FOMC and news about balance sheet
+  normalization? Why has the yield curve flattened?
+  - How do we interpret this decline?
+  - Does this yield curve behavior constitute a new conundrum, or are
+    there plausible explanations that together can account for the
+    flatter yield curve?
+- Are declines in long-term yields due to exogenous factors (e.g.,
+  monetary easing abroad) so that they represent looser financial
+  conditions ¡V which would argue for faster removal of monetary
+  stimulus ¡V or are they driven by more pessimistic expectations and
+  endogenous declines in the term premium ¡V which would argue for a
+  slower removal of monetary stimulus?
+** Other asset prices
+- Why have both stock and bond prices increased in parallel over 2017?
+- Why has the dollar depreciated over this period? 
+- What do these asset price movements suggest about the underlying
+  fundamental drivers?
+** Balance sheet normalization
+- How has the news about balance sheet normalization affected bond
+  markets? What are possible market scenarios for when the FOMC starts
+  capping reinvestments and reducing the balance sheet?
+** Risks
+- What are the *risks* to financial stability?
+- How big is the risk of a new taper tantrum, or more generally a
+  major repricing of bond markets?
+- How significant is the risk of a stock market crash, given that high
+  valuations are predicated on low interest rates?
+
+* Key question and points I want to make
+Are lower yields stimulative? do they mean more rate hikes are required?
+
+- Long-term fundamentals/perceptions of r* likely account for only a small
+  part of the decline in LT yields
+- the majority is inflation risk premium, fiscal policy expectations,
+  political/geopolitical risks, easy monetary policy -- mostly term
+  premium
+  - Treasury yields declined substantially around North Korea headlines,
+    such as Tuesday 9/6 when they reached new YTD lows
+  - since last FOMC meeting: ongoing geopolitical concerns, domestic fiscal
+    policy uncertainties
+- Mostly term premium, mostly exogenous (not HHs/firms saving more)
+  - more supportive financial conditions
+- But also to some degree reflects pessimism about inflation and growth
+- In addition, dollar, yields, and stock market consistent with
+  expectations of more slowly rising funds rate (due to inflation,
+  fiscal policy)
+* Relevant evidence
+- distinguish three episodes -- conundrum is since December
+- yield-curve has flattened since December
+  - yield curve before December tightening and most recent
+  - time series of 3-month yield and ten-year yield since January 2016
+- Blue Chip forecast errors
+  - yields were expected to rise and surprised on the downside -- as
+    always over the last few years
+- real vs. nominal yields
+  - more recently (since July FOMC) decline driven by real yields
+  - before (January - June) decline mostly driven by inflation
+    compensation
+- balance sheet normalization
+  - Glenn: would be a conundrum if term premium had fallen (stable TP not so
+    much of a conundrum) -- as during Greenspan conundrum
+- valuations are stretched, partly due to low interest rates
+  - risks that higher rates would lead to sudden reversal
+- correlations between bond and stock market
+  - broadly, yields are down and stock market is up
+  - Board memo: this suggests exogenous declines in discount rates
+- dollar
+  - strong euro due to euro-area recovery and monetary policy
+* Summary of readings
+- Board memo, July 12, 2017, "Long-run value for the equilibrium rate
+  of interest"
+  - makes the case for downward revision of r*, shows staff forecast
+    errors
+- Board memo, July 14, 2017, "Background memo on longer-term interest
+  rates"
+  - investigates evolution since Dec. 2015, argues that explanations
+    include (1) MP easing abroad, (2) (perceived) r* has fallen, but
+    finds no evidence that inflation expectations have fallen or lower
+    TP due to hedging against downturn. Views this as easing financial
+    conditions.
+- Board memo, July 18, 2017, "Market outreach on current level of
+  U.S. Treasury yields"
+  - also suggests that lower r* plays a role, but also views downside
+    risks to inflation (in the long run) as a key driver
+- Hanson-Lucca-Wright
+  - conundrum behavior more common nowadays
+  - key empirical finding: puzzling excess sensitivity -- high
+    correlation between daily changes at short and long maturities --
+    remains after 2000, but over *lower frequencies yields have
+    decoupled*. That is, correlations of 6-month or annual changes
+    between short and long maturities have substantially
+    declined. Hence, "conundrum" periods -- movements of short and
+    long yields in opposite directions -- are more common.
+  - excess sensitivity: GSS explained it through EH, proposing as an
+    explanation changes in pi* (i.e., highly persistent shocks to
+    interest rates). But (a) it's mostly in real yields and (b)
+    it's mostly in the term premium (Hanson and Stein, 2015)
+  - explanation: annual changes (increases) in level are followed by
+    flattening of yield curve, much more so than in the past.
+    - time series model: include lagged h-period changes in level
+    - affine DTSM: include (unspanned) lags of yield factors
+  - equilibrium model: shocks to short rates positively correlated with
+    bond supply, hence short rates and long rates move in the same
+    direction (mortgage convexity, reaching-for-yield, ALM,
+    extrapolation, flight-to-quality), but only for a short time because
+    slow-moving capital eventually adjusts. term premium shocks are
+    transitory.
+    - can match coefficient pattern
+    - explanations of change since 2000: greater high-frequency excess
+      sensitivity because because of more reach-for-yield;
+      low-frequency decoupling because of more slow-moving capital
+    - less persistent short rate (better anchored inflation
+      expectations) and more correlation of short rates
+      and term premium could explain change in pattern
+  - implications: event study captures only high frequency effects,
+    which are transitory; at lower frequencies long rates may be much
+    less affected
+- Bonis-Ihrig-Wei
+  - use a term structure model to estimate portfolio balance effects
+  - paths of private MBS/Treasury holdings with and (counterfactual)
+    without LSAPs
+  - plug these (anticipated) shock sequences into Li-Wei model, which
+    is estimated pre-crisis
+  - currently LSAPs are compressing term premium by 85-100 bps
+- Tau Wu 
+  - constructs a present-value based QE measure using survey
+    expectations to account for both size and holding period of asset
+    purchases
+  - regresses TP estimates on macro variables and LSAP measure, finds
+    large negative effects on TP
+  - Finds smaller term premium effects for QE3 (using program dummy)
+  - also documents substantial signaling effects. Intertwined: forward
+    guidance extends LSAP expectations; LSAP announcements signal
+    lower policy path.
+  - explains taper tantrum: revised funds rate and LSAP expectations
+  - emphasizes the importance of transparent communication.
+- Rich Clarida
+  - normalization hasn't roiled bond markets because of successful Fed
+    communication about low r* and predictable reinvestment policy
+  - during taper tantrum, substantial repricing of funds rate
+    expectations. Now, consensus on "new normal" and balance sheet
+    normalization won't change that. [Near-term funds rate path also
+    more decoupled from balance sheet policy.]
+  - balance sheet normalizes slowly -- two instead of three desserts
+    is still a lot of sugar -- Fed will continue to buy MBS for a
+    while and will ultimately still most likely have a large balance
+    sheet
+  - upside risks: if markets price in more hawkish behavior of foreign
+    central banks
+- [[file:readings/SOMAPortfolioandIncomeProjections_July2017Update.pdf][SOMA projections]]
+- Glenn's [[http://www.imes.boj.or.jp/english/publication/mes/2006/me24-s1-6.pdf][conundrum paper]]

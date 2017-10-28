@@ -1,0 +1,26 @@
+\documentclass[12pt, oneside]{article}%
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{eurosym}
+\usepackage{dsfont}
+\usepackage{rotating}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage[colorlinks=true,citecolor=blue]{hyperref}
+\usepackage[left=2.4cm,right=2.4cm,top=2.4cm,bottom=3.2cm,verbose]{geometry}
+\usepackage{amsfonts}
+\usepackage{amssymb}%
+
+\newenvironment{changemargin}[1]{  \begin{list}{}{      \setlength{\topsep}{0pt}      \setlength{\leftmargin}{#1}      \setlength{\listparindent}{\parindent}      \setlength{\itemindent}{\parindent}      \setlength{\parsep}{\parskip}    }
+\item[]}{\end{list}}
+
+\begin{document}
+
+\input{bh_robust_tables_figures_v18.tex}
+
+\bibliographystyle{econ}
+\bibliography{../../../literature}
+
+\end{document}

@@ -1,0 +1,4 @@
+echo "*** Repository: org"
+cd c:/Users/l1myb01/Documents/org
+git pull bitbucket master
+git status

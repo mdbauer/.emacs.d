@@ -1,0 +1,11 @@
+% latex table generated in R 3.3.2 by xtable 1.8-2 package
+% Tue May 09 07:33:53 2017
+ constant        & -0.14 & -2.20 & 1.03 & -0.66 & 2.20 & 0.87 \\
+                  & (0.68) & (0.31) & (0.57) & (0.30) & (0.50) & (0.38) \\
+  $\pi_t^\ast$    & 1.77 & 1.28 & 1.58 & 1.18 & \cellcolor{chlt} 1.40 & \cellcolor{chlt}1.09 \\
+                  & (0.15) & (0.13) & (0.14) & (0.12) & \cellcolor{chlt}(0.13) & \cellcolor{chlt}(0.13) \\
+  $r_t^\ast$      &  & 1.85 &  & 1.52 & \cellcolor{chlt} & \cellcolor{chlt}1.19 \\
+                  &  & (0.15) &  & (0.14) & \cellcolor{chlt} & \cellcolor{chlt}(0.18) \\
+   \hline
+$R^2$           & 0.79 & 0.92 & 0.80 & 0.91 & \cellcolor{chlt}0.78 & \cellcolor{chlt}0.86 \\
+

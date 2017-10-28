@@ -1,0 +1,311 @@
+% Created 2017-06-08 Thu 08:46
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\author{Michael Bauer}
+\date{\today}
+\title{Economic Briefing, Head Office Directors' Meeting}
+\hypersetup{
+ pdfauthor={Michael Bauer},
+ pdftitle={Economic Briefing, Head Office Directors' Meeting},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 25.1.1 (Org mode 9.0.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\begin{itemize}
+\item Welcome, invite questions along the way
+\item Summary: economy overall is at "equilibrium" meaning it's close to
+its long-run trend path
+\begin{itemize}
+\item economy has "fully recovered" (JW)
+\item I will drill down on the topic of long-run trends, how they
+feature in our forecast, how we use them to separate the signal
+from the noise
+\end{itemize}
+\item GDP: output continues to grow at a healthy pace
+\begin{itemize}
+\item low Q1 number was an outlier due to transitory/one-off factors
+\item Q1 was, as we expected, revised up from 0.5 to 1.2\% (at annual
+pace). Improved from initial estimate but still a low number.
+\item Q1 low because: Seasonality (seasonal downward bias), weather, low inventory
+investment, temporarily low consumer spending
+\begin{itemize}
+\item path act: delayed reimbursement of taxes for low-income
+households
+\end{itemize}
+\item expect bounceback in Q2, growth around 3\%, mainly due to
+\begin{itemize}
+\item consumer spending
+\item inventory investment
+\end{itemize}
+\item recent data on spending and production suggests continued strong
+momentum, strong fundamentals in Q2
+\begin{itemize}
+\item \uline{hard data:} retail sales strong; industrial production 1\%, strong
+(manufacturing improved over last few months); capacity
+utilization rose in April (although slightly below long-run
+average, indicates some slack); CAPEX indicators solid; CFNAI up
+to positive, reflecting mostly production-related
+indicators. suggests that growth in economic activity is
+somewhat above its trend
+\item \uline{soft data:} conference board consumer confidence declined
+slightly but still highest since Dec. 2003; ISM index consistent
+with expansion
+\end{itemize}
+\item consumer spending bolstered by
+\begin{itemize}
+\item ongoing job gains
+\item rising household incomes and wealth -- strong equity market
+\item buoyant consumer sentiment - remains high both within this cycle
+and in broader historical context
+\end{itemize}
+\item overall expect 2017 GDP growth near 2 percent
+\item compares to g* = 1.5\%
+\item suggests economy is growing somewhat faster than trend
+\end{itemize}
+\end{itemize}
+\newpage
+\begin{itemize}
+\item labor market continues to improve
+\begin{itemize}
+\item payroll growth continues at robust if somewhat slower pace
+\begin{itemize}
+\item confirmed that low March was a hiccup
+\item May below expectations and April revised down
+\item but both still substantially above the "breakeven rate" that is
+needed to keep unmployment stable (80-100k), as is the 6-month
+average
+\end{itemize}
+\item indications that pace has slowed because it's harder to fill vacancies
+\begin{itemize}
+\item 6 million job openings in April, record high
+\end{itemize}
+\item UR fell 0.4pp since end of last year
+\begin{itemize}
+\item now lowest since May 2001
+\item UR four tenths below the FOMC's median estimate of u*. Most
+participants are between 4.75 and 5\%
+\item and below our own estimate (u* = 4.8\%)
+\end{itemize}
+\item same story from various labor market indicators
+\begin{itemize}
+\item consumer sentiment about labor market conditions
+\item participation rate is low but that's because of structural
+reasons -- demographics, disability insurance, skills mismatch,
+lack of mobility. Participation has remained stable for quite a
+while and is close to its trend level. Don't
+expect significant increase in participation
+\item measures of underutilization close to pre-recession lows - U6, IPT
+\item (involuntary part time slightly elevated but that's
+because employers now rely more on part time -- structural change)
+\end{itemize}
+\item wage growth heating up as slack declines (source GS 5/16)
+\begin{itemize}
+\item wage growth had been missing from this recovery
+\item but now wage acceleration is underway
+\item compensation per hour; average hourly earnings 2.5\%, which isn't
+particularly fast but better than what we have seen over most of
+this recovery; not as fast as before the crisis because of slow
+productivity growth
+\item various wage trackers (Atlanta Fed, GS) show faster speed
+\item expect wage growth to further accelerate
+\end{itemize}
+\item in sum, the data is consistent with ongoing tightening and a labor
+market that is at or beyond full employment
+\end{itemize}
+\end{itemize}
+\newpage
+\begin{itemize}
+\item inflation close to 2\% target and expected to reach it soon
+\begin{itemize}
+\item in February PCE inflation briefly surpassed the FOMC's 2\% target
+\item but recently some downside surprises -- inflation remains somewhat
+stubborn -- slowdown in core inflation
+\item \textbf{headline PCE} in April was year-over-year 1.7\%
+\item \textbf{core PCE} was 0.2\% in April, which was a solid print, but
+year-over-year is only 1.5\% -- we think this is a low point
+\item in our view this slight weakness mainly due to transitory/one-off factors
+\begin{itemize}
+\item several idiosyncratic factors
+\item \textbf{half} of deceleration due to quality adjustment of cell phone
+prices (Verizon plans unlimited data--quality adjusted this is a
+price drop)
+\item import inflation was weak in March and April due to dollar
+appreciation -- external deflationary pressures
+\end{itemize}
+\item underlying trend is still healthy. at the heart of our forecast is
+the view that \textbf{declining slack and accelarating wage growth} will
+support prices, and that inflation will resume its gradual rise
+\item in sum, we view the slowdown in core inflation as primarily a
+transitory phenomenon
+\item our medium-term outlook remains unchanged
+\item but there is a fair amount of uncertainty surrounding this
+baseline forecast, and we will be watching closely whether
+slowdown continues
+\end{itemize}
+\item financial conditions generally eased of the last six months and remain strongly
+supportive of consumer spending and output
+\begin{itemize}
+\item higher equity prices, driven by perceptions of an improved global
+outlook and positive news on corporate earnings
+\item lower yields, partly in reaction to inflation data and political headlines
+\item lower credit spreads
+\item equity market volatility very low, both actual volatility and
+option-implied volatility ("fear index" VIX near multidecade lows)
+\item rising commodity prices
+\item U.S. political uncertainty weighed briefly on market sentiment and
+stock prices, but markets soon recovered
+\item segue: what matters more than ups and downs in financial markets
+is the underlying trajectory. the same holds for other economic indicators
+\end{itemize}
+\end{itemize}
+\newpage
+\begin{itemize}
+\item the role of trends in forecasting
+\begin{itemize}
+\item Macroeconomic and financial data noisy
+\begin{itemize}
+\item Single data releases affect forecast little
+\item Ups and downs in financial markets less important than underlying trend
+\item how do we separate the signal from the noise?
+\item what is the framework in the back of our heads to understand
+the underlying trajectory?
+\end{itemize}
+\item when we forecast economic variables there are \textbf{three questions} we
+continually think about: (1) Where are we now? (2) Where are we
+going? (3) How are we going to get there?
+\begin{itemize}
+\item We take \textbf{signal} about these three things
+\end{itemize}
+\item "Nowcast" - gauge where we are now (word creation, forecast of the
+present)
+\begin{itemize}
+\item examples of things we nowcast
+\item various indicators affect our nowcast of Q2 GDP
+\end{itemize}
+\item Long-run trends -- after transitory factors and "shocks" have died
+out -- equilibrium. g*, u*, pi*, i*
+\item SEP similar: current year, next few years, and "long-run value"
+\item \textbf{gaps}: How large is the gap and how quickly can we close it?
+\end{itemize}
+\item the trend in interest rates
+\begin{itemize}
+\item Mary Daly talked about this in April
+\begin{itemize}
+\item "equilibrium FFR" = 2\% + 1\% = 3\% (median SEP long-run
+projection)
+\item we can call this "normal interest rate" i*
+\item this corresponds to the "normal/long-run fed funds rate"
+\item and it also drives all other interest rates, including Treasury
+yields, corporate bond yields, mortgage rates
+\end{itemize}
+\item pi* inflation trend/perceived inflation target
+\begin{itemize}
+\item this was the main issue of monetary policy in 1970s and 1980s
+\end{itemize}
+\item r* equilibrium real rate
+\begin{itemize}
+\item this has shifted into focus since pi* has stabilized
+\item remember: r* is the real (inflation-adjusted) interest rate
+consistent with the economy growing at potential and inflation at
+target. r=r* means monetary policy is neutral, neither
+expansionary nor contractionary
+\item FOMC "central tendency" is 0.8-1.0\%
+\item large degree of uncertainty around estimates of r*, but some
+consensus that it has fallen quite a bit over the last 20 years
+\end{itemize}
+\end{itemize}
+\item Decline in pi* and r*.
+\begin{itemize}
+\item this pi* estimate is from long-range surveys (SPF)
+\item r* estimate is the average from three macroeconomic models,
+including Laubach-Williams
+\begin{itemize}
+\item models agree that r* has fallen and is currently quite close to zero
+\item somewhat lower r* than from surveys/SEP, which are closer to 1\%
+\end{itemize}
+\item sum of the two gives an estimate of the "normal interest rate"
+\item don't put too much stock in the \emph{exact level} of the last data
+point, due to the uncertainty around estimates of r*
+\end{itemize}
+\item long-term rate fluctuates around trend
+\begin{itemize}
+\item slightly above but generally close to this estimate of i*
+\begin{itemize}
+\item higher because on average long-term rates are above short-term
+rates, the yield curve on average slopes upward
+\end{itemize}
+\item What does this mean in practice?
+\begin{itemize}
+\item When we ask the question "Where is the ten-year yield going to
+be a few years from now?" we would give a very different answer
+in 2017 than in, say, the 1990s. There is clearly a "new normal"
+\item We can't just assume we are going back to the average post-war
+interest rate.
+\item Instead, we have to account for these shifting trends.
+\item In my research I have found that doing so makes a big difference
+for forecasting and understanding the evolution of interest
+rates.
+\item Forecasters need to take a stance on r* and i* (not just
+the FOMC)
+\item We need to account for trend components in interest rates,
+just like we do in macroeconomic indicators like GDP growth and inflation
+\end{itemize}
+\item Consequences of low normal interest rate:
+\begin{itemize}
+\item greater chance of returning to zero lower bound with the need to
+use unconventional monetary policy tools
+\item could avoid this by raising pi* (higher inflation target) or r*
+(improved long-run economic growth)
+\item in any event, lower r* and i* poses new challenges for monetary policy
+\end{itemize}
+\end{itemize}
+\item conclude
+\end{itemize}
+
+\section{other topics}
+\label{sec:orgd507b3e}
+\begin{itemize}
+\item risks to the forecast
+\begin{itemize}
+\item downside and upside risks are balanced
+\item downside risk: low inflation -- the slowdown in core inflation could
+be more persistent than we anticipate. or: stronger dollar
+appreciation due to normalization of monetary policy
+\item upside risk: labor market overheating, increasing wage pressure
+\end{itemize}
+\item balance sheet
+\begin{itemize}
+\item auto-pilot, boring, "gradual and predictable reduction"
+\item want to avoid situation where balance sheet is automatically reduced
+more quickly when economy slows down (rates fall, refis and MBS
+prepayments speed up)
+\item hence the proposal is to use "roll-off caps" which limit the amounts
+that are allowed to mature, amounts above the limits are reinvested
+\item roll-off caps gradually increased
+\end{itemize}
+\item fiscal policy
+\begin{itemize}
+\item our forecast continues to incorporate a modest amount of fiscal expansion in
+the form of tax cuts
+\item However, size, timing and composition of this possible stimulus
+remain considerably uncertain.
+\end{itemize}
+\end{itemize}
+\end{document}

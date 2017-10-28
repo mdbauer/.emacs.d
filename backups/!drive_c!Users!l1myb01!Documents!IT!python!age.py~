@@ -1,0 +1,8 @@
+age = int(raw_input('Please enter your age: '));
+
+if (age < 0):
+    print('not possible!');
+else:
+    print('a reasonable age!');
+
+print('Thank you!');

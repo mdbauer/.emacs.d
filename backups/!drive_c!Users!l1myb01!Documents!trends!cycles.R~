@@ -1,0 +1,39 @@
+## compare estimates of interest rate cycles
+## a) detrended by only trend inflation (like Cieslak-Povala)
+## b) detrended by both r* and pi*
+
+rm(list=ls())
+require(latex2exp)
+source("R/trends_fns.R")
+graphics.off()
+
+df <- loadData()
+
+demean <- function(x) x - mean(x)
+df$cp.cycle <- demean(df$ybar - df$pistar.ptr)
+df$our.cycle <- df$ybar - df$pistar.ptr - df$rstar.mean
+
+plotCycle <- function() {
+    ## par(mar=c(3,4,2,1))
+    cols <- c("black", "steelblue")
+    lwds <- c(2,2,2,2)
+    ltys <- c(1,1,1,1)
+    plot(df$date, df$cp.cycle, type="l", col=cols[1], lwd=lwds[1], lty=ltys[1], ylim=range(c(0, df$cp.cycle)), ylab="Percent", xlab="")
+    lines(df$date, df$our.cycle, col=cols[2], lwd=lwds[2], lty=ltys[2])
+    abline(h=0, lty=2)
+    legend("topright", c(TeX("$\\bar{y}_t - \\pi^*_t$ (demeaned)"),
+                         TeX("$\\bar{y}_t - \\pi^*_t - r^*_t$")), col=cols, lwd=lwds, lty=ltys, cex=1.2)
+}
+
+## for paper
+pdf("figures/cycles.pdf", width=7, height=4.25, pointsize=10)
+plotCycle()
+dev.off()
+
+## for beamer slide
+pdf("figures/cycles_pres.pdf", width=7, height=6, pointsize=10)
+plotCycle()
+dev.off()
+
+print(tail(df$cp.cycle,1))
+print(tail(df$our.cycle,1))

@@ -1,0 +1,25 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'bitbucket/master'.
+#
+# Changes to be committed:
+#	modified:   .Rhistory
+#	modified:   doc/v3/auto/br_trends_tables_figures.el
+#	new file:   doc/v3/br_trends_20171019.pdf
+#	new file:   doc/v3/br_trends_20171019.tex
+#	modified:   doc/v3/br_trends_appendix.aux
+#	modified:   doc/v3/br_trends_current.aux
+#	modified:   doc/v3/br_trends_current.bbl
+#	modified:   doc/v3/br_trends_current.log
+#	modified:   doc/v3/br_trends_current.pdf
+#	modified:   doc/v3/br_trends_current.tex
+#	modified:   doc/v3/br_trends_tables_figures.aux
+#	modified:   doc/v3/br_trends_tables_figures.tex
+#	modified:   predict.R
+#	new file:   predict_test_cycles.R
+#	modified:   tables/returns.tex
+#	modified:   tables/returns_subsample.tex
+#	modified:   trends.org
+#

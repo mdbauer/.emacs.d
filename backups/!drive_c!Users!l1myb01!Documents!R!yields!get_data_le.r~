@@ -1,0 +1,95 @@
+
+## You can download the recently updated dataset from this link:
+## https://www.dropbox.com/s/6en0thyg09ht37k/ycM_Apr2013.mat
+
+## from previous data -- hopefully still right:
+## The first three columns are yyyy, mm, dd. The next 120 columns are continuously compounding zero yields with maturities 1m, 2m, … 120m.
+
+## - yields are annualized decimal numbers (e.g., 0.02 for two percent)
+## - maturities are 1 through 120 months
+
+library(R.matlab)
+data <- readMat("../../data/ycM_Oct2016.mat")
+## data <- readMat("../../data/ycdaily.mat")
+yields <- as.data.frame(data$yc)
+
+## daily yield file from Anh Le
+##yields <- read.delim("../../data/UFB12-Oct-2010.txt", header=FALSE)
+##yields <- yields[1:(dim(yields)[1]-1),]
+
+## first column year, second month, third day
+n.yields <- ncol(yields)-3
+
+yields$dates <- yields[[1]]*10000+yields[[2]]*100+yields[[3]]
+yields$month <- yields[[1]]*100+yields[[2]]
+yields$quarter <- yields[[1]]*10+ ceiling(yields[[2]]/3)
+
+cat("Start date: ", min(yields$dates), "\n")
+cat("End date: ", max(yields$dates), "\n")
+
+#########################################
+## construct daily data
+cat("Constructing daily data...\n")
+dates <- yields$dates
+Y <- as.matrix(yields[, 4:(n.yields+3)])
+save(file="le_data_daily.RData", Y, dates)
+
+M <- cbind(dates, Y)
+colnames(M) <- c("Date", paste0("y", 1:n.yields))
+write.csv(M, file="yields_le_daily.csv")
+
+cat("Average yields:\n")
+print(colMeans(100*Y[,12*(1:10)]))
+## how many days per year?
+#for (year in unique(yields[[1]]))
+#  cat("number of days in year ", year, ": ", sum(yields[[1]]==year), "\n")
+## around 250 days per year
+#for (month in unique(yields$month))
+#  cat("number of days in month  ", month, ": ", sum(yields$month==month), "\n")
+## around 20/21 days per month
+## WORK WITH: 252 days per year, 21 days per month
+
+########################################################
+## construct monthly data - create end-of-month observations
+cat("Constructing monthly data...\n")
+months <- unique(yields$month)
+T <- length(months)
+yields.monthly <- matrix(NA, T, n.yields)
+dates <- numeric(T)
+for (t in 1:T) {
+  ## get yields for month t
+  index.select <- (yields$month == months[t])
+  the.index <- max(which(index.select))
+  yields.monthly[t,] <- unlist(yields[the.index,4:(n.yields+3)])
+  dates[t] <- yields$dates[the.index]
+}
+
+Y <- yields.monthly
+
+M <- cbind(dates, Y)
+colnames(M) <- c("Date", paste0("y", 1:n.yields))
+write.csv(M, file="yields_le_monthly.csv")
+
+save(file="le_data_monthly.RData", Y, dates)
+
+######################################
+## construct quarterly data
+cat("Constructing quarterly data...\n")
+quarters <- unique(yields$quarter)
+T <- length(quarters)
+yields.quarterly <- matrix(NA, T, n.yields)
+dates <- numeric(T)
+for (t in 1:T) {
+  ## get yields for quarter t
+  index.select <- (yields$quarter == quarters[t])
+  the.index <- max(which(index.select))
+  yields.quarterly[t,] <- unlist(yields[the.index,4:(n.yields+3)])
+  dates[t] <- yields$dates[the.index]
+}
+
+Y <- yields.quarterly
+
+save(file="le_data_quarterly.RData", Y, dates)
+
+y10 <- ts(yields.monthly[,120], start=unlist(yields[1,1:2]), freq=12)
+plot(y10)

@@ -1,0 +1,35 @@
+## simulations to show size distortions across different sample sizes
+## - Figure 1
+
+rm(list=ls())
+source("R/robust_fns.r") # for open PlotDevice and asymTstat
+set.seed(616)
+Ts <- seq(50, 1000, 50)
+M <- 1000000
+cv <- qnorm(.975)
+
+cat("# rho = 1\n")
+cat("asymptotic approximation...\n")
+sizes1.asym <- rep(mean(abs(replicate(M, asymTstat(delta=1, c1=0, c2=0))) > cv), length(Ts))
+cat("# rho = 0.99\n")
+rho <- .99
+cat("asymptotic approximation...\n")
+sizes2.asym <- numeric(length(Ts))
+for (T in Ts) {
+    cat("T =", T, "\n")
+    sizes2.asym[Ts==T] <- mean(abs(replicate(M, asymTstat(delta=1, c1=T*(rho-1), c2=T*(rho-1)))) > cv)
+}
+
+## create figure
+plot.mode <- 1
+openPlotDevice(plot.mode, "sizeAcrossTs")
+par(mar=c(4,4,2,1))
+cols <- c("black", "blue")
+ltys <- c(1,2); lwds <- c(2,2)
+plot(Ts, sizes1.asym, type="l", xlim=c(0,max(Ts)), ylim=c(0, 0.20), lty=ltys[1], lwd=lwds[1], col=cols[1],
+     xlab="Sample size", ylab="Empirical size of test")
+lines(Ts, sizes2.asym, lty=ltys[2], lwd=lwds[2], col=cols[2])
+legend("bottomleft", legend=c(expression(rho == 1), expression(rho == 0.99)), lwd=lwds, lty=ltys, col=cols)
+abline(h=0.05, lty=3)
+if (plot.mode>0)
+    dev.off()

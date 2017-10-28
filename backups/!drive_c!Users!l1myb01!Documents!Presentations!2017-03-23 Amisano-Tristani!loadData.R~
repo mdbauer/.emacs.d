@@ -1,0 +1,62 @@
+loadData <- function() {
+    ## yields
+    df <- read.csv("../../trends/data/yields_gsw_monthly.csv")
+    yield.cols <- names(df)[-1]
+    df$f510 <- 2*df$y10 - df$y5
+    df$yyyymm <- floor(df$Date/100)
+    df$year <- floor(df$yyyymm/100)
+    df$month <- df$yyyymm-df$year*100
+    df$date <- as.Date(as.character(df$Date), format="%Y%m%d")
+    df$Date <- NULL
+
+    ## PTR
+    ptr <- read.csv("data/Pistar/pistar_PTR.csv")
+    ptr$yyyymm <- ptr$Year*100+(ptr$Quarter)*3
+    ptr <- ptr[c("yyyymm", "pistar_PTR")]
+    names(ptr)[2] <- "pistar.ptr"
+    df <- merge(df, ptr, all.x = TRUE)
+
+    ## Laubach-Williams
+    lw <- read.csv("../../trends/data/Rstar/RStar_LaubuchWilliams.csv" , na.strings = "#N/A")
+    lw$yyyymm <- lw$Year*100+lw$Quarter*3
+    lw <- lw[c("yyyymm", "Rstar_LW_filtered")]
+    names(lw)[2] <- "rstar.lw"
+    df <- merge(df, lw, all.x = TRUE)
+
+    ## Lubik-Mathes
+    lm <- read.csv("../../trends/data/LM_real_rate110716.csv")
+    lm$year <- floor(lm$date)
+    lm$quarter <- (lm$date - lm$year)*4 + 1
+    lm$yyyymm <- lm$year*100 + lm$quarter*3
+    lm <- lm[c("yyyymm", "median")]
+    names(lm)[2] <- "rstar.lm"
+    df <- merge(df, lm, all.x = TRUE)
+
+    ## Johannsen-Mertens
+    jm <- read.csv("../../trends/data/Rstar/RStar_JohannsenMertensFilteredValue.csv", stringsAsFactors = FALSE)
+    colnames(jm) <- c('date', 'rstar.jm')
+    jm$year <- floor(jm$date/100)
+    jm$quarter <- jm$date-jm$year*100
+    jm$yyyymm <- jm$year*100 + jm$quarter*3
+    jm <- jm[c("yyyymm", "rstar.jm")]
+    df <- merge(df, jm, all.x = TRUE)
+
+    ## Kiley
+    kiley <- read.table("../../trends/data/Rstar/RStar_kiley_new.csv", header=TRUE)
+    names(kiley) <- c("date", "X", "rstar.kiley")
+    kiley$year <- floor(kiley$date)
+    kiley$quarter <- (kiley$date - kiley$year)*4 + 1
+    kiley$yyyymm <- kiley$year*100 + kiley$quarter*3
+    kiley <- kiley[c("yyyymm", "rstar.kiley")]
+    df <- merge(df, kiley, all.x = TRUE)
+
+    ## average r-star
+    ## X <- data.matrix(df[c("rstar.lw", "rstar.lm", "rstar.jm")])
+    X <- data.matrix(df[c("rstar.lw", "rstar.lm", "rstar.jm", "rstar.kiley")])
+    df$rstar.mean <- rowMeans(X, na.rm=TRUE)
+
+    df <- subset(df, yyyymm < 201600)
+    attr(df, "yield.cols") <- yield.cols
+    df <- df[df$month %% 3 == 0, ] # make quarterly
+    df
+}

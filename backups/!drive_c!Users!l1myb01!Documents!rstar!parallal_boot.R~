@@ -1,0 +1,6 @@
+library(boot)
+R <- 5000
+cd4.rg <- function(data, mle) MASS::mvrnorm(nrow(data), mle$m, mle$v)
+cd4.mle <- list(m = colMeans(cd4), v = var(cd4))
+system.time(cd4.boot <- boot(cd4, corr, R, sim = "parametric", ran.gen = cd4.rg, mle = cd4.mle))
+boot.ci(cd4.boot, type = c("norm", "basic", "perc"), conf = 0.9, h = atanh, hinv = tanh)

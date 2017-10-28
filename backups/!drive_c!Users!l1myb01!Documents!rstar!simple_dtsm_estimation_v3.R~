@@ -1,0 +1,226 @@
+## estimate simple DTSM with MLE
+## - specification as in our trends paper (version June 2017)
+## - goals: estimate r* from the yield curve
+
+rm(list=ls())
+sink(paste0("est_output_", Sys.Date(), ".txt"))
+
+description <- "Simple DTSM - only r* and pi* risk priced; yields per month, decimal"
+
+## load yield data
+df <- read.csv("data/yields_gsw_monthly.csv")
+yield.cols <- c("y0.25", "y0.5", paste0("y", c(1,2,3,5,7,10)))
+mats <- c(3, 6, 12*c(1,2,3,5,7,10))
+## yield.cols <- paste0("y", c(1,2,3,5,7,10,15))
+## mats <- 12*c(1,2,3,5,7,10,15)
+df <- df[c("Date", yield.cols)]
+## df[yield.cols] <- df[yield.cols]/1200  ## per month, decimal
+df$yyyymm <- floor(df$Date/100)
+df <- subset(df, yyyymm >= 197111)
+df$Date <- as.Date(as.character(df$Date), format="%Y%m%d")
+
+## load inflation
+cpi <- read.csv("data/CPILFENS.csv")
+cpi$DATE <- as.Date(cpi$DATE, format="%Y-%m-%d")
+cpi$yyyymm <- as.numeric(format(cpi$DATE, "%Y%m"))
+cpi$pi <- c(NA, diff(log(cpi$CPILFENS)))
+cpi$DATE <- NULL
+cpi$CPILFENS <- NULL
+df <- merge(df, cpi, all.x=TRUE)
+df$pi <- df$pi*1200 ## per year, percent
+
+## load PTR
+ptr <- read.csv("data/ptrcpi.csv")
+ptr$date <- as.Date(ptr$date, format="%m/%d/%Y")
+ptr$yyyymm <- as.numeric(format(ptr$date, "%Y%m")) + 1 # middle month of the quarter
+ptr$date <- NULL
+names(ptr) <- c("ptr", "yyyymm")
+df <- merge(df, ptr, all.x=TRUE)
+## df$ptr <- df$ptr/1200  ## per month, decimal
+
+## interpolate (later replace by appropriate handling of missing values)
+require(zoo)
+df$ptr <- na.locf(df$ptr)
+
+scale <- 1 # 1/1200
+theta2pars <- function(theta) {
+    pars <- list(Sigma = diag(scale*c(exp(theta[1:5]))), # 5 shock variances
+                 sig2 = scale*exp(theta[6:8]),  # 3 meas error variances -- inflation, yields, pi*
+                 mu = c(0, 0, 0, 0, scale*theta[9]),
+                 phi = diag(c(1, exp(theta[10])/(1+exp(theta[10])), 1, exp(theta[11])/(1+exp(theta[11])), exp(theta[12])/(1+exp(theta[12])))),
+                 ## lam0 = matrix(scale*c(theta[13:16], 0), 5, 1),
+                 ## lam1 = scale*cbind(matrix(0, 5, 4), c(theta[17:20], 0)))
+                 ## only r* and pi* risk priced:
+                 lam0 = matrix(scale*c(theta[13], 0, theta[14], 0, 0), 5, 1),
+                 lam1 = scale*cbind(matrix(0, 5, 4), c(theta[15], 0, theta[16], 0, 0)))
+    pars$Omega <- pars$Sigma %*% t(pars$Sigma)
+    pars
+}
+
+pars2theta <- function(pars)
+    c(log(diag(pars$Sigma)/scale), log(pars$sig2/scale),
+      pars$mu[5]/scale,
+      log(diag(pars$phi)[c(2,4,5)]/(1-diag(pars$phi)[c(2,4,5)])),
+      ## pars$lam0[1:4]/scale, pars$lam1[1:4,5]/scale)
+      pars$lam0[c(1,3)]/scale, pars$lam1[c(1,3),5]/scale) # only r* and pi* risk priced
+
+affineLoadings <- function(pars) {
+    ## globals: mats
+    J <- length(mats)
+    A <- matrix(NA, 1, J)
+    B <- matrix(NA, 5, J)
+    Atmp <- 0
+    Btmp <- rep(0, 5)
+    muQ <- pars$mu - pars$lam0
+    phiQ <- pars$phi - pars$lam1
+    phiQp <- t(phiQ)
+    delta0 <- -0.5*pars$sig2[1]
+    delta1 <- c(1,1,1,1,0)
+    for (n in 1:max(mats)) {
+        Atmp <- Atmp + crossprod(muQ, Btmp) + .5 * t(Btmp) %*% pars$Omega %*% Btmp - delta0
+        Btmp <- phiQp %*% Btmp - delta1
+        ind <- mats==n
+        if (any(ind)) {
+            A[which(ind)] <- - Atmp/n
+            B[,which(ind)] <- - Btmp/n
+        }
+    }
+    list(A=A, B=B)
+}
+
+kalmanDTSM <- function(pars, smooth=FALSE) {
+    ## globals: mats, df, yield.cols
+    loads <- affineLoadings(pars)
+    ## measurement equation: J yields, inflation, PTR
+    J <- length(mats)
+    ct <- matrix(c(loads$A, 0, 0), J+2, 1)
+    Zt <- array(rbind(t(loads$B),       # yields
+                      c(1,1,0,0,0),  # inflation
+                      c(1,0,0,0,0)), # PTR
+                c(J+2, 5, 1))
+    GGt <- array(diag(c(rep(pars$sig2[2], J), pars$sig2[1], pars$sig2[3])), c(J+2, J+2, 1))
+    ## state equation
+    dt <- matrix(pars$mu, 5, 1)
+    Tt <- array(pars$phi, c(5, 5, 1))
+    HHt <- array(pars$Omega, c(5, 5, 1))
+    ## initial conditions
+    a0 <- rep(0, 5)
+    P0 <- 100*diag(5)
+    ## data
+    yt <- rbind(t(df[yield.cols]),
+                c(tail(df$pi, -1), tail(df$pi, 1)),
+                df$ptr)
+    ## kalman filter
+    if (smooth) {
+        fkf.R(a0=a0, P0=P0, dt=dt, ct=ct, Tt=Tt, Zt=Zt, HHt=HHt, GGt=GGt, yt=yt, smooth=TRUE)
+    } else {
+        require(FKF)
+        rval <- fkf(a0=a0, P0=P0, dt=dt, ct=ct, Tt=Tt, Zt=Zt, HHt=HHt, GGt=GGt, yt=yt)
+        if (!(isTRUE(all.equal(rval$status, c(0,0))))) {
+            stop("unsuccessful call to fkf()\n")
+        } else {
+            rval
+        }
+    }
+}
+
+obj <- function(theta) {
+    pars <- theta2pars(theta)
+    rval <- 1e6
+    try(rval <- -kalmanDTSM(pars)$logLik, silent=TRUE)
+    rval
+}
+
+goodStartingValues <- function(n=10000) {
+    ## evaluate LLK at n random starting values
+    ## return best ones
+    startingValues <- function() {
+        rho0 <- runif(3, 0.8, .99)
+        dSigma <- rbeta(5, 1, 3)  # between 0 and 1, much mass close to zero
+        sig <- c(runif(1, .5, 1), runif(2, .05, .15))
+        theta0 <- c(log(dSigma/scale),
+                    log(sig^2/scale),
+                    rnorm(1)/20,
+                    log(rho0/(1-rho0)),
+                    ## rnorm(8)/20)
+                    rnorm(4)/20) # only r* and pi* risk priced
+    }
+    thetas <- replicate(n, startingValues())
+    negllks <- apply(thetas, 2, obj)
+    thetas[,which.min(negllks)]
+}
+
+theta <- goodStartingValues(100)
+pars <- theta2pars(theta)
+stopifnot(isTRUE(all.equal(theta, pars2theta(pars))))
+
+## optimization from random starting values IN PARALLEL
+require(parallel)
+ncores <- min(10, detectCores())
+nstarts <- 10*ncores
+cat("# Parallel optimization from", nstarts, "different starting values\n")
+
+doOptim <- function(...) {
+    theta0 <- goodStartingValues()
+    llk0 <- -obj(theta0)
+    cat('LLK at starting point:', llk0, '\n')
+    i <- 1; improvement <- Inf; llk <- llk0
+    theta <- theta0
+    while (improvement>.1) {
+        res <- optim(theta, obj, control=list(maxit=5000))
+        improvement <- -res$value - llk
+        llk <- -res$value
+        theta <- res$par
+        cat('iteration ', i,', likelihood = ', llk,'\n')
+        i <- i + 1
+    }
+    cat('improvement = ', improvement, ' -- proceed to final step\n')
+    res <- optim(theta, obj, control=list(maxit=50000))
+    cat('final Nelder-Mead step, likelihood = ', -res$value, "\n")
+    theta <- res$par
+    llk <- -res$value
+    print(res$message)
+    list(theta0=theta0, llk0=llk0, theta=theta, llk=llk, conv=res$convergence)
+}
+
+cl <- makeCluster(ncores)
+print(cl)
+clusterExport(cl, c("scale", "mats", "df", "yield.cols"))
+clusterExport(cl, c("goodStartingValues", "obj", "theta2pars", "affineLoadings", "kalmanDTSM"))
+rvals <- parLapply(cl, 1:nstarts, doOptim)
+stopCluster(cl)
+
+nms <- c("starting LLK", "optimal LLK", "convergence")
+tbl <- matrix(NA, nstarts, length(nms))
+colnames(tbl) <- nms
+for (i in seq_along(rvals))
+    tbl[i, ] <- unlist(rvals[[i]][c("llk0", "llk", "conv")])
+print(round(tbl[order(tbl[,2], decreasing=TRUE),], 2))
+
+ind <- which.max(tbl[,2])
+theta <- rvals[[ind]]$theta
+pars <- theta2pars(theta)
+cat("best LLK: ", rvals[[ind]]$llk, "\n")
+cat("check max:", -obj(theta), "\n")
+cat("check max:", kalmanDTSM(pars)$logLik, "\n")
+
+## final optimization
+cat("# Final optimization. LLK at starting values:", -obj(theta), "\n")
+cat("# Nelder-Mead optimization...\n")
+rval <- optim(theta, obj, control=list(maxit=50000))
+print(rval)
+theta <- rval$par
+cat("likelihood at optimum:", -obj(theta), "\n")
+
+pars <- theta2pars(theta)
+loads <- affineLoadings(pars)
+print(pars)
+print(round(loads$A, 2))
+print(round(loads$B, 2))
+
+sink()
+
+save(rvals, pars, theta, df, mats, yield.cols, scale, theta2pars, pars2theta, kalmanDTSM, obj, affineLoadings, description,
+     file=paste0("est_results_", Sys.Date(), ".RData"))
+
+

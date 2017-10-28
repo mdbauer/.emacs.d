@@ -1,0 +1,71 @@
+## Joslin-Priebsch-Singleton with *monthly returns*
+
+rm(list=ls())
+source("R/robust_fns.r")
+source("R/var_fns.r")
+set.seed(616)
+
+## get data
+df <- read.csv("data/jps/JPS_new.csv", na.strings="#N/A")
+df$year <- floor(df$yyyymm/100)
+yield.cols <- paste0("y", c("6m", 1:10))
+names(df)[2:12] <- yield.cols
+df[yield.cols] <- df[yield.cols]*100
+df1m <- getOneMonthYield()[c("y1m", "yyyymm")]
+df <- merge(df, df1m, by="yyyymm", all.x=TRUE)
+attr(df, "mats") <- c(1, c(.5, 1:10)*12)
+attr(df, "yield.cols") <- c("y1m", yield.cols)
+df <- calcMonthlyReturns(df)
+df <- df[df$year<=2007,]  ## this is what JPS are doing
+df <- addPCs(df, N=3)
+df$GRO <- df$gro_jps
+df$INF <- 100*df$INF
+jpsdata <- df
+
+M <- 5000  # number of bootstrap replications
+fmla1 <- get(depvar) ~ PC1 + PC2 + PC3
+fmla2 <- get(depvar) ~ PC1 + PC2 + PC3 + GRO + INF
+X1.names <- c("PC1", "PC2", "PC3")
+X2.names <- c("GRO", "INF")
+regvars <- c(X1.names, X2.names)
+K <- length(regvars)
+
+dgp <- getBootDGP(X1.names, X2.names, jpsdata, control=list(BC=TRUE, init=TRUE))
+fmla <- xr1m.avg ~ PC1 + PC2 + PC3 + GRO + INF
+
+## warning flags
+summaryDGP(dgp, fmla, jpsdata, h=1)
+cat("rho(1) of PC1", acf(jpsdata$PC1, plot=FALSE)$acf[2], "\n")
+cat("rho(1) of PC2", acf(jpsdata$PC2, plot=FALSE)$acf[2], "\n")
+cat("rho(1) of GRO", acf(jpsdata$GRO, plot=FALSE)$acf[2], "\n")
+cat("rho(1) of INF", acf(jpsdata$INF, plot=FALSE)$acf[2], "\n")
+
+## ## consider specification WITHOUT LEVEL (Greg's suggestion)
+## fmla1 <- get(depvar) ~ PC2 + PC3
+## fmla2 <- get(depvar) ~ PC2 + PC3 + GRO + INF
+## K <- 4
+## regvars <- c("PC2", "PC3", "GRO", "INF")
+
+depvar <- "xr1m.avg"
+cat("# Dependent variable:", depvar, "\n")
+vcovfn <- function(lm.) vcovHC(lm., type="HC") # White standard errors
+
+rval <- bootstrapTest(fmla1, fmla2, jpsdata, dgp, depvar=depvar, adjR2=TRUE, M=M, h=1, vcovfn=vcovfn)
+print(round(rval$tblCoef, 3))
+tbl <- rval$tblSize[1,,drop=FALSE]
+print(tbl)
+
+## no trends:
+cat("## No drift in X1 - initializing at unconditional mean\n")
+dgp$X1.init <- dgp$EX1
+rval <- bootstrapTest(fmla1, fmla2, jpsdata, dgp, depvar=depvar, adjR2=TRUE, M=M, h=1, vcovfn=vcovfn)
+tbl <- rbind(tbl, rval$tblSize[1,])
+print(tbl)
+
+cat("## And no drift in X2\n")
+dgp$X2.init <- dgp$EX2
+rval <- bootstrapTest(fmla1, fmla2, jpsdata, dgp, depvar=depvar, adjR2=TRUE, M=M, h=1, vcovfn=vcovfn)
+tbl <- rbind(tbl, rval$tblSize[1,])
+print(tbl)
+
+

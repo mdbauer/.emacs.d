@@ -1,0 +1,14 @@
+## export the data we are using to tell our story
+## - ten-year yield
+## - pi* - PTR
+## - r* - three measures and mean
+
+rm(list=ls())
+source("R/trends_fns.r")
+
+df <- loadData()
+df <- df[c("date", "yyyymm", "y10", "pistar.ptr", "rstar.lw", "rstar.lm", "rstar.kiley", "rstar.mean")]
+range(df$yyyymm)
+str(df)
+
+write.csv(df, "export/data.csv", row.names=FALSE)

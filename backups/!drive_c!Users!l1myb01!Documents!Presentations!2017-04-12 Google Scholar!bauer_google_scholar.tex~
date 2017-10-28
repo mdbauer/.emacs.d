@@ -1,0 +1,111 @@
+\documentclass[xcolor=pdftex, dvipsnames, table, notes=HIDE]{beamer}
+% \usepackage{graphicx}
+% \usepackage{dsfont}
+% \usepackage{pgf}
+% \usepackage{hyperref}
+% \usepackage{multirow}
+% \usepackage{enumitem}
+\mode<presentation>
+\setbeamertemplate{navigation symbols}{}
+\newenvironment{wideitemize}{\itemize\addtolength{\itemsep}{.5pc}}{\enditemize}
+\newenvironment{changemargin}[1]{%
+  \begin{list}{}{%
+      \setlength{\topsep}{0pt}%
+      \setlength{\leftmargin}{#1}%
+      \setlength{\listparindent}{\parindent}%
+      \setlength{\itemindent}{\parindent}%
+      \setlength{\parsep}{\parskip}%
+    }
+  \item[]}{\end{list}}
+
+\title{How to Promote Your Papers Online:\\Google
+  Scholar and Friends}
+
+\author{Michael Bauer}
+\institute{Federal Reserve Bank of San Francisco}
+
+\date{April 12, 2017\\CLIR webinar}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+  \scriptsize
+\begin{quote}The views expressed here are those of the author and do not necessarily represent the views of others in the Federal Reserve System.
+\end{quote}
+\end{frame}
+
+\begin{frame}
+  \frametitle{How to Use Google Scholar as a Researcher}
+  \begin{columns}[t]
+    \column{.5\textwidth}
+    \begin{block}{Finding papers}
+      \begin{itemize}
+      \item Search for papers by title
+      \item Papers that cite a paper
+      \item Papers by a certain author
+      \end{itemize}
+    \end{block}
+    \begin{block}{Getting papers (PDF)}
+      \begin{itemize}
+      \item Full text through journal/JSTOR
+      \item Working papers
+      \item Different versions
+      \end{itemize}
+    \end{block}
+  \column{.5\textwidth}
+  \begin{block}{Promoting your own papers}
+    \begin{itemize}
+    \item Your profile
+      \begin{itemize}
+      \item[$\Rightarrow$] \alert{Activate it!}
+      \end{itemize}
+    \item Your institution
+    \item Your papers
+    \item Your citations
+    \end{itemize}
+  \end{block}
+  \begin{block}{Citing papers}
+    \begin{itemize}
+    \item Bibtex and friends
+    \end{itemize}
+  \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Other Important Research Networks}
+  \begin{wideitemize}
+    \item
+      \href{https://www.researchgate.net/home}{\url{researchgate.net}}
+      \begin{itemize}
+      \item Manage profile, upload papers, network
+      \end{itemize}
+    \item \href{https://www.academia.edu}{\url{academia.edu}}
+      \begin{itemize}
+      \item Manage profile, upload papers, network
+      \end{itemize}
+    \item Other services:
+      \begin{itemize}
+      \item \url{ssrn.com} -- some Banks update automatically
+      \item \url{repec.org} -- updated automatically, keep author page current
+      \end{itemize}
+    \item And don't forget:
+      \begin{itemize}
+      \item Your website (!!!) -- Bank and/or personal
+      \item Social media
+      \end{itemize}
+  \end{wideitemize}
+\end{frame}
+% how to search like a pro
+% how to save to profile
+% how to set up alerts
+% http://mashable.com/2014/12/03/google-scholar-guide/#HiV_1fwM.iqs
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+,

@@ -1,0 +1,11 @@
+## replicate AEMS results and assess sensitivity to using different data or definitions of recessions
+
+rm(list=ls())
+
+library(R.matlab)
+
+## GSW data
+gsw <- readMat("../AEMS_original/GSW.mat")[[1]]
+mats <- gsw[1,-1]
+Y <- log(1 + gsw[-1, -1]/100)  # log, annualized yields (not sure why they do that)
+str(data)

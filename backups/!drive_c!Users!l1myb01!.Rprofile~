@@ -1,0 +1,5 @@
+options(width=160)
+
+options(editor='C:/Program Files (x86)/emacs/bin/emacsclientw.exe')
+
+options(repos=structure(c(CRAN="http://cran.frb.gov/")))

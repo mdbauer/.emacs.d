@@ -1,0 +1,49 @@
+## for discussion of Amisano-Tristani
+
+rm(list=ls())
+require(latex2exp)
+source("loadData.R")
+graphics.off()
+
+df <- loadData()
+cat("Date range:", range(df$yyyymm), "\n")
+Y <- data.matrix(df[,attr(df, "yield.cols")])
+W <- eigen(cov(Y))$vectors[,1:3]
+df[paste0("PC", 1:3)] <- Y %*% W
+mats <- c(0.25, 0.5, 1:15)
+T <- nrow(Y)
+tbl <- data.frame(matrix(NA, 11, 7))
+tbl[,1] <- sprintf("%-15s", c("PC1", "",
+                              "PC2", "",
+                              "PC3", "",
+                              "$\\pi_t^\\ast$", "",
+                              "$r_t^\\ast$", "",
+                              "$R^2$"))
+h <- 1
+df$xr.avg <- 0
+for (n in 2:15) {
+    nmh <- ifelse(h==1, n, n-1) # approximate n-h - yield if quarterly change
+    xrn <- c(-(n-h/4)*Y[(1+h):T, mats==nmh] + n*Y[1:(T-h), mats==n] - h/4*Y[1:(T-h), mats==h/4], rep(NA, h))
+    df$xr.avg <- df$xr.avg + xrn/14
+}
+mod <- lm(xr.avg ~ PC1 + PC2 + PC3 + pistar.ptr + rstar.mean, df)
+df$xr.hat <- c(mod$fitted, rep(NA, h))
+
+##dev.new()
+pdf("returns.pdf", width=7, height=5, pointsize=10)
+par(mar=c(3,4,1,1))
+cols <- c("steelblue", "black")
+lwds <- c(1,3,2,2)
+plot(df$date, df$xr.avg, type="l", col=cols[1], lwd=lwds[1], xlab="", ylab="Annualized percent", main="", xaxs="i")
+plotRecessions(par("usr")[3:4])
+lines(df$date, df$xr.avg, col=cols[1], lwd=lwds[1])
+lines(df$date, df$xr.hat, col=cols[2], lwd=lwds[2])
+legend("topright", c("realized", "expected"), col=cols, lwd=lwds, bg="white")
+abline(h=0, lty=2)
+text(as.Date("1985-1-1"), -14,
+     TeX("$\\bar{rx}_{t+1} = b_0 + b_1 L_t + b_2 S_t + b_3 C_t + b_4 \\pi^{*}_t + b_5 r^{*}_t + u_{t+1}"),
+     adj=0, cex=1.3)
+dev.off()
+
+cat("Mean excess return:", mean(df$xr.avg, na.rm=TRUE), "\n")
+cat("SD of fitted excess returns:", sd(df$xr.hat, na.rm=TRUE), "\n")

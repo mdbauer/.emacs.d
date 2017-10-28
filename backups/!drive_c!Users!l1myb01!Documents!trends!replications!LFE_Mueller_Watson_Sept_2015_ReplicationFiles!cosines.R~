@@ -1,0 +1,10 @@
+Phi_j <- function(s, j)
+    sqrt(2)*cos(j*s*pi)
+
+T <- 100
+
+S <- 0
+for (t in 1:T)
+    S <- S+Phi_j((t-.5)/T, j=2)
+
+print(S)

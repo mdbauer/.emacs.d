@@ -1,0 +1,111 @@
+## some alternative specifications with i*
+## findings:
+## - using PCs of detrended yields helps a lot
+## - though doesn't work quite as well as leaving it unrestricted
+## - maybe more ROBUST to use detrended yields instead of unrestricted
+
+rm(list=ls())
+require(xtable) # xtable()
+source("R/trends_fns.r")
+source("R/bootstrap_fns.r")
+
+makePCs <- function(Y, detrend = c(0,1,2), N=3) {
+    if (detrend == 1) {
+        Y <- Y - df$pistar.ptr
+    } else if (detrend == 2) {
+        Y <- Y - df$pistar.ptr - df$rstar.mean
+    }
+    W <- eigen(cov(Y))$vectors[,1:N]
+    Y %*% W
+}
+
+addAllPCs <- function(df, Y) {
+    if (missing(Y))
+        Y <- data.matrix(df[yield.cols])
+    df[paste0("PC", 1:3)] <- makePCs(Y, detrend = 0)
+    df[paste0("PC", 1:3, "cpo")] <- makePCs(Y, detrend = 1)
+    df[paste0("PC", 1:3, "d")] <- makePCs(Y, detrend = 2)
+    df
+}
+
+getR2 <- function(df) {
+    sapply(list(lm(xr.avg ~ PC1 + PC2 + PC3, df),
+                lm(xr.avg ~ PC1 + PC2 + PC3 + pistar.ptr, df),
+                lm(xr.avg ~ PC1 + PC2 + PC3 + pistar.ptr + rstar.mean, df),
+                lm(xr.avg ~ PC1cpo + PC2cpo + PC3cpo, df),
+                lm(xr.avg ~ PC1d + PC2d + PC3d, df)),
+           function(mod) summary(mod)$r.squared)
+}
+
+h <- 4  # holding period
+to.latex <- FALSE
+
+tbl1 <- data.frame(matrix(NA, 10, 3))
+tbl1[,1] <- sprintf("%-45s", c("Yields only", "",
+                              "Yields and $\\pi^\\ast_t$", "",
+                              "Yields, $\\pi^\\ast_t$ and $r^\\ast_t$", "",
+                              "Yields detrended by $\\pi^\\ast_t$", "",
+                              "Yields detrended by $\\pi^\\ast_t$ and $r^\\ast_t$", ""))
+colnames(tbl1) <- c("Specification", "Original sample", "1985-2015")
+rows <- c(1,3,5,7,9)
+tbl2 <- tbl1[-c(1,2),]
+rows2 <- c(1,3,5,7)
+
+for (subsample in c(FALSE, TRUE)) {
+    df <- loadData()
+    if (subsample)
+        df <- df[df$yyyymm >= 198501, ]
+    cat("Date range:", range(df$yyyymm), "\n")
+    yield.cols <- attr(df, "yield.cols")
+    Y <- data.matrix(df[yield.cols])
+    attr(df, "W") <- eigen(cov(Y))$vectors[,1:3] # needed for bootstrap
+    mats <- c(0.25, 0.5, 1:15)
+    attr(df, "mats") <- mats
+
+    ## calculate excess returns
+    T <- nrow(df)
+    for (n in 2:15) {
+        nm <- paste0("xr", n)
+        df[nm] <- c(-(n-h/4)*Y[(1+h):T, mats==ifelse(h==1, n, n-1)] + n*Y[1:(T-h), mats==n] - h/4*Y[1:(T-h), mats==h/4], rep(NA, h))
+    }
+    df$xr.avg <- rowMeans(as.matrix(df[paste0("xr", 2:15)]))
+
+    ## PCs of yields
+    df <- addAllPCs(df, Y)
+
+    ## data
+    col <- 2 + subsample
+    R2 <- getR2(df)
+    tbl1[rows, col] <- sprintf("%4.2f", R2)
+    tbl2[rows2, col] <- sprintf("%4.2f", R2[-1]-R2[1])
+
+    ## bootstrapping
+    varnames <- c("pistar.ptr", "rstar.mean")
+    dgp <- getBootDGP(c("PC1", "PC2", "PC3"), varnames, df, BC=TRUE)
+    M <- 5000
+    cat("# Simulating bootstrap samples: T =", T, ", M =", M, "...\n")
+    R2boot <- matrix(NA, M, 5)
+    for (b in 1:M) {
+        simData <- simulateData(dgp, T, h)
+        if (h==4) {
+            simData$xr.avg <- simData$xr.a
+        } else {
+            simData$xr.avg <- simData$xr.q
+        }
+        simData <- addAllPCs(simData)
+        R2boot[b,] <- getR2(simData)
+    }
+    tbl1[rows+1, col] <- apply(apply(R2boot, 2, quantile, c(.025, .975)), 2, function(x) sprintf("(%4.2f, %4.2f)", x[1], x[2]))
+    dR2boot <- R2boot[,2:ncol(R2boot)] - R2boot[,1]
+    tbl2[rows2+1, col] <- apply(apply(dR2boot, 2, quantile, c(.025, .975)), 2, function(x) sprintf("(%4.2f, %4.2f)", x[1], x[2]))
+    print(tbl1)
+    print(tbl2)
+}
+
+tbl <- data.frame(tbl1[c(1,2)], c("", "", tbl2[[2]]), tbl1[3], c("", "", tbl2[[3]]))
+
+sink("tables/returns_cycles.tex")
+print(xtable(tbl),
+      include.rownames=FALSE, include.colnames=FALSE, only.contents=TRUE,
+      sanitize.text.function=function(x){x}, hline.after=NULL)
+sink()

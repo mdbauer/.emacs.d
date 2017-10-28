@@ -1,0 +1,783 @@
+* policy discussion on r-star
+** preparation policy discussion
+1. Discuss and compare estimates
+a) To what extent is r* buffeted by transitory headwinds or permanent
+   shifts?
+b) How would r* have been affected by recent changes in financial
+   conditions (including the follar)?
+c) How is r* likely to evolve going forward?
+2. How do the above answers matter for the current setting of MP?
+  -> quite different estimates of r* and resulting real rate gap
+    - real rate currently 0.1 - 1.5 = -1.4
+    - real rate gap between -0.7 and 2.5% !
+  -> While they all imply a relatively low r*, they differ
+   significantly, so there are big differences in implications about
+   the current degree of policy accommodation.
+3. How much uncertainty about r* is there really?  Each individual
+   estimate is associated with large error bands. But, the various
+   methods point in the same direction and to a great extent the
+   uncertainty is whether the movements are highly persistent
+   vs. permanent.  If we focused instead on the effective r* over the
+   next 2-3 years, would there be broad agreement about the value?
+  - a lot of uncertainty about (a) current level, (b) persistent
+    vs. permanent, (c) if mean-reverting, about long-run mean (compare
+    LW and Hatzius-Stehn)
+  - large disagreements over where r* will be over the next 2-3 years
+4. What is the relationship between r* and optimal control (OC)
+   simulations. Any baseline forecast incorporates implicit
+   assumptions about the effective r* and the permanent r*.  So,
+   focusing on OC policy rather than Taylor rules does not escape the
+   r*issue, it’s just buried in the baseline forecast.  In other
+   words, if you think r* is highly uncertain, then that should show
+   up in very wide forecast confidence intervals.
+   - yes, this sounds right
+   - Do OC simulations even account for parameter/estimation uncertainty?
+** John's toughts on r-star
+[2015-10-21 Wed]
+- never want to use two-sided filter because policy-maker never has
+  that info in real time
+  - but maybe it's useful as an academic exercise?
+- if all estimates agree, that doesn't mean they're right, it could be
+  that we're just all equally fooled
+
+- all models agree r* is very low in the near term (2-3 years)
+- question is whether it will stay low going forward
+  - Bernanke thinks 0% is implausible
+  - John doesn't think so -- and he doesn't see any evidence that r*
+    will rise
+- r* has decreased in all models
+* Literature
+** White House paper
+https://www.whitehouse.gov/sites/default/files/docs/interest_rate_report_final.pdf
+blog post: https://www.whitehouse.gov/blog/2015/07/14/decline-long-term-interest-rates
+summary
+- decline in long-term interest rates over the past thirty years was
+  real, global, and unexpected
+- consistent with different theories
+- many factors suggest that long-run equilibrium interest rates have fallen
+  - lower potential output and productivity growth
+  - shifting demographics
+  - global "savings glut"
+
+notable points:
+- striking picture of global comovement of 10-year government yield
+  - increasing global integration
+- correlation in natural rates, real and nominal rates, and in risk
+  premia
+
+
+natural real rate:
+- foreign factors affect each country's natural real rate
+  - central banks try to track natural rate -> foreign factors affect
+    policy rate
+- key to answering question: why have interest rates fallen so much
+  - structural factors <=> natural rate
+- output and productivity growth
+  - forecasts are for lower growth; Pritchett and Summers particularly
+    pessimistic
+- demographics
+  - increase in higher-saving cohort (40-49) may depress interest
+    rates
+  - slower population growth
+- saving glut
+  - Bernanke - emerging market governments
+  - deleveraging
+- shortage of safe assets
+- secular stagnation
+- tail risks and uncertainty
+
+** Laubach-Williams and LW2
+r* concept: neutral real rate (and supposedly steady-state real rate)
+- Kalman filter
+  - very few variables, only short-term rate
+- my question: does this methodology really get at steady-state real
+  rate/long-run expectations? seems that it's a medium-term concept,
+  focused on whether policy was expansionary or contractionary
+
+current r* = -0.2%
+
+a) permanent shifts only
+b) would underestimate r* if tight financial conditions caused output
+   gaps
+c) expected to stay permanently low
+
+extension: mean-reversion in z
+- current r* = -0.1%
+- expected to revert back to 0.8%
+  - purely driven by potential growth estimate
+
+alternative: Hatzius-Stehn
+- presumably similar methodology
+- current r* = 0.1%
+- expected to revert back to 1.7%
+
+** Clark-Kozicki (2005) Estimating equilibrium real interest rates in real time
+We use a range of simple models and 22 years of real-time data vintages for the U.S. to assess
+the difficulties of estimating the equilibrium real interest rate in real time. Model specifications differ
+according to whether the time-varying equilibrium real rate is linked to trend growth, and whether
+potential output and growth are defined by the CBO’s estimates or treated as unobserved variables.
+Our results reveal a high degree of specification uncertainty, an important one-sided filtering problem,
+and considerable imprecision due to data uncertainty. Also, the link between trend growth and the
+equilibrium real rate is shown to be quite weak. Overall, we conclude that statistical estimates of the
+equilibrium real rate will be difficult to use reliably in practical
+policy applications.
+
+- pretty negative findings -- too much uncertainty
+- link between trend growth and eqbm real rate is weak
+
+** Pescatori and Turunen (2015) Lower for Longer: Neutral Rates in the United States
+current r* = 0.5%
+
+1. not quite clear whether z is integrated or not
+2. financial conditions not accounted for
+3. forecast that r* reverts back to 0.4-1.6 (obtained by plugging in
+   forecasts)
+*** Abstract
+We use a semi structural model to estimate neutral rates in the United States. Our
+Bayesian estimation incorporates prior information on the output gap and potential output
+(based on a production function approach) and accounts for unconventional monetary
+policies at the ZLB by using estimates of “shadow” policy rates. We find that our
+approach provides more plausible results than standard maximum likelihood estimates for
+the unobserved variables in the model. Results show a significant trend decline in the
+neutral real rate over time, driven only in part by a decline in potential growth whereas
+other factors (including excess global savings) matter. Neutral rates likely turned negative
+during the Global Financial Crisis and are expected to increase only gradually looking
+forward.
+*** my summary
+- basically Laubach-Williams
+extensions:
+  - model z_t specifically -- include change in EM surplus, equity premium,
+    and policy uncertainty
+  - use Bayesian estimation -- include prior information on the output
+    gap and potential growth based on production function approach
+    (CBO/Fed estimates of slack)
+  - use shadow rates instead of policy rates as an input
+- decompose decline in natural rate
+  - then decompose decline in Z
+
+** Curdia - briefing, Economic Letter and JME paper
+focus: natural (Wicksellian) real rate from DSGE model
+  - real rate that is consistent with economy at full employment and
+    with stable inflation
+- long-run mean r* is constant - 2.1%
+- transitory fluctuations due to gaps
+- positive real rate gap throughout the crisis and still near 2%
+- what should monetary policy do?
+  - follow natural rate plus response to inflation and output gaps
+    (almost optimal)
+
+current r* = -2.1%
+
+a) r* buffeted by transitory headwinds
+b) effects of financial conditions not taken into account
+  - r* might be artificially low if output gap is actually due to tight FC
+c) r* expected to slowly return to unconditional mean
+
+** Kiley (2015) "What Can the Data Tell Us About the Equilibrium Real Interest Rate?"
+focus: equilibrium real rate that corresponds to neutral monetary
+policy
+  - real rate that in the long run is consistent with aggregate
+    production at potential and stable inflation
+  - neutral real rate, steady-state real rate
+- include demand shifters in IS curve
+- extremely stable r*, almost no decline, actually increase since
+  crisis
+  -> quite implausible
+
+current r* = 1.25%
+
+a) r* permanently low (but not very low)
+b) financial conditions accounted for
+  - if gaps are high due to tight financial conditions then this is
+    not, like in other models, ascribed to a low value of r*
+c) forecast is for r* to remain at 1.25%
+
+** Lubik and Mathes (2015)
+- compare Laubach-Williams to TVP-VAR
+r* concept: steady-state real rate
+  - conditional long-run mean of r as implied by TVP-VAR parameters
+- somewhat similar evoluation since the 1980s as LW
+- quite implausible before 1980s
+- somewhat higher r* since crisis than LW
+  - somewhat higher real-rate gap
+
+current r* = 0.5%
+a) permanent shifts (parameters follow random walk)
+b) no accounting for financial conditions
+  - like in LW and Curdia, r* might be too low
+c) permanent
+
+** Johannsen-Mertens (2015) "Shadow Rates of Interest, Macroeconomic Trends, and Time-Varying Uncertainty"
+r* concept: steady-state real rate
+- estimation using multivariate unobserved components time series
+  model
+  - trend inflation, trend growth, natural rate of unemployment, and
+    trend real shadow rate are unobserved and filtered using Bayesian
+    methods
+  - stochastic volatility in potential output, output gap, and nominal
+    rate gap
+  - data: unemployment, real growth, PCE inflation, 3m T-Bill rate
+- nominal short rate is max of 0 and shadow short rate rate
+- *shadow* short rate has trend component
+  - note that infinite expectation of i* - r is much higher than that
+    of i - r due to max operator
+  - which one are we really interested in?
+
+current level of r* = 0.5%
+a) permanent factors holding down r* (random walk in trends)
+b) doesn't account for financial conditions
+c) permanently low
+
+** Other estimates of r-star
+*** Bomfim (1997)  "The equilibrium Fed funds rate and the indicator properties of term-structure spreads," Economic Inquiry
+*** Neiss and Nelson (2003)  "The real-interest-rate gap as an inflation indicator," Macroeconomic Dynamics, 7
+*** Brzoza-Brzezina (2003) "Estimating the natural rate of interest: A SVAR approach," Working Paper 27, National Bank of Poland.
+*** Brzoza-Brzezina, M. and J. Kotłowski (2014), "Measuring the natural yield curve," Applied Economics
+*** BoJ: The natural yield curve: its concept and measurement
+http://www.boj.or.jp/en/research/wps_rev/wps_2015/data/wp15e05.pdf
+**** Abstract
+This paper illustrates the concept of the natural yield curve and how to measure
+it. The natural yield curve extends the idea of the natural rate of interest defined
+at a single maturity to one defined for all maturities. If the actual real yield
+curve matches the natural yield curve, the output gap will converge to zero. An
+empirical analysis using data for Japan shows that past monetary easing
+programs expanded the gap between the actual real yield curve and the natural
+yield curve mainly for short and medium maturities and led to accommodative
+financial conditions. By contrast, the quantitative and qualitative monetary
+easing policy has expanded the gap for long maturities as well as short and
+medium maturities. The natural yield curve is expected to provide a useful
+benchmark in the conduct of both conventional monetary policy and
+unconventional monetary policy aiming to influence the entire yield
+curve.
+**** my thoughts
+- does it make sense to have r* at different maturities?
+- r* refers to short-term interest rate
+- I'm sympathetic to the point that maturities of course matter --
+  monetary policy is not just about the short rate!
+**** method
+- natural level, slope and curve
+- somehow output gap pins down all three
+
+*** Cuaresma et al. (2004)  "Searching for the natural rate of interest: A euro area perspective," Empirica
+*** Barsky et al. (2014). "The natural rate of interest and its usefulness for monetary policy," American Economic Review
+http://www.aeaweb.org/aea/2014conference/program/retrieve.php?pdfid=1047
+- use DSGE model to estimate natural rate -- Smets-Wouters plus
+  additional features
+  - note: this is a short-run concept of the natural rate
+  - incorporate forward guidance -- target and path factors
+- gives a volatile and procyclical series
+- although there is no divine coincidence, natural rate still useful
+  summary statistic for monetary policy
+- quasi-Wicksellian rule--MP tracks natural rate--achieves excellent
+  outcomes
+- implementable?
+  - ZLB would have bound in all three recessions in the sample
+    - maybe forward guidance can go part of the way -- raise inflation
+      expectations, lower real short rate into negative territory
+  - would need real-time estimates of this latent variable
+    - but one-sided estimates are reasonably close
+    - may not even make such a big difference by treating all
+      fluctuations as efficient or inefficient
+=> very useful summary for monetary policy, despite some caveats
+*** King and Low (2014) "Measuring the 'world' real interest rate," NBER Working Paper
+http://www.nber.org/papers/w19887
+
+Over the past couple of decades, and especially since the financial
+crisis in 2008-09, real interest rates have collapsed. For much of the
+past two years they have been negative, but they have been trending
+down for some while. But how far have real rates fallen? This note
+computes a measure of the “world” real interest rate and, where
+possible, a measure of the implied future real rate. It also makes
+public our estimates of the “world” real interest rate so they can be
+used by other researchers.
+
+- construct global ten-year real bond yield
+  1. simple average across yields
+  2. weight according to GDP
+- time series 1985 to 2013
+- U.S. real rate might underestimate world rate if safe haven
+
+*** JP Morgan "A simple view of the neutral fed funds rate" 2015/09/11
+- only use data on funds rate and unemployment
+  - no need to use GDP or potential GDP
+  - no use of inflation
+- this approach estimates one constant r-star?
+  - not quite -- 5.9% r-star during 1990s tightening
+  - (ad hoc) shift of regression line motivated by average annual change
+    at zero funds rate (intercept); assume slope of line has not
+    changed
+- caveats
+  - large standard errors (0.9ppt)
+  - assumption of linearity
+  - assumption that slope has not changed
+
+** Taylor and Wieland - critique of r-star estimates
+"What appear to be trends in the eqbm interest rate may instead be
+trends in other policy variables."
+"methods...are misleading because they do not incorporate other
+shifts---such as changes in potential GDP"
+
+** Gourinchas and Rey (2016) Real Interest Rates, Imbalances and the Curse of Regional Safe Asset Providers at the Zero Lower Bound
+- consumption-wealth ration predicts future real rates
+-> but overlapping returns and serial correlation make this predictive
+regression unreliable!
+** Summers (2013)
+** Hakkio and Smith (2017) link between term premium and r*
+paper [[file:~/Documents/Papers/H/Hakkio%20and%20Smith%20(2017)%20Bond%20Premiums%20and%20the%20Natural%20Rate%20of%20Interest.pdf][here]]
+- both of their estimates are exceedingly cyclical
+  - is this a reason to discard them?
+- "Our results suggest bond premiums are an important determinant
+of the natural real rate and lead to highly cyclical estimates"
+- theoretical links between natural rates and risk premiums in
+  Smets-Wouters and Woodford-Curdia
+- paper isn't clear about what definition of r* they are using
+** Beyer and Wieland (2017) Instability, Imprecision and Inconsistent Use of Equilibrium Real Interest Rate Estimates
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2941513
+** Cukierman (2016) Reflections on the Natural Rate of Interest, its Measurement, Monetary Policy and the Zero Lower Bound
+- argues that we should estimate a "risky natural rate"
+- recent post crisis estimates of the riskless natural rate are likely
+  to be biased downward
+
+* Literature research: time-varying policy rule, in particular time-varying intercept
+-> this is essentially what an estimate of r* implied by policy rule
+is
+** Kim and Nelson (2006, JME) Estimation of a forward-looking monetary policy rule: A time-varying parameter model using ex post data
+http://dept.ku.edu/~empirics/Emp-Coffee/Kim-Nelson_2006.pdf
+- use forward-looking variables in policy rule
+  - endogeneity since future economic variables correalted with the
+    disturbance term
+  - apply Kim’s (2006) TVP-with-endogenous-regressors model, and
+    extended in two directions (nonlinearities and heteroskedasticity)
+- they provide estimates of the time-varying intercept. It has
+  increased since 1980. Estimates end in 2001
+
+** Boivin (2006) Has U.S. monetary policy changed? Evidence from drifting coefficients and real-time data.
+http://www.jstor.org/stable/3839002
+Boivin, J., 2006. Has U.S. monetary policy changed? Evidence from drifting coefficients and real-time data.
+Journal of Money, Credit, and Banking 38 (5), 1149–1179
+
+** Sims and Zha (2006) Were there regime switching in U.S. monetary policy rule?
+- widely cited, over 1200 cites!
+Sims, C.A., Zha, T., 2006. Were there regime switching in U.S. monetary policy rule? American Economic Review
+96 (1), 54–81.
+- best-fitting model has only variances switch between regimes
+** Sims (2001) Stability and instability in US monetary policy behavior
+unpublished
+https://pdfs.semanticscholar.org/82d5/1180ccd20102d0a589ad360ecc2ba1766a48.pdf
+
+** Trehan and Wu (2007, JEDC) Time-Varying Equilibrium Real Rates and Monetary Policy Analysis
+- use versions of LW to estimate r*
+- analyze how time-varying productivity growth and r* matters for
+  Taylor rule
+** Taylor and Wieland (2016) Finding the Equilibrium Real Interest Rate in a Fog of Policy Deviations
+- apparent trends in r* may in fact be trends in other policy variables
+  - "recent changes in policy variables have deepened the fog"
+  - many IS curve shifters (x*) are omitted in LW models
+  - omitted policy rule with shocks (d*)
+- don't adjust r* in policy rule without also shifting potential GDP
+  and other trends
+
+* Literature on Global DTSMs/interactions
+Question: How global is the equilibrium real rate?
+Estimate r* in several countries (including via shifting endpoint term
+structure models) and examine correlations.
+** ! Jotikasthira, Le, Lundblad (2015, JFE) Why do term structure in different currencies co-move?
+http://www.sciencedirect.com/science/article/pii/S0304405X14001883
+risk premium fluctuations important for long-maturity yields
+ -> claim that under EH we wouldn't observe such covariation
+world inflation and US yield level together explain over two-thirds of the covariance of yields at all maturities
+BUT: if r-star (and pi-star) co-move across countries, then expectations can explain comovement!
+
+** Diebold-Li-Yue
+http://www.ssc.upenn.edu/~fdiebold/papers/paper74/dly.pdf
+** Kaminska, Meldrum, Smith (2013, IJFE)
+http://onlinelibrary.wiley.com/doi/10.1002/ijfe.1468/full
+** Dahlquist and Hasseltoft (2013) International Bond Risk Premia
+http://www.sciencedirect.com/science/article/pii/S0022199612002024
+ term structure model where global and local factors drive risk premia
+** methodology: Moench, Ng, Potter (REStat, 2013) Dynamic Hierarchical Factor Models
+http://www.mitpressjournals.org/doi/abs/10.1162/REST_a_00359#.VhQAOy5VhBc
+
+** (from JW) World Asset Markets and the Global Financial Cycle
+** (from JW) Mesonnier-Renne -- A time-varying ‘‘natural’’ rate of interest for the euro area
+** Abbritti et al (2013) Global Factors in the Term Structure of Interest Rates
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2365841
+- use FAVAR and affine model
+- establish link between global level and global expected inflation
+  factor
+
+** Sutter (2000)
+- shows international correlation in excess bond returns
+  - cited a lot in JLL
+** Egorov, Li, Ng (JE, 2011) A tale of two yield curves: Modeling the joint term structure of dollar and euro interest rates
+* Literature Bayesian estimation of UC models
+- one page in Harvey (2006) Sec 6.7
+- classical contributions to estimation of state-space models:
+  - Carter and Kohn (1994)
+  - Fruehwirth-Schnatter (2004)
+- simulation smoother speeds up computation
+  - de Jong and Shephard (1995) The simulation smoother for Time
+    Series Models
+  - Durbin and Koopman (2002)
+- Koop and van Dijk (2000) signal-noise ratio between zero and one
+  - variances/signal-to-noise ratio
+  - good discussion of MCMC methods
+  - but their model is weird: not canonical UC model
+- Harvey, Trimbur, van Dijk (2006)
+  - non-informative priors on variances
+  - cyclical component is multi-level cycle
+- Luginbuhl and de Vos (1999, JBES) Bayesian Analysis of an
+  Unobserved-Component Time Series Model of GDP with MarkovSwitching
+  and Time-Varying Growths
+- Cogley and Sargent (2005)
+- Cogley, Primiceri, Sargent (2010)
+  - autocorrelation in inflation gap
+- Cogley and Sargent (2015)
+  - UCSV (Stock and Watson, 2007) for true inflation plus serially
+    correlated measurement error
+  - data 1850-2012, inflation with measurement before 1948, w/o
+    measurement error after 1990, in-between period: observe both
+    series
+  - estimation pretty standard MCMC, very close to Cogley and Sargent
+    (2005) -- they have a detailed appendix
+- Shephard (2013) Martingale Unobserved Components Models
+
+- West and Harrison (1997), section 15.3
+  - follows West (1996a,c 1997)
+  - this is *exactly* the model I have been estimating, with a slight
+    generalization allowing for fixed and known variance weights
+    lambda_t in the measurement error
+- West (1996a) Bayesian time series: Models and computations for the
+  anlaysis of time series in the physical sciences
+- West (1996c) Modelling and robustness issues in Bayesian time series
+  analysis
+- West (1997) Time series decomposition
+
+also relevant: choice of prior for variance -- see [[file:~/Documents/Papers/G/Gelman%20(2006)%20Prior%20distributions%20for%20variance%20parameters%20in%20hierarchical%20models.pdf][Gelman (2006)]]
+
+* Different ways to estimate r-star
+** univariate models or time series filters
+*** motivation
+- it's a puzzle why univariate methods don't seem to work for the real
+  rate
+- if they worked then people would have used them
+- John Williams for example has found that they don't work well
+- I have found that the UCSV filter (which Ben Pyle ran for me)
+  attributes all of the real rate to trend
+
+*There might be a simple fix or a better univariate model that allows
+us to filter out the trend component of the real interest rate.*
+
+*** time series properties of the real rate
+- [[http://www.eui.eu/Documents/DepartmentsCentres/Economics/Seminarsevents/Beaudry-Paper.pdf][Beaudry, Galizia and Portier (2016)]] estimate the spectrum of the ex
+  post real rate (see figure 11
+  - they find a peak around 32-40 quarters
+  - their method: nonparametric power spectral density estimate, first
+    discrete fourier transform (frequency resolution of 125.59 pHz),
+    then smoothing with Hamming kernel (see page 7; they refer to
+    appendix but that doesn't contain information on density
+    estimation)
+  - their data: three month fed funds rate minus realized inflation
+    over holding period
+- what is different in the spectrum of the real rate from the spectrum
+  of the inflation rate?
+  - how do the spectral densities look different?
+  - what if you run both through bandpass filter -- does inflation
+    behave substantially different than the real rate?
+
+*** simple cyclical adjustment using Okun's law
+- simliar to Fernald, Hall, Stock, Watson
+
+*** state space model using Taylor rule for cyclical adjustment
+- primarily: output gap (inflation gap is secondary)
+- this is very different from Laubach-Williams
+  - LW: r>r* if economy subsequently grows *slower*
+  - here: r>r* if economy currently grows *faster* (than trend)
+
+** (univariate) UC model for real rate
+** simple cyclical adjustment (regression)
+- use [[file:~/Papers/F/Fernald,%20Hall,%20Stock,%20Watson%20(2017).pdf][Fernald-Hall-Stock-Watson]] approach to cyclically adjust real
+  rate
+** DONE Hamilton projection to estimate r*
+ - replicate results in his paper on GDP, employment, unemployment
+   rate, fed funds rate and real rate
+ - does the real rate trend look reasonable?
+ - cross-correlations of r-r* and UR-UR*--do they make sense?
+* Bayesian analysis in R
+** MCMCpack
+http://mcmcpack.berkeley.edu/
+paper: https://www.jstatsoft.org/article/view/v042i09
+
+** DLM
+https://cran.r-project.org/web/packages/dlm/index.html
+Vignette: https://cran.r-project.org/web/packages/dlm/vignettes/dlm.pdf
+- reliable filtering and smoothing and FFSB for quite general state
+  space models
+- can combine this with own code for drawing the parameters
+
+* Next actions
+** TODO reproduce Del Negro et al's r* estimate
+improvements for estimation
+- use KFAS for simulation smoother
+- make sure I know what I am doing for initial values OR just don't draw period t values
+
+observations:
+- both r* and pi* look very different from those in the paper
+- all trends more variable and *much* wider confidence intervals
+- trends don't capture low-frequency movements in the data
+  - still Phi (F) doesn't have very large eigenvalues
+
+drill down to understand what I'm doing wrong
+- convergence of estimates: trace plots of parameters, efficiency
+  factors/effective sample size
+- check why variance of r* innovation is large
+  - compare to prior
+  - am I implementing the prior right?
+- am I drawing the VAR parameters right? this is where an error could
+  easily hide
+
+plotting:
+- inner margin
+- tick marks
+
+** TODO specify new DTSM
+** TODO read r* papers every day
+** TODO estimate r* as time-varying intercept in policy rule--MLE + MCMC
+* Other actions
+** TODO estimate UC model using MCMC *and* MLE
+need to reconcile MLE and MCMC estimates of UC model for r*!
+*** MLE
+- similar problems as with models for inflation trend
+  - specification uncertainty about p (and q)
+  - in some cases pile-up problem
+- could try Stock-Watson MUE to avoid pile-up problem
+
+*** open issues/next steps
+- why are MLE and MCMC estimates not the same?
+  - is there a pile-up problem?
+  - do I have an error in my code?
+  - with less informative priors for variances and phi, do I get closer?
+- largest root under MLE vs. MCMC
+  - is MLE (p=4) really stationary?
+  - look at distribution of largest root
+- specification without measurement error?
+  - note: with very small or zero measurement error variance, FFSB
+    does not work
+*** model choice/model diagnostic
+  - include p as hyperparameter to be estimated?
+  - or calculate Bayes factors/posterior model probability
+  - compare conclusions to AIC/BIC from MLE
+*** TODO use DLM package to estimate UC model
+** DONE cyclical adjustments using Okun's law/policy rules
+** TODO generalized cyclical adjustment using (something like) first-difference policy rule
+** TODO Bayesian and ML estimation of Laubach-Williams
+** TODO work with UCSV model
+*** TODO replicate and understand estimates for inflation
+*** TODO apply to real rate
+*** TODO extend to UC+ARMA for other project
+*** literature
+ related:
+ - Kim, Shepard, Chib (1998)
+
+ multivariate extension (Stock and Watson, 2016)
+ - Del Negro and Otrok (2008) was extended by Stock and Watson
+   "to have permanent and transitory components"
+
+ multivariate stochastic volatility - see overview in Koop's slides:
+ - diagonal covariance matrix - simple
+ - Cogley and Sargent (2005, RED)
+ - Primiceri (2005, ReStud)
+
+** TODO international model
+* DTSM to estimate r* - big picture
+goals:
+- robust DTSM with shifting endpoints
+- produces estimates of r*
+- plausible term premium
+
+** notes from earlier
+Focus: connect simple, illustrative model to CPo model and results
+1. model with i*
+   - parallel CPo model
+   - explain CPo cycles
+   - expected excess returns
+2. model with r* and pi*
+   - cycles, excess returns
+3. fully fledged model that can fit yields, observed r* and pi*
+
+- no-arbitrage model for real and nominal yields that has stochastic
+   trends r* and pi*
+- don't worry about identification for now
+- just work out the math for a model with shifting endpoints under Q
+   and P
+   -> we definitely need shifting endpoints under both measures
+- start with general model affine model, no restrictions at all, if
+   possible
+
+key questions:
+- what do equations for real and nominal short rates look like?
+- under what conditions is the endpoint the same under Q and P?
+  - think about whether they *should* be the same
+
+then, after I understand the model well:
+How to impose normalizing restrictions and estimate this model?
+
+** new ideas
+- reduced form model may or may not be sufficient
+  - it would look like del Negro et al's common trends model, plus
+    absence of arbitrage
+- we could also add *stochastic volatility*
+- (partially) structural model may be necessary to obtain
+  Laubach-Williams type of r* estimate
+  - New Keynesian model with SDF and yield curve AND r*
+  - expanding on Ireland / HTV / BCM models
+- what would be truly ground-breaking is an *international model*
+  in which a global factor drives covariation in r* across countries
+
+* parallelization of estimation
+so far, simply use R package "parallel", makeCluster(),
+exportCluster() etc, to use multiple nodes on cn16
+command:
+ nohup Rscript myscript.R &
+** parallelize with rslurm
+- need R version 3.2 on cluster
+  - available on c16a in /usr/local/R-3.2.5/bin
+- but /usr/local/R-3.2.5/bin/Rscript is not working when called on
+  slurm
+  - presumably because it's not installed on all nodes
+=> just understand how rslurm works -- it's pretty transparent
+=> but then use Slurm directly -- rslurm package is not needed
+
+** parallelize with Slurm directly
+- parallel script: estimate once and save results
+- afterwards:
+  - aggregate estimation results
+  - pick best and further optimize
+  - look at DTSM implications
+- use ideas from rslurm package for how to write R and submission
+  scripts, and how to make objects available on nodes
+
+issues -- Darrin:
+- only a few nodes on Slurm - what happened to the other ones?
+- Rscript not available
+- some nodes (e.g., cn4) password protected, so can't test
+  availability of commands
+
+Hi Darrin,
+
+It looks like you made some changes to the Slurm cluster. Some of the
+tests that I had run (and which I included in the user guide) are not
+working anymore. Could you comment on each of these and explain why
+they are necessary or whether you can revert these changes?
+
+* Simple DTSM from trends paper
+specification see notes 6/26-6/27
+
+KEY QUESTION: is this model useful as a starting point?
+** computation/estimation
+*** does gradient-based estimation (BFGS) work?
+*** EM algorithm -- is it applicable despite nonlinear problem?
+*** running on Linux
+ nohup: http://linux.101hacks.com/unix/nohup-command/
+ screen: https://stat.ethz.ch/pipermail/r-help/2010-October/255880.html
+  - disconnect from the screen with Ctrl-A Ctrl-D
+
+** results - baseline
+- good fit, reasonable results
+  - looks like I fixed all the bugs
+- rstar volatile
+  - expectations component and r* used to fit long-term yields
+- term premium stable
+
+-> this is pretty implausible. We need a term premium that captures
+variation in long-term rates
+
+** results - observed r*
+would be a nice and easy way to incorporate observed
+- forces r* to match estimates of r* (e.g., average of three
+  estimates)
+  -> ends up matching Kiley's estimate very closely, not others (not
+  cleary why)
+- model then uses pi* to match long-term yields
+- model gives up on PTR (matched as poorly as LW/LM r*)
+- term premium stable; wiggles only a little bit, yields driven mainly
+  by i*
+
+when imposing that all three m.e. variances for r* are the same
+- back to fitting PTR exactly, r* used to fit yields, model gives up
+  on trying to fit observed r*
+- term premium essentially constant
+
+** How could this model need to be generalized?
+- correlation between shocks
+- risk pricing
+
+* TODO Policy rules to estimate r*
+Estimate r* as time-varying intercept in policy rule (time-varying intercept)
+- simplest case: just output gap
+- regular policy rule: output gap and inflation gap
+- idea: the better we can explain/predict the policy rate, the more credible
+  the cyclical adjustment
+  - many predictors? dynamic factor model?
+** discussion with John Williams
+[2017-06-05 Mon]
+- they thought about doing it this way
+  - in LW including a policy rule would be nice since they would have
+    r* show up in two different equations
+- agrees with my argument that there is a big benefit because the
+  policy rule is estimated more precisely
+  - by contrast, coefficient in IS curve is estimated imprecisely,
+    which is the reason why you get a lot of uncertainty around r*
+  - in the policy rule (with inertia), 1-rho would multiply intercept,
+    but that's estimated a lot more precisely
+- but there are a number of problems
+  - time-varying pi*
+    - people have estimated policy rules with time-varying pi*
+    - this is part of the intercept, so the intercept varies for (at
+      least) two reasons and this is hard to separate out
+    - possible remedy: include observed pi* from surveys
+  - time-varying response coefficients
+    - a lot of work argues that response of the Fed to inflation has changed
+    - so may need to account for this instability
+  - zero lower bound
+- right now, back of the envelope calculation suggests that r is
+  0.25=0.5 (inflation gap) x 0.5 (response coeff) pp below r*
+- probably need to account for inertia
+  - right now this would be important, r-r* is probably below 0.25 due
+    to monetary policy inertia
+- agrees with my suggestion that having more predictors, a better
+  (predictive) model for monetary policy, would give better estimates
+  of r*
+- agrees that the policy-maker-perceived r* is different from
+  economy-neutral r* (as in LW). notes that Del Negro et al estimate
+  market-perceived r*
+** specification of actual rules
+https://www.federalreserve.gov/monetarypolicy/2017-07-mpr-part2.htm#xmonetarypolicyrulesandtheirroleinth-e8fb8472
+** literature difference rules
+- Orphanides and Williams (2002, BPEA)
+- Cleveland fed compares different policy rules
+  https://www.clevelandfed.org/en/newsroom-and-events/publications/economic-commentary/2016-economic-commentaries/ec-201607-federal-funds-rates-from-simple-policy-rules.aspx
+  - for first-difference rules they cite Orphanides and Williams
+    (2008, 2013)
+  - inflation gap based on inflation forecast
+  - change in UR is lagged
+- Orphanides and Williams (2007a) Inflation targeting under imperfect knowledge
+- Orphanides and Williams (2007b, JME)
+- Orphanides, Athanasios, and John C. Williams, 2008. “Learning,
+  Expectations Formation, and the Pitfalls of Optimal Control Monetary
+  Policy,” Journal of Monetary Economics, 55(Supplement): S80-S96.
+  - footnote 12 mentions studies on policy rules that respond to price
+    level instead of inflation; first-difference rule is the
+    differenced version of such a rule
+  - two simple rules:
+  - (1) Levin-Wieland-Williams rule: Di depends on forecast inflation
+    gap and lagged unemployment gap
+  - (2) OW (2007a) *first-difference rule*: Di depends on forecast inflation gap
+    and lagged Du
+- Orphanides, Athanasios, and John C. Williams, 2013. “Monetary Policy
+  Mistakes and the Evolution of Inflation Expectations,” in Michael
+  D. Bordo and Athanasios Orphanides, eds., The Great Inflation: The
+  Rebirth of Modern Central Banking. University of Chicago Press,
+  255-88.
+- Levin, Wieland, Williams (1999) Robustness of Simple Monetary Policy
+  Rules under Model Uncertainty

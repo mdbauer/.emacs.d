@@ -1,0 +1,99 @@
+## construct interest rate data set
+
+rm(list=ls())
+
+## - yield data GSW
+##   - source http://www.federalreserve.gov/pubs/feds/2006/200628/200628abs.html
+## - T-Bill rates
+##   - source https://www.federalreserve.gov/datadownload/Choose.aspx?rel=H15
+##     ("selected interest rates", 3-month and 6-month TBill rates, business day)
+##   - bookmark: https://www.federalreserve.gov/datadownload/Download.aspx?rel=H15&series=faa149dc007940fb3f06a541e0491f5c&filetype=csv&label=include&layout=seriescolumn&from=01/01/1960&to=04/30/2017
+##   - save as FRB_H15_TB_3m6m.csv
+## - all saved as CSV in ~/Documents/data
+
+## daily yield file GSW
+gsw.mats <- 1:15
+gsw <- read.csv("../../data/feds200628.csv", skip=9)
+names(gsw)[1] <- "date"
+gsw <- gsw[,c(1, 1+gsw.mats)]
+gsw$date <- as.Date(gsw$date, format="%Y-%m-%d")
+gsw$dates <- as.numeric(format(gsw$date,"%Y%m%d"))
+gsw <- gsw[gsw$dates>19710000,]
+
+## load daily 3-month T-Bill file
+tbill <- read.csv("../../data/FRB_H15_TB_3m6m.csv", na.strings="ND", skip=5)
+tbill <- na.omit(tbill)
+names(tbill) <- c("date", "3m", "6m")
+tbill$date <- as.Date(tbill$date, format="%m/%d/%Y")
+tbill$dates <- as.numeric(format(tbill$date,"%Y%m%d"))
+
+dates <- intersect(tbill$dates, gsw$dates)
+cat("Start date: ", min(dates), "\n")
+cat("End date:   ", max(dates), "\n")
+
+mats <- c(.25,.5,gsw.mats)
+J <- length(mats)
+
+## construct daily data set
+cat("constructing daily data...\n")
+T <- length(dates)
+dates.daily <- dates
+Y.daily <- matrix(NA, T, J)
+for (t in 1:T) {
+  ## TBill rates
+  ind.tb <- which(tbill$dates==dates[t])
+  ind.gsw <- which(gsw$dates==dates[t])
+  Y.daily[t, ] <- c(as.numeric(tbill[ind.tb, 2:3]), as.numeric(gsw[ind.gsw, 1+gsw.mats]))
+}
+Y <- Y.daily
+save(file="gsw_data_daily.RData", Y, dates, mats)
+
+## construct monthly data - create end-of-month observations
+cat("constructing monthly data...\n")
+months <- unique(floor(dates/100))
+T <- length(months)
+Y.monthly <- matrix(NA, T, J)
+dates.monthly <- numeric(T)
+for (t in 1:T) {
+  ## get yields for month t
+  index.select <- (floor(dates/100) == months[t])
+  the.index <- max(which(index.select))
+  Y.monthly[t,] <- Y.daily[the.index,]
+  dates.monthly[t] <- dates[the.index]
+}
+
+Y <- Y.monthly
+dates <- dates.monthly
+save(file="gsw_data_monthly.RData", Y, dates, mats)
+
+M <- cbind(dates, Y)
+colnames(M) <- c("Date", paste0("y",mats))
+write.csv(M, file="yields_gsw_monthly.csv", row.names=FALSE)
+
+## construct quarterly data - create end-of-quarter observations
+cat("constructing quarterly data...\n")
+year <- floor(dates.daily/10000)
+month <- floor(dates.daily/100)-year*100
+quarter <- floor((month-1)/3)
+quarters <- unique( year*100 + quarter ) ## don't include last quarter
+quarters <- head(quarters,-1)
+T <- length(quarters)
+Y.quarterly <- matrix(NA, T, J)
+dates.quarterly <- numeric(T)
+for (t in 1:T) {
+  ## get yields for month t
+  index.select <- (year*100 + quarter) == quarters[t]
+  the.index <- max(which(index.select))
+  Y.quarterly[t,] <- Y.daily[the.index,]
+  dates.quarterly[t] <- dates.daily[the.index]
+}
+
+Y <- Y.quarterly
+dates <- dates.quarterly
+save(file="gsw_data_quarterly.RData", Y, dates, mats)
+
+M <- cbind(dates, Y)
+colnames(M) <- c("Date", paste0("y",mats))
+write.csv(M, file="yields_gsw_quarterly.csv", row.names=FALSE)
+
+plot(as.Date(as.character(dates.monthly), format="%Y%m%d"), Y.monthly[,mats==10], type="l", xlab="Date", ylab="Percent", main="10-year yield, monthly")

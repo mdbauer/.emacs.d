@@ -1,0 +1,42 @@
+## our general model with inflation cycle and real-rate gap
+
+plotLoadings <- function(rho.c = 0.9, rho.g = 0.8, rho.x = 0.9,
+                         lam.pistar = -0.03, lam.rstar = -.02,
+                         lam.c = 0.01, lam.g = 0.01,
+                         N = 120) {
+    B.pistar <- numeric(N+1)
+    B.c <- numeric(N+1) #
+    B.rstar <- numeric(N+1)
+    B.g <- numeric(N+1) #
+    B.x <- numeric(N+1)
+    B.pistar[1] <- 0
+    B.c[1] <- 0
+    B.rstar[1] <- 0
+    B.g[1] <- 0
+    B.x[1] <- 0
+    for (n in 2:(N+1)) {
+        B.pistar[n] <- -1 + B.pistar[n-1]
+        B.c[n] <- -1 + rho.c*B.c[n-1]
+        B.rstar[n] <- -1 + B.rstar[n-1]
+        B.g[n] <- -1 + rho.g*B.g[n-1]
+        B.x[n] <- B.x[n-1]*rho.x - B.pistar[n-1]*lam.pistar - B.c[n-1]*lam.c - B.rstar[n-1]*lam.rstar - B.g[n-1]*lam.g
+    }
+    B.pistar <- -B.pistar[2:(N+1)]/(1:N)
+    B.rstar <- -B.rstar[2:(N+1)]/(1:N)
+    B.g <- -B.g[2:(N+1)]/(1:N)
+    B.c <- -B.c[2:(N+1)]/(1:N)
+    B.x <- -B.x[2:(N+1)]/(1:N)
+    B <- rbind(B.pistar, B.c, B.rstar, B.g, B.x)
+
+    pdf("figures/loadings.pdf", width=7, height=6, pointsize=10)
+    cols <- c("black", "green", "steelblue", "red")
+    plot(1:N, B.pistar, ylab="Loadings", xlab="Maturity (months)", col=cols[1], ylim=range(B), type="l", lwd=2, lty=1)
+    lines(B.c, col=cols[2], lwd=2)
+    lines(B.g, col=cols[3], lwd=2)
+    lines(B.x, col=cols[4], lwd=2)
+    ## abline(h=0, lty=2)
+    legend("topright", c("pi*/r*", "c", "g", "x"), col=cols, bg="white", lwd=c(2,2,2,2,2))
+    dev.off()
+}
+
+plotLoadings()

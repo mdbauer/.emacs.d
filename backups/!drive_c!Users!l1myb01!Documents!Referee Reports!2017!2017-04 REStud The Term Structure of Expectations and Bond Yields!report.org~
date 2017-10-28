@@ -1,0 +1,109 @@
+#+TITLE: Referee Report on REStud Manuscript 23566 "The Term Structure of Expectations and Bond Yields"
+#+OPTIONS: toc:nil
+#+OPTIONS: date:nil
+#+LATEX_HEADER: \usepackage[left=3cm,right=3cm,top=2.5cm,bottom=3cm,verbose]{geometry}
+# #+LATEX_HEADER: \usepackage[verbose]{geometry}
+# #+LATEX_HEADER: \geometry{margin=1.5in}
+#+LATEX_HEADER: \usepackage{setspace}
+#+LATEX_HEADER: \onehalfspacing
+
+* Summary
+
+The paper fits a state space model to survey expectations of
+inflation, nominal rates, and output growth. The model features
+shifting endpoints which are related through a long-run Fisher
+equation. The data include surveys from various sources, and for a
+number of different horizons. The model is able to fit these survey
+expectations well. The paper then proceeds to calculate the term
+premium in long-term interest rates by substracting the average
+expected short rate implied by the model from observed yields. It
+turns out that this term premium explains most of the variation in
+interest rates, including the covariation of interest rates at
+different maturities. The paper contains additional analysis of the
+relationship between this estimated term premium and macro forecasts
+as well as structural macroeconomic shocks.
+
+* Evaluation
+
+The paper addresses one of the central issues of the term structure
+literature of the last several decades: What is the role of
+expectations and risk premia for the evolution and dynamics of
+long-term interest rates? The approach that the authors have chosen to
+answer this question, however, appears to take a step backward from
+the advances accomplished in this literature. Expectations are
+taken exclusively from surveys without any information from yields,
+and the links between expectations and asset prices that modern
+finance theory requires for absence of arbitrage are completely
+ignored. This stands in contrast to the promising and often successful
+efforts taken in the no-arbitrage term structure literature to combine the information in
+long-term yields with the information in surveys to understand the
+expectations of investors. Instead, the model presented in the paper
+is only a slight extension of existing models, like those proposed by Kozicki and
+Tinsley (2012) and Aruoba (2016), that are essentially methods to
+obtain a smooth path of expectations from surveys that contain missing
+observations and irregular horizons. In light of these points, the
+methodological contribution of the paper is only modest.
+
+What can we learn about macro-finance interactions and the term
+structure of interest rates using this model? The key finding of the
+paper is that the survey-based estimates of expectations actually
+explain very little of the variation in long-term interest rates. The
+authors interpret this finding as demonstrating the important role of
+the term premium. While that is one possible interpretation, the other
+way to phrase the result of the paper is that survey expectations are simply unsuccessful to
+explain variation in asset prices. But that is a result that we have
+known for a very long time, going all the way back to Shiller's results on excess
+volatility from the 1970s and 1980s. Fundamentals, and expectations of
+fundamentals, can only explain a small share of movements in asset
+prices, and it is well-known that this is true for long-term interest
+rates as well. The empirical results of the paper are perfectly in
+line with this conventional wisdom. The term premium is a residual
+from a model that does not do a good job to explain long-term yields,
+hence it captures most of the variation in these yields, including of
+course the pronounced comovements of yields across maturity. (As an
+aside, this has very little to do with Cochrane-Piazzesi's results as
+claimed by the authors, since Cochrane-Piazzesi documented the
+surprising and controversial fact that the /same/ linear combination of yields predicts
+bond returns for different maturities.)
+
+For these reasons I think that the paper in its current shape and
+form is making very little headway for the term structure
+literature and macro-finance, both in terms of methodology and
+empirical results. However, I still think the paper has potential, and
+in the following I make some suggestions that I believe would improve
+the paper:
+
+- The contribution is to model survey expectations of macro variables
+  and yields, but there is essentially no model validation other than
+  some notion that the model fits the surveys well. I encourage the
+  authors to challenge the model more and demonstrate its
+  usefulness. One idea is to test the restrictions that are imposed by
+  the Fisher equation. Another is to use the model for forecasting the
+  macro variables under consideration. Furthermore, the trends that
+  are extracted from the data may be compared to alternative estimates
+  of these trends, to assess their plausibility (e.g., the CBO's
+  estimate of potential GDP growth), i.e., to see whether the filtered
+  trends make economic sense.
+
+- The model could be used to provide some measures of uncertainty
+  around the estimated expectation paths (and estimated term
+  premia). Most readers would expect more discussion of disagreement
+  vs.~subjective uncertainty, as well as estimation/parameter
+  uncertainty underlying the model. Currently the paper almost
+  exclusively provides point estimates of the objects of interests,
+  and essentially ignores uncertainty.
+
+- The paper estimates subjective risk premia, in contrast to objective
+  risk premia that would be obtained from statistical models of
+  expectations. Piazzesi, Salomao and Schneider (2015) provide an
+  in-depth comparison of these risk premia and provide an economic
+  explanation of the differences (they find the same result as the
+  present paper, that subjective risk premia are not very volatile). I
+  recommend that the authors put their findings into this perspective,
+  and consider bringing objective risk premia into the picture and
+  discussion.
+
+- The authors should argue much more convincingly why they ignore
+  yields in their estimation of the expectations component, in
+  contrast to a large body of work that has found ways to incorporate
+  both surveys and asset prices to accomplish this task.

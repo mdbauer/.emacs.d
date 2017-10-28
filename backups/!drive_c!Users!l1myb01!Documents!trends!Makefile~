@@ -1,0 +1,54 @@
+filename = br_trends_20170627
+
+doc/v2/$(filename).pdf: doc/v2/$(filename).tex doc/v2/br_trends_appendix.tex doc/v2/br_trends_tables_figures.tex tables/reg.tex tables/detrended.tex tables/yield_forecasts.tex tables/returns.tex tables/returns_subsample.tex tables/returns_cycles.tex tables/vr.tex figures/data1.pdf figures/data2.pdf figures/cycles.pdf figures/tp.pdf figures/vr.pdf
+	cd $(@D);\
+	pdflatex $(filename);\
+	bibtex $(filename);\
+	pdflatex $(filename);\
+	pdflatex $(filename)
+
+## section 3
+figures/data1.pdf figures/data2.pdf: plot_data.R R/trends_fns.R
+	Rscript plot_data.R
+	pdfcrop figures/data1.pdf figures/data1.pdf
+	pdfcrop figures/data2.pdf figures/data2.pdf
+
+## section 4
+tables/reg.tex tables/detrended.tex: persistence.R R/trends_fns.R R/ur_tests.R
+	Rscript persistence.R
+
+## section 5 - forecasting
+tables/yield_forecasts.tex: yield_forecasts.R R/trends_fns.R
+	Rscript yield_forecasts.R
+
+## section 6 - excess returns
+tables/returns.tex tables/returns_subsample.tex: predict.R R/trends_fns.R R/bootstrap_fns.R
+	Rscript predict.R
+
+tables/returns_cycles.tex: predict_cycles.R R/trends_fns.R R/bootstrap_fns.R
+	Rscript predict_cycles.R
+
+figures/cycles.pdf: cycles.R R/trends_fns.R
+	Rscript cycles.R
+	pdfcrop figures/cycles.pdf figures/cycles.pdf
+
+## section 7 - term premium
+figures/tp.pdf: tp_var.R R/trends_fns.R
+	Rscript tp_var.R
+	pdfcrop figures/tp.pdf figures/tp.pdf
+
+## section 8 - variance ratios
+tables/vr.tex: variance_ratios.R R/trends_fns.R
+	Rscript variance_ratios.R
+
+figures/vr.pdf: variance_ratios.R R/trends_fns.R
+	Rscript variance_ratios.R
+	pdfcrop figures/vr.pdf figures/vr.pdf
+
+## presentation
+## - all figures for presentation are created automatically when figures for paper are creates
+## - two tables - detrended_y10_pres.tex and f510 are created automatically (persistence.R)
+## - remaining tables are created by hand: copying paper tables and adding highlighting
+
+## other stuff to automate
+## - create copies br_trends_YYYYMMDD.pdf and .tex

@@ -1,0 +1,27 @@
+\documentclass[12pt, oneside]{article}%
+\usepackage{booktabs}
+\usepackage{eurosym}
+\usepackage{dsfont}
+\usepackage{rotating}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage[colorlinks=true,citecolor=blue]{hyperref}
+\usepackage[left=2.4cm,right=2.4cm,top=2.4cm,bottom=3cm,verbose]{geometry}
+\usepackage{amsfonts}
+\usepackage{amssymb}%
+
+\bibliographystyle{econ}
+\onehalfspacing
+\newenvironment{changemargin}[1]{  \begin{list}{}{      \setlength{\topsep}{0pt}      \setlength{\leftmargin}{#1}      \setlength{\listparindent}{\parindent}      \setlength{\itemindent}{\parindent}      \setlength{\parsep}{\parskip}    }
+\item[]}{\end{list}}
+
+\begin{document}
+
+\bibliography{../../../literature}
+
+\include{br_trends_tables_figures}
+
+\end{document}
+

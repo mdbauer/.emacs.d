@@ -1,0 +1,20 @@
+#include <iostream>
+#include <cmath>
+
+#define N 10
+
+using namespace std;
+
+int main() {
+  int* x = new int(N);
+  for (int i=0; i<N; i++) {
+    x[i] = pow(3, i);
+    cout << x[i] << endl;
+  }
+  int* y;
+  y = x;
+  y[N-2] = 123;
+  cout << "Second-to-last element of x: " << x[N-2] << endl;
+  cout << "Second-to-last element of y: " << y[N-2] << endl;
+  return 0;
+}

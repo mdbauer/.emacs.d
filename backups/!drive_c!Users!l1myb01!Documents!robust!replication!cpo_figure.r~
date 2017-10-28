@@ -1,0 +1,20 @@
+## plot yield and inflation trend
+## Figure 2
+
+rm(list=ls())
+source("R/robust_fns.r")
+
+df <- getOwnCPoData(to=201612)
+df$date <- as.Date(as.character(df$dates), format="%Y%m%d")
+
+openPlotDevice(plot.mode=0, filename="cpo_trend")
+par(mar=c(4,4,1,1))
+cols=c("black", "blue")
+lwds=c(1,2)
+ltys=c(1,1)
+plot(df$date, df$yld10, type="l", ylim=c(0,15), xlab="Year", ylab="Percent", xaxt="n",
+     col=cols[1], lty=ltys[1], lwd=lwds[1])
+lines(df$date, df$trend, col=cols[2], lty=ltys[2], lwd=lwds[2])
+legend("topright", c("Ten-year yield", "Inflation trend"), col=cols, lwd=lwds, lty=ltys)
+axis.Date(1, at=seq(as.Date("1975-01-01"), as.Date("2017-01-01"), by="5 year"), format="%Y")
+dev.off()

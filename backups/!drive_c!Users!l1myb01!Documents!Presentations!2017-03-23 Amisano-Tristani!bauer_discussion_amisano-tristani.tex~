@@ -1,0 +1,265 @@
+\documentclass[xcolor=pdftex, dvipsnames, table, notes=HIDE]{beamer}
+% \usepackage{graphicx}
+% \usepackage{dsfont}
+% \usepackage{pgf}
+% \usepackage{hyperref}
+% \usepackage{multirow}
+% \usepackage{enumitem}
+\mode<presentation>
+\setbeamertemplate{navigation symbols}{}
+\newenvironment{wideitemize}{\itemize\addtolength{\itemsep}{.5pc}}{\enditemize}
+\newenvironment{changemargin}[1]{%
+  \begin{list}{}{%
+      \setlength{\topsep}{0pt}%
+      \setlength{\leftmargin}{#1}%
+      \setlength{\listparindent}{\parindent}%
+      \setlength{\itemindent}{\parindent}%
+      \setlength{\parsep}{\parskip}%
+    }
+  \item[]}{\end{list}}
+
+\title{Discussion of Amisano and Tristani (2016) ``Monetary policy and
+  long-term interest rates''}
+
+\author{Michael Bauer}
+\institute{Federal Reserve Bank of San Francisco}
+
+\date{March 23, 2017\\FRS Macro Meeting}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+  \scriptsize
+\begin{quote}The views expressed here are those of the author and do not necessarily represent the views of others in the Federal Reserve System.
+\end{quote}
+\end{frame}
+
+\begin{frame}
+  \frametitle{A DSGE model for the term structure of interest rates}
+  \begin{wideitemize}
+  \item Contribution to large and growing literature on structural
+    macro-finance term structure models \\ {\scriptsize (most recent:
+    Rudebusch-Swanson, 2012; van Binsbergen et al, 2012; Andreasen,
+    2012; Andreasen et al, 2016; Swanson, 2016)}
+  \item Defining features of the model
+    \begin{itemize}
+    \item Productivity (supply) and uncertainty (demand) shocks drive
+      long-term yields
+    \item Uncertainty regimes switch the bond risk premium (high/low)
+    \item Solution with second-order perturbation results in
+      regime-switching intercepts in state-space model
+    \end{itemize}
+  \item Main empirical results
+    \begin{itemize}
+    \item Uncertainty shocks are to some degree cyclical
+    \item Provide possible explain of increase in slope and term
+      premium during recessions
+    \item Productivity and uncertainty shocks each explain about 50\%
+      of the variance in long-term yields
+    \end{itemize}
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The components of long-term yields}
+\[
+y_t^{(n)} = \alert<2>{\pi^\ast_t} + \alert<3>{n^{-1} \sum_{i=1}^n E_t
+  (\pi_t-\pi^\ast_t)}
+ + \alert<4>{r^\ast_t} + \alert<5>{n^{-1} \sum_{i=0}^{n-1} E_t (r_t-r^\ast_t)}
+ + c^{(n)} + \alert<6>{YTP_t^{(n)}}
+\]
+\vspace{0.5pc}
+\begin{overprint}
+\onslide<2>
+\begin{itemize}
+\item Inflation target assumed constant
+\item But time-varying $\pi^\ast_t$ evident in the data
+\item Reconciles volatility of LT yields
+  with moderately persistent macro shocks (G\"{u}rkaynak, Sack, Swanson, 2005)
+\item Has become common modeling practice\\{\small (H\"{o}rdahl, Tristani, Vestin, 2006;
+    Bekaert, Cho, Moreno, 2010; Rudebusch and Swanson, 2012)}
+% \item But constant $\pi^\ast$ in van Binsbergen et al (2012), Swanson (2016)
+\item Shock to $\pi^\ast_t$ is change in policy stance
+\end{itemize}
+\onslide<3>
+\begin{itemize}
+\item Technology shock lowers inflation expectations
+\item Effects of shock need to be very persistent
+\end{itemize}
+\onslide<4>
+\begin{itemize}
+\item Equilibrium real rate $r_t^\ast := \underset{h \rightarrow
+    \infty}{\lim} E_t r_{t+h}$
+\begin{itemize}
+  \item Other definition....
+\end{itemize}
+\item Generally constant in DSGE models (deterministic SS)
+\item But structural changes affect $r^\ast_t$\\(e.g., trend growth, demographics, global
+  saving glut)
+\item Evidence is strong that $r^\ast_t$ has decreased since 1990s\\
+  {\scriptsize (e.g., Laubach and Williams, 2016; Bauer and Rudebusch,
+    2017)}
+\end{itemize}
+\onslide<5>
+\begin{itemize}
+\item Increase in uncertainty raises precautionary savings and lowers
+  current and future real rates
+\item Technology shock temporarily increases real rates
+  \begin{itemize}
+  \item Policy rule features interest rate smoothing
+  \end{itemize}
+\end{itemize}
+\onslide<6>
+\begin{itemize}
+\item Magnitude of term premium switches between high and low positive
+  values with variance-regimes (uncertainty shocks)
+\item Appears restrictive but parsimony may have benefits
+\item Model generates \emph{countercyclical} TP, consistent with large
+  body of evidence\\
+{\scriptsize (e.g., Cochrane and Piazzesi, 2005; Bauer, Rudebusch, Wu, 2014)}
+\item Note: $YTP_t^{(n)}$ is average of expected future excess returns
+\end{itemize}
+\end{overprint}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The two shocks in the model}
+  \begin{columns}[t]
+    \column{.5\textwidth}
+    \begin{block}{Technology shocks}
+\small
+      \begin{itemize}
+      \item \alert{Level} factor: yields at all maturities fall, no effect on TP
+      \item Small, transitory effect on slope
+      \item Required do be extremely persistent to fit yields
+      \item ``Contrary to typical results [it] generates
+        extremely persistent responses of macro variables''
+      \item Model gives up on macro to fit finance, like Swanson (2016)
+      \end{itemize}
+    \end{block}
+  \column{.5\textwidth}
+  \begin{block}{Uncertainty shocks}
+\small
+    \begin{itemize}
+    \item ``Uncertainty shocks are [adverse] aggregate demand
+      shocks'' (Leduc and Liu, 2016)
+    \item Depresses real rates and increases term premium
+    \item Large and persistent increase in \alert{slope} of the yield curve
+    \item Why are macro effects gone after 4 quarters but yield curve
+      effects persistent and very large? Is this plausible?
+    \end{itemize}
+  \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The effects of monetary policy on the yield curve}
+  \begin{block}{What the paper finds}
+    \begin{itemize}
+    \item Changes in risk premia not caused by MP ($\sim$ by assumption)
+    \item Monetary policy reacts to fluctuations in risk premia;
+      consistent with Taylor rule (= aggregate demand shocks)
+    \item Explanation for conundrum period
+    \item MP has not been able to anchor inflation expectations (?)
+    \end{itemize}
+  \end{block}
+  \begin{block}{Open questions}
+    \begin{itemize}
+    \item What are the effects of MP shocks?\\{\scriptsize (on yields,
+        slope, real rates, infl.~exp, TP)}
+    \item Open issue: does looser MP increase (Crump et al, 2016) or
+      decrease (e.g., Hanson and Stein, 2015) TP?
+    \item What are the effects of uncertainty about MP?
+    \item Effects of communication/forward guidance puzzle?
+    \end{itemize}
+  \end{block}
+\end{frame}
+% MP effects only short-term yields, not LT yields
+% very small real and nominal effects on the economy
+% no impact on TP by assumption
+% hard to understand effects of MP on the yield curve in a model like this
+
+\begin{frame}
+\frametitle{Expected excess bond returns}
+
+ \centering
+\small
+Predictive regression for one-quarter excess returns
+\includegraphics[width=\textwidth]{returns.pdf}
+\end{frame}
+% often negative
+% magnitudes much smaller (Duffee is outlier--model implications)
+
+\begin{frame}
+\frametitle{Expected excess bond returns}
+
+ \centering
+\small
+Filtered from DSGE model
+\includegraphics[height=0.8\textheight]{at_returns.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Uncertainty regimes seem to be driven by slope}
+ \centering
+\small
+Switching means for the slope -- probabilities of ``low slope'' regime
+\includegraphics[width=\textwidth]{regimes.pdf}
+\end{frame}
+
+% not necessarily bad thing that slope drives risk premia. consistent
+% with Fama-Bliss, Campbell-Shiller
+% But important to be clear about it: technology and uncertainty
+% shocks are fitting the level and slope of the yield curve
+% -> LT yields driven exclusively by these two shocks
+% Is that desirable?
+% Swanson: only one shock that drives all asset prices and risk premia
+% give up on macro to fit finance
+% To me it seems we should have more shocks that matter for yields: definitely long-run risk,
+% preference shocks, shocks to inflation target, shocks to level of
+% term premium that is unrelated to expectations/inflation target
+
+\begin{frame}
+  \frametitle{Key questions about yield curve/TP in DSGE model}
+  \begin{itemize}
+  \item How to specify the stochastic discount factor?
+  \item How to price bonds?
+  \item How to solve the model?
+\vspace{1pc}
+  \item How to generate positive average nominal slope/TP?
+  \item Does the time series of the estimated TP look plausible?
+  \item Is the average real slope/TP positive or negative?
+  \item What are the key sources of (real/nominal) (long-run) risk?
+  \end{itemize}
+\end{frame}
+% wasn't clear how bond pricing is done in this model
+% - see Meyer-Gohde for two different approaches
+
+% discuss long-term inflation expectations
+% -> they look just like yields!
+
+\begin{frame}
+  \frametitle{Conclusion}
+  \begin{wideitemize}
+    \item Plausible and intuitive mechanism for countercyclical TP
+      \begin{itemize}
+      \item Recession $\rightarrow$ higher uncertainty $\rightarrow$
+        higher TP
+      \end{itemize}
+    \item Consider addressing additional questions with this model:
+      \begin{enumerate}
+      \item Effects of monetary policy on the yield curve
+      \item Determinants of real and nominal risks
+      \end{enumerate}
+    \item Additional shocks/flexibility would relieve tension between macro and
+      finance
+  \end{wideitemize}
+\end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

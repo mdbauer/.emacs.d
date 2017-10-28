@@ -1,0 +1,85 @@
+## plot the data we are using to tell our story
+## - ten-year yield
+## - measure of pi*
+## - measures of r*
+
+rm(list=ls())
+source("R/trends_fns.R")
+
+df <- loadData()
+cat("Sample period: ", range(df$yyyymm), "\n")
+
+plotData1 <- function(rstar=TRUE) {
+    ## yield, pi*, r* (optional)
+    lwds <- c(2,2,2,2)
+    ltys <- c(1,1,1,1)
+    cols <- c("black", "red", "green", "steelblue")
+    plot(df$date, df$y10, type="l", col=cols[1], lwd=lwds[1], lty=ltys[1], ylim=range(c(0, df$y10)), xlab="", ylab="Percent", yaxp=c(2,14,6), xaxs = "i", yaxs = "i")
+    ind <- !is.na(df$pistar.ptr)
+    lines(df$date[ind], df$pistar.ptr[ind], col=cols[2], lwd=lwds[2], lty=ltys[2])
+    if (rstar) {
+        ind <- !is.na(df$rstar.mean)
+        df$istar <- df$pistar.ptr + df$rstar.mean
+        lines(df$date[ind], df$rstar.mean[ind], col=cols[3], lwd=lwds[3], lty=ltys[3])
+        lines(df$date[ind], df$istar[ind], col=cols[4], lwd=lwds[4], lty=ltys[4])
+        legend("topright", c("Ten-year yield",
+                             expression(paste('Trend Inflation, ',pi, '*')),
+                             "Equilibrium real short rate, r*",
+                             "Equilibrium short rate, i*"), col=cols, lwd=lwds, lty=ltys)
+    } else {
+        legend("topright", c("Ten-year yield", expression(paste('Trend Inflation, ',pi, '*'))), col=cols, lwd=lwds, lty=ltys)
+    }
+}
+
+## paper
+pdf("figures/data1.pdf", width=7, height=4.25, pointsize=10)
+plotData1()
+dev.off()
+
+## beamer slides
+pdf("figures/data1_pres_norstar.pdf", width=7, height=6, pointsize=10)
+plotData1(rstar=FALSE)
+dev.off()
+
+pdf("figures/data1_pres.pdf", width=7, height=6, pointsize=10)
+plotData1()
+dev.off()
+
+plotData2 <- function() {
+    ## measures of r*
+    cols <- c("steelblue", "green", "red", "black")
+    lwds <- c(1,1,1,3)
+    ltys <- c(1,1,1,1)
+    ind <- !is.na(df$rstar.lw)
+    plot(df$date[ind], df$rstar.lw[ind], type="l", col=cols[1], lwd=lwds[1], lty=ltys[1], xlim=range(df$date), ylim=range(df$rstar.lw[ind]), xlab="", ylab="Percent", xaxs = "i", yaxs = "i")
+    ind <- !is.na(df$rstar.lm)
+    lines(df$date[ind], df$rstar.lm[ind], col=cols[2], lwd=lwds[2], lty=ltys[2])
+    ind <- !is.na(df$rstar.kiley)
+    lines(df$date[ind], df$rstar.kiley[ind], col=cols[3], lwd=lwds[3], lty=ltys[3])
+    ind <- !is.na(df$rstar.mean)
+    lines(df$date[ind], df$rstar.mean[ind], col=cols[4], lwd=lwds[4], lty=ltys[4])
+    abline(h=0, lty=2)
+    legend("topright", c("Laubach-Williams", "Lubik-Mathes", "Kiley", "Average"), col=cols, lwd=lwds, lty=ltys)
+}
+
+## paper
+pdf("figures/data2.pdf", width=7, height=4.25, pointsize=10)
+plotData2()
+dev.off()
+
+## beamer slides
+pdf("figures/data2_pres.pdf", width=7, height=6, pointsize=10)
+plotData2()
+dev.off()
+
+## report decrease in r-star
+cat("Change since 2000:\n")
+i1 <- which(df$yyyymm==200003)
+i2 <- nrow(df)
+## X <- df[c("yyyymm", "rstar.lw", "rstar.lm", "rstar.jm", "rstar.kiley", "rstar.mean", "y10")]
+X <- df[c("yyyymm", "rstar.lw", "rstar.lm", "rstar.kiley", "rstar.mean", "y10")]
+print(rbind(X[i1,], X[i2,], X[i2,]-X[i1,]))
+
+
+
+

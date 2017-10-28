@@ -1,0 +1,33 @@
+
+
+# An error in the TVAR code of DNGGT?
+
+There appears to be an apparently consequential error in the TVAR code of Del Negro, Giannone, Giannoni, Tambalotti (2017, BPEA), available at <https://github.com/FRBNY-DSGE/rstarBrookings2017>. Specifically, the covariance matrix for the VAR errors, $\Sigma_\varepsilon$, is not drawn from the correct condtional posterior distribution. This note describes the details.
+
+The prior distribution this $n \times n$ covariance matrix is
+
+$$ \Sigma_\varepsilon \sim IW(\Psi_\varepsilon, \kappa_\varepsilon), \quad \Psi_\varepsilon = \underline{\Sigma}_\varepsilon (\kappa_\varepsilon + n + 1), \quad \kappa_\varepsilon = n+2 $$
+
+he prior mode is $\Psi/(\kappa_\varepsilon+n+1) = \underline{\Sigma}_\varepsilon$ and intuitive prior assumptions are made in terms of this mode. Specifically, $\underline{\Sigma}_\varepsilon = diag(\psi)$, $\psi = (2,1,1,.5,1)'$. The prior mean is of course $E(\Sigma_\varepsilon) = \Psi_\varepsilon/(\kappa_\varepsilon - n - 1) = \Psi_\varepsilon$.
+
+With the assumptions and notation in the paper, well-known results (e.g., Appendix A, equation (A.8) in Giannone, Lenza, Primiceri, 2015) the posterior distribution is
+
+$$ \Sigma_\varepsilon | \text{states} \sim IW(\Psi_\varepsilon + \hat{S}_\varepsilon, \kappa_\varepsilon + T) $$
+
+However, both in the paper (Appendix A) and in the code the matrix $\underline{\Sigma}_\varepsilon$ erroneously appears in place of $\Psi_\varepsilon$ in this posterior distribution. In the code this matrix is drawn in `tvar/Routines/BVAR.m` in line 61, using the scale matrix
+```
+epshat'*epshat + diag(PSI) + (betahat-b)'*diag(1./omega)*(betahat-b)
+```
+implicitly defined in line 53. Here it should say `diag(PSI)*(d+n+1)` instead of `diag(PSI)`. That is, both in the paper (Appendix) and the code it should be the scale ($\Psi_\varepsilon$, which happens to also be the mean) in place of the mode ($\underline{\Sigma}_\varepsilon$) in the conditional posterior distribution.
+
+The same results of course hold for the covariance matrix of the trend innovations, $\Sigma_e$. Here, the paper (Appendix) has a similar typo: $\underline{\Sigma}_e + \hat{S}_e$ is given as the scale matrix for the conditional posterior distribution, whereas it should instead be $\underline{\Sigma}_e(\kappa_e + q + 1) + \hat{S}_e$. In this case, however, the code is correct: in function `tvar/Routines/CovarianceDraw.m` the scale matrix of the inverse Wishart distribution is calculated as `z'*z + mS0*(df0+n+1)`. The prior mode is multiplied by $\kappa_e + q + 1$ to give the prior scale, to which the sum-of-squares (scatter) matrix $\hat{S}_e$ is added.
+
+# Consequences of this error
+
+Of course this seemingly small error only matters if it has any
+noticeable implications for the results of the
+estimation. Unfortunately it appears that it does. When
+the error is corrected the estimated trends $\bar{r}_t$ and
+$\bar{\pi}_t$ look quite different, as shown in the figures below.
+
+

@@ -1,0 +1,38 @@
+drawNormal <- function(mu, Omega)
+    mu + t(chol(Omega)) %*% rnorm(length(mu))
+
+
+ffsb <- function(y, pars, priors) {
+    ## filter forward sample backward
+    T <- length(y)
+    ss <- stateSpaceMats(pars, priors$rstar0.mean, priors$rstar0.var)
+    require(FKF)
+    rval <- do.call(fkf, c(ss, list(yt = matrix(y, 1, T))))
+    N <- nrow(rval$at)
+    ## Q/HHt is not positive definite if p>1 -- Kim-Nelson p.196
+    ## keep only first J elements for inference
+    J <- 2
+    x <- matrix(NA, J, T)
+    x[,T] <- drawNormal(rval$att[,T], rval$Ptt[,,T])[1:J]
+    Fstar <- ss$Tt[1:J,,1]
+    ## TODO: generalize ffsb function -- ss matrices and J passed to function
+    for (t in (T-1):1) {
+        B <- rval$Ptt[,,t] %*% t(Fstar) %*% solve(Fstar %*% rval$Ptt[,,t] %*% t(Fstar) + ss$HHt[1:J,1:J,1])
+        mu <- rval$att[,t] + B %*% (x[,t+1] - ss$dt[1:J, 1] - Fstar %*% rval$att[, t])
+        Omega <- rval$Ptt[,,t] - B %*% Fstar %*% t(rval$Ptt[,,t])
+        x[,t] <- drawNormal(mu, Omega)[1:J]
+    }
+    x
+}
+
+drawPhi <- function(y, pars, priors) {
+    ## draw AR(p) coefficients
+    p <- length(pars$phi)
+    T <- ncol(pars$x)
+    g <- pars$x[2,]
+    xdat <- vapply(p:1, function(j) g[j:(T-1-p+j)], numeric(T-p))
+    ydat <- g[(p+1):T]
+    B <- solve(diag(p)/w + 1/pars$sigv2 * t(xdat) %*% xdat)
+    drawNormal(1/pars$sigv2 * B %*% t(xdat) %*% ydat)
+}
+

@@ -1,0 +1,439 @@
+* Next actions
+** DONE use EM algorithm for estimation of UC model
+- [[file:~/Documents/org/notes.org::*EM%20algorithm][notes on EM algorithm]]
+- MLE of AR(p)/ARMA(p,q)
+  http://www-stat.wharton.upenn.edu/~stine/stat910/lectures/12_est_arma.pdf
+** TODO estimate RW + AR(12) model for y-o-y inflation
+- code is throwing some errors for p=12, though it's working fine for
+  smaller p such as 2-6
+** TODO estimate UC model using MARSS package to make sure I get the same result
+- also skim vignettes on MARSS packages
+** TODO take a look at code by Javier López-de-Lacalle
+https://jalobe.com/software/
+- is his kalman smoother (KFKSDS) faster, is it using C?
+- paper about EM algorithm estimation of STSM
+
+** TODO Bayesian estimation of UC model
+- same results or differences due to pile-up problem?
+** TODO let Todd Clark know, try to get him interested in this
+** TODO estimate and understand UCSV model
+- [[file:~/trends/trends.org::*work%20with%20UCSV%20model][notes in trends.org]]
+- use Watson's code
+- Watson's NBER slides explain it
+- was also used in Cechetti, Hooper, Kasman, Schoenholtz, Watson
+  (2007) monetary policy forum paper
+** TODO find UC version of seasonal ARIMA models
+** TODO pile-up problem in UC model estimation
+- happens all the time when I use y-o-y data in estimation
+- understand problem and Stock and Watson's solution
+  - also used by Laubach-Williams
+** TODO adding stochastic volatility to UC model
+* Literature on trend inflation
+- Cogley and Sargent (2015) Measuring Price-Level Uncertainty and Instability in the U.S., 1850-2012,” The Review of Economics and Statistics
+- IMA(1,1) model of [[http://www.jstor.org/stable/1831420?seq%3D1#page_scan_tab_contents][Nelson and Schwert (1977)]]
+- our-quarter average of quarterly inflation (Atkeson and Ohanian
+  (2001))
+** Bradley, Jansen, Sinclair (2015)
+- common unobserved component model for core and headline inflation
+- cycle is AR(2), no MA, although they use year-over-year inflation
+  - this likely doesn't match moments in the data
+
+** TODO Ascari-Sbordone
+** exponential smoothing
+http://fxdiebold.blogspot.com/2013/08/exponential-smoothing-again-structural.html
+- corresponds to UCSV model without stochastic vol
+- Faust-Wright do it (figure 2) using alpha=0.05
+- Cieslak-Povvala use constant-gain learning of year-over-year Core
+  CPI inflation
+  - discounted moving average -- exp. smoothed average
+
+** Cogley and Sargent (2005) Drifts and Volatilities: Monetary Policies and Outcomes in the Post WWII U.S.
+** Stock and Watson (2007) Why has U.S. inflation become harder to forecast?
+Journal of Money, Credit and Banking 39, 3-33.
+- generally gives very volatile inflation trend series
+- see for example Faust-Wright, Figure 2
+- code from Mark Watson's website:
+  http://www.princeton.edu/~mwatson/ddisk/jmcb_2007_stockandwatson_corrected_replication_files_May_3_2007.zip
+- Bayesian estimation of this model - data and code - by Gary Koop:
+  http://personal.strath.ac.uk/gary.koop/MoF_Computer_Session4.pdf
+
+** Shephard (2013) Martingale unobserved component models
+** Watson (2013, AER) has plenty of references
+** Cogley and Sbordone (2008), “Trend Inflation, Indexation, and Inflation Persistence in the New Keynesian Phillips Curve,”
+- they use the TVP-VAR of Cogley and Sargent (2005)
+from Cogley-Primiceri-Sargent: Cogley and Argia M. Sbordone (2008)
+exploit the distinction between inflation and inflation-gap
+persistence to resolve a puzzle involving the new Keynesian Phillips
+curve (NKPC).  A number of studies that base estima tion on raw
+inflation data conclude that purely forward-looking versions of the
+NKPC generate too little inflation persistence.  To repair that
+shortcoming, various researchers have tacked on ad hoc
+backward-looking elements.  But the NKPC is typically derived using a
+log-linear approximation around an inflation target of zero, so that
+what is called inflation in that model is better thought of as the
+inflation gap.  When Cogley and Sbordone (2008) fit their model to
+measures of the inflation gap, backward-looking elements drop out, and
+a purely forward-looking version fits well.
+
+** TODO Cogley, Primiceri, Sargent (2010)
+- generalized Stock-Watson model
+- inflation gap is persistent, AR coefficient is time-varying,
+  innovations have stochastic volatility
+- considered in Chan-Clark-Koop as the UCSV-AR model (without
+  stochastic vol in AR coefficient innovations)
+** Stock and Watson (2015). Core inflation and trend inflation
+** Chan, Koop, Potter (2013) A new model of trend inflation.
+Journal of Business and Economic Statistics, 31, 94-106.
+** DONE Clark and Doh (2014)  Evaluating alternative models of trend inflation.
+International Journal of Forecasting, 30, 426-448.
+
+** DONE Chan-Clark-Koop - UC model that incorporates surveys
+- break link between trend inflation and long-run inflation forecasts
+  - instead empirically investigate this relationship
+  - time-varying relationship
+- why could this link be tenuous?
+  - surveys can be biased
+  - surveys can contain substantial noise
+- other desirable model features
+  - persistent inflation gap, time-varying persistence
+  - stochastic volatility in both inflation equation and state
+    equation
+  - time-varying parameters
+- measures of long-run expectations
+  - quarterly PTR-CPI and PTR-PCE--splices together Kozicki-Tinsley,
+    Hoey, and SPF
+  - semiannual Blue Chip - GDP deflator since 1979 and CPI inflation
+    since 1983 - interpolate to quarterly values
+*** results
+- long-run inflation expectations provide useful information
+  - adding inflation expectations substantially reduces uncertainty
+    around pi*
+- but at times the survey forecasts and trend inflation show
+  significant differences
+  - one should not set the two equal to each other
+- model forecasts at least as well as UCSV and Faust-Wright models
+
+*trend inflation more stable than survey expectations*
+
+** Kozicki (1999)
+- barely cited but contains many references and useful exposition of
+  trend extraction with exponential smoothing/HP filter
+- result similar to the one in Harvey's (2006) handbook chapter (7.3.3)
+** others -- econometrics plus surveys
+- Kozicky and Tinsley (2012) Effective use of survey information in estimating
+the evolution of expected in‡ation. Journal of Money, Credit and Banking, 44, 145-169.
+- Wright (2013) Evaluating real time VAR forecasts with an informative democratic
+prior. Journal of Applied Econometrics, 28, 762-776
+- Nason and Smith (2014) Measuring the slowly evolving trend in US in‡a-
+tion with professional forecasts, ANU working paper
+- Mertens 2015, Mertens and Nason 2015
+- Boragan Aruoba (2014) Term Structures of Inflation Expectations and
+  Real Interest Rates: The Effects of Unconventional Monetary Policy
+  http://aruoba.econ.umd.edu/?p=458
+
+** Perceived inflation persistence
+http://www.tandfonline.com/doi/full/10.1080/07350015.2017.1281814
+
+* inflation modeling
+** trend inflation models
+*** TODO look at trend estimates of Todd Clark
+*** TODO estimate AR(1) on gap = pi - tau(EWMA)  (Faust-Wright get rho = 0.46
+   in quarterly data)
+*** DONE estimate local level model with Kalman filter
+  - user same inflation data (frequency etc) as Stock and Watson?
+  - don't use year-over-year inflation!
+  - do it first by hand, then use canned routine
+  - also take a look at Stock-Watson UCSV code, possibly run
+
+*** understand properties of EWMA (filtered pi*) vs. true pi*
+changes in true pi* are iid, but changes in filtered pi* serially
+correlated (see cp_ewma_sim.r)
+
+*** DONE UC model: RW-AR1
+**** results
+- gives trend that is very volatile
+  - Clark-Doh get much smoother trend
+- estimated value of b very low
+
+ simulations
+ - estimated trend implausible in the beginning of the data
+ - in simulations: usually estimated b is pretty close to true value but sometimes it's way low
+   in those cases estimated trend is close to actual series and totally wrong
+
+**** DONE calculate Cochrane's variance ratio and other measures of persistence
+**** DONE estimate ARIMA(1,1,1) model and compare to structural model
+- estimate ARMA(1,1) model on first differences of inflation
+
+*** DONE estimate RW-AR2 model
+- similar results to AR(1) model
+- how large is my variance compared to prior of Clark-Doh?
+  - their prior variance is likely pretty small
+**** DONE ask Todd about differences/code available
+** how to deal with y-o-y inflation
+*** "overlapping"
+- same issue as "overlapping returns"
+"time series model for annual rate of inflation overlapping monthly
+observations"
+"time series model overlapping observations"
+
+"overlapping" in
+http://faculty.washington.edu/ezivot/econ584/notes/timeSeriesConcepts.pdf
+
+on overlapping observations more generally:
+- Britten‐Jones, Mark, Anthony Neuberger, and Ingmar Nolte. "Improved
+  inference in regression with overlapping observations." Journal of
+  Business Finance & Accounting 38.5‐6 (2011): 657-683.
+- Harri, Ardian, and B. Wade Brorsen. "The overlapping data problem."
+  Available at SSRN 76460 (1998).
+- Hansen, Lars Peter, and Robert J. Hodrick. "Forward exchange rates
+  as optimal predictors of future spot rates: An econometric
+  analysis." The Journal of Political Economy (1980): 829-853.
+- Hodrick (1992)
+- Richardson and Smith (1991) Tests of Financial Models in the
+  Presence of Overlapping Observations
+
+*** "aggregation of time series" - this is the issue
+Silvestrini and Veredas (2005) is an excellent survey article
+
+Marcellino (1999, JBES) Some consequences of temporal aggregation in
+empirical analysis (200 cites)
+- considers VARIMA processes
+- distinguished "point-in-time sampling" for stock processes and
+  "average sampling" for flow variables
+
+Rossana and Seater (1995, JBES) Temporal Aggregation and Economic Time Series
+- temporal aggregation leads to large losses of information
+
+classic references:
+Brewer (1973, JoE) Some consequences of temporal aggregation and systematic
+sampling for ARMA and ARMAX models
+Wei (1981), "Effect of Systematic Sampling on ARIMA Models."
+Weiss (1984), "Systematic Sampling and Temporal Aggregation in Time Series Models"
+
+*** seasonal models
+
+**** seasonal arima models
+- auto.arima can estimate seasonal models
+https://www.otexts.org/fpp/8/9
+
+- I can just estimate restricted ARIMA(p,1,13) models! works like a charm
+
+**** seasonal structural models
+using R
+http://stats.stackexchange.com/questions/115506/forecasting-a-seasonal-time-series-in-r
+
+** Results ARIMA model for inflation
+see inf_arima.r
+*** monthly m-o-m inflation
+hard to find a model that works well
+ARIMA(4,1,4):
+- high LLK, mostly significant
+- but var(pi) quite large and var(pistar) much too alrge
+- similar: ARIMA(2,1,1)
+
+ARIMA(5,1,0) is chosen by auto.arima
+- matches var(pi) and var(pistar) but misses some other moments
+ARIMA(5,1,1) leads to much too much variances
+
+*** monthly y-o-y inflation
+ARIMA(12,1,12) for y-o-y inflation works very well
+- high likelihood, residuals WN, all moments matched very well
+
+what restricted model works?
+- restricted ARMA(2, c(1,12,13)) works like a charm
+  - similar to (2,1,1)x(0,1,1)_12 seasonal ARIMA model for log CPI
+
+*** quarterly inflation
+ARIMA(4,1,4) works well
+
+*** parameterize stationary ARMA process
+Foundations of Time Series Analysis and Prediction Theory
+By Mohsen Pourahmadi
+pp. 119-120
+"reparameterization of the causality region"
+https://books.google.com/books?id=8KbTRvWdlqQC&pg=PA120&lpg=PA120&dq=reparameterize+stationary+AR(p)&source=bl&ots=qNA5MEQ3Ds&sig=BERkZDRjFGeX8dEEoMzmOelLj6E&hl=en&sa=X&ved=0ahUKEwjU3M-P3ZHLAhUGwmMKHcT2BPEQ6AEIUTAJ#v=onepage&q=reparameterize%20stationary%20AR(p)&f=false
+
+**** documentation arima function:
+- If 'transform.pars' is true, the optimization is done using an
+     alternative parametrization which is a variation on that suggested
+     by Jones (1980) and ensures that the model is stationary.  For an
+     AR(p) model the parametrization is via the inverse tanh of the
+     partial autocorrelations: the same procedure is applied
+     (separately) to the AR and seasonal AR terms.  The MA terms are
+     not constrained to be invertible during optimization, but they
+     will be converted to invertible form after optimization if
+     'transform.pars' is true.
+
+
+**** Jones (1980) Maximum Likelihood Fitting of ARMA Models to Time Series with Missing Observations
+- a ton of cites
+- this is what I am doing
+
+** Results UC-ARMA(p,q) models for inflation
+goal: find models that fit m-o-m and y-o-y Core CPI inflation well
+ -> going to need a fair amount of lags (p and q >> 1)
+
+*** fit m-o-m inflation
+*key issue: variance of pi/pistar too large*
+- estimation with q=0 pretty straightforward, with q>0 somewhat more
+  difficult (AR and MA parameters all over the place, LLK only
+  slightly higher)
+- AR(4), tau=.1
+  - moments matched pretty well!
+- AR(4), tau=.04
+  - moments every so slightly too low but trend of course smoother
+- AR(2), tau=.04
+  - similar results
+=> go with this for now; may need stochastic volatility/Bayesian
+estimation
+
+*** fit y-o-y inflation
+- estimation typically quite difficult
+- results not yet reasonable
+  - if tau is free, estimated near zero, trend too stable,
+    ends at 4%, vars much too low -- pile-up problem
+  - with fixed signal-to-noise ratio
+    - trend reasonable but variances too low, moments not matches
+
+- airline model with fixed tau
+  - tau = 0.04 (LLK 165.6), 0.1 (LLK 164.8), 0.01 (LLK 164.8), 0.2
+    (LLK 164.8)
+  - moments matched okay but trend ends at 4%, var(pi*) is too low
+  - residuals not white noise
+  - same for AR(2)+airline, tau = .01, LLK 164 (hits gamma=10
+    constraint)
+  - for AR(1)+airline, tau = .01, LLK = 106, trend looks great but
+    variances *much* too low, lots of serial correlation in residuals
+- airline model with free tau gives pile-up problem
+
+- AR(p) models
+  - AR(4), tau=.04: moments okay, only slightly too low, trend pretty
+    reasonable
+  - AR(4) tau estimated .34
+  - AR(2) tau estimated .01 - trend quite smooth/stable, cycle highly
+    persistent, moments reasonable
+  - AR(12)
+    - LLK 100.4
+    - good: moments matched pretty well and trend looks very nice; tau
+      estimated as .015 (very reasonable, similar to EWMA calibration)
+    - bad: estimation difficult; AR coefficients large and
+      alternating; no standard errors; still significant residual
+      autocorrelation at lag 12
+  - AR(6) pretty similar, to AR(12)
+  -> problem with AR models: ignore negative ACF(12)
+
+- as soon as I add MA terms, estimation a lot more difficult (local
+  minima) and pile-up problem occurs, moments not matched
+  - AR(1, (1, 12)), free tau - LLK 105.9, tau ~ 0
+  - AR(1, (1, 12)), tau=.01  - LLK 88.3, trend good but variances much
+    too low, estimation works well
+  - AR(2, (1, 12)), free tau - LLK 147.4, tau = 0.4, variances too
+    low, trend looks great, AR and MA roots very close to 1, one MA
+    root below 1 -- but this is a local maximum, if I use optimal
+    values from below I reach LLK 163 and tau ~ 0
+  - AR(2, (1, 12)), tau=.01  - LLK 148.1, trend looks great (exactly like
+    EWMA) but moments not matched well (variances too low)
+  -> no SEs for any of these
+  - forcing MA roots to be above one doesn't change anything
+  - AR(1, (1, 2, 12)), tau=.01 - LLK 148.3, trend looks great,
+    variances too low
+  - AR(1, (1, 2, 12)), free tau: LLK 130, tau~0, vars too low;
+    tau=0.1: LLK 113, nice trend but vars much too low
+  - ARMA(2, (1, 2, 12), tau=.01: LLK 149.8, trend looks great but vars
+    much too low; tau free: tau~.01 but LLK~70 so local optimum
+  - ARMA(2, (12)), free tau: LLK 156.6, pile-up; tau=.01, LLK 144.8,
+    trend good but variances too low
+  - ARMA(2, (3,6,9,12): LLK 163, pile-up; tau=.01, LLK 146; vars too
+    low
+  - same for p=1
+  - ARMA(2, (1,2,3,6,9,12), pile-up, somewhat better moments but still
+    vars very low; tau=.01
+
+
+=> in simulations I can easily recover true parameters, even for
+ARMA(2, (1,12,13)) cycle
+=> clearly this is the wrong model for y-o-y inflation
+
+some more ideas:
+- seasonal UC model for log-CPI -- local linear trend + seasonal + gap
+  - may be able to better match seasonal ARIMA for y-o-y inflation
+  - for case without AR terms, BSM model matches airline model pretty closely
+
+** Next actions for inflation modeling
+goals:
+- make UC model work for y-o-y inflation -- reasonable trend and fit
+- or as backup: get reasonable model for m-o-m inflation
+*** DONE fit ARIMA and UC models for m-o-m inflation
+*** DONE check whether MA coefficients are close to noninvertibility
+*** TODO do I need to impose more constraints on AR and MA parameters?
+- check invertibility of cycle - are roots of MA polynomial outside unit circle?
+  - do I need MA re-parameterization? is it necessary? does it hurt?
+- can check roots via polyroot()
+*** DONE correctly calculate signal-to-noise ratio in UC models (LRV)
+estimate UC models for yoy and mom inflation and calculate signal-to-noise ratio as ratio of long-run variance
+
+*** DONE multiple starting values (multiple optimizations)
+*** DONE derive parsimonious model for y-o-y inflation
+- what does simple UC model for m-o-m inflation imply for y-o-y
+  inflation?
+- how about ARIMA models?
+- is there a restricted version of ARIMA(12,1,12) version that also
+  matches the data?
+
+*** TODO obtain reasonable estimates for FIXED signal-to-noise ratio -- 0.01, 0.04, 0.1
+- either airline model for cycle or flexible ARMA model
+*** TODO address pile-up problem
+- compare and understand Laubach's code and Stock-Watson code
+  - Laubach: mue_s1.m
+  - SW: chow.prc
+- carry out for simple local-level model
+  - use simulated data in which lambda is small
+  - compare MLE and MUE
+*** DONE get signal-to-noise ratio from EWMA
+LRSD of change in trend vs. LRSD of inflation gap
+=> tau = 0.013
+see signal-to-noise-lrv.r
+ - or local level model: which value of tau implies smoothing paramtere?
+*** TODO additional diagnostic checks/model summaries
+- Long-run response
+  - psi*(1) = phi(1)/theta(1) !
+- variance ratio
+
+-> Clark; Watson; Cochrane; Campbell-Perron
+
+*** TODO Stock-Watson UCSV model
+**** questions for author of MATLAB code:
+- what document do the page numbers refer to?
+- how does he know how S-W did it? reverse-engineered their Gauss
+  code?
+
+**** DONE where do they describe their algorithm? only in their code? apparently so
+**** TODO read and understand Kim, Sheppard, Chib (1998)
+**** TODO estimate basic model using Gauss and compare to results in paper
+**** TODO estimate basic model using MATLAB and compare to results in paper
+**** TODO MATLAB code seems to use y-o-y inflation -- do Stock-Watson do that?
+**** TODO estimate model with constant volatility, compare to my results
+**** TODO estimate model with SV in only trend equation
+**** TODO include lags
+**** TODO decide: do I need lags? do I need SV?
+*** other ideas
+- do I need stochastic volatility or TVP in inflation equation?
+- translate ARIMA model that works into (simplest possible) UC-ARMA
+  model
+  - could use as starting values
+- calculate ARIMA parameters of estimated UC-ARMA model
+- compare how each of these models fit ACF of level and first
+  difference of inflation
+  - empirical vs. theoretical ACF
+- use pre-packaged estimation of UC-ARMA model
+- start with VECM for inflation and PCs, add lags to inflation as
+  necessary
+  - can derive trend components via multivariate Beveridge-Nelson
+
+* year-over-year issue
+  - Stock and Watson (2002) macro annual paper
+    - sum of four quarterly growth rates, each AR(4), gives annual
+      growth rate
+    - figure out standard deviation (SV) of annual growth rate
+    - show great moderation -- quite a discrete shift
+    - referenced (and methodology explained) in Watson's NBER lecture

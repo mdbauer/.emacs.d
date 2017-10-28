@@ -1,0 +1,81 @@
+% Created 2017-05-22 Mon 10:33
+% Intended LaTeX compiler: pdflatex
+\documentclass[margin=0.5in]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Michael Bauer}
+\date{\today}
+\title{Hanson, Lucca, Wright (2017) Interest Rate Conundrums in the Twenty-First Century}
+\hypersetup{
+ pdfauthor={Michael Bauer},
+ pdftitle={Hanson, Lucca, Wright (2017) Interest Rate Conundrums in the Twenty-First Century},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 25.1.1 (Org mode 9.0.3)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\textit{[2017-05-22 Mon] } reading group
+\section{Abstract}
+\label{sec:org17d5fae}
+A large literature argues that long-term interest rates appear to react far more to high-frequency
+(for example, daily or monthly) movements in short-term interest rates than is predicted by the
+standard expectations hypothesis. We find that, since 2000, such high-frequency “excess
+sensitivity” remains evident in U.S. data and has, if anything, grown stronger. By contrast, the
+positive association between low-frequency changes (such as those seen at a six- or twelve-month
+horizon) in short- and long-term interest rates, which was quite strong before 2000, has weakened
+substantially in recent years. As a result, “conundrums”—defined as six- or twelve-month periods
+in which short rates and long rates move in opposite directions—have become far more common
+since 2000. We argue that the puzzling combination of high-frequency excess sensitivity and low-
+frequency decoupling between short- and long-term rates can be understood using a model in
+which (i) shocks to short-term interest rates lead to a rise in term premia on long-term bonds and
+(ii) arbitrage capital moves slowly over time. We discuss the implications of our findings for
+interest rate predictability, the transmission of monetary policy, and the validity of high-
+frequency event study approaches for assessing the impact of monetary
+policy.
+\section{summary}
+\label{sec:orgd40766a}
+\begin{itemize}
+\item key empirical finding: puzzling excess sensitivity -- high correlation
+between daily changes at short and long maturities -- remains after 2000,
+but over \textbf{lower frequencies yields have decoupled}. That is,
+correlations of 6-month or annual changes between short and long
+maturities have substantially declined. Hence, conundrum periods --
+movements of short and long yields in opposite directions -- are
+more common.
+\item excess sensitivity: GSS explained it through EH, proposing as an
+explanation changes in pi* (i.e., highly persistent shocks to
+interest rates). But (a) it's mostly in real yields and (b)
+it's mostly in the term premium (Hanson and Stein, 2015)
+\item explanation: annual changes (increases) in level are followed by
+flattening of yield curve, much more so than in the past.
+\item time series model: include lagged h-period changes in level
+\item equilibrium model: shocks to short rates positively correlated with
+bond supply, hence short rates and long rates move in the same
+direction (mortgage convexity, reaching-for-yield, ALM,
+extrapolation, flight-to-quality), but only for a short time because
+slow-moving capital eventually adjusts. term premium shocks are
+transitory.
+\begin{itemize}
+\item can match coefficient pattern
+\item explanations of change since 2000: higher correlation e.g. because
+of more reach-for-yield; more slow-moving capital
+\end{itemize}
+\item affine DTSM: need to include (unspanned) lags of yield factors
+\item implications: event study captures only high frequency effects,
+which are transitory; at lower frequencies long rates are much less
+affects
+\end{itemize}
+\end{document}

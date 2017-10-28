@@ -1,0 +1,78 @@
+## bootstrap CPo results, including parametric model for inflation
+## Table 2, third panel
+## Table 6
+
+## differences with CPo
+## - regressors are PCs (but inflation trend is identical)
+## - yield maturities up to 10 instead of 20 years
+## - dep.var is cumulative return (consistent with reverse regression)
+
+rm(list=ls())
+source("R/robust_fns.r")
+source("R/var_fns.r")
+set.seed(616)
+M <- 5000
+
+df <- getOwnCPoData()   # original sample
+estSize <- TRUE
+
+## df <- getOwnCPoData(198501, 201612, yieldData="gsw")   # our later sample
+## estSize <- FALSE
+
+X1.names <- c("PC1", "PC2", "PC3")
+X2.names <- "trend"
+fmla1 <- xr.avg ~ PC1 + PC2 + PC3
+fmla2 <- xr.avg ~ PC1 + PC2 + PC3 + trend
+
+## look at AR(1):
+## rval <- ar.ols(df$trend, aic=FALSE, order.max=1, demean=FALSE, intercept=TRUE)
+## mu2 <- rval$x.intercept
+## sig2 <- sqrt(rval$var.pred)
+## rho2 <- rval$ar[,,]
+## print(mu2/sig2)
+## df$trend[1]/(mu2/(1-rho2))
+
+## regression results for restricted model with only PCs
+tbl1 <- matrix(NA, 3, 4)
+rownames(tbl1) <- c("Coefficient", "RR t-statistic", "RR p-value")
+colnames(tbl1) <- c("PC1", "PC2", "PC3", "trend")
+mod1 <- lm(fmla1, df)
+tbl1[1, 1:3] <- mod1$coef[-1]
+rval <- RevRegDelta(c("PC1", "PC2", "PC3"), df)
+tbl1[2, 1:3] <- rval$tstat
+tbl1[3, 1:3] <- pt(abs(rval$tstat), mod1$df, lower.tail=FALSE)*2
+print(round(tbl1, 3))
+
+### bootstrap simulations and results
+dgp <- getBootDGP(X1.names, X2.names, df, control=list(BC=TRUE, weightedReturns=TRUE, monthlyReturns=TRUE))
+## to avoid trends:
+## cat("# initializing at unconditional mean\n")
+## dgp$X1.init <- dgp$EX1
+## dgp$X2.init <- dgp$EX2
+rval1 <- bootstrapTestRR(fmla1, fmla2, df, dgp, M=M, estBootstrapSize=estSize)
+
+if (estSize) {
+    ## Power
+    rval2 <- bootstrapTestRR(fmla1, fmla2, df, dgp, M=M, H0=FALSE, estBootstrapSize=TRUE)
+    tblPower <- rval2$tblSize
+    rownames(tblPower) <- gsub("Size", "Power", rownames(tblPower))
+    tblPower[,1:3] <- NA
+    tbl2 <- rbind(rval1$tblCoef, rval1$tblSize, tblPower)
+} else {
+    tbl2 <- rval1$tblCoef
+}
+
+## R^2 table
+print(round(rval1$tblR2, digi=2))
+
+cat("Data        ", sprintf("& %3.2f ", rval1$tblR2[1,c(1,3,5)]), "\\\\ \n")
+cat("Bootstrap   ", sprintf("& %3.2f ", rval1$tblR2[2,c(1,3,5)]), "\\\\ \n")
+cat(sprintf("& (%3.2f, %3.2f)", rval1$tblR2[3,c(1,3,5)], rval1$tblR2[3,c(2,4,6)]), "\\\\ \n")
+
+## coefficients & inference
+print(round(rbind(tbl1, tbl2), 3))
+
+tbl2 <- tbl2[-grep("HAC", rownames(tbl2)),]
+
+printLatexTbl(tbl1)
+printLatexTbl(tbl2)
