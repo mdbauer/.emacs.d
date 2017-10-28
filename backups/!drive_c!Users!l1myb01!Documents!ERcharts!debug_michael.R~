@@ -1,6 +1,0 @@
-## setwd("~/Documents/ERcharts")
-library(readxl)
-read_excel(path = "raw_data/Interest Rates_SBC.xlsx", sheet = "Chart")
-read_excel(path = "raw_data/Interest Rates_SBC.xlsx", sheet = "GraphMe")
-read_xlsx(path = "raw_data/Interest Rates_SBC.xlsx", sheet = 3)
-read_xlsx(path = "raw_data/Interest Rates_SBC.xlsx", sheet = 4)

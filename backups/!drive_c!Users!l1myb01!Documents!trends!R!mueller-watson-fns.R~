@@ -1,7 +1,0 @@
-computePsi <- function(T, q) {
-    Psi_j <- function(s, j)
-        sqrt(2)*cos(j*s*pi)
-    Psi <- function(s)
-        Psi_j(s, j=1:q)
-    t(vapply(((1:T)-1/2)/T, Psi, numeric(q)))
-}

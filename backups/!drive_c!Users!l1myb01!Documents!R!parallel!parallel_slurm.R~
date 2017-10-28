@@ -1,8 +1,0 @@
-test_func <- function(par_mu, par_sd) {
-    samp <- rnorm(10^6, par_mu, par_sd)
-    c(s_mu = mean(samp), s_sd = sd(samp))
-}
-pars <- data.frame(par_mu = 1:10,
-                   par_sd = seq(0.1, 1, length.out = 10))
-print(head(pars, 3))
-

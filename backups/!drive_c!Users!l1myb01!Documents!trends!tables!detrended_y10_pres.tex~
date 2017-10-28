@@ -1,8 +1,0 @@
-% latex table generated in R 3.3.2 by xtable 1.8-2 package
-% Thu May 18 09:56:55 2017
- $y^{(10y)}_t$                                   & 2.84 & \cellcolor{chlt} 0.97 & \cellcolor{chlt} 22.5 & \cellcolor{chlt} -1.05 & -3.02 \\ 
-  $y^{(10y)}_t-\pi_t^\ast$                        & 1.58 & \cellcolor{chlt} 0.92 & \cellcolor{chlt}  7.9 & \cellcolor{chlt} -2.36 & -10.57 \\ 
-  $y^{(10y)}_t-\pi_t^\ast - r_t^\ast$             & 1.02 & \cellcolor{chlt} 0.83 & \cellcolor{chlt}  3.7 & \cellcolor{chlt} -4.01*** & -29.05*** \\ 
-  $y^{(10y)}_t-1.58\pi_t^\ast$                    & 1.27 & 0.87 &  5.0 & -2.66 & -19.23* \\ 
-  $y^{(10y)}_t-1.17\pi_t^\ast - 1.29r_t^\ast$     & 0.90 & 0.78 &  2.8 & -4.69*** & -38.45*** \\ 
-  

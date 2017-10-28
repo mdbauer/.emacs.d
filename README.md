@@ -1,4 +1,4 @@
-# .emacs.d
+# emacs.d
 
 This repository contains my personal Emacs configuration -- mainly my init.el and my installed packages.
 

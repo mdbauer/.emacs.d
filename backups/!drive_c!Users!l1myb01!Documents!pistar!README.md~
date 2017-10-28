@@ -1,6 +1,0 @@
-# pistar
-## Estimation of models for trend inflation
-
-- UC and ARIMA models
-- MLE of UC models using Kalman filter and EM algorithm
-- year-over-year inflation in monthly data

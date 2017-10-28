@@ -1,8 +1,0 @@
-#include <iostream>
-
-/* Write a main function that reads a set of lines each containing three int values
-from an input file and writes the three numbers and their sum to an output file.
-If a line does not contain exactly three integers, write the message "**** invalid
-data line, line number " followed by the number of the data line to the file. At the end, write the message "Number of lines processed is " followed by the
-count of lines, and write the message "Number of invalid lines is " followed
-by the count of invalid data lines. */
