@@ -182,9 +182,10 @@ Frame must be declared as an environment."
 
 ;; markdown mode
 (add-to-list 'auto-mode-alist '("\\.Rmd\\'" . markdown-mode))
-(add-hook 'markdown-mode-hook
-	  (lambda ()
-	    (markdown-enable-math)))
+;; (add-hook 'markdown-mode-hook
+;; 	  (lambda ()
+;; 	    (markdown-enable-math)))
+(setq markdown-enable-math t)
 (setq markdown-command "pandoc --from markdown")
 (load "pandoc-mode")
 (add-hook 'markdown-mode-hook 'pandoc-mode)

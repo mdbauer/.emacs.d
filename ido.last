@@ -68,6 +68,7 @@
 
 ;; ----- ido-work-directory-list -----
 (
+ "c:/Users/l1myb01/.emacs.d/"
  "c:/Users/l1myb01/"
  "c:/Users/l1myb01/Documents/org/"
  "c:/Users/l1myb01/Documents/Papers/_books/programming/"
@@ -117,11 +118,11 @@
  "c:/Users/l1myb01/Documents/IT/perl/"
  "c:/Users/l1myb01/Documents/rstarBrookings2017/"
  "c:/Users/l1myb01/Documents/rstar/results/"
- "c:/Users/l1myb01/Documents/robust/archive/"
 )
 
 ;; ----- ido-work-file-list -----
 (
+ "README.md"
  ".emacs"
  ".emacs.bak"
  "elisp.org"
@@ -131,12 +132,13 @@
  "website.org"
  "literature.bib"
  "delnegro_analyze.R"
- "trends_fns.R"
 )
 
 ;; ----- ido-dir-file-cache -----
 (
- ("c:/Users/l1myb01/" (23028 7910 0 0) "Videos/" "texmf/" "Templates/" "Start Menu/" "SendTo/" "Searches/" "Saved Games/" "Recent/" "R/" "PrintHood/" "Pictures/" "ntuser.pol" "ntuser.ini" "NTUSER.DAT{e2fd051c-af8d-11e6-b018-dfc48380e870}.TMContainer00000000000000000002.regtrans-ms" "NTUSER.DAT{e2fd051c-af8d-11e6-b018-dfc48380e870}.TMContainer00000000000000000001.regtrans-ms" "NTUSER.DAT{e2fd051c-af8d-11e6-b018-dfc48380e870}.TM.blf" "ntuser.dat.LOG2" "ntuser.dat.LOG1" "NTUSER.DAT" "NoMachine/" "NetHood/" "My Documents/" "Music/" "Local Settings/" "Links/" "IntelGraphicsProfiles/" "Favorites/" "Downloads/" "Documents/" "Desktop/" "Custom Office Templates/" "Cookies/" "Contacts/" "caps-lock-key.reg" "bin/" "Application Data/" "AppData/" ".ssh/" ".Rprofile" ".Rhistory" ".recentf~" ".recentf" ".oracle_jre_usage/" ".nx/" ".minttyrc" ".lesshst" ".idlerc/" ".history" ".gnupg/" ".gitconfig~" ".gitconfig" ".emacs~" ".emacs.d/" ".emacs.bak" ".emacs" ".config/" ".condarc" ".conda/" ".cisco/" ".bash_history" ".anaconda/" "../" "./")
+ ("c:/Users/l1myb01/.emacs.d/" (23028 11843 0 0) "server/" "profile-dotemacs.el" "places" "lisp/" "init.el~" "init.el" "ido.last" "elpa-mirror/" "elpa/" "bookmarks" "backups/" "auto-save-list/" ".git/" "../" "./")
+
+ ("c:/Users/l1myb01/" (23028 11451 0 0) "Videos/" "texmf/" "Templates/" "Start Menu/" "SendTo/" "Searches/" "Saved Games/" "Recent/" "R/" "PrintHood/" "Pictures/" "ntuser.pol" "ntuser.ini" "NTUSER.DAT{e2fd051c-af8d-11e6-b018-dfc48380e870}.TMContainer00000000000000000002.regtrans-ms" "NTUSER.DAT{e2fd051c-af8d-11e6-b018-dfc48380e870}.TMContainer00000000000000000001.regtrans-ms" "NTUSER.DAT{e2fd051c-af8d-11e6-b018-dfc48380e870}.TM.blf" "ntuser.dat.LOG2" "ntuser.dat.LOG1" "NTUSER.DAT" "NoMachine/" "NetHood/" "My Documents/" "Music/" "Local Settings/" "Links/" "IntelGraphicsProfiles/" "Favorites/" "Downloads/" "Documents/" "Desktop/" "Custom Office Templates/" "Cookies/" "Contacts/" "caps-lock-key.reg" "bin/" "Application Data/" "AppData/" ".ssh/" ".Rprofile" ".Rhistory" ".recentf~" ".recentf" ".oracle_jre_usage/" ".nx/" ".minttyrc" ".lesshst" ".idlerc/" ".history" ".gnupg/" ".gitconfig~" ".gitconfig" ".emacs.d/" ".emacs.bak" ".config/" ".condarc" ".conda/" ".cisco/" ".bash_history" ".anaconda/" "../" "./")
 
  ("c:/Users/l1myb01/Documents/org/" (23028 6996 0 0) "website.org" "tm.org~" "tm.org_archive~" "tm.org_archive" "tm.org" "tech_notes.org~" "tech_notes.org" "README.md" "project_notes_template.org" "papers.tex" "papers.org" "notes.org~" "notes.org" "linux.org" "HLW Summary Michael.pdf" "elisp.org" "development.org" "cloud.org" "auto/" ".Rhistory" ".git/" "../" "./")
 
@@ -333,8 +335,6 @@
  ("c:/Users/l1myb01/AppData/Local/Temp/scp36170/" (22869 11416 0 0) "data8/" "../" "./")
 
  ("c:/Users/l1myb01/AppData/Local/Temp/scp36170/data8/" (22869 11416 0 0) "home/" "../" "./")
-
- ("c:/Users/l1myb01/AppData/Local/Temp/scp36170/data8/home/" (22869 11416 0 0) "l1myb01/" "../" "./")
 )
 
 ;; ----- ido-unc-hosts-cache -----
