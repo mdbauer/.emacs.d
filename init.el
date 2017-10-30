@@ -17,17 +17,16 @@
                              ("org"   . "~/.emacs.d/elpa-mirror/org/")
                              ("gnu"   . "~/.emacs.d/elpa-mirror/gnu/")))
   ;; otherwise use online archives
-  (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("elpa" . "http://tromey.com/elpa/")
                            ("gnu" . "https://elpa.gnu.org/packages/")
-                           ("marmalade" . "https://marmalade-repo.org/packages/")
-                           ("melpa" . "https://melpa.org/packages/"))))
+                           ("marmalade" . "https://marmalade-repo.org/packages/"))))
 (setq package-list '(better-defaults   ;; packages to load
                      recentf
                      ess
                      auctex
                      org-bullets
                      tramp
-                     try
                      magit
                      markdown-mode
                      pandoc-mode
@@ -56,8 +55,9 @@
 (global-set-key [f5] 'call-last-kbd-macro)  ;; keyboard macros
 (setq next-line-add-newlines t) ;; add new lines when you reach the end of the buffer
 
-;;(set-frame-font "Inconsolata-12" nil t)
-(set-frame-font "Consolas-12" nil t)
+(if (string-equal system-type "windows-nt")
+    (set-frame-font "Consolas-12" nil t)
+  (set-frame-font "Inconsolata-12" nil t))
 
 ;; reduce the number of ding warnings
 (setq ring-bell-function
