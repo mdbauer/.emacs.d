@@ -7,12 +7,8 @@
 
 ;; package management
 (require 'package)
-(package-initialize)
-(unless package-archive-contents ;; refresh package descriptions
-  (package-refresh-contents))
-(if (string-equal (system-name) "L1MYB00L4")
-    ;; behind firewall use mirrored package archive
-    ;; https://github.com/d12frosted/elpa-mirror
+(if (member (system-name) (list "L1MYB00L4" "ubuntu"))
+    ;; behind firewall use: https://github.com/d12frosted/elpa-mirror
     (setq package-archives '(("melpa" . "~/.emacs.d/elpa-mirror/melpa/")
                              ("org"   . "~/.emacs.d/elpa-mirror/org/")
                              ("gnu"   . "~/.emacs.d/elpa-mirror/gnu/")))
@@ -21,7 +17,8 @@
 			   ("elpa" . "http://tromey.com/elpa/")
                            ("gnu" . "https://elpa.gnu.org/packages/")
                            ("marmalade" . "https://marmalade-repo.org/packages/"))))
-(setq package-list '(better-defaults   ;; packages to load
+;; packages to install
+(setq package-list '(better-defaults   
                      recentf
                      ess
                      auctex
@@ -31,6 +28,10 @@
                      markdown-mode
                      pandoc-mode
                      ))
+(package-initialize)
+;; refresh package descriptions
+(unless package-archive-contents 
+  (package-refresh-contents))
 ;; install missing packages
 (dolist (package package-list)
   (unless (package-installed-p package)
