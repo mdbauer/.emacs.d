@@ -149,4 +149,7 @@
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 
+;; does this speed up finding files?
+(remove-hook 'find-file-hooks 'vc-find-file-hook)
+
 (find-file "~/Documents/org/tm.org")
