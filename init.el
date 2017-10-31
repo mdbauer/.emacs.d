@@ -1,3 +1,6 @@
+;; Michael's Emacs initialization
+;; https://github.com/mdbauer/emacs.d.git
+
 ;; set load path for custom lisp
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
@@ -15,11 +18,9 @@
   ;; otherwise use online archives
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
 			   ("elpa" . "http://tromey.com/elpa/")
-                           ("gnu" . "https://elpa.gnu.org/packages/")
-                           ("marmalade" . "https://marmalade-repo.org/packages/"))))
+                           ("gnu" . "https://elpa.gnu.org/packages/"))))
 ;; packages to install
-(setq package-list '(better-defaults   
-                     recentf
+(setq package-list '(recentf
                      ess
                      auctex
                      org-bullets
@@ -37,8 +38,8 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-(require 'better-defaults)
-;; (require 'hfyview)
+;; my version of better-defaults
+(load "~/.emacs.d/init-better-defaults.el")
 
 ;; Latex
 (load "~/.emacs.d/init-latex.el")
@@ -47,18 +48,14 @@
 (load "~/.emacs.d/init-ess.el")
 
 ;; For Windows
-(when (string-equal system-type "windows-nt")
-  (load "~/.emacs.d/init-windows.el"))
-
-(setq inhibit-startup-message t) ;; hide the startup message
-;; (global-linum-mode t) ;; enable line numbers globally
-(windmove-default-keybindings) ;; to move between windows using shift-key
-(global-set-key [f5] 'call-last-kbd-macro)  ;; keyboard macros
-(setq next-line-add-newlines t) ;; add new lines when you reach the end of the buffer
-
 (if (string-equal system-type "windows-nt")
-    (set-frame-font "Consolas-12" nil t)
-  (set-frame-font "Inconsolata-12" nil t))
+    (load "~/.emacs.d/init-windows.el")
+  (load "~/.emacs.d/init-linux.el"))
+
+;; nice console fonts
+(if (string-equal system-type "windows-nt")
+    (set-frame-font "Consolas-12" nil t)    ;; Windows
+  (set-frame-font "Inconsolata-12" nil t))  ;; Linux
 
 ;; reduce the number of ding warnings
 (setq ring-bell-function
@@ -92,12 +89,6 @@
   "Like \\[dired-jump] (dired-jump) but in other window." t)
 (define-key global-map "\C-x\C-j" 'dired-jump)
 (define-key global-map "\C-x4\C-j" 'dired-jump-other-window)
-
-;; ido mode
-;; see tips at https://www.masteringemacs.org/article/introduction-to-ido-mode
-(setq ido-everywhere t) ; better-defaults turns on ido-mode and ido-flex-matching but not this
-(setq ido-file-extensions-order '(".tex" ".r" ".org" ".txt" ".py" ".el" ".md")) ; improve sorting of giles in minibuffer
-(setq ido-ignore-extensions t) ; so ido can use completion-ignored-extensions
 
 ;; recentf -- https://www.emacswiki.org/emacs/RecentFiles
 (require 'recentf)
@@ -145,10 +136,10 @@
 ;; https://shreevatsa.wordpress.com/2007/01/06/using-emacsclient/
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
-;; Run at full power please
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
+;; don't ask for confirmation of these commands
+(put 'downcase-region 'disabled nil)  ;; C-x C-l
+(put 'upcase-region 'disabled nil)    ;; C-x C-u
+(put 'narrow-to-region 'disabled nil) ;; C-x n n
 
 ;; does this speed up finding files?
 (remove-hook 'find-file-hooks 'vc-find-file-hook)
