@@ -13,12 +13,40 @@
 (setq tooltip-delay 0.1)  ;; for tooltip-mode -- default is 0.7 seconds
 (setq-default fill-column 80)
 
+;; fixing prompts -- https://www.masteringemacs.org/article/disabling-prompts-emacs
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq confirm-nonexistent-file-or-buffer nil)
+(setq ido-create-new-buffer 'always)
+(setq kill-buffer-query-functions
+  (remq 'process-kill-buffer-query-function
+        kill-buffer-query-functions))
+
 ;; ido mode
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t) 
 (setq ido-file-extensions-order '(".tex" ".r" ".org" ".txt" ".py" ".el" ".md")) ; improve sorting of giles in minibuffer
 (setq ido-ignore-extensions t) ; so ido can use completion-ignored-extensions
+
+;; reduce the number of ding warnings
+(setq ring-bell-function
+      (lambda ()
+	(unless (memq this-command
+		      '(isearch-abort abort-recursive-edit exit-minibuffer keyboard-quit))
+	  (ding))))
+
+;; more informative frame titles
+(setq frame-title-format
+          '(buffer-file-name
+            "%f"
+            (dired-directory dired-directory "%b")))
+
+;; instant access to my init file
+(defun find-user-init-file ()
+  "Edit the `user-init-file'"
+  (interactive)
+  (find-file user-init-file))
+(global-set-key (kbd "C-c I") 'find-user-init-file)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; this part from better-defaults package, with some changes
