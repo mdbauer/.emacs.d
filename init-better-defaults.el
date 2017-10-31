@@ -2,16 +2,12 @@
 
 (setq inhibit-startup-message t) ;; hide the startup message
 ;; (global-linum-mode t) ;; enable line numbers globally
-(windmove-default-keybindings) ;; to move between windows using shift-key
-(global-set-key [f5] 'call-last-kbd-macro)  ;; keyboard macros
-(setq next-line-add-newlines t) ;; add new lines when you reach the end of the buffer
 (setq-default major-mode 'text-mode) ;; text mode instead of fundamental mode as default
-(global-set-key "\C-cw" 'compare-windows) ;; compare text, move point in both windows
-(global-set-key "\C-co" 'occur) ;; show all lines in buffer that match regex
 (blink-cursor-mode 0)
 ;; (menu-bar-mode 1)  -- is on by default
 (setq tooltip-delay 0.1)  ;; for tooltip-mode -- default is 0.7 seconds
 (setq-default fill-column 80)
+(setq next-line-add-newlines t) ;; add new lines when you reach the end of the buffer
 
 ;; fixing prompts -- https://www.masteringemacs.org/article/disabling-prompts-emacs
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -46,7 +42,17 @@
   "Edit the `user-init-file'"
   (interactive)
   (find-file user-init-file))
-(global-set-key (kbd "C-c I") 'find-user-init-file)
+
+;; key bindings
+(global-set-key "\C-cw" 'compare-windows) ;; compare text, move point in both windows
+(global-set-key "\C-co" 'occur) ;; show all lines in buffer that match regex
+(global-set-key "\C-cI" 'find-user-init-file)  
+(global-set-key [f5] 'call-last-kbd-macro)  ;; keyboard macros
+(global-set-key (kbd "M-j") ;; join following line onto current one
+            (lambda ()
+                  (interactive)
+                  (join-line -1)))
+(windmove-default-keybindings) ;; to move between windows using shift-key
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; this part from better-defaults package, with some changes
