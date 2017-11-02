@@ -10,15 +10,15 @@
 
 ;; package management
 (require 'package)
+
 (if (member (system-name) (list "L1MYB00L4" "ubuntu"))
     ;; behind firewall use: https://github.com/d12frosted/elpa-mirror
     (setq package-archives '(("melpa" . "~/.emacs.d/elpa-mirror/melpa/")
                              ("org"   . "~/.emacs.d/elpa-mirror/org/")
                              ("gnu"   . "~/.emacs.d/elpa-mirror/gnu/")))
   ;; otherwise use online archives
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			   ("elpa" . "http://tromey.com/elpa/")
-                           ("gnu" . "https://elpa.gnu.org/packages/"))))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
+
 ;; packages to install
 (setq package-list '(recentf
                      ess
