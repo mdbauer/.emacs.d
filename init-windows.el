@@ -1,11 +1,12 @@
-;; Windows explorer - F12 opens Explorer for current file path
 (defun explorer ()
-  "Launch the windows explorer in the current directory and selects current file"
+  "Launch windows explorer in current directory and, if possible, select current file"
   (interactive)
   (w32-shell-execute
    "open"
    "explorer"
-   (concat "/e,/select," (convert-standard-filename buffer-file-name))))
+   (if buffer-file-name
+       (concat "/e,/select," (convert-standard-filename buffer-file-name))
+     (convert-standard-filename default-directory))))
 (global-set-key [f12] 'explorer)
 
 ;; ;; shell

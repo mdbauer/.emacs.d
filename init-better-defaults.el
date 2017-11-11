@@ -1,12 +1,13 @@
 ;;;; my better defaults
 
+;; (global-font-lock-mode -1)  ;; improves performance - but org-bullets
 (setq inhibit-startup-message t) ;; hide the startup message
 ;; (global-linum-mode t) ;; enable line numbers globally
 (setq-default major-mode 'text-mode) ;; text mode instead of fundamental mode as default
-(blink-cursor-mode 0)
-;; (menu-bar-mode 1)  -- is on by default
-(setq tooltip-delay 0.1)  ;; for tooltip-mode -- default is 0.7 seconds
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
 (setq-default fill-column 80)
+(blink-cursor-mode 0)
+(setq tooltip-delay 0.1)  ;; for tooltip-mode -- default is 0.7 seconds
 (setq next-line-add-newlines t) ;; add new lines when you reach the end of the buffer
 
 ;; fixing prompts -- https://www.masteringemacs.org/article/disabling-prompts-emacs
@@ -20,7 +21,7 @@
 ;; ido mode
 (ido-mode t)
 (setq ido-enable-flex-matching t)
-(setq ido-everywhere t) 
+(setq ido-everywhere t)
 (setq ido-file-extensions-order '(".tex" ".r" ".org" ".txt" ".py" ".el" ".md")) ; improve sorting of giles in minibuffer
 (setq ido-ignore-extensions t) ; so ido can use completion-ignored-extensions
 
@@ -46,7 +47,7 @@
 ;; key bindings
 (global-set-key "\C-cw" 'compare-windows) ;; compare text, move point in both windows
 (global-set-key "\C-co" 'occur) ;; show all lines in buffer that match regex
-(global-set-key "\C-cI" 'find-user-init-file)  
+(global-set-key "\C-cI" 'find-user-init-file)
 (global-set-key [f5] 'call-last-kbd-macro)  ;; keyboard macros
 (global-set-key (kbd "M-j") ;; join following line onto current one
             (lambda ()
@@ -55,7 +56,7 @@
 (windmove-default-keybindings) ;; to move between windows using shift-key
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; this part from better-defaults package, with some changes
+;;;; this part from better-defaults package, with lines commented out
 
 ;; (unless (fboundp 'helm-mode)
 ;;   (ido-mode t)
