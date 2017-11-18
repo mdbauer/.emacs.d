@@ -20,14 +20,15 @@
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
 
 ;; packages to install
-(setq package-list '(recentf
-                     ess
+(setq package-list '(ess
                      auctex
                      org-bullets
+                     flycheck
                      tramp
                      magit
                      markdown-mode
                      pandoc-mode
+                     polymode
                      ))
 (package-initialize)
 ;; refresh package descriptions
@@ -55,23 +56,30 @@
     (load "~/.emacs.d/init-windows.el")
   (load "~/.emacs.d/init-linux.el"))
 
+(load "toggle-window-split.el")
+
 ;; nice console fonts
 (if (string-equal system-type "windows-nt")
     (set-frame-font "Consolas-12" nil t)    ;; Windows
   (set-frame-font "Inconsolata-12" nil t))  ;; Linux
 
 ;; recentf -- https://www.emacswiki.org/emacs/RecentFiles
-(require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 ;; markdown mode
-(add-to-list 'auto-mode-alist '("\\.Rmd\\'" . markdown-mode))
+;; (add-to-list 'auto-mode-alist '("\\.Rmd\\'" . markdown-mode))
 (setq markdown-enable-math t)
 (setq markdown-command "pandoc --from markdown")
 (load "pandoc-mode")
 (add-hook 'markdown-mode-hook 'pandoc-mode)
+
+;;; polymode
+;; MARKDOWN
+(add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
+;; R modes
+(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
 
 ;; org-mode
 (load "~/.emacs.d/init-org.el")

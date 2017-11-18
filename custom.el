@@ -6,7 +6,7 @@
  '(LaTeX-command "latex -file-line-error")
  '(package-selected-packages
    (quote
-    (try pandoc-mode org-bullets markdown-mode magit flycheck ess better-defaults auctex)))
+    (polymode try pandoc-mode org-bullets markdown-mode magit flycheck ess better-defaults auctex)))
  '(safe-local-variable-values (quote ((TeX-master . t)))))
 ;; https://www.reddit.com/r/emacs/comments/53zpv9/how_do_i_get_emacs_to_stop_adding_custom_fields/
 (custom-set-faces
