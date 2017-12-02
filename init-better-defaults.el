@@ -10,6 +10,8 @@
 (setq tooltip-delay 0.1)  ;; for tooltip-mode -- default is 0.7 seconds
 (setq next-line-add-newlines t) ;; add new lines when you reach the end of the buffer
 
+(prefer-coding-system 'utf-8) ;; make UTF-8 preferred encoding
+
 ;; fixing prompts -- https://www.masteringemacs.org/article/disabling-prompts-emacs
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq confirm-nonexistent-file-or-buffer nil)

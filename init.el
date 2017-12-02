@@ -32,7 +32,7 @@
                      ))
 (package-initialize)
 ;; refresh package descriptions
-(unless package-archive-contents 
+(unless package-archive-contents
   (package-refresh-contents))
 ;; install missing packages
 (dolist (package package-list)
@@ -51,7 +51,7 @@
 ;; Dired
 (load "~/.emacs.d/init-dired.el")
 
-;; For Windows
+;; Windows/Linux specific configuration
 (if (string-equal system-type "windows-nt")
     (load "~/.emacs.d/init-windows.el")
   (load "~/.emacs.d/init-linux.el"))
