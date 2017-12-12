@@ -12,8 +12,10 @@
 ;; shell
 ;; from https://www.masteringemacs.org/article/running-shells-in-emacs-overview
 ;; shortcut: "C:\Program Files\Git\git-bash.exe" --cd-to-home
-(setq explicit-shell-file-name "C:/Program Files/Git/git-bash.exe")
-(setq explicit-bash.exe-args '("--login" "-i"))
+
+;; (setq explicit-shell-file-name "C:/Program Files/Git/git-bash.exe")
+;; (setq explicit-bash.exe-args '("--login" "-i"))
+
 ;; (setq shell-file-name explicit-shell-file-name)
 ;; (setenv "SHELL" shell-file-name)
 ;; (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
