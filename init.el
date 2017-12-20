@@ -11,7 +11,7 @@
 ;; package management
 (require 'package)
 
-(if (member (system-name) (list "L1MYB00L4" "ubuntu"))
+(if (member (system-name) (list "L1MYB00L5" "L1MYB00L4" "ubuntu"))
     ;; behind firewall use: https://github.com/d12frosted/elpa-mirror
     (setq package-archives '(("melpa" . "~/.emacs.d/elpa-mirror/melpa/")
                              ("org"   . "~/.emacs.d/elpa-mirror/org/")
