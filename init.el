@@ -96,8 +96,8 @@
 
 ;; Emacs server
 (require 'server)
-(unless (server-running-p)
-  (server-start))
+;; (unless (server-running-p)
+(server-start)
 (setq server-socket-dir "~/.emacs.d/server")
 ;; to avoid "Buffer foo still has clients; kill it?"
 ;; https://shreevatsa.wordpress.com/2007/01/06/using-emacsclient/
