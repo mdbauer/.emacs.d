@@ -13,6 +13,8 @@
 ;; from https://www.masteringemacs.org/article/running-shells-in-emacs-overview
 ;; shortcut: "C:\Program Files\Git\git-bash.exe" --cd-to-home
 
+(setq shell-file-name "C:/Program Files/Git/bin/bash.exe")
+
 ;; (setq explicit-shell-file-name "C:/Program Files/Git/git-bash.exe")
 ;; (setq explicit-bash.exe-args '("--login" "-i"))
 
