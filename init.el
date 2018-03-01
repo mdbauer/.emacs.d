@@ -63,6 +63,9 @@
 ;;     (set-frame-font "Consolas-12" nil t)    ;; Windows
 ;;   (set-frame-font "Inconsolata-12" nil t))  ;; Linux
 
+;; python
+(setq python-shell-completion-native-enable nil)
+
 ;; recentf -- https://www.emacswiki.org/emacs/RecentFiles
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
