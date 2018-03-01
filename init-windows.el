@@ -2,11 +2,15 @@
   "Launch windows explorer in current directory and, if possible, select current file"
   (interactive)
   (w32-shell-execute
-   "open"
-   "explorer"
-   (if buffer-file-name
-       (concat "/e,/select," (convert-standard-filename buffer-file-name))
-     (convert-standard-filename default-directory))))
+    "explore"
+    (convert-standard-filename default-directory))
+  ;; (w32-shell-execute
+  ;;  "open"
+  ;;  "explorer"
+  ;;  (if buffer-file-name
+  ;;      (concat "/e,/select," (convert-standard-filename buffer-file-name)) 
+  ;;    (convert-standard-filename default-directory)))
+  )
 (global-set-key [f12] 'explorer)
 
 ;; shell
