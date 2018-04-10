@@ -60,3 +60,19 @@ Frame must be declared as an environment."
   (LaTeX-environment-menu "frame")
   (insert "\\frametitle{}")
   (backward-char 1))
+
+;; forward/inverse search
+;; http://william.famille-blum.org/blog/static.php?page=static081010-000413
+;; http://www.barik.net/archive/2012/07/18/154432/
+;; https://stackoverflow.com/questions/14448606/sync-emacs-auctex-with-sumatra-pdf
+(setq TeX-source-correlate-method 'synctex)
+(setq TeX-source-correlate-mode t)
+(setq TeX-source-correlate-start-server t)
+(setq TeX-view-program-list
+   '(("Sumatra PDF" ("\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
+                     (mode-io-correlate " -forward-search %b %n ") " %o"))))
+
+(eval-after-load 'tex
+  '(progn
+     (assq-delete-all 'output-pdf TeX-view-program-selection)
+     (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF"))))
