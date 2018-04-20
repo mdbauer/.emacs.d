@@ -11,7 +11,7 @@
 ;; package management
 (require 'package)
 
-(if (member (system-name) (list "L1MYB00L5" "L1MYB00L4" "ubuntu"))
+(if (member (system-name) (list "L1MYB00L5" "L1MYB00L4" "l1uerp21.sf.frb.org"))
     ;; behind firewall use: https://github.com/d12frosted/elpa-mirror
     (setq package-archives '(("melpa" . "~/.emacs.d/elpa-mirror/melpa/")
                              ("org"   . "~/.emacs.d/elpa-mirror/org/")
@@ -58,10 +58,10 @@
 
 (load "toggle-window-split.el")
 
-;; nice console fonts
-(if (string-equal system-type "windows-nt")
-    (set-frame-font "Consolas-12" nil t)    ;; Windows
-  (set-frame-font "Inconsolata-12" nil t))  ;; Linux
+;; ;; nice console fonts
+;; (if (string-equal system-type "windows-nt")
+;;     (set-frame-font "Consolas-12" nil t)    ;; Windows
+;;   (set-frame-font "Inconsolata-12" nil t))  ;; Linux
 
 ;; recentf -- https://www.emacswiki.org/emacs/RecentFiles
 (recentf-mode 1)
@@ -108,4 +108,5 @@
 (put 'upcase-region 'disabled nil)    ;; C-x C-u
 (put 'narrow-to-region 'disabled nil) ;; C-x n n
 
-(find-file "~/Documents/org/tm.org")
+(if (file-exists-p "~/Documents/org/tm.org")
+    (find-file "~/Documents/org/tm.org"))
