@@ -4,26 +4,21 @@
 ;; set load path for custom lisp
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
-;; emacs custom-settings in separate file
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
-
 ;; package management
 (require 'package)
 
 (if (member (system-name) (list "L1MYB00L5" "L1MYB00L4" "l1uerp21.sf.frb.org"))
     ;; behind firewall use: https://github.com/d12frosted/elpa-mirror
-    (setq package-archives '(("melpa" . "~/.emacs.d/elpa-mirror/melpa/")
-                             ("org"   . "~/.emacs.d/elpa-mirror/org/")
-                             ("gnu"   . "~/.emacs.d/elpa-mirror/gnu/")))
-  ;; otherwise use online archives
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
+   (setq package-archives '(("melpa" . "~/.emacs.d/elpa-mirror/melpa/")
+                            ("org"   . "~/.emacs.d/elpa-mirror/org/")
+                            ("gnu"   . "~/.emacs.d/elpa-mirror/gnu/")))
+ ;; otherwise use online archives
+ (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/")))
 
 ;; packages to install
-(setq package-list '(ess
-                     auctex
+(setq package-list '(auctex
                      org-bullets
-                     flycheck
+		     flycheck
                      tramp
                      magit
                      markdown-mode
@@ -110,6 +105,10 @@
 (put 'downcase-region 'disabled nil)  ;; C-x C-l
 (put 'upcase-region 'disabled nil)    ;; C-x C-u
 (put 'narrow-to-region 'disabled nil) ;; C-x n n
+
+;; emacs custom-settings in separate file
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 (if (file-exists-p "~/Documents/org/tm.org")
     (find-file "~/Documents/org/tm.org"))
