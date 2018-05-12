@@ -10,13 +10,18 @@
 (require 'package)
 (if (member (system-name) (list "L1MYB00L5" "L1MYB00L4" "l1uerp21.sf.frb.org"))
     ;; behind firewall use: https://github.com/d12frosted/elpa-mirror
-   (setq package-archives '(("melpa" . "~/.emacs.d/elpa-mirror/melpa/")
-                            ("org"   . "~/.emacs.d/elpa-mirror/org/")
-                            ("gnu"   . "~/.emacs.d/elpa-mirror/gnu/")))
- ;; otherwise use online archives
-  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                           ("marmalade" . "https://marmalade-repo.org/packages/")
-                           ("melpa" . "https://melpa.org/packages/"))))
+    (setq package-archives '(("melpa" . "~/.emacs.d/elpa-mirror/melpa/")
+			     ("org"   . "~/.emacs.d/elpa-mirror/org/")
+			     ("gnu"   . "~/.emacs.d/elpa-mirror/gnu/")))
+  ;; otherwise use online archives
+  (if (string-equal system-type "windows-nt")
+      (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+			       ("marmalade" . "http://marmalade-repo.org/packages/")
+			       ("melpa" . "http://melpa.org/packages/")))
+    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+			     ("marmalade" . "https://marmalade-repo.org/packages/")
+			     ("melpa" . "https://melpa.org/packages/")))))
+
 ;; packages to install
 (setq package-list '(ess
                      auctex
@@ -28,10 +33,12 @@
                      pandoc-mode
                      polymode
                      ))
+
 (package-initialize)
 ;; refresh package descriptions
 (unless package-archive-contents
   (package-refresh-contents))
+
 ;; install missing packages
 (dolist (package package-list)
   (unless (package-installed-p package)

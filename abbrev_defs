@@ -41,8 +41,6 @@
 
 (define-abbrev-table 'completion-list-mode-abbrev-table '())
 
-(define-abbrev-table 'debugger-mode-abbrev-table '())
-
 (define-abbrev-table 'diff-mode-abbrev-table '())
 
 (define-abbrev-table 'edit-abbrevs-mode-abbrev-table '())
@@ -50,10 +48,6 @@
 (define-abbrev-table 'elisp-byte-code-mode-abbrev-table '())
 
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table '())
-
-(define-abbrev-table 'ert-results-mode-abbrev-table '())
-
-(define-abbrev-table 'ert-simple-view-mode-abbrev-table '())
 
 (define-abbrev-table 'ess-julia-mode-abbrev-table '())
 
@@ -89,7 +83,11 @@
 
 (define-abbrev-table 'special-mode-abbrev-table '())
 
+(define-abbrev-table 'speedbar-mode-abbrev-table '())
+
 (define-abbrev-table 'tabulated-list-mode-abbrev-table '())
+
+(define-abbrev-table 'tar-mode-abbrev-table '())
 
 (define-abbrev-table 'text-mode-abbrev-table '())
 
@@ -100,4 +98,6 @@
 (define-abbrev-table 'vc-git-log-view-mode-abbrev-table '())
 
 (define-abbrev-table 'vc-git-region-history-mode-abbrev-table '())
+
+(define-abbrev-table 'xref--xref-buffer-mode-abbrev-table '())
 
