@@ -6,7 +6,7 @@
  '(LaTeX-command "latex -file-line-error")
  '(org-agenda-files
    (quote
-    ("~/Documents/fed-info/fed-info.org" "~/Documents/mpu/mpu.org" "~/Documents/trends/trends.org" "~/Documents/rstar/rstar.org" "~/Documents/org/tm.org")))
+    ("~/Documents/fed-info/fed-info.org" "~/Documents/mpu/mpu.org" "~/Documents/trends/trends.org" "~/Documents/org/tm.org")))
  '(package-selected-packages
    (quote
     (stan-mode polymode try pandoc-mode org-bullets markdown-mode magit flycheck ess better-defaults auctex)))
