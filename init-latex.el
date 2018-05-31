@@ -4,9 +4,7 @@
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil) ; Query for master file.
-(when (string-equal system-type "gnu/linux")
-  (setq TeX-view-program-selection
-        '((output-pdf "Okular"))))
+
 ;; (setq TeX-source-specials-mode t)   ; same position in Emacs and DVI viewer
 (add-hook 'LaTeX-mode-hook 'flyspell-mode) ;; Use flyspell with latex
  	
@@ -65,14 +63,30 @@ Frame must be declared as an environment."
 ;; http://william.famille-blum.org/blog/static.php?page=static081010-000413
 ;; http://www.barik.net/archive/2012/07/18/154432/
 ;; https://stackoverflow.com/questions/14448606/sync-emacs-auctex-with-sumatra-pdf
+;; http://www.kevindemarco.com/2013/04/24/emacs-auctex-synctex-okular-on-ubuntu-12-04/
 (setq TeX-source-correlate-method 'synctex)
 (setq TeX-source-correlate-mode t)
 (setq TeX-source-correlate-start-server t)
-(setq TeX-view-program-list
-   '(("Sumatra PDF" ("\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
-                     (mode-io-correlate " -forward-search %b %n ") " %o"))))
 
+(if (string-equal system-type "windows-nt")
+    (setq TeX-view-program-list
+          '(("Sumatra PDF" ("\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
+                            (mode-io-correlate " -forward-search %b %n ") " %o"))))
+  (setq TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n%b")))))
+    
 (eval-after-load 'tex
   '(progn
      (assq-delete-all 'output-pdf TeX-view-program-selection)
-     (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF"))))
+     (if (string-equal system-type "windows-nt")
+         (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF"))
+       (add-to-list 'TeX-view-program-selection '(output-pdf "Okular")))))
+
+
+
+
+
+
+
+
+
+
