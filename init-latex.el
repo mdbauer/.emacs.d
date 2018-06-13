@@ -80,13 +80,3 @@ Frame must be declared as an environment."
      (if (string-equal system-type "windows-nt")
          (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF"))
        (add-to-list 'TeX-view-program-selection '(output-pdf "Okular")))))
-
-
-
-
-
-
-
-
-
-

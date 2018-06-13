@@ -104,10 +104,10 @@
 (global-set-key (kbd "C-x C-m") 'compile)
 
 ;; Emacs server
-(require 'server)
+;; (require 'server)
 ;; (unless (server-running-p)
 (server-start)
-(setq server-socket-dir "~/.emacs.d/server")
+;; (setq server-socket-dir "~/.emacs.d/server")
 ;; to avoid "Buffer foo still has clients; kill it?"
 ;; https://shreevatsa.wordpress.com/2007/01/06/using-emacsclient/
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
@@ -121,5 +121,7 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+;; open my time-management org-file if it exists
 (if (file-exists-p "~/Documents/org/tm.org")
-    (find-file "~/Documents/org/tm.org"))
+    (setq initial-buffer-choice "~/Documents/org/tm.org"))
+(put 'set-goal-column 'disabled nil)
