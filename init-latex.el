@@ -11,7 +11,7 @@
 (require 'reftex)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
 (add-hook 'latex-mode-hook 'turn-on-reftex)   ; with Emacs latex mode
-(setq reftex-default-bibliography '("~/Documents/literature.bib"))
+(setq reftex-default-bibliography '("~/texmf/bibtex/bib/mybibs/literature.bib"))
 (setq reftex-ref-macro-prompt nil)  ; don't ask for reference format
 (setq reftex-plug-into-AUCTeX t) ; integrate RefTeX with AUCTeX
 
