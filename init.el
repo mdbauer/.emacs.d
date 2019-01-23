@@ -75,6 +75,9 @@
 (load "pandoc-mode")
 (add-hook 'markdown-mode-hook 'pandoc-mode)
 
+;; cuda
+(add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
+
 ;;; polymode
 ;; MARKDOWN
 (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
