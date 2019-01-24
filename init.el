@@ -56,9 +56,9 @@
 (load "toggle-window-split.el")
 
 ;; ;; nice console fonts
-;; (if (string-equal system-type "windows-nt")
-;;     (set-frame-font "Consolas-12" nil t)    ;; Windows
-;;   (set-frame-font "Inconsolata-12" nil t))  ;; Linux
+(if (string-equal system-type "windows-nt")
+    (set-frame-font "Consolas-12" nil t)    ;; Windows
+  (set-frame-font "Inconsolata-12" nil t))  ;; Linux
 
 ;; python
 (setq python-shell-completion-native-enable nil)
@@ -116,6 +116,6 @@
 (load custom-file)
 
 ;; open my time-management org-file if it exists
-(if (file-exists-p "~/Documents/org/tm.org")
-    (setq initial-buffer-choice "~/Documents/org/tm.org"))
+(if (file-exists-p "~/Dropbox (Personal)/org/tm.org")
+    (setq initial-buffer-choice "~/Dropbox (Personal)/org/tm.org"))
 (put 'set-goal-column 'disabled nil)
