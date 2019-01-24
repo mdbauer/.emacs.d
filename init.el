@@ -84,6 +84,14 @@
 ;; R modes
 (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
 
+;; path to dropbox, org-files, tm
+(setq dropbox-path
+      (cond ((string-equal (system-name) "DELLE") "D:/Dropbox (Personal)")
+            ((string-equal (system-name) "L1MYB00L5") "~/Dropbox (Personal)")
+            (t "~/Dropbox")))
+(setq org-path (concat (file-name-as-directory dropbox-path) "org"))
+(setq tm-path (concat (file-name-as-directory org-path) "tm.org"))
+
 ;; org-mode
 (load "~/.emacs.d/init-org.el")
 
@@ -116,6 +124,6 @@
 (load custom-file)
 
 ;; open my time-management org-file if it exists
-(if (file-exists-p "~/Dropbox (Personal)/org/tm.org")
-    (setq initial-buffer-choice "~/Dropbox (Personal)/org/tm.org"))
+(if (file-exists-p tm-path)
+    (setq initial-buffer-choice tm-path))
 (put 'set-goal-column 'disabled nil)
