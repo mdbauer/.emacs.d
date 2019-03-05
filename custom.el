@@ -7,7 +7,7 @@
  '(blink-cursor-mode nil)
  '(package-selected-packages
    (quote
-    (stan-mode polymode try pandoc-mode org-bullets markdown-mode magit flycheck ess better-defaults auctex)))
+    (poly-markdown stan-mode pandoc-mode org-bullets markdown-mode magit-popup magit ghub flycheck ess auctex)))
  '(safe-local-variable-values (quote ((TeX-master . t))))
  '(show-paren-mode t)
  '(tool-bar-mode nil))

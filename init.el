@@ -17,12 +17,15 @@
 (setq package-list '(ess
                      auctex
                      org-bullets
+                     ;; stan-mode
 		     flycheck
+                     ;; try
                      tramp
                      magit
                      markdown-mode
                      pandoc-mode
-                     polymode
+                     ;; polymode
+		     poly-markdown
                      ))
 
 (package-initialize)
