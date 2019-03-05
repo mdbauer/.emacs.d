@@ -40,21 +40,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; my version of better-defaults
-(load "~/.emacs.d/init-better-defaults.el")
+(load "init-better-defaults.el")
 
 ;; Latex
-(load "~/.emacs.d/init-latex.el")
+(load "init-latex.el")
 
 ;; ESS
-(load "~/.emacs.d/init-ess.el")
+(load "init-ess.el")
 
 ;; Dired
-(load "~/.emacs.d/init-dired.el")
+(load "init-dired.el")
 
 ;; Windows/Linux specific configuration
 (if (string-equal system-type "windows-nt")
-    (load "~/.emacs.d/init-windows.el")
-  (load "~/.emacs.d/init-linux.el"))
+    (load "init-windows.el")
+  (load "init-linux.el"))
 
 (load "toggle-window-split.el")
 
@@ -96,7 +96,7 @@
 (setq tm-path (concat (file-name-as-directory org-path) "tm.org"))
 
 ;; org-mode
-(load "~/.emacs.d/init-org.el")
+(load "init-org.el")
 
 ;; theme
 (load-theme 'tango-dark t)
