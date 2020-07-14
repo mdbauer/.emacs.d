@@ -91,12 +91,15 @@
 (setq dropbox-path
       (cond ((string-equal (system-name) "DELLE") "D:/Dropbox (Personal)")
             ((string-equal (system-name) "L1MYB00L5") "~/Dropbox (Personal)")
+            ((string-equal (system-name) "UN-WKS-009761") "C:/Dropbox")
             (t "~/Dropbox")))
 (setq org-path (concat (file-name-as-directory dropbox-path) "org"))
 (setq tm-path (concat (file-name-as-directory org-path) "tm.org"))
 
-;; org-mode
-(load "init-org.el")
+;; path to My Documents
+(setq mydoc-path
+      (cond ((string-equal (system-name) "UN-WKS-009761") "X:")
+            (t "~/Documents")))
 
 ;; theme
 (load-theme 'tango-dark t)
@@ -125,6 +128,9 @@
 ;; emacs custom-settings in separate file
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
+
+;; org-mode
+(load "init-org.el")
 
 ;; open my time-management org-file if it exists
 (if (file-exists-p tm-path)
