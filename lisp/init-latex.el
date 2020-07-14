@@ -70,13 +70,13 @@ Frame must be declared as an environment."
 
 (if (string-equal system-type "windows-nt")
     (setq TeX-view-program-list
-          (if (string-equal (system-name) "UN-WKS-009761")
-              '(("Sumatra PDF" ("\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
-                                (mode-io-correlate " -forward-search %b %n ") " %o")))
-            '(("Sumatra PDF" ("\"C:/Program Files (x86)/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
-                              (mode-io-correlate " -forward-search %b %n ") " %o")))))
-          ;; '(("Sumatra PDF" ("\"C:/Program Files (x86)/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
-          ;;                   (mode-io-correlate " -forward-search %b %n ") " %o"))))
+          ;; (if (string-equal (system-name) "UN-WKS-009761")
+          ;;     '(("Sumatra PDF" ("\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
+          ;;                       (mode-io-correlate " -forward-search %b %n ") " %o")))
+          ;;   '(("Sumatra PDF" ("\"C:/Program Files (x86)/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
+          ;;                     (mode-io-correlate " -forward-search %b %n ") " %o")))))
+          '(("Sumatra PDF" ("\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
+                            (mode-io-correlate " -forward-search %b %n ") " %o"))))
   (setq TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n%b")))))
 
 ;; (string-equal (system-name) "UN-WKS-009761") "C:/Dropbox")
