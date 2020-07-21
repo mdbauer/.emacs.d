@@ -37,7 +37,7 @@
 (setq org-agenda-files (append org-agenda-files (mapcar 'in-mydoc mydoc-agenda-files)))
 (setq org-agenda-files (append org-agenda-files (list tm-path)))
 
-(setq cc-path (concat (file-name-as-directory dropbox-path) "work/climate change/cc.org"))
+(setq cc-path (concat (file-name-as-directory dropbox-path) "work/climate/cc.org"))
 (setq org-agenda-files (append org-agenda-files (list cc-path)))
 
 (setq cc-path (concat (file-name-as-directory dropbox-path) "work/skewness/skewness.org"))
