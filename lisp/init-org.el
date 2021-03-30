@@ -31,7 +31,7 @@
   (concat (file-name-as-directory mydoc-path) file))
 ;; (in-mydoc "trends/trends.org")
 ;; (setq mydoc-agenda-file (in-mydoc "trends/trends.org"))
-(setq mydoc-agenda-files '("mpu/mpu.org" "fed-info/fed-info.org"))
+(setq mydoc-agenda-files '("fed-info/fed-info.org"))
 ;; (dolist (elt mydoc-agenda-files)
 ;;   (concat (file-name-as-directory mydoc-path) elt))  ;; not sure how to do it with dolist
 (setq org-agenda-files (append org-agenda-files (mapcar 'in-mydoc mydoc-agenda-files)))
@@ -40,8 +40,17 @@
 (setq cc-path (concat (file-name-as-directory dropbox-path) "work/climate/cc.org"))
 (setq org-agenda-files (append org-agenda-files (list cc-path)))
 
-(setq cc-path (concat (file-name-as-directory dropbox-path) "work/skewness/skewness.org"))
-(setq org-agenda-files (append org-agenda-files (list cc-path)))
+(setq skewness-path (concat (file-name-as-directory dropbox-path) "work/skewness/skewness.org"))
+(setq org-agenda-files (append org-agenda-files (list skewness-path)))
+
+(setq mpu-path (concat (file-name-as-directory dropbox-path) "work/Monetary Policy Uncertainty/mpu.org"))
+(setq org-agenda-files (append org-agenda-files (list mpu-path)))
+
+(setq fomc-path (concat (file-name-as-directory dropbox-path) "work/FOMC Excess Sensitivity/fomc.org"))
+(setq org-agenda-files (append org-agenda-files (list fomc-path)))
+
+(setq ap-path (concat (file-name-as-directory dropbox-path) "Lehre/Empirical Asset Pricing/ap.org"))
+(setq org-agenda-files (append org-agenda-files (list ap-path)))
 
 (setq hamburg-path (concat (file-name-as-directory org-path) "hamburg.org"))
 (setq org-agenda-files (append org-agenda-files (list hamburg-path)))
