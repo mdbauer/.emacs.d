@@ -50,13 +50,16 @@ Frame must be declared as an environment."
       (letf (( (symbol-function 'TeX-command-query) (lambda (x) "LaTeX")))
         (TeX-command-region))
         )
-      ))
+    ))
 
 (defun beamer-template-frame ()
-  "Create a simple template and move point to after \\frametitle."
+  "Create a simple frame template and move point to heading."
   (interactive)
   (LaTeX-environment-menu "frame")
-  (insert "\\frametitle{}")
+  ;; (insert "\\frametitle{}")
+  ;; (backward-char 1))
+  (backward-char 3)
+  (insert "{}")
   (backward-char 1))
 
 ;; forward/inverse search

@@ -5,9 +5,6 @@
  ;; If there is more than one, they won't work right.
  '(LaTeX-command "latex -file-line-error")
  '(blink-cursor-mode nil)
- '(org-agenda-files
-   (quote
-    ("~/Dropbox/org/tm.org" "~/Dropbox/work/Fed Information Effect/fed-info.org" "~/Dropbox/work/climate/cc.org" "~/Dropbox/work/skewness/skewness.org" "~/Dropbox/work/Monetary Policy Uncertainty/mpu.org" "~/Dropbox/work/FOMC Excess Sensitivity/fomc.org" "~/Dropbox/Lehre/Empirical Asset Pricing/ap.org" "~/Dropbox/org/hamburg.org")))
  '(package-selected-packages
    (quote
     (poly-markdown stan-mode pandoc-mode org-bullets markdown-mode magit-popup magit ghub flycheck ess auctex)))
